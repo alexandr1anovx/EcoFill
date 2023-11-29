@@ -11,7 +11,7 @@ import SwiftUI
 struct EcoFillApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainTabScreen()
         }
     }
 }

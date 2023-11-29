@@ -7,16 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		614314902B17F980009A1D9C /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6143148F2B17F980009A1D9C /* HomeScreen.swift */; };
+		614314922B17F98F009A1D9C /* MapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614314912B17F98F009A1D9C /* MapScreen.swift */; };
+		614314942B17F9A2009A1D9C /* ProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614314932B17F9A2009A1D9C /* ProfileScreen.swift */; };
 		61E5E6122B17E981005B3D03 /* EcoFillApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E5E6112B17E981005B3D03 /* EcoFillApp.swift */; };
-		61E5E6142B17E981005B3D03 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E5E6132B17E981005B3D03 /* ContentView.swift */; };
+		61E5E6142B17E981005B3D03 /* MainTabScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E5E6132B17E981005B3D03 /* MainTabScreen.swift */; };
 		61E5E6162B17E981005B3D03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61E5E6152B17E981005B3D03 /* Assets.xcassets */; };
 		61E5E6192B17E981005B3D03 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61E5E6182B17E981005B3D03 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6143148F2B17F980009A1D9C /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
+		614314912B17F98F009A1D9C /* MapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScreen.swift; sourceTree = "<group>"; };
+		614314932B17F9A2009A1D9C /* ProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreen.swift; sourceTree = "<group>"; };
 		61E5E60E2B17E981005B3D03 /* EcoFill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EcoFill.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61E5E6112B17E981005B3D03 /* EcoFillApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoFillApp.swift; sourceTree = "<group>"; };
-		61E5E6132B17E981005B3D03 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		61E5E6132B17E981005B3D03 /* MainTabScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabScreen.swift; sourceTree = "<group>"; };
 		61E5E6152B17E981005B3D03 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		61E5E6182B17E981005B3D03 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -32,6 +38,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6143148E2B17F972009A1D9C /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				61E5E6132B17E981005B3D03 /* MainTabScreen.swift */,
+				6143148F2B17F980009A1D9C /* HomeScreen.swift */,
+				614314912B17F98F009A1D9C /* MapScreen.swift */,
+				614314932B17F9A2009A1D9C /* ProfileScreen.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
 		61E5E6052B17E981005B3D03 = {
 			isa = PBXGroup;
 			children = (
@@ -52,7 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				61E5E6112B17E981005B3D03 /* EcoFillApp.swift */,
-				61E5E6132B17E981005B3D03 /* ContentView.swift */,
+				6143148E2B17F972009A1D9C /* Screens */,
 				61E5E6152B17E981005B3D03 /* Assets.xcassets */,
 				61E5E6172B17E981005B3D03 /* Preview Content */,
 			);
@@ -137,8 +154,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				61E5E6142B17E981005B3D03 /* ContentView.swift in Sources */,
+				614314922B17F98F009A1D9C /* MapScreen.swift in Sources */,
+				614314902B17F980009A1D9C /* HomeScreen.swift in Sources */,
+				61E5E6142B17E981005B3D03 /* MainTabScreen.swift in Sources */,
 				61E5E6122B17E981005B3D03 /* EcoFillApp.swift in Sources */,
+				614314942B17F9A2009A1D9C /* ProfileScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
