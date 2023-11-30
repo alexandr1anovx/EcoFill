@@ -10,7 +10,21 @@ import SwiftUI
 struct MainTabScreen: View {
     var body: some View {
       TabView {
-        
+        // Home Screen setup
+        HomeScreen()
+          .tabItem {
+            Label("Home", systemImage: "house")
+          }
+        // Map Screen setup
+        MapScreen()
+          .tabItem {
+            Label("Map", systemImage: "map")
+          }
+        // Profile Screen Setup
+        ProfileScreen()
+          .tabItem {
+            Label("Profile", systemImage: "person.fill")
+          }
       }
     }
 }
