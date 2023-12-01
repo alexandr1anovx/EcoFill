@@ -8,7 +8,8 @@
 import Foundation
 
 struct Location: Decodable, Identifiable {
-    let id: Int
-    let street: String
-    let city: String
+  let id: Int
+  let street: String
+  let city: String
+  let schedule: String
 }
