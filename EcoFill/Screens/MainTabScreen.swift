@@ -13,17 +13,17 @@ struct MainTabScreen: View {
         // Home Screen setup
         HomeScreen()
           .tabItem {
-            Label("Home", systemImage: "house")
+            Label("Головна", systemImage: "house")
           }
         // Map Screen setup
         MapScreen()
           .tabItem {
-            Label("Map", systemImage: "map")
+            Label("Карти", systemImage: "map")
           }
         // Profile Screen Setup
         ProfileScreen()
           .tabItem {
-            Label("Profile", systemImage: "person.fill")
+            Label("Профіль", systemImage: "person.fill")
           }
       }
     }
