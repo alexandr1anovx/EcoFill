@@ -30,7 +30,7 @@ struct LocationItemPreview: View {
           
           Spacer()
           
-          Button("Route", systemImage: "figure.walk") { 
+          Button("Маршрут", systemImage: "figure.walk") {
             // Action
           }
           .font(.callout)
@@ -38,11 +38,21 @@ struct LocationItemPreview: View {
           .foregroundStyle(.customGreen)
         }
       }
+      .padding(.horizontal, 20)
+      .toolbar {
+        ToolbarItem(placement: .cancellationAction) {
+          Button("Скасувати") {
+            isShowingLocationItemPreview = false
+            selectedMapItem = nil
+          }
+          .buttonStyle(.bordered)
+          .tint(.red)
+        }
+      }
     }
   }
 }
 
 #Preview {
-  LocationItemPreview(selectedMapItem: .constant(nil),
-                      isShowingLocationItemPreview: .constant(true))
+  LocationItemPreview(selectedMapItem: .constant(nil), isShowingLocationItemPreview: .constant(true))
 }
