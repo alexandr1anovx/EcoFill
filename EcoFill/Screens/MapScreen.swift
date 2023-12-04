@@ -16,8 +16,8 @@ struct MapScreen: View {
   /// The array will be filled with locations from the server.
   @State private var locationResults = [MKMapItem]()
   
-  @State private var isShowingLocationItemPreview: Bool = false
-  @State private var isShowingLocationsInListMode: Bool = false
+  @State private var isPresentedMapItemPreview: Bool = false
+  @State private var isPresentedLocationsListMode: Bool = false
   
   var body: some View {
     Map(position: $cameraPosition,selection: $selectedMapItem) {
@@ -33,42 +33,42 @@ struct MapScreen: View {
     }
     .overlay(alignment: .bottomTrailing) {
       Button("Список", systemImage: "list.clipboard") {
-        isShowingLocationsInListMode.toggle()
+        isPresentedLocationsListMode.toggle()
       }
       .font(.callout).bold()
       .buttonStyle(.borderedProminent)
       .tint(.customBlack)
       .padding()
-      .sheet(isPresented: $isShowingLocationsInListMode) {
-        LocationsList(isShowingLocationsInListMode: $isShowingLocationsInListMode)
+      .sheet(isPresented: $isPresentedLocationsListMode) {
+        LocationsList(isPresentedLocationsListMode: $isPresentedLocationsListMode)
       }
     }
     
-    // When the application appears, show these locations on the map.
+    // When the application appears, show locations on the map.
     .onAppear {
-      let mapItem1 = MKMapItem(placemark: MKPlacemark(coordinate: .station1))
-      mapItem1.name = "Станція АЗС №1"
-      
-      let mapItem2 = MKMapItem(placemark: MKPlacemark(coordinate: .station2))
-      mapItem2.name = "Станція АЗС №2"
-      
-      locationResults.append(contentsOf: [mapItem1, mapItem2])
+      addTestLocations()
     }
     
     // Show a sheet when user selects location.
-    .sheet(isPresented: $isShowingLocationItemPreview) {
-      LocationItemPreview(selectedMapItem: $selectedMapItem,
-                      isShowingLocationItemPreview: $isShowingLocationItemPreview)
-      .presentationDetents([.height(230)])
-      .presentationBackgroundInteraction(.enabled(upThrough: .height(230)))
-      .presentationCornerRadius(15)
-      .interactiveDismissDisabled(true)
+    .sheet(isPresented: $isPresentedMapItemPreview) {
+      MapItemPreview(selectedMapItem: $selectedMapItem,
+                     isPresentedMapItemPreview: $isPresentedMapItemPreview)
     }
     
-    // Toggle 'isShowingLocationItemPreview' value when the user select a new location.
-    .onChange(of: selectedMapItem) { oldValue, newValue in
-      isShowingLocationItemPreview = newValue != nil
+    // Switches the value when the user selects a new location.
+    .onChange(of: selectedMapItem) { _, newValue in
+      isPresentedMapItemPreview = (newValue != nil)
     }
+  }
+  
+  func addTestLocations() {
+    let mapItem1 = MKMapItem(placemark: MKPlacemark(coordinate: .station1))
+    mapItem1.name = "Станція АЗС №1"
+    
+    let mapItem2 = MKMapItem(placemark: MKPlacemark(coordinate: .station2))
+    mapItem2.name = "Станція АЗС №2"
+    
+    locationResults.append(contentsOf: [mapItem1, mapItem2])
   }
 }
 
