@@ -8,11 +8,34 @@
 import SwiftUI
 
 struct HomeScreen: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+  @State private var isShowingQRCodePreview: Bool = false
+  
+  var body: some View {
+    NavigationStack {
+      VStack {
+        UserDataPreview()
+        ServicesList()
+          .padding(.top, 15)
+      }
+      .toolbar {
+        ToolbarItem(placement: .topBarTrailing) {
+          Button("", systemImage: "qrcode") {
+            isShowingQRCodePreview.toggle()
+          }
+          .tint(.customGreen)
+          .sheet(isPresented: $isShowingQRCodePreview) {
+            QRCodePreview(isShowingQRCodePreview: $isShowingQRCodePreview)
+              .presentationDetents([.height(500)])
+              .presentationCornerRadius(15)
+              .presentationBackground(.customSystem)
+              .interactiveDismissDisabled(true)
+          }
+        }
+      }
     }
+  }
 }
 
 #Preview {
-    HomeScreen()
+  HomeScreen()
 }
