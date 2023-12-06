@@ -10,33 +10,27 @@ import SwiftUI
 struct LocationsList: View {
   
   @State private var locations = [Location]()
-  @Binding var isShowingLocationsInListMode: Bool
+  @Binding var isPresentedLocationsListMode: Bool
   
   var body: some View {
     NavigationStack {
       // Show a list of location cells
-      List {
-        ForEach(locations, id: \.id) { location in
-          LocationCell(location: location)
-        }
+      List(locations) { location in
+        LocationCell(location: location)
       }
       .listRowSpacing(20)
       .listStyle(.insetGrouped)
       
       .toolbar {
         ToolbarItem(placement: .cancellationAction) {
-          Button("Скасувати") {
-            isShowingLocationsInListMode = false
-          }
-          .buttonStyle(.bordered)
-          .tint(.red)
+          CancellationButton { isPresentedLocationsListMode = false }
         }
       }
-      
-      // This method asynchronously loads all locations on the server side and lists them.
-      .task {
-        await fetchLocationsData()
-      }
+    }
+    
+    // This method asynchronously loads all locations on the server side and lists them.
+    .task {
+      await fetchLocationsData()
     }
   }
   
@@ -61,5 +55,5 @@ struct LocationsList: View {
 }
 
 #Preview {
-  LocationsList(isShowingLocationsInListMode: .constant(true))
+  LocationsList(isPresentedLocationsListMode: .constant(true))
 }
