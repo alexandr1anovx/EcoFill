@@ -18,17 +18,20 @@ struct HomeScreen: View {
           .padding(.top, 15)
       }
       .toolbar {
-        ToolbarItem(placement: .topBarTrailing) {
-          Button("", systemImage: "qrcode") {
-            isShowingQRCodePreview.toggle()
+        ToolbarItemGroup(placement: .topBarTrailing) {
+          Link(destination: URL(string: "https://www.apple.com")!) {
+            Label("Website", systemImage: "globe")
           }
-          .tint(.customGreen)
+          .tint(.customBlack)
+          
+          Button {
+            isShowingQRCodePreview.toggle()
+          } label: {
+            Label("QR", systemImage: "qrcode")
+          }
+          .tint(.customBlack)
           .sheet(isPresented: $isShowingQRCodePreview) {
             QRCodePreview(isShowingQRCodePreview: $isShowingQRCodePreview)
-              .presentationDetents([.height(500)])
-              .presentationCornerRadius(15)
-              .presentationBackground(.customSystem)
-              .interactiveDismissDisabled(true)
           }
         }
       }
