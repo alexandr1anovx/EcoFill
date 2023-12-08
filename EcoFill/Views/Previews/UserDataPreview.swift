@@ -8,32 +8,39 @@
 import SwiftUI
 
 struct UserDataPreview: View {
+  @AppStorage("user") private var userData: Data?
+  @EnvironmentObject var userViewModel: UserViewModel
+  
   var body: some View {
-    VStack(spacing: 20) {
-      Image(systemName: "person.circle.fill")
-        .resizable()
-        .frame(width: 45, height: 45)
-        .foregroundStyle(.customSystemReversed)
-        .opacity(0.9)
-      
-      VStack(spacing: 10) {
-        // Test name
-        Text("Alexander")
-          .font(.title2)
-          .fontWeight(.semibold)
+    HStack {
+      VStack(alignment: .leading, spacing: 12) {
+        
+        Text(userViewModel.user.firstName)
+          .font(.system(size: 22,
+                        weight: .medium,
+                        design: .rounded))
           .foregroundStyle(.customSystemReversed)
         
-        // Test email
-        Text("an4lex.gmail.com")
-          .font(.callout)
-          .fontWeight(.semibold)
+        Text(userViewModel.user.email)
+          .font(.system(size: 18,
+                        weight: .medium,
+                        design: .rounded))
           .foregroundStyle(.gray)
       }
+      
+      Spacer()
+      
+      Label("Kyiv", systemImage: "mappin")
+        .font(.system(size: 17,
+                      weight: .medium,
+                      design: .rounded))
+        .foregroundStyle(.customSystemReversed)
+        .symbolEffect(.pulse)
     }
-    .padding()
   }
 }
 
 #Preview {
   UserDataPreview()
+    .environmentObject(UserViewModel())
 }
