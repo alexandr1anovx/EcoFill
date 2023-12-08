@@ -20,44 +20,44 @@ struct MapScreen: View {
   @State private var isPresentedLocationsListMode: Bool = false
   
   var body: some View {
-    Map(position: $cameraPosition,selection: $selectedMapItem) {
-      UserAnnotation()
-      
-      ForEach(locationResults, id: \.self) { mapItem in
-        let placemark = mapItem.placemark
-        let placemarkName = mapItem.name ?? "No placemark name"
-        let placemarkCoordinate = placemark.coordinate
+    NavigationStack {
+      Map(position: $cameraPosition,selection: $selectedMapItem) {
+        UserAnnotation()
         
-        Marker(placemarkName,coordinate: placemarkCoordinate)
+        ForEach(locationResults, id: \.self) { mapItem in
+          let placemark = mapItem.placemark
+          let placemarkName = mapItem.name ?? "No placemark name"
+          let placemarkCoordinate = placemark.coordinate
+          
+          Marker(placemarkName,coordinate: placemarkCoordinate)
+        }
       }
-    }
-    .overlay(alignment: .bottomTrailing) {
-      Button("Список", systemImage: "list.clipboard") {
-        isPresentedLocationsListMode.toggle()
+      .mapStyle(.standard)
+      .overlay(alignment: .bottomTrailing) {
+        NavigationLink {
+          LocationsList()
+        } label: {
+          Label("Список", systemImage: "list.clipboard")
+        }
+        .buttonStyle(.borderedProminent)
+        .tint(.customRed)
+        .padding(20)
       }
-      .font(.callout).bold()
-      .buttonStyle(.borderedProminent)
-      .tint(.customBlack)
-      .padding()
-      .sheet(isPresented: $isPresentedLocationsListMode) {
-        LocationsList(isPresentedLocationsListMode: $isPresentedLocationsListMode)
+      // When the application appears, show locations on the map.
+      .onAppear {
+        addTestLocations()
       }
-    }
-    
-    // When the application appears, show locations on the map.
-    .onAppear {
-      addTestLocations()
-    }
-    
-    // Show a sheet when user selects location.
-    .sheet(isPresented: $isPresentedMapItemPreview) {
-      MapItemPreview(selectedMapItem: $selectedMapItem,
-                     isPresentedMapItemPreview: $isPresentedMapItemPreview)
-    }
-    
-    // Switches the value when the user selects a new location.
-    .onChange(of: selectedMapItem) { _, newValue in
-      isPresentedMapItemPreview = (newValue != nil)
+      
+      // Show a sheet when user selects location.
+      .sheet(isPresented: $isPresentedMapItemPreview) {
+        MapItemPreview(selectedMapItem: $selectedMapItem,
+                       isPresentedMapItemPreview: $isPresentedMapItemPreview)
+      }
+      
+      // Switches the value when the user selects a new location.
+      .onChange(of: selectedMapItem) { _, newValue in
+        isPresentedMapItemPreview = (newValue != nil)
+      }
     }
   }
   
