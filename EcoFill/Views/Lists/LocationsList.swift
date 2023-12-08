@@ -8,31 +8,31 @@
 import SwiftUI
 
 struct LocationsList: View {
-  
   @State private var locations = [Location]()
-  @Binding var isPresentedLocationsListMode: Bool
   
   var body: some View {
     NavigationStack {
-      // Show a list of location cells
-      List(locations) { location in
-        LocationCell(location: location)
-      }
-      .listRowSpacing(20)
-      .listStyle(.insetGrouped)
-      
-      .toolbar {
-        ToolbarItem(placement: .cancellationAction) {
-          CancellationButton { isPresentedLocationsListMode = false }
+      if locations.isEmpty {
+        ContentUnavailableView("The list of locations is empty.",
+                               systemImage: "mappin",
+                               description: Text("Please, check your internet connection."))
+      } else {
+        List(locations) { location in
+          LocationCell(location: location)
         }
+        .listRowSpacing(20)
+        .listStyle(.insetGrouped)
       }
     }
+    .navigationTitle("Список локацій")
+    .navigationBarTitleDisplayMode(.inline)
     
-    // This method asynchronously loads all locations on the server side and lists them.
     .task {
+      // This method asynchronously loads all locations from the server side and lists them.
       await fetchLocationsData()
     }
   }
+  
   
   func fetchLocationsData() async {
     // Check url existence.
@@ -55,5 +55,5 @@ struct LocationsList: View {
 }
 
 #Preview {
-  LocationsList(isPresentedLocationsListMode: .constant(true))
+  LocationsList()
 }
