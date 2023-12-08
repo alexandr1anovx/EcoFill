@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct EcoFillApp: App {
-    var body: some Scene {
-        WindowGroup {
-            MainTabScreen()
+  @StateObject private var userViewModel = UserViewModel()
+  var body: some Scene {
+    WindowGroup {
+      MainTabScreen()
+        .environmentObject(userViewModel)
+        .onAppear {
+          userViewModel.retrieveUser()
         }
     }
+  }
 }
