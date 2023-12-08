@@ -11,31 +11,31 @@ struct LocationCell: View {
   var location: Location
   var body: some View {
     HStack {
-      VStack(alignment: .leading, spacing: 15) {
+      VStack(alignment: .leading, spacing: 12) {
         Text("\(location.street)")
           .font(.callout)
           .fontWeight(.medium)
+          .fontDesign(.rounded)
           .foregroundStyle(.customGreen)
           .lineLimit(2)
         
         Text(location.city)
           .font(.caption)
           .fontWeight(.semibold)
-          .foregroundStyle(.gray)
+          .fontDesign(.rounded)
+          .foregroundStyle(.customSystemReversed)
         
         Text(location.schedule)
-          .font(.caption)
-          .fontWeight(.semibold)
-          .foregroundStyle(.customSystemReversed)
+          .font(.system(size: 12,
+                        weight: .medium,
+                        design: .rounded))
+          .foregroundStyle(.gray)
       }
       
       Spacer()
       
-      Button("Карта") {}
-        .font(.callout)
-        .buttonStyle(.borderedProminent)
-        .tint(Color.customBlack)
-        .foregroundStyle(.white)
+      Button("На карті") {}
+        .foregroundStyle(.customRed)
     }
   }
 }
