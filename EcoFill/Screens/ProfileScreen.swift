@@ -12,14 +12,9 @@ struct ProfileScreen: View {
   
   var body: some View {
     NavigationStack {
+      
       UserDataPreview()
-      NavigationLink("Редагувати") {
-        UserPrivateDataPreview()
-      }
-      .fontWeight(.medium)
-      .tint(.customBlack)
-      .buttonStyle(.borderedProminent)
-      .padding(.top, 5)
+        .padding(40)
       
       List {
         /// Settings section
@@ -27,7 +22,7 @@ struct ProfileScreen: View {
           NavigationLink {
             SettingsScreen()
           } label: {
-            SettingsCell(title: "Налаштування", iconName: "gear", background: .customBlack)
+            SettingsCell(title: "Налаштування", iconName: "slider.horizontal.3", background: .customRed)
           }
         } footer: {
           Text("Змінити тему застосунку, налаштувати повідомлення.")
@@ -51,10 +46,31 @@ struct ProfileScreen: View {
         }
       }
       .listStyle(.insetGrouped)
-      .padding(.top, 20)
+      
+      .toolbar {
+        ToolbarItem(placement: .topBarLeading) {
+          Image("logo")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 40, height: 40)
+        }
+        ToolbarItem(placement: .topBarTrailing) {
+          NavigationLink("Змінити") {
+            UserPrivateDataPreview()
+          }
+          .tint(.customGreen)
+          .fontWeight(.medium)
+          .fontDesign(.rounded)
+        }
+      }
+      .navigationTitle("Профіль")
+      .navigationBarTitleDisplayMode(.inline)
     }
+  }
 }
 
 #Preview {
-    ProfileScreen()
+  ProfileScreen()
+    .environmentObject(UserViewModel())
 }
+
