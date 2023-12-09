@@ -12,28 +12,35 @@ struct ServiceCell: View {
   
   var body: some View {
     NavigationLink {
-      
+      switch service.title {
+      case "Наші продукти": ProductsList()
+      case "Новини": EmptyView()
+      case "Фідбек": EmptyView()
+      case "Наш сайт": EmptyView()
+      default: EmptyView()
+      }
     } label: {
       HStack(spacing:20) {
-          Image(systemName: service.image)
-              .resizable()
-              .scaledToFit()
-              .frame(width: 22, height: 22)
-              .foregroundStyle(.customSystemReversed)
-              .opacity(0.9)
+        Image(systemName: service.image)
+          .resizable()
+          .scaledToFit()
+          .frame(width: 23, height: 23)
+          .foregroundStyle(.customSystemReversed)
+          .opacity(0.8)
+        
+        VStack(alignment: .leading, spacing: 10) {
+          Text(service.title)
+            .font(.callout)
+            .fontWeight(.semibold)
+            .fontDesign(.rounded)
+            .foregroundStyle(.customGreen)
           
-          // Product title
-          VStack(alignment: .leading, spacing: 8) {
-              Text(service.title)
-                  .font(.callout)
-                  .fontWeight(.semibold)
-                  .foregroundStyle(.customGreen)
-            // Product description
-              Text(service.description)
-                  .font(.subheadline)
-                  .foregroundStyle(.secondary)
-                  .multilineTextAlignment(.leading)
-          }
+          Text(service.description)
+            .font(.caption)
+            .fontDesign(.rounded)
+            .foregroundStyle(.secondary)
+            .multilineTextAlignment(.leading)
+        }
       }
     }
   }
