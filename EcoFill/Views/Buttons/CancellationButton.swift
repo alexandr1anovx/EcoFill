@@ -17,8 +17,8 @@ struct CancellationButton: View {
     Button("Скасувати") {
       action()
     }
-    .buttonStyle(.bordered)
-    .tint(.red)
+    .buttonStyle(.borderless)
+    .foregroundStyle(.customRed)
   }
 }
 
