@@ -8,11 +8,23 @@
 import SwiftUI
 
 struct NewsCell: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+  var article: News
+  
+  var body: some View {
+    HStack {
+      Text(article.title)
+        .font(.callout)
+        .fontWeight(.medium)
+        .fontDesign(.rounded)
+        .multilineTextAlignment(.leading)
+      
+      Spacer()
+      
+      Link("Читати", destination: URL(string: "https://www.apple.com")!)
     }
+  }
 }
 
 #Preview {
-    NewsCell()
+  NewsCell(article: testNews[0])
 }
