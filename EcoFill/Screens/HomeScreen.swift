@@ -8,37 +8,40 @@
 import SwiftUI
 
 struct HomeScreen: View {
-  @State private var isShowingQRCodePreview: Bool = false
+  @State private var isPresentedQR:Bool = false
   
   var body: some View {
     NavigationStack {
       VStack {
         UserDataPreview()
+          .padding(40)
         ServicesList()
-          .padding(.top, 15)
       }
       .toolbar {
-        ToolbarItemGroup(placement: .topBarTrailing) {
-          Link(destination: URL(string: "https://www.apple.com")!) {
-            Label("Website", systemImage: "globe")
+        ToolbarItem(placement: .topBarLeading) {
+          Image("logo")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 40, height: 40)
+        }
+        
+        ToolbarItem(placement: .topBarTrailing) {
+          Button("QR", systemImage: "qrcode") {
+            isPresentedQR.toggle()
           }
-          .tint(.customBlack)
-          
-          Button {
-            isShowingQRCodePreview.toggle()
-          } label: {
-            Label("QR", systemImage: "qrcode")
-          }
-          .tint(.customBlack)
-          .sheet(isPresented: $isShowingQRCodePreview) {
-            QRCodePreview(isShowingQRCodePreview: $isShowingQRCodePreview)
+          .buttonStyle(.borderless)
+          .sheet(isPresented: $isPresentedQR) {
+            QRCodePreview(isShowingQRCodePreview: $isPresentedQR)
           }
         }
       }
+      .navigationTitle("Головна")
+      .navigationBarTitleDisplayMode(.inline)
     }
   }
 }
 
 #Preview {
   HomeScreen()
+    .environmentObject(UserViewModel())
 }
