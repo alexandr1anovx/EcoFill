@@ -10,17 +10,14 @@ import SwiftUI
 struct QRCodePreview: View {
   @Binding var isShowingQRCodePreview: Bool
   var body: some View {
-    NavigationStack {
-      VStack {
-        Text("QR Code Preview")
-          .font(.title2).bold()
-      }
-      .toolbar {
-        ToolbarItem(placement: .cancellationAction) {
-          CancellationButton { isShowingQRCodePreview = false }
-        }
-      }
+    VStack {
+      Text("QR Code Preview")
+        .font(.title2).bold()
     }
+    .presentationDetents([.height(500)])
+    .presentationCornerRadius(15)
+    .presentationBackground(.customSystem)
+    .presentationDragIndicator(.visible)
   }
 }
 
