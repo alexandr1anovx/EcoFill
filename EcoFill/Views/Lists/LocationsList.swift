@@ -22,11 +22,10 @@ struct LocationsList: View {
         }
         .listRowSpacing(20)
         .listStyle(.insetGrouped)
+        .navigationTitle("Локації")
+        .navigationBarTitleDisplayMode(.inline)
       }
     }
-    .navigationTitle("Список локацій")
-    .navigationBarTitleDisplayMode(.inline)
-    
     .task {
       // This method asynchronously loads all locations from the server side and lists them.
       await fetchLocationsData()
