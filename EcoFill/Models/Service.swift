@@ -15,15 +15,11 @@ struct Service: Identifiable {
 }
 
 let services: [Service] = [
-  Service(title: "Наші продукти",
-          description: "Дізнайтесь ціну та деталі.",
+  Service(title: "Products",
+          description: "Watch prices.",
           image: "fuelpump"),
   
-  Service(title: "Новини",
-          description: "Будьте в курсі останніх подій.",
-          image: "newspaper"),
-  
-  Service(title: "Залишити відгук",
-          description: "Надішліть відгук, щоб поліпшити наш сервіс.",
+  Service(title: "Feedback",
+          description: "Send feedback to improve our service.",
           image: "message.badge")
 ]
