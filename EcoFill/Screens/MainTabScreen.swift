@@ -8,27 +8,42 @@
 import SwiftUI
 
 struct MainTabScreen: View {
-    var body: some View {
-      TabView {
-        // Home Screen setup
-        HomeScreen()
-          .tabItem {
-            Label("Головна", systemImage: "house")
-          }
-        // Map Screen setup
-        MapScreen()
-          .tabItem {
-            Label("Карти", systemImage: "map")
-          }
-        // Profile Screen Setup
-        ProfileScreen()
-          .tabItem {
-            Label("Профіль", systemImage: "person.fill")
-          }
+  @EnvironmentObject var authViewModel: AuthViewModel
+  var body: some View {
+    Group {
+      if authViewModel.userSession != nil {
+        MainTabView()
+      } else {
+        SignInScreen()
       }
     }
+  }
 }
 
 #Preview {
-    MainTabScreen()
+  MainTabScreen()
+}
+
+struct MainTabView: View {
+  var body: some View {
+    TabView {
+      /// Home Screen
+      HomeScreen()
+        .tabItem {
+          Label("Home",systemImage: "house")
+        }
+      
+      /// Map Screen
+      MapScreen()
+        .tabItem {
+          Label("Maps",systemImage: "map")
+        }
+      
+      /// Profile Screen
+      ProfileScreen()
+        .tabItem {
+          Label("Profile",systemImage: "person.fill")
+        }
+    }
+  }
 }
