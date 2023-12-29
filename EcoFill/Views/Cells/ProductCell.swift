@@ -11,25 +11,16 @@ struct ProductCell: View {
   let product: Product
   
   var body: some View {
-    HStack(spacing:20) {
-      Image(systemName: "fuelpump")
-        .resizable()
-        .scaledToFill()
-        .frame(width: 23, height: 23)
-        .foregroundStyle(.customSystemReversed)
-        .opacity(0.8)
-      
-      VStack(alignment: .leading, spacing: 10) {
-        Text(product.title)
+    HStack {
+      VStack(alignment: .leading, spacing: 12) {
+        Label(product.title,systemImage: "fuelpump")
           .font(.headline)
           .fontDesign(.rounded)
           .foregroundStyle(.customGreen)
         
-        Text("Tap to get details.")
-          .font(.subheadline)
-          .fontDesign(.rounded)
+        Label("Show details",systemImage: "hand.tap.fill")
+          .font(.footnote)
           .foregroundStyle(.gray)
-          .multilineTextAlignment(.leading)
       }
       
       Spacer()
@@ -40,8 +31,4 @@ struct ProductCell: View {
         .foregroundStyle(.customSystemReversed)
     }
   }
-}
-
-#Preview {
-  ProductCell(product: testProducts[0])
 }
