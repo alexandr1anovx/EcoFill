@@ -9,35 +9,36 @@ import SwiftUI
 
 struct FeedbackScreen: View {
   @State private var email: String = ""
-  @State private var feedbackMessage: String = ""
+  @State private var message: String = ""
   
   var body: some View {
     NavigationStack {
-      Form {
-        Section{
-          TextField("Електронна пошта", text: $email)
-            .keyboardType(.emailAddress)
-            .textInputAutocapitalization(.never)
-            .autocorrectionDisabled()
-        } header: {
-          Text("Особисті дані")
-        }
+      VStack(spacing:30) {
+        CustomTextField(text: $email,title: "Email address",placeholder: "Write your email here.")
+          .keyboardType(.emailAddress)
+          .textInputAutocapitalization(.never)
+          .autocorrectionDisabled(true)
         
-        Section{
-          TextField("Сформулюйте свій відгук", text: $feedbackMessage)
-            .submitLabel(.done)
-        } footer: {
-          Text("Щоб надіслати відгук, натисніть кнопку у верхньому правому куті.")
+        CustomTextField(text: $message,title: "Message", placeholder: "Write your feedback message here.")
+        
+        Button {
+          // Send feedback action
+        } label: {
+          RoundedRectangle(cornerRadius:10)
+            .fill(.customGreen)
+            .frame(width: 160, height: 50)
+            .overlay {
+              Text("Send feedback")
+                .foregroundStyle(.white).bold()
+            }
         }
+        .padding(.top,10)
+        
+        Spacer()
       }
-      .toolbar {
-        ToolbarItem(placement: .confirmationAction) {
-          Button("", systemImage: "paperplane") {
-            // Send feedback action.
-          }
-        }
-      }
-      .navigationTitle("Відгук")
+      .padding(.horizontal)
+      .padding(.vertical,30)
+      .navigationTitle("Feedback")
       .navigationBarTitleDisplayMode(.inline)
     }
   }
