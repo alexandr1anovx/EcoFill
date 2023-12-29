@@ -8,39 +8,38 @@
 import SwiftUI
 
 struct UserDataPreview: View {
-  @AppStorage("user") private var userData: Data?
-  @EnvironmentObject var userViewModel: UserViewModel
+  @EnvironmentObject var authViewModel: AuthViewModel
   
   var body: some View {
     HStack {
-      VStack(alignment: .leading, spacing: 12) {
+      if let user = authViewModel.currentUser {
+        VStack(alignment: .leading, spacing:15) {
+          Text(user.fullName)
+            .font(.system(size: 18,
+                          weight: .medium,
+                          design: .rounded))
+            .foregroundStyle(.customSystemReversed)
+          
+          Text(user.email)
+            .font(.system(size: 15,
+                          weight: .medium,
+                          design: .rounded))
+            .foregroundStyle(.gray)
+        }
         
-        Text(userViewModel.user.firstName)
-          .font(.system(size: 22,
+        Spacer()
+        
+        Label(user.city, systemImage: "mappin")
+          .font(.system(size: 15,
                         weight: .medium,
                         design: .rounded))
           .foregroundStyle(.customSystemReversed)
-        
-        Text(userViewModel.user.email)
-          .font(.system(size: 18,
-                        weight: .medium,
-                        design: .rounded))
-          .foregroundStyle(.gray)
       }
-      
-      Spacer()
-      
-      Label("Kyiv", systemImage: "mappin")
-        .font(.system(size: 17,
-                      weight: .medium,
-                      design: .rounded))
-        .foregroundStyle(.customSystemReversed)
-        .symbolEffect(.pulse)
     }
   }
 }
 
-#Preview {
-  UserDataPreview()
-    .environmentObject(UserViewModel())
-}
+//#Preview {
+//  UserDataPreview()
+//    .environmentObject(AuthViewModel())
+//}
