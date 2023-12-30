@@ -7,54 +7,76 @@
 
 import SwiftUI
 
+enum FormTextField {
+  case fullName, email, city, password, confirmPassword
+}
+
 struct SignUpScreen: View {
   @State private var email: String = ""
   @State private var fullName: String = ""
   @State private var city: String = ""
   @State private var password: String = ""
   @State private var confirmPassword: String = ""
+  
   @Environment(\.dismiss) var dismiss
   @EnvironmentObject var authViewModel: AuthViewModel
   
+  @FocusState private var focusedTextField: FormTextField?
+  
   var body: some View {
     VStack {
-      Image("signUp")
+      Image(systemName: "person.crop.circle.fill.badge.plus")
         .resizable()
         .scaledToFill()
-        .frame(width: 100, height: 100)
-        .padding(.vertical,20)
-        .shadow(radius: 30)
-        .opacity(0.8)
+        .foregroundStyle(.customGreen)
+        .frame(width: 80, height: 80)
+        .padding(.vertical,40)
       
-      VStack(spacing: 15) {
+      VStack(spacing:15) {
         // Full name
-        InputView(text: $fullName,
+        CustomTextField(text: $fullName,
                   title: "Ім'я та прізвище",
                   placeholder: "Олександр Пушкін")
+        .focused($focusedTextField, equals: .fullName)
+        .onSubmit { focusedTextField = .email }
+        .submitLabel(.next)
         
         // Email Address
-        InputView(text: $email,
+        CustomTextField(text: $email,
                   title: "Електронна пошта",
                   placeholder: "name@example.com")
         .textInputAutocapitalization(.never)
+        .keyboardType(.emailAddress)
+        .focused($focusedTextField, equals: .email)
+        .onSubmit { focusedTextField = .city }
+        .submitLabel(.next)
         
         // City
-        InputView(text: $city,
+        CustomTextField(text: $city,
                   title: "Ваше місто",
                   placeholder: "Миколаїв")
+        .focused($focusedTextField, equals: .city)
+        .onSubmit { focusedTextField = .password }
+        .submitLabel(.next)
         
         // Password
-        InputView(text: $password,
+        CustomTextField(text: $password,
                   title: "Пароль",
                   placeholder: "Не менш ніж шість символів",
                   isSecureField: true)
+        .focused($focusedTextField, equals: .password)
+        .onSubmit { focusedTextField = .confirmPassword }
+        .submitLabel(.next)
         
+        // Confirm Password
         ZStack(alignment: .trailing) {
-          // Confirm Password
-          InputView(text: $confirmPassword,
+          CustomTextField(text: $confirmPassword,
                     title: "Підтверждення паролю",
                     placeholder: "",
                     isSecureField: true)
+          .focused($focusedTextField, equals: .confirmPassword)
+          .onSubmit { focusedTextField = nil }
+          .submitLabel(.done)
           
           if !password.isEmpty && !confirmPassword.isEmpty {
             if password == confirmPassword {
@@ -66,38 +88,41 @@ struct SignUpScreen: View {
               Image(systemName: "xmark.circle.fill")
                 .imageScale(.large)
                 .fontWeight(.bold)
-                .foregroundStyle(.customRed)
+                .foregroundStyle(.red)
             }
           }
         }
       }
-      .padding(.horizontal,20)
-      .padding(.top,15)
+      .padding(.horizontal,25)
       
-      // SIGN IN button
-      Button("Зареєструватися") {
-        Task {
-          try await authViewModel.createUser(withEmail:email, password:password, fullName:fullName, city:city)
+      HStack(spacing:15) {
+        Button("Зареєструватися") {
+          Task {
+            try await authViewModel.createUser(withEmail:email, 
+                                               password:password,
+                                               fullName:fullName,
+                                               city:city)
+          }
         }
+        .fontWeight(.medium)
+        .foregroundStyle(.white)
+        .frame(width: 175, height: 50)
+        .background(.customDarkBlue)
+        .clipShape(.buttonBorder)
+        
+        Button("Увійти") {
+          dismiss()
+        }
+        .fontWeight(.medium)
+        .foregroundStyle(.white)
+        .frame(width: 175, height: 50)
+        .background(.customGreen)
+        .clipShape(.buttonBorder)
       }
-      .foregroundStyle(.white)
-      .frame(width: UIScreen.main.bounds.width - 100, height: 50)
-      .disabled(!isValidForm)
-      .background(Color.grOrangeDarkBlue)
-      .clipShape(.buttonBorder)
-      .opacity(isValidForm ? 1.0 : 0.5)
-      .padding(.top,20)
+      .padding(.top,30)
+      .shadow(radius:10)
       
       Spacer()
-      
-      Button("Увійти") {
-        dismiss()
-      }
-      .fontWeight(.medium)
-      .tint(.customSystemReversed)
-      .buttonStyle(.bordered)
-      .opacity(0.8)
-      .padding(.bottom,20)
     }
   }
 }
@@ -107,7 +132,7 @@ extension SignUpScreen: AuthenticationForm {
   var isValidForm: Bool {
     return !fullName.isEmpty
     && !email.isEmpty
-    && email.contains("@")
+    && email.isValidEmail
     && !city.isEmpty
     && !password.isEmpty
     && password.count > 5
@@ -118,5 +143,3 @@ extension SignUpScreen: AuthenticationForm {
 #Preview {
   SignUpScreen()
 }
-
-
