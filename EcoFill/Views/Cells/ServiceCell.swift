@@ -13,22 +13,18 @@ struct ServiceCell: View {
   var body: some View {
     NavigationLink {
       switch service.title {
-      case "Наші продукти": ProductsList()
-      case "Новини": EmptyView()
-      case "Фідбек": EmptyView()
-      case "Наш сайт": EmptyView()
+      case "Products": ProductsList()
+      case "Feedback": FeedbackScreen()
       default: EmptyView()
       }
     } label: {
-      HStack(spacing:20) {
+      HStack(spacing:15) {
         Image(systemName: service.image)
-          .resizable()
-          .scaledToFit()
-          .frame(width: 23, height: 23)
+          .imageScale(.large)
           .foregroundStyle(.customSystemReversed)
           .opacity(0.8)
         
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing:8) {
           Text(service.title)
             .font(.callout)
             .fontWeight(.semibold)
