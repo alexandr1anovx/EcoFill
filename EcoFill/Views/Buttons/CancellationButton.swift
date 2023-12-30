@@ -1,12 +1,3 @@
-/// `CancellableBtn` - Custom button with cancellation action.
-///
-/// Example Usage:
-/// ```
-/// CancellableBtn(action: {
-///     // Perform cancellation action
-/// })
-/// ```
-
 import SwiftUI
 
 struct CancellationButton: View {
@@ -18,7 +9,7 @@ struct CancellationButton: View {
       action()
     }
     .buttonStyle(.borderless)
-    .foregroundStyle(.customRed)
+    .foregroundStyle(.red)
   }
 }
 
