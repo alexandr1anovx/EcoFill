@@ -26,15 +26,12 @@ struct ProductsList: View {
               isShowingProductPreview = true
             }
             .sheet(item: $selectedProduct) { product in
-              ProductPreview(product: product) {
-                // Set to nil when user presses cancellation button.
-                selectedProduct = nil
-              }
+              ProductPreview(product: product)
             }
         }
         .listStyle(.insetGrouped)
         .listRowSpacing(20)
-        .navigationTitle("Продукти")
+        .navigationTitle("Products")
         .navigationBarTitleDisplayMode(.inline)
       }
     }
