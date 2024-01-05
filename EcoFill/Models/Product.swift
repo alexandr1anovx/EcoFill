@@ -8,8 +8,8 @@
 import Foundation
 
 struct Product: Decodable, Identifiable {
-  let id: Int
-  let title: String
-  let description: String
-  let price: Double
+  var id = UUID()
+  var title: String
+  var description: String
+  var price: Double
 }
