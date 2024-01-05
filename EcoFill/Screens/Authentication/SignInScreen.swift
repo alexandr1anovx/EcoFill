@@ -11,58 +11,70 @@ struct SignInScreen: View {
   @State private var email: String = ""
   @State private var password: String = ""
   @EnvironmentObject var authViewModel: AuthViewModel
+  @FocusState private var focusedTextField: FormTextField?
   
   var body: some View {
     NavigationStack {
       VStack {
-        Image("signIn")
+        Image(systemName: "person.crop.rectangle.badge.plus.fill")
           .resizable()
           .scaledToFill()
-          .frame(width: 100, height: 100)
-          .padding(.vertical,30)
-          .shadow(radius: 30)
-          .opacity(0.8)
+          .foregroundStyle(.customGreen)
+          .frame(width: 80, height: 80)
+          .padding(.vertical,40)
         
-        // TextFields for email and password
-        VStack(spacing: 20) {
-          InputView(text: $email,
+        // MARK: - Input View for Password and Email
+        VStack(spacing:20) {
+          CustomTextField(text: $email,
                     title: "Електронна пошта",
                     placeholder: "name@example.com")
           .textInputAutocapitalization(.never)
+          .keyboardType(.emailAddress)
+          .focused($focusedTextField, equals: .email)
+          .onSubmit { focusedTextField = .password }
+          .submitLabel(.next)
           
-          InputView(text: $password,
+          CustomTextField(text: $password,
                     title: "Пароль",
                     placeholder: "Не менш ніж шість символів",
                     isSecureField: true)
+          .focused($focusedTextField, equals: .password)
+          .onSubmit { focusedTextField = nil }
+          .submitLabel(.done)
         }
-        .padding(.horizontal,20)
-        .padding(.top,30)
+        .padding(.horizontal,25)
         
-        // Sign In button
-        Button("Увійти") {
-          Task { 
-            try await authViewModel.signIn(withEmail:email,password:password)
+        
+        // MARK: 'Sign In' and 'Sign Up' buttons
+        HStack(spacing:15) {
+          Button("Увійти") {
+            Task {
+              try await authViewModel.signIn(withEmail:email,
+                                             password:password)
+            }
           }
+          .fontWeight(.medium)
+          .foregroundStyle(.white)
+          .frame(width: 175, height: 50)
+          .background(.customDarkBlue)
+          .clipShape(.buttonBorder)
+          .disabled(!isValidForm)
+          .opacity(isValidForm ? 1.0 : 0.6)
+          
+          NavigationLink("Зареєструватися") {
+            SignUpScreen()
+              .navigationBarBackButtonHidden(true)
+          }
+          .fontWeight(.medium)
+          .foregroundStyle(.white)
+          .frame(width: 175, height: 50)
+          .background(.customGreen)
+          .clipShape(.buttonBorder)
         }
-        .foregroundStyle(.white)
-        .frame(width: UIScreen.main.bounds.width - 100, height: 50)
-        .disabled(!isValidForm)
-        .background(Color.grGreenDarkBlue)
-        .clipShape(.buttonBorder)
-        .opacity(isValidForm ? 1.0 : 0.5)
-        .padding(.top,40)
+        .padding(.top,30)
+        .shadow(radius:10)
         
         Spacer()
-        
-        NavigationLink("Зареєструватися") {
-          SignUpScreen()
-            .navigationBarBackButtonHidden(true)
-        }
-        .fontWeight(.medium)
-        .tint(.customSystemReversed)
-        .buttonStyle(.bordered)
-        .opacity(0.8)
-        .padding(.bottom,20)
       }
     }
   }
@@ -72,7 +84,7 @@ struct SignInScreen: View {
 extension SignInScreen: AuthenticationForm {
   var isValidForm: Bool {
     return !email.isEmpty
-    && email.contains("@")
+    && email.isValidEmail
     && !password.isEmpty
     && password.count > 5
   }
@@ -81,4 +93,3 @@ extension SignInScreen: AuthenticationForm {
 #Preview {
   SignInScreen()
 }
-
