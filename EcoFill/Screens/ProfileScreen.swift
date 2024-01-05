@@ -8,62 +8,52 @@
 import SwiftUI
 
 struct ProfileScreen: View {
+  @AppStorage("userTheme") private var userTheme: Theme = .systemDefault
   @State private var isPresentedLogOutConfirmation: Bool = false
+  @State private var changeTheme: Bool = false
+  @Environment(\.colorScheme) private var scheme
+  @EnvironmentObject var authViewModel: AuthViewModel
   
   var body: some View {
     NavigationStack {
-      
       UserDataPreview()
-        .padding(40)
+        .padding(30)
       
       List {
-        /// Settings section
-        Section {
-          NavigationLink {
-            SettingsScreen()
-          } label: {
-            SettingsCell(title: "Налаштування", iconName: "slider.horizontal.3", background: .customRed)
-          }
-        } footer: {
-          Text("Змінити тему застосунку, налаштувати повідомлення.")
+        // MARK: 'Change appearance' button
+        Button("Change appearance",systemImage: "moonphase.last.quarter") {
+          changeTheme.toggle()
+        }
+        .foregroundStyle(.customSystemReversed)
+        .sheet(isPresented: $changeTheme) {
+          AppearanceChanger(scheme: scheme)
+            .presentationDetents([.height(180)])
+            .presentationBackground(.clear)
+            .presentationDragIndicator(.visible)
         }
         
-        /// Log Out section
-        Section {
-          Button("Вийти", systemImage: "door.right.hand.open") {
-            isPresentedLogOutConfirmation.toggle()
+        // MARK: 'Log Out' button
+        Button("Log Out",systemImage: "door.right.hand.open") {
+          isPresentedLogOutConfirmation.toggle()
+        }
+        .foregroundStyle(.red)
+        .confirmationDialog("",isPresented: $isPresentedLogOutConfirmation) {
+          Button("Log Out",role: .destructive) {
+            authViewModel.signOut()
           }
-          .foregroundStyle(.red)
-          .confirmationDialog("Log Out", isPresented: $isPresentedLogOutConfirmation) {
-            Button("Log Out", role: .destructive) {
-              // Log Out action ...
-            }
-          } message: {
-            Text("Are you sure you want to log out?")
-          }
-        } footer: {
-          Text("Вийти з вашого облікового запису.")
+        } message: {
+          Text("Are you sure to log out?")
         }
       }
       .listStyle(.insetGrouped)
-      
       .toolbar {
-        ToolbarItem(placement: .topBarLeading) {
-          Image("logo")
-            .resizable()
-            .scaledToFit()
-            .frame(width: 40, height: 40)
-        }
         ToolbarItem(placement: .topBarTrailing) {
-          NavigationLink("Змінити") {
+          NavigationLink {
             UserPrivateDataPreview()
-          }
-          .tint(.customGreen)
-          .fontWeight(.medium)
-          .fontDesign(.rounded)
+          } label: { Text("Edit") }
         }
       }
-      .navigationTitle("Профіль")
+      .navigationTitle("Profile")
       .navigationBarTitleDisplayMode(.inline)
     }
   }
@@ -71,6 +61,6 @@ struct ProfileScreen: View {
 
 #Preview {
   ProfileScreen()
-    .environmentObject(UserViewModel())
+    .environmentObject(AuthViewModel())
 }
 
