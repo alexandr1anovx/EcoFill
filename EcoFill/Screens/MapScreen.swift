@@ -40,7 +40,7 @@ struct MapScreen: View {
           Label("Список", systemImage: "list.clipboard")
         }
         .buttonStyle(.borderedProminent)
-        .tint(.customRed)
+        .tint(.red)
         .padding(20)
       }
       // When the application appears, show locations on the map.

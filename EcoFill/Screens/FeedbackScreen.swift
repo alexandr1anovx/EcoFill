@@ -26,10 +26,10 @@ struct FeedbackScreen: View {
         } label: {
           RoundedRectangle(cornerRadius:10)
             .fill(.customGreen)
-            .frame(width: 160, height: 50)
+            .frame(width: 150, height: 45)
             .overlay {
               Text("Send feedback")
-                .foregroundStyle(.white).bold()
+                .foregroundStyle(.white)
             }
         }
         .padding(.top,10)

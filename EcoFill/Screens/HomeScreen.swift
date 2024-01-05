@@ -14,7 +14,7 @@ struct HomeScreen: View {
     NavigationStack {
       VStack {
         UserDataPreview()
-          .padding(40)
+          .padding(30)
         ServicesList()
       }
       .toolbar {
@@ -35,7 +35,7 @@ struct HomeScreen: View {
           }
         }
       }
-      .navigationTitle("Головна")
+      .navigationTitle("Home")
       .navigationBarTitleDisplayMode(.inline)
     }
   }
@@ -43,5 +43,5 @@ struct HomeScreen: View {
 
 #Preview {
   HomeScreen()
-    .environmentObject(UserViewModel())
+    .environmentObject(AuthViewModel())
 }

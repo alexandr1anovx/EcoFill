@@ -14,9 +14,9 @@ struct QRCodePreview: View {
       Text("QR Code Preview")
         .font(.title2).bold()
     }
-    .presentationDetents([.height(500)])
+    .presentationDetents([.height(400)])
     .presentationCornerRadius(15)
-    .presentationBackground(.customSystem)
+    .presentationBackground(.defaultBackground)
     .presentationDragIndicator(.visible)
   }
 }

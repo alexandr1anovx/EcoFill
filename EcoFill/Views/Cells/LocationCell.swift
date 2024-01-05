@@ -34,12 +34,8 @@ struct LocationCell: View {
       
       Spacer()
       
-      Button("На карті") {}
-        .foregroundStyle(.customRed)
+      Button("On Map") {}
+        .foregroundStyle(.red)
     }
   }
-}
-
-#Preview {
-  LocationCell(location: Location(id: 1,street: "вул. Хрещатик",city: "м. Київ", schedule: "Пн-Сб: 09:00-20:00"))
 }
