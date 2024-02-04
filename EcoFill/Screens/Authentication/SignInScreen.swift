@@ -8,25 +8,29 @@
 import SwiftUI
 
 struct SignInScreen: View {
+  
+  // MARK: - Properties
   @State private var email: String = ""
   @State private var password: String = ""
   @EnvironmentObject var authViewModel: AuthViewModel
   @FocusState private var focusedTextField: FormTextField?
+  @State private var isShowingSignUpScreen: Bool = false
   
+  // MARK: - body
   var body: some View {
     NavigationStack {
       VStack {
         Image(systemName: "person.crop.rectangle.badge.plus.fill")
           .resizable()
-          .scaledToFill()
-          .foregroundStyle(.customGreen)
+          .scaledToFit()
+          .foregroundStyle(.accent)
           .frame(width: 80, height: 80)
-          .padding(.vertical,40)
+          .padding(.vertical,30)
         
         // MARK: - Input View for Password and Email
         VStack(spacing:20) {
           CustomTextField(text: $email,
-                    title: "Електронна пошта",
+                    title: "Email",
                     placeholder: "name@example.com")
           .textInputAutocapitalization(.never)
           .keyboardType(.emailAddress)
@@ -35,8 +39,8 @@ struct SignInScreen: View {
           .submitLabel(.next)
           
           CustomTextField(text: $password,
-                    title: "Пароль",
-                    placeholder: "Не менш ніж шість символів",
+                    title: "Password",
+                    placeholder: "At least 6 characters.",
                     isSecureField: true)
           .focused($focusedTextField, equals: .password)
           .onSubmit { focusedTextField = nil }
@@ -47,40 +51,32 @@ struct SignInScreen: View {
         
         // MARK: 'Sign In' and 'Sign Up' buttons
         HStack(spacing:15) {
-          Button("Увійти") {
+          CustomButton(title: "Sign In", bgColor: .defaultBlack) {
             Task {
-              try await authViewModel.signIn(withEmail:email,
-                                             password:password)
+              try await authViewModel.signIn(withEmail:email, password:password)
             }
           }
-          .fontWeight(.medium)
-          .foregroundStyle(.white)
-          .frame(width: 175, height: 50)
-          .background(.customDarkBlue)
-          .clipShape(.buttonBorder)
           .disabled(!isValidForm)
-          .opacity(isValidForm ? 1.0 : 0.6)
+          .opacity(isValidForm ? 1.0 : 0.5)
           
-          NavigationLink("Зареєструватися") {
-            SignUpScreen()
-              .navigationBarBackButtonHidden(true)
+          CustomButton(title: "Sign Up", bgColor: .accent) {
+            isShowingSignUpScreen.toggle()
           }
-          .fontWeight(.medium)
-          .foregroundStyle(.white)
-          .frame(width: 175, height: 50)
-          .background(.customGreen)
-          .clipShape(.buttonBorder)
+          .sheet(isPresented: $isShowingSignUpScreen) {
+            SignUpScreen()
+              .presentationDetents([.large])
+              .presentationDragIndicator(.visible)
+          }
         }
-        .padding(.top,30)
-        .shadow(radius:10)
+        .padding(.top,40)
         
         Spacer()
-      }
-    }
+      } // v
+    } // nav
   }
 }
 
-// MARK: - AuthenticationForm Protocol
+// MARK: - Authentication Form Protocol
 extension SignInScreen: AuthenticationForm {
   var isValidForm: Bool {
     return !email.isEmpty
