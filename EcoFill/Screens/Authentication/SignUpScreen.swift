@@ -12,6 +12,8 @@ enum FormTextField {
 }
 
 struct SignUpScreen: View {
+  
+  // MARK: - Properties
   @State private var email: String = ""
   @State private var fullName: String = ""
   @State private var city: String = ""
@@ -23,27 +25,28 @@ struct SignUpScreen: View {
   
   @FocusState private var focusedTextField: FormTextField?
   
+  // MARK: - body
   var body: some View {
     VStack {
       Image(systemName: "person.crop.circle.fill.badge.plus")
         .resizable()
-        .scaledToFill()
-        .foregroundStyle(.customGreen)
+        .scaledToFit()
+        .foregroundStyle(.accent)
         .frame(width: 80, height: 80)
-        .padding(.vertical,40)
+        .padding(.vertical,30)
       
       VStack(spacing:15) {
         // Full name
         CustomTextField(text: $fullName,
-                  title: "Ім'я та прізвище",
-                  placeholder: "Олександр Пушкін")
+                  title: "Full Name",
+                  placeholder: "Tim Cook")
         .focused($focusedTextField, equals: .fullName)
         .onSubmit { focusedTextField = .email }
         .submitLabel(.next)
         
         // Email Address
         CustomTextField(text: $email,
-                  title: "Електронна пошта",
+                  title: "Email",
                   placeholder: "name@example.com")
         .textInputAutocapitalization(.never)
         .keyboardType(.emailAddress)
@@ -53,16 +56,16 @@ struct SignUpScreen: View {
         
         // City
         CustomTextField(text: $city,
-                  title: "Ваше місто",
-                  placeholder: "Миколаїв")
+                  title: "City",
+                  placeholder: "Kyiv")
         .focused($focusedTextField, equals: .city)
         .onSubmit { focusedTextField = .password }
         .submitLabel(.next)
         
         // Password
         CustomTextField(text: $password,
-                  title: "Пароль",
-                  placeholder: "Не менш ніж шість символів",
+                  title: "Password",
+                  placeholder: "At least 6 characters.",
                   isSecureField: true)
         .focused($focusedTextField, equals: .password)
         .onSubmit { focusedTextField = .confirmPassword }
@@ -71,56 +74,37 @@ struct SignUpScreen: View {
         // Confirm Password
         ZStack(alignment: .trailing) {
           CustomTextField(text: $confirmPassword,
-                    title: "Підтверждення паролю",
-                    placeholder: "",
+                    title: "Confirm password",
+                    placeholder: "Must match the password.",
                     isSecureField: true)
           .focused($focusedTextField, equals: .confirmPassword)
           .onSubmit { focusedTextField = nil }
           .submitLabel(.done)
           
           if !password.isEmpty && !confirmPassword.isEmpty {
-            if password == confirmPassword {
-              Image(systemName: "checkmark.circle.fill")
-                .imageScale(.large)
-                .fontWeight(.bold)
-                .foregroundStyle(.customGreen)
-            } else {
-              Image(systemName: "xmark.circle.fill")
-                .imageScale(.large)
-                .fontWeight(.bold)
-                .foregroundStyle(.red)
-            }
+            let imageName = (password == confirmPassword) ? "checkmark.circle.fill" : "xmark.circle.fill"
+            let color = (password == confirmPassword) ? Color.accentColor : Color.red
+            
+            Image(systemName: imageName)
+              .imageScale(.large)
+              .fontWeight(.semibold)
+              .foregroundStyle(color)
           }
         }
       }
-      .padding(.horizontal,25)
+      .padding(.horizontal,20)
       
-      HStack(spacing:15) {
-        Button("Зареєструватися") {
+      HStack(spacing:20) {
+        CustomButton(title: "Sign Up", bgColor: .accent) {
           Task {
-            try await authViewModel.createUser(withEmail:email, 
-                                               password:password,
-                                               fullName:fullName,
-                                               city:city)
+            try await authViewModel.createUser(withEmail:email, password:password, fullName:fullName, city:city)
           }
         }
-        .fontWeight(.medium)
-        .foregroundStyle(.white)
-        .frame(width: 175, height: 50)
-        .background(.customDarkBlue)
-        .clipShape(.buttonBorder)
-        
-        Button("Увійти") {
+        CustomButton(title: "Back", bgColor: .defaultBlack) {
           dismiss()
         }
-        .fontWeight(.medium)
-        .foregroundStyle(.white)
-        .frame(width: 175, height: 50)
-        .background(.customGreen)
-        .clipShape(.buttonBorder)
       }
       .padding(.top,30)
-      .shadow(radius:10)
       
       Spacer()
     }
