@@ -11,72 +11,98 @@ import CoreLocation
 
 struct MapScreen: View {
   
+  // MARK: - Properties
+  @State private var locationManager = LocationManager.shared
+  @ObservedObject var dataViewModel: FirestoreDataViewModel = FirestoreDataViewModel()
+  
   @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
   @State private var selectedMapItem: MKMapItem?
-  /// The array will be filled with locations from the server.
-  @State private var locationResults = [MKMapItem]()
-  
+  @State private var locationResults: [MKMapItem] = []
   @State private var isPresentedMapItemPreview: Bool = false
   @State private var isPresentedLocationsListMode: Bool = false
   
+  // MARK: - body
   var body: some View {
     NavigationStack {
       Map(position: $cameraPosition,selection: $selectedMapItem) {
+        
         UserAnnotation()
         
         ForEach(locationResults, id: \.self) { mapItem in
           let placemark = mapItem.placemark
-          let placemarkName = mapItem.name ?? "No placemark name"
+          let placemarkName = mapItem.name ?? ""
           let placemarkCoordinate = placemark.coordinate
           
-          Marker(placemarkName,coordinate: placemarkCoordinate)
+          Marker(placemarkName, 
+                 systemImage: "fuelpump",
+                 coordinate: placemarkCoordinate)
+          
+            .tint(.accent)
         }
       }
+      // Map settings
       .mapStyle(.standard)
-      .overlay(alignment: .bottomTrailing) {
-        NavigationLink {
-          LocationsList()
-        } label: {
-          Label("Список", systemImage: "list.clipboard")
-        }
-        .buttonStyle(.borderedProminent)
-        .tint(.red)
-        .padding(20)
-      }
-      // When the application appears, show locations on the map.
-      .onAppear {
-        addTestLocations()
+      .mapControls { MapUserLocationButton() }
+      
+      // Button to show the list of locations.
+      .overlay(alignment: .topTrailing) {
+        RoundedRectangle(cornerRadius: 8)
+          .fill(.defaultSystem)
+          .frame(width: 44, height: 44, alignment: .center)
+          .overlay {
+            Image(systemName: "list.bullet")
+              .foregroundStyle(.accent)
+              .imageScale(.large)
+            // when the user selects an image, change the state of the list presenation mode.
+              .onTapGesture { isPresentedLocationsListMode = true }
+          }
+          .padding(.trailing,4)
+          .padding(.top,60)
       }
       
-      // Show a sheet when user selects location.
+      // Shows a list of locations.
+      .sheet(isPresented: $isPresentedLocationsListMode) {
+        LocationsList()
+          .presentationDetents([.medium, .large])
+          .presentationDragIndicator(.visible)
+          .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+      }
+      
+      .onAppear { addTestLocations() }
+      
+      // Show the sheet with information about selected gas station.
       .sheet(isPresented: $isPresentedMapItemPreview) {
-        MapItemPreview(selectedMapItem: $selectedMapItem,
+        MapItemPreview(mapItem: $selectedMapItem,
                        isPresentedMapItemPreview: $isPresentedMapItemPreview)
+        .presentationDetents([.fraction(0.25)])
+        .presentationDragIndicator(.visible)
+        .presentationBackgroundInteraction(.enabled(upThrough: .medium))
       }
       
       // Switches the value when the user selects a new location.
       .onChange(of: selectedMapItem) { _, newValue in
         isPresentedMapItemPreview = (newValue != nil)
       }
+      .onChange(of: locationManager.region) {
+        withAnimation { cameraPosition = .region(locationManager.region) }
+      }
     }
   }
   
   func addTestLocations() {
     let mapItem1 = MKMapItem(placemark: MKPlacemark(coordinate: .station1))
-    mapItem1.name = "Станція АЗС №1"
-    
+    mapItem1.name = "Station 1"
     let mapItem2 = MKMapItem(placemark: MKPlacemark(coordinate: .station2))
-    mapItem2.name = "Станція АЗС №2"
+    mapItem2.name = "Station 2"
     
     locationResults.append(contentsOf: [mapItem1, mapItem2])
   }
 }
 
-#Preview {
-  MapScreen()
-}
+#Preview { MapScreen() }
 
-// MARK: - CLLocation2D extension
+// MARK: - Extensions
+
 extension CLLocationCoordinate2D {
   static let userLocation = CLLocationCoordinate2D(
     latitude: 46.96467671636197,
