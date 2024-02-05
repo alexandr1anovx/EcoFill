@@ -8,33 +8,39 @@
 import SwiftUI
 
 struct ProfileScreen: View {
+  
+  // MARK: - Properties
   @AppStorage("userTheme") private var userTheme: Theme = .systemDefault
-  @State private var isPresentedLogOutConfirmation: Bool = false
-  @State private var changeTheme: Bool = false
   @Environment(\.colorScheme) private var scheme
   @EnvironmentObject var authViewModel: AuthViewModel
   
+  @State private var isPresentedLogOutConfirmation: Bool = false
+  @State private var changeTheme: Bool = false
+  
+  // MARK: - body
   var body: some View {
     NavigationStack {
       UserDataPreview()
         .padding(30)
       
       List {
-        // MARK: 'Change appearance' button
-        Button("Change appearance",systemImage: "moonphase.last.quarter") {
-          changeTheme.toggle()
-        }
-        .foregroundStyle(.customSystemReversed)
-        .sheet(isPresented: $changeTheme) {
-          AppearanceChanger(scheme: scheme)
-            .presentationDetents([.height(180)])
-            .presentationBackground(.clear)
-            .presentationDragIndicator(.visible)
+        HStack {
+          Label("Appearance", systemImage: "moon.circle.fill")
+            .foregroundStyle(.defaultReversed)
+          
+          Picker("", selection: $userTheme) {
+            Text("System").tag(Theme.systemDefault)
+            Text("Light").tag(Theme.lightMode)
+            Text("Dark").tag(Theme.darkMode)
+          }
+          .onChange(of: userTheme) { _, newValue in
+            userTheme = newValue
+          }
         }
         
-        // MARK: 'Log Out' button
-        Button("Log Out",systemImage: "door.right.hand.open") {
-          isPresentedLogOutConfirmation.toggle()
+        // 'Log Out' button
+        Button("Log Out",systemImage: "rectangle.portrait.and.arrow.right") {
+          isPresentedLogOutConfirmation = true
         }
         .foregroundStyle(.red)
         .confirmationDialog("",isPresented: $isPresentedLogOutConfirmation) {
@@ -46,6 +52,7 @@ struct ProfileScreen: View {
         }
       }
       .listStyle(.insetGrouped)
+      
       .toolbar {
         ToolbarItem(placement: .topBarTrailing) {
           NavigationLink {
@@ -63,4 +70,3 @@ struct ProfileScreen: View {
   ProfileScreen()
     .environmentObject(AuthViewModel())
 }
-
