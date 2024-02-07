@@ -9,40 +9,40 @@ import SwiftUI
 import MapKit
 
 struct MapItemPreview: View {
+  // MARK: - Properties
+  var station: Station
   
-  @Binding var selectedMapItem: MKMapItem?
-  @Binding var isPresentedMapItemPreview: Bool
-  
-  // MARK: - Body
-  
+  // MARK: - body
   var body: some View {
-    VStack(alignment: .leading, spacing:20) {
-      // Displaying a location name (or absence message).
-      Text(selectedMapItem?.placemark.name ?? "No placemark name.")
-        .font(.system(size: 19,
-                      weight: .medium,
-                      design: .rounded))
-        .foregroundStyle(.customGreen)
+    VStack(alignment: .center, spacing:15) {
+      Text(station.name)
+        .font(.headline)
+        .foregroundStyle(.defaultReversed)
       
       Divider()
       
-      // Displaying a location title (or absence message).
-      Text(selectedMapItem?.placemark.title ?? "No placemark title.")
+      Text(station.address)
         .font(.subheadline)
         .foregroundStyle(.gray)
         .multilineTextAlignment(.leading)
+      
+      Text(station.schedule)
+        .font(.callout).bold()
+        .foregroundStyle(.defaultReversed)
+        .multilineTextAlignment(.leading)
+      
+      Button("Get direction") {
+        // route
+      }
+      .fontWeight(.medium)
+      .tint(.blue)
+      .buttonStyle(.borderedProminent)
+      .padding(.top,15)
     }
-    .padding(.horizontal,20)
-    
-    .presentationDetents([.height(200)]) // The height of the preview
-    .presentationBackgroundInteraction(.enabled(upThrough: .height(200))) // Enable background interaction up to a certain height
-    .presentationCornerRadius(20)
-    .presentationDragIndicator(.visible)
   }
 }
 
 // MARK: - Preview
-
 #Preview {
-  MapItemPreview(selectedMapItem: .constant(nil), isPresentedMapItemPreview: .constant(true))
+  MapItemPreview(station: .testStation)
 }
