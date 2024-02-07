@@ -8,71 +8,68 @@
 import SwiftUI
 
 struct SignInScreen: View {
-  
   // MARK: - Properties
+  @EnvironmentObject var authViewModel: AuthViewModel
   @State private var email: String = ""
   @State private var password: String = ""
-  @EnvironmentObject var authViewModel: AuthViewModel
-  @FocusState private var focusedTextField: FormTextField?
   @State private var isShowingSignUpScreen: Bool = false
+  @FocusState private var registrationFormTF: RegistrationFormTextField?
   
   // MARK: - body
   var body: some View {
-    NavigationStack {
-      VStack {
-        Image(systemName: "person.crop.rectangle.badge.plus.fill")
-          .resizable()
-          .scaledToFit()
-          .foregroundStyle(.accent)
-          .frame(width: 80, height: 80)
-          .padding(.vertical,30)
-        
-        // MARK: - Input View for Password and Email
-        VStack(spacing:20) {
-          CustomTextField(text: $email,
-                    title: "Email",
-                    placeholder: "name@example.com")
-          .textInputAutocapitalization(.never)
-          .keyboardType(.emailAddress)
-          .focused($focusedTextField, equals: .email)
-          .onSubmit { focusedTextField = .password }
-          .submitLabel(.next)
-          
-          CustomTextField(text: $password,
-                    title: "Password",
-                    placeholder: "At least 6 characters.",
-                    isSecureField: true)
-          .focused($focusedTextField, equals: .password)
-          .onSubmit { focusedTextField = nil }
-          .submitLabel(.done)
+    VStack(spacing:20) {
+      Image(systemName: "person.crop.rectangle.badge.plus.fill")
+        .resizable()
+        .scaledToFit()
+        .foregroundStyle(.accent)
+        .frame(width: 100, height: 100)
+      
+      // MARK: - User Input Data
+      
+      CustomTextField(text: $email,
+                      title: "Email",
+                      placeholder: "name@example.com")
+      .textInputAutocapitalization(.never)
+      .keyboardType(.emailAddress)
+      .focused($registrationFormTF, equals: .email)
+      .submitLabel(.next)
+      .onSubmit { registrationFormTF = .password }
+      
+      
+      CustomTextField(text: $password,
+                      title: "Password",
+                      placeholder: "At least 6 characters.",
+                      isSecureField: true)
+      .focused($registrationFormTF, equals: .password)
+      .submitLabel(.done)
+      .onSubmit { registrationFormTF = nil }
+    }
+    .padding(.horizontal,20)
+    .padding(.vertical,20)
+    
+    // MARK: - 'Sign In' and 'Sign Up' buttons
+    
+    HStack(spacing:15) {
+      CustomButton(title: "Sign In", bgColor: .defaultBlack) {
+        Task {
+          try await authViewModel.signIn(withEmail:email, password:password)
         }
-        .padding(.horizontal,25)
-        
-        
-        // MARK: 'Sign In' and 'Sign Up' buttons
-        HStack(spacing:15) {
-          CustomButton(title: "Sign In", bgColor: .defaultBlack) {
-            Task {
-              try await authViewModel.signIn(withEmail:email, password:password)
-            }
-          }
-          .disabled(!isValidForm)
-          .opacity(isValidForm ? 1.0 : 0.5)
-          
-          CustomButton(title: "Sign Up", bgColor: .accent) {
-            isShowingSignUpScreen.toggle()
-          }
-          .sheet(isPresented: $isShowingSignUpScreen) {
-            SignUpScreen()
-              .presentationDetents([.large])
-              .presentationDragIndicator(.visible)
-          }
-        }
-        .padding(.top,40)
-        
-        Spacer()
-      } // v
-    } // nav
+      }
+      .disabled(!isValidForm)
+      .opacity(isValidForm ? 1.0 : 0.5)
+      
+      CustomButton(title: "Sign Up", bgColor: .accent) {
+        isShowingSignUpScreen = true
+      }
+      .sheet(isPresented: $isShowingSignUpScreen) {
+        SignUpScreen()
+          .presentationDetents([.large])
+          .presentationDragIndicator(.visible)
+      }
+    }
+    .padding(.top,30)
+    
+    Spacer()
   }
 }
 
