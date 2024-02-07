@@ -9,8 +9,10 @@ import Foundation
 import FirebaseFirestore
 
 class FirestoreDataViewModel: ObservableObject {
+  
+  // MARK: - Properties
   @Published var products: [Product] = []
-  @Published var locations: [Location] = []
+  @Published var stations: [Station] = []
   
   // Database initialization
   private var db = Firestore.firestore()
@@ -33,20 +35,31 @@ class FirestoreDataViewModel: ObservableObject {
     }
   }
   
-  func fetchLocationsData() {
-    db.collection("locations").addSnapshotListener { snapshot, error in
+  func fetchStationsData() {
+    db.collection("stations").addSnapshotListener { snapshot, error in
       // Check if documents in firebase is not empty
       guard let documents = snapshot?.documents else { return }
       
       // Convert of 'documentSnapshot' object to 'Location' object
-      self.locations = documents.map { documentSnapshot -> Location in
+      self.stations = documents.map { documentSnapshot -> Station in
         let data = documentSnapshot.data()
-
-        let street = data["street"] as? String ?? ""
-        let city = data["city"] as? String ?? ""
-        let schedule = data["schedule"] as? String ?? ""
         
-        return Location(id: .init(), street: street, city: city, schedule: schedule)
+        let city = data["city"] as? String ?? ""
+        let country = data["country"] as? String ?? ""
+        let latitude = data["latitude"] as? Double ?? 0.0
+        let longitude = data["longitude"] as? Double ?? 0.0
+        let name = data["name"] as? String ?? ""
+        let schedule = data["schedule"] as? String ?? ""
+        let street = data["street"] as? String ?? ""
+        
+        return Station(id: .init(),
+                       name: name,
+                       street: street,
+                       city: city,
+                       country: country,
+                       schedule: schedule,
+                       latitude: latitude,
+                       longitude: longitude)
       }
     }
   }
