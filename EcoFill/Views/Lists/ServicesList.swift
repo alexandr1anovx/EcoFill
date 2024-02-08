@@ -13,8 +13,8 @@ struct ServicesList: View {
       List(services) { service in
         ServiceCell(service: service)
       }
-      .listStyle(.insetGrouped)
-      .listRowSpacing(15)
+      .listStyle(.plain)
+      .listRowSpacing(10)
     }
   }
 }

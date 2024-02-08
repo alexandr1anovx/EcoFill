@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct UserDataPreview: View {
+  // MARK: - Properties
   @EnvironmentObject var authViewModel: AuthViewModel
   
+  // MARK: - body
   var body: some View {
     HStack {
       if let user = authViewModel.currentUser {
@@ -18,7 +20,7 @@ struct UserDataPreview: View {
             .font(.system(size: 18,
                           weight: .medium,
                           design: .rounded))
-            .foregroundStyle(.customSystemReversed)
+            .foregroundStyle(.defaultReversed)
           
           Text(user.email)
             .font(.system(size: 15,
@@ -33,13 +35,14 @@ struct UserDataPreview: View {
           .font(.system(size: 15,
                         weight: .medium,
                         design: .rounded))
-          .foregroundStyle(.customSystemReversed)
+          .foregroundStyle(.defaultReversed)
       }
     }
+    .environmentObject(authViewModel)
   }
 }
 
-//#Preview {
-//  UserDataPreview()
-//    .environmentObject(AuthViewModel())
-//}
+#Preview {
+  UserDataPreview()
+    .environmentObject(AuthViewModel())
+}

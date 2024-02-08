@@ -9,71 +9,77 @@ import SwiftUI
 
 @MainActor
 struct UserPrivateDataPreview: View {
+  // MARK: - Properties
   @EnvironmentObject var authViewModel: AuthViewModel
+  @FocusState private var focusedTextField: RegistrationFormTextField?
+  
   @State private var fullName: String = ""
   @State private var email: String = ""
   @State private var isPresentedDeletion: Bool = false
-  @FocusState private var focusedTextField: FormTextField?
   
+  // MARK: - body
   var body: some View {
     NavigationStack {
       Form {
         Section {
-          TextField("Ім'я та прізвище", text: $fullName)
-            .textContentType(.name)
+          TextField("Full Name", text: $fullName)
             .focused($focusedTextField, equals: .fullName)
             .onSubmit { focusedTextField = .email }
             .submitLabel(.next)
+            .textContentType(.name)
           
-          TextField("Електронна пошта", text: $email)
-            .keyboardType(.emailAddress)
-            .textInputAutocapitalization(.never)
-            .autocorrectionDisabled()
+          TextField("Email", text: $email)
             .focused($focusedTextField, equals: .email)
             .onSubmit { focusedTextField = nil }
             .submitLabel(.done)
+            .keyboardType(.emailAddress)
+            .textInputAutocapitalization(.never)
+            .autocorrectionDisabled()
         } header: {
-          Text("Персональні дані")
+          Text("Personal data")
         }
         
         Section {
-          Button("Редагувати", systemImage: "pencil") {
+          Button("Edit", systemImage: "pencil") {
             focusedTextField = .fullName
           }
           .foregroundStyle(.red)
           
-          Button("Зберегти зміни", systemImage: "checkmark.circle.fill") {
-            // FIREBASE SAVE DATA FUNCTION
+          Button("Save changes", systemImage: "checkmark.circle.fill") {
+            
           }
         }
         
-        Button("Видалити обліковий запис",
+        Button("Delete account",
                systemImage: "xmark.circle.fill",
                role: .destructive,
                action: {
           isPresentedDeletion.toggle()
         })
         .foregroundStyle(.red)
-        .confirmationDialog("Ви впевнені?",
+        .confirmationDialog("Are you sure?",
                             isPresented: $isPresentedDeletion) {
-          Button("Видалити", role: .destructive) {
+          Button("Delete", role: .destructive) {
             authViewModel.deleteAccount()
           }
         } message: {
-          Text("Усі ваші дані будуть видалені")
+          Text("All your data will be deleted.")
         }
       }
       
       /// Show an alert, the type of which depends of the Form error.
-      //      .alert(item: $userViewModel.alertItem) { alertItem in
-      //        Alert(title: alertItem.title,
-      //              message: alertItem.message,
-      //              dismissButton: alertItem.dismissButton)
-      //      }
+//      .alert(item: $authViewModel.alertItem) { alertItem in
+//        Alert(title: alertItem.title,
+//              message: alertItem.message,
+//              dismissButton: alertItem.dismissButton)
+//      }
     }
   }
 }
 
 #Preview {
   UserPrivateDataPreview()
+    .environmentObject(AuthViewModel())
 }
+
+//extension

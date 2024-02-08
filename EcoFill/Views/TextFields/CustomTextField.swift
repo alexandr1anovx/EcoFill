@@ -16,7 +16,7 @@ struct CustomTextField: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 15) {
       Text(title)
-        .foregroundStyle(.customSystemReversed)
+        .foregroundStyle(.defaultReversed)
         .font(.callout)
         .fontWeight(.semibold)
       

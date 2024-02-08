@@ -36,8 +36,6 @@ struct AppearanceChangerPreview: View {
         case .darkMode:
           Image(systemName: "moon.circle.fill")
         }
-        Text("Select Color Theme").font(.headline)
-          .foregroundStyle(.defaultReversed)
       }
       .symbolRenderingMode(.multicolor)
       .imageScale(.large)

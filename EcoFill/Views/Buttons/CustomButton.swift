@@ -24,7 +24,6 @@ struct CustomButton: View {
     .frame(width: 130, height: 45)
     .background(bgColor)
     .clipShape(.buttonBorder)
-    .shadow(radius: 5)
   }
 }
 

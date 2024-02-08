@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeScreen: View {
-  @State private var isPresentedQR:Bool = false
+  @State private var isPresentedQR: Bool = false
   
   var body: some View {
     NavigationStack {
@@ -19,19 +19,21 @@ struct HomeScreen: View {
       }
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
-          Image("logo")
+          Image("gas-station")
             .resizable()
-            .scaledToFit()
-            .frame(width: 40, height: 40)
+            .scaledToFill()
+            .frame(width: 30, height: 30)
         }
         
         ToolbarItem(placement: .topBarTrailing) {
           Button("QR", systemImage: "qrcode") {
             isPresentedQR.toggle()
           }
-          .buttonStyle(.borderless)
           .sheet(isPresented: $isPresentedQR) {
-            QRCodePreview(isShowingQRCodePreview: $isPresentedQR)
+            QRCodePreview()
+              .presentationDetents([.medium])
+              .presentationDragIndicator(.visible)
+              .presentationBackgroundInteraction(.enabled(upThrough: .large))
           }
         }
       }
