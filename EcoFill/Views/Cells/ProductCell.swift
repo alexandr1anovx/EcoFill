@@ -8,27 +8,35 @@
 import SwiftUI
 
 struct ProductCell: View {
+  // MARK: - Properties
   let product: Product
   
+  // MARK: - body
   var body: some View {
-    HStack {
-      VStack(alignment: .leading, spacing: 12) {
-        Label(product.title,systemImage: "fuelpump")
+    VStack(alignment: .leading, spacing:13) {
+      HStack(spacing:13) {
+        Text(product.title)
           .font(.headline)
           .fontDesign(.rounded)
-          .foregroundStyle(.customGreen)
+          .foregroundStyle(.accent)
         
-        Label("Show details",systemImage: "hand.tap.fill")
-          .font(.footnote)
-          .foregroundStyle(.gray)
+        RoundedRectangle(cornerRadius: 8)
+          .fill(.defaultSystem)
+          .frame(width: 80, height: 35, alignment: .center)
+          .overlay {
+            Text("₴\(product.price, specifier: "%.2f")")
+              .font(.callout)
+              .foregroundStyle(.defaultReversed)
+              .fontWeight(.medium)
+          }
       }
-      
-      Spacer()
-      
-      Text("₴\(product.price, specifier: "%.2f")")
-        .font(.headline)
-        .fontWeight(.medium)
-        .foregroundStyle(.customSystemReversed)
+      Text(product.description)
+        .font(.footnote)
+        .foregroundStyle(.gray)
     }
   }
+}
+
+#Preview {
+  ProductCell(product: Product(title: "A-92", description: "Description", price: 53.50))
 }
