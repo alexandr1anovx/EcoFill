@@ -17,9 +17,19 @@ struct Service: Identifiable {
 let services: [Service] = [
   Service(title: "Products",
           description: "Watch prices.",
-          image: "fuelpump"),
+          image: "fuelpump.circle.fill"),
   
-  Service(title: "Feedback",
+  Service(title: "Support",
           description: "Send feedback to improve our service.",
-          image: "message.badge")
+          image: "24.square.fill"),
+  
+  Service(title: "Food", description: "Choose food to eat.", image: "fork.knife.circle.fill")
 ]
+
+extension Service {
+  enum ServiceType: String {
+    case products = "Products"
+    case support = "Support"
+    case food = "Food"
+  }
+}
