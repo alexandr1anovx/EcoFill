@@ -25,7 +25,11 @@ struct ProfileScreen: View {
       
       List {
         HStack {
-          Label("Appearance", systemImage: "moon.circle.fill")
+          Label("Appearance", 
+                systemImage: "moonphase.waning.crescent")
+            .font(.callout)
+            .fontWeight(.medium)
+            .fontDesign(.rounded)
             .foregroundStyle(.defaultReversed)
           
           Picker("", selection: $userTheme) {
@@ -54,10 +58,20 @@ struct ProfileScreen: View {
       .listStyle(.insetGrouped)
       
       .toolbar {
+        ToolbarItem(placement: .topBarLeading) {
+          Image("truck")
+            .resizable()
+            .frame(width: 32, height: 30)
+        }
+        
         ToolbarItem(placement: .topBarTrailing) {
           NavigationLink {
             UserPrivateDataPreview()
-          } label: { Text("Edit") }
+          } label: {
+            Image(systemName: "pencil.and.list.clipboard")
+              .imageScale(.large)
+              .tint(.defaultOrange)
+          }
         }
       }
       .navigationTitle("Profile")

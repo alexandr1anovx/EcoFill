@@ -35,21 +35,11 @@ struct StationLocationCell: View {
       
       Spacer()
       
-      RoundedRectangle(cornerRadius: 8)
-        .fill(.defaultSystem)
-        .frame(width: 90, height: 40, alignment: .center)
-        .overlay {
-          HStack(spacing:5) {
-            Image(systemName: "location")
-              .imageScale(.medium)
-            Text("Map")
-              .font(.callout)
-              .onTapGesture {
-                // action
-              }
-          }
-          .padding(.horizontal)
-        }
+      Button("Route") {
+        
+      }
+      .buttonStyle(.bordered)
+      .tint(.defaultReversed)
     }
   }
 }
