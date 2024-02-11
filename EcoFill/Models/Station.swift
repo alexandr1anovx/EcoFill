@@ -8,20 +8,26 @@
 import Foundation
 import MapKit
 
-struct Station: Decodable, Identifiable, Equatable, Hashable {  
-  var id = UUID()
+struct Station: Decodable, Identifiable, Equatable, Hashable {
+  var id = UUID() // unique ID
   
-  var name: String
-  var street: String
   var city: String
-  var country: String
-  var schedule: String
-  
+  // fuels
+  var euroA95: Double
+  var euroDP: Double
+  var gas: Double
+  // coordinates
   var latitude: Double
   var longitude: Double
+  // details
+  var name: String
+  var postalCode: String
+  var schedule: String
+  var street: String
+  
   
   var address: String {
-    return "\(street), \(city), \(country)"
+    return "\(city), \(street), \(postalCode)"
   }
   
   var coordinate: CLLocationCoordinate2D {
@@ -30,11 +36,17 @@ struct Station: Decodable, Identifiable, Equatable, Hashable {
 }
 
 extension Station {
-  static var testStation = Station(name: "EcoFill", 
-                                   street: "3rd Slobidska",
-                                   city: "Mykolaiv",
-                                   country: "Ukraine",
-                                   schedule: "08:00 - 22:00",
-                                   latitude: 46.95611207632222,
-                                   longitude: 31.970336428606245)
+  
+  static var testStation = Station(id: .init(),
+                                    city: "Kyiv",
+                                    euroA95: 53.5,
+                                    euroDP: 54,
+                                    gas: 24.99,
+                                    latitude: 50.447306,
+                                    longitude: 30.494783,
+                                    name: "EcoFill",
+                                    postalCode: "02000",
+                                    schedule: "08:00-23.00",
+                                    street: "Olesia Honchara St, 79-75")
+
 }

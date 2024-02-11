@@ -20,7 +20,7 @@ struct StationsList: View {
                                description: Text("Please, check your internet connection."))
       } else {
         List(dataViewModel.stations) { station in
-          StationLocationCell(station: station)
+          StationListCell(station: station)
         }
         .listRowSpacing(15)
         .listStyle(.plain)
@@ -30,7 +30,7 @@ struct StationsList: View {
       }
     }
     .onAppear {
-      dataViewModel.fetchStationsData()
+      dataViewModel.fetchStations()
     }
   }
 }

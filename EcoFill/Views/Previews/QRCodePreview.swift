@@ -10,20 +10,16 @@ import CoreImage
 import CoreImage.CIFilterBuiltins
 
 struct QRCodePreview: View {
+  
   // MARK: - Properties
-  //  @Binding var isShowingQRCodePreview: Bool
-  
-  @State private var name: String = ""
-  @State private var emailAddress: String = ""
-  @EnvironmentObject var authViewModel: AuthViewModel
-  
+  @EnvironmentObject var frbAuthViewModel: FirebaseAuthViewModel
   let context = CIContext()
   let filter = CIFilter.qrCodeGenerator()
   
   // MARK: - body
   var body: some View {
     NavigationStack {
-      if let currentUser = authViewModel.currentUser {
+      if let currentUser = frbAuthViewModel.currentUser {
         VStack(alignment: .leading,spacing:15) {
           HStack {
             Text("Full name:")
@@ -66,6 +62,7 @@ struct QRCodePreview: View {
     }
   }
   
+  // MARK: Functions
   func generateQRCode(from string: String) -> UIImage {
     filter.message = Data(string.utf8)
     if let outputImage = filter.outputImage {
@@ -79,5 +76,5 @@ struct QRCodePreview: View {
 
 #Preview {
   QRCodePreview()
-    .environmentObject(AuthViewModel())
+    .environmentObject(FirebaseAuthViewModel())
 }

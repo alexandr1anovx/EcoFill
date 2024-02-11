@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UserDataPreview: View {
   // MARK: - Properties
-  @EnvironmentObject var authViewModel: AuthViewModel
+  @EnvironmentObject var authViewModel: FirebaseAuthViewModel
   
   // MARK: - body
   var body: some View {
@@ -38,11 +38,10 @@ struct UserDataPreview: View {
           .foregroundStyle(.defaultReversed)
       }
     }
-    .environmentObject(authViewModel)
   }
 }
 
 #Preview {
   UserDataPreview()
-    .environmentObject(AuthViewModel())
+    .environmentObject(FirebaseAuthViewModel())
 }
