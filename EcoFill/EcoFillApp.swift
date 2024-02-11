@@ -17,16 +17,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct EcoFillApp: App {
-  // Register app delegate for Firebase setup
-  @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-  @AppStorage("userTheme") private var userTheme: Theme = .systemDefault
-  @StateObject private var authViewModel = AuthViewModel()
+  
+  // MARK: - Properties
+  @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate // Register app delegate for Firebase setup
+  @AppStorage("userTheme") private var selectedTheme: Theme = .systemDefault
+  @StateObject private var frbAuthViewModel = FirebaseAuthViewModel()
   
   var body: some Scene {
     WindowGroup {
       MainTabScreen()
-        .environmentObject(authViewModel)
-        .preferredColorScheme(userTheme.colorScheme)
+        .environmentObject(frbAuthViewModel)
+        .preferredColorScheme(selectedTheme.colorScheme)
     }
   }
 }
