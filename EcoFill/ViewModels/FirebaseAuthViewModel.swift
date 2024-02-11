@@ -14,7 +14,9 @@ protocol AuthenticationForm {
 }
 
 @MainActor
-class AuthViewModel: ObservableObject {
+class FirebaseAuthViewModel: ObservableObject {
+  
+  // MARK: - Properties
   @Published var userSession: FirebaseAuth.User?
   @Published var currentUser: User?
   
@@ -23,7 +25,9 @@ class AuthViewModel: ObservableObject {
     Task { await fetchUser() }
   }
   
-  // Sign In
+  // Authentication methods
+  
+  // MARK: - Sign In
   func signIn(withEmail email: String, password: String) async throws {
     do {
       let result = try await Auth.auth().signIn(withEmail: email, password: password)
@@ -34,11 +38,8 @@ class AuthViewModel: ObservableObject {
     }
   }
   
-  // Create User
-  func createUser(withEmail email: String, 
-                  password: String,
-                  fullName: String,
-                  city: String) async throws {
+  // MARK: - Create User
+  func createUser(withEmail email: String, password: String, fullName: String, city: String) async throws {
     do {
       let result = try await Auth.auth().createUser(withEmail: email, password: password)
       self.userSession = result.user
@@ -51,7 +52,7 @@ class AuthViewModel: ObservableObject {
     }
   }
   
-  // Sign Out
+  // MARK: - Sign Out
   func signOut() {
     do {
       try Auth.auth().signOut()
@@ -62,7 +63,7 @@ class AuthViewModel: ObservableObject {
     }
   }
   
-  // Delete account
+  // MARK: - Delete account
   func deleteAccount() {
     if let user = Auth.auth().currentUser {
       user.delete { error in
@@ -76,7 +77,7 @@ class AuthViewModel: ObservableObject {
     }
   }
   
-  // Fetch user
+  // MARK: - Fetch user
   func fetchUser() async {
     guard let uid = Auth.auth().currentUser?.uid else { return }
     guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else { return }
