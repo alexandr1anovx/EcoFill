@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct StationLocationCell: View {
+struct StationListCell: View {
   var station: Station
   
   var body: some View {
@@ -44,4 +44,4 @@ struct StationLocationCell: View {
   }
 }
 
-#Preview { StationLocationCell(station: .testStation) }
+#Preview { StationListCell(station: .testStation) }
