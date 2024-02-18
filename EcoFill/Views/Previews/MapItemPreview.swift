@@ -16,7 +16,7 @@ struct MapItemPreview: View {
     HStack {
       VStack(alignment: .leading,spacing: 15) {
         
-        // MARK: - Coordinates and fuel types
+        // MARK: - Coordinates
         VStack(alignment: .leading,spacing:10) {
           Text(station.name)
             .font(.system(size: 18,
@@ -28,7 +28,7 @@ struct MapItemPreview: View {
             .fontDesign(.rounded)
             .foregroundStyle(.gray)
         }
-        
+        // MARK: - Work schedule
         VStack(alignment: .leading,spacing:5) {
           HStack {
             Text("Work schedule:")
@@ -42,10 +42,11 @@ struct MapItemPreview: View {
           .fontDesign(.rounded)
         }
         
+        // MARK: - Fuels
         ScrollableFuelsStack(station: station)
           .padding(.top,5)
         
-        // MARK: - Payment methods and work schedule
+        // MARK: - Payment methods
         HStack(spacing:10) {
           Text("Payment methods:")
             .font(.footnote)
@@ -63,7 +64,7 @@ struct MapItemPreview: View {
             .frame(width:40,height:40)
         }
         
-        // MARK: - Get direction
+        
         Button("Get directions", systemImage: "figure.walk") {
           
         }
