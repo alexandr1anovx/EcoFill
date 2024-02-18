@@ -9,33 +9,37 @@ import SwiftUI
 
 struct UserDataPreview: View {
   // MARK: - Properties
-  @EnvironmentObject var authViewModel: FirebaseAuthViewModel
+  @EnvironmentObject var authenticationVM: AuthenticationViewModel
   
-  // MARK: - body
   var body: some View {
     HStack {
-      if let user = authViewModel.currentUser {
-        VStack(alignment: .leading, spacing:15) {
+      if let user = authenticationVM.currentUser {
+        VStack(alignment: .leading, spacing:10) {
           Text(user.fullName)
-            .font(.system(size: 18,
-                          weight: .medium,
-                          design: .rounded))
+            .font(.callout)
+            .fontWeight(.medium)
+            .fontDesign(.rounded)
             .foregroundStyle(.defaultReversed)
           
           Text(user.email)
-            .font(.system(size: 15,
-                          weight: .medium,
-                          design: .rounded))
+            .font(.system(size: 15))
+            .fontWeight(.medium)
+            .fontDesign(.rounded)
             .foregroundStyle(.gray)
         }
         
         Spacer()
         
-        Label(user.city, systemImage: "mappin")
-          .font(.system(size: 15,
-                        weight: .medium,
-                        design: .rounded))
-          .foregroundStyle(.defaultReversed)
+        HStack(spacing:10) {
+          Image("city")
+            .resizable()
+            .frame(width: 25, height: 25)
+          Text(user.city)
+            .font(.callout)
+            .fontWeight(.medium)
+            .fontDesign(.rounded)
+            .foregroundStyle(.defaultReversed)
+        }
       }
     }
   }
@@ -43,5 +47,5 @@ struct UserDataPreview: View {
 
 #Preview {
   UserDataPreview()
-    .environmentObject(FirebaseAuthViewModel())
+    .environmentObject(AuthenticationViewModel())
 }
