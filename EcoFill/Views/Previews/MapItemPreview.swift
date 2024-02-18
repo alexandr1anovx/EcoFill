@@ -12,107 +12,74 @@ struct MapItemPreview: View {
   // MARK: - Properties
   var station: Station
   
-  // MARK: - body
   var body: some View {
-    ZStack {
-      LinearGradient(colors: [.defaultSystem], startPoint: .topLeading, endPoint: .bottomTrailing)
-        .ignoresSafeArea()
-      // MARK: - Street info
-      HStack {
-        VStack(alignment: .leading,spacing: 15) {
-          // Location info
-          VStack(alignment: .leading,spacing:10) {
-            Text(station.name)
-              .font(.headline)
-              .fontWeight(.semibold)
-            Text(station.address)
-              .font(.callout)
-              .fontWeight(.medium)
-              .foregroundStyle(.gray)
-          }
-          
-          // MARK: - Fuels
-          FuelsStack(station: station)
-          .padding(.top,8)
-          
-          // MARK: - Payment methods
-          HStack(spacing:8) {
-            Text("Pay with: ")
-              .font(.callout)
-              .fontWeight(.medium)
-              .foregroundStyle(.gray)
-            Image("visa")
-              .resizable()
-              .frame(width:45,height:45)
-            Text("or ")
-              .font(.headline)
-              .foregroundStyle(.defaultReversed)
-            Image("cash")
-              .resizable()
-              .frame(width:45,height:45)
-          }
-          .padding(.top,4)
-          
-          // MARK: - Work time
+    HStack {
+      VStack(alignment: .leading,spacing: 15) {
+        
+        // MARK: - Coordinates and fuel types
+        VStack(alignment: .leading,spacing:10) {
+          Text(station.name)
+            .font(.system(size: 18,
+                          weight: .medium,
+                          design: .rounded))
+          Text(station.address)
+            .font(.footnote)
+            .fontWeight(.medium)
+            .fontDesign(.rounded)
+            .foregroundStyle(.gray)
+        }
+        
+        VStack(alignment: .leading,spacing:5) {
           HStack {
-            Text("Work time:")
-              .font(.callout)
-              .fontWeight(.medium)
+            Text("Work schedule:")
+              .font(.footnote)
               .foregroundStyle(.gray)
             Text(station.schedule)
-              .font(.headline)
+              .font(.callout)
+              .foregroundStyle(.defaultOrange)
           }
-          // MARK: - Get Direction
-          Button("Get direction", systemImage: "figure.walk") {
-            
-          }
-          .font(.headline)
           .fontWeight(.medium)
-          .buttonStyle(.borderedProminent)
-          .shadow(radius:8)
-          .padding(.top,7)
-        }// main
-        Spacer()
+          .fontDesign(.rounded)
+        }
+        
+        ScrollableFuelsStack(station: station)
+          .padding(.top,5)
+        
+        // MARK: - Payment methods and work schedule
+        HStack(spacing:10) {
+          Text("Payment methods:")
+            .font(.footnote)
+            .fontWeight(.medium)
+            .fontDesign(.rounded)
+            .foregroundStyle(.gray)
+          Image("visa")
+            .resizable()
+            .frame(width:40,height:40)
+          Image("applePay")
+            .resizable()
+            .frame(width:40,height:40)
+          Image("cash")
+            .resizable()
+            .frame(width:40,height:40)
+        }
+        
+        // MARK: - Get direction
+        Button("Get directions", systemImage: "figure.walk") {
+          
+        }
+        .font(.headline)
+        .fontWeight(.medium)
+        .fontDesign(.rounded)
+        .buttonStyle(.borderedProminent)
+        .shadow(radius:6)
+        .padding(.top,5)
       }
-      .padding(.horizontal,20)
+      Spacer()
     }
-    
+    .padding(.horizontal,13)
   }
 }
 
-// MARK: - Preview
 #Preview {
   MapItemPreview(station: .testStation)
 }
-
-
-
-//var body: some View {
-//  VStack(alignment: .center, spacing:15) {
-//    Text(station.name)
-//      .font(.headline)
-//      .foregroundStyle(.defaultReversed)
-//
-//    Divider()
-//
-//    Text(station.address)
-//      .font(.subheadline)
-//      .foregroundStyle(.gray)
-//      .multilineTextAlignment(.leading)
-//
-//    Text(station.schedule)
-//      .font(.callout).bold()
-//      .foregroundStyle(.defaultReversed)
-//      .multilineTextAlignment(.leading)
-//
-//    Text("A-95: \(station.address)")
-//
-//    Button("Get direction") {
-//      // route
-//    }
-//    .fontWeight(.medium)
-//    .tint(.blue)
-//    .buttonStyle(.borderedProminent)
-//    .padding(.top,15)
-//  }
-//}
