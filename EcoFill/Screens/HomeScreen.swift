@@ -8,42 +8,56 @@
 import SwiftUI
 
 struct HomeScreen: View {
-  @State private var isPresentedQR: Bool = false
   
+  // MARK: - Properties
+  @EnvironmentObject var authenticationVM: AuthenticationViewModel
+  @State private var isPresentedQR = false
+  
+  // MARK: - body
   var body: some View {
     NavigationStack {
-      VStack {
-        UserDataPreview()
-          .padding(30)
-        ServicesList()
-      }
-      .toolbar {
-        ToolbarItem(placement: .topBarLeading) {
-          Image("gas-station")
-            .resizable()
-            .scaledToFill()
-            .frame(width: 30, height: 30)
+      if let city = authenticationVM.currentUser?.city {
+        VStack {
+          UserDataPreview()
+            .padding(.top,30)
+            .padding(.horizontal,23)
+          FuelsList(selectedCity: city)
+            .padding(.vertical,20)
+            .padding(.horizontal,14)
+          ServicesList()
         }
-        
-        ToolbarItem(placement: .topBarTrailing) {
-          Button("QR", systemImage: "qrcode") {
-            isPresentedQR.toggle()
+        .toolbar {
+          ToolbarItem(placement: .topBarLeading) {
+            Image("logo")
+              .resizable()
+              .frame(width: 32, height: 32)
           }
-          .sheet(isPresented: $isPresentedQR) {
-            QRCodePreview()
-              .presentationDetents([.medium])
-              .presentationDragIndicator(.visible)
-              .presentationBackgroundInteraction(.enabled(upThrough: .large))
+          
+          ToolbarItem(placement: .topBarTrailing) {
+            Button {
+              isPresentedQR = true
+            } label: {
+              Image(systemName: "qrcode.viewfinder")
+                .font(.title3)
+                .foregroundStyle(.accent)
+            }
+            .sheet(isPresented: $isPresentedQR) {
+              QRCodePreview()
+                .presentationDetents([.fraction(0.45)])
+                .presentationDragIndicator(.visible)
+                .presentationBackgroundInteraction(.disabled)
+            }
           }
         }
+        .navigationTitle("Home")
+        .navigationBarTitleDisplayMode(.inline)
       }
-      .navigationTitle("Home")
-      .navigationBarTitleDisplayMode(.inline)
     }
   }
 }
 
 #Preview {
   HomeScreen()
-    .environmentObject(AuthViewModel())
+    .environmentObject(AuthenticationViewModel())
+    .environmentObject(FirestoreViewModel())
 }
