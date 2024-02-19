@@ -8,24 +8,29 @@
 import Foundation
 import Firebase
 import FirebaseFirestoreSwift
+import SwiftUI
 
 protocol AuthenticationForm {
   var isValidForm: Bool { get }
 }
 
 @MainActor
-class FirebaseAuthViewModel: ObservableObject {
+class AuthenticationViewModel: ObservableObject {
   
   // MARK: - Properties
   @Published var userSession: FirebaseAuth.User?
   @Published var currentUser: User?
   
+  @Published var alertItem: AlertItem = ProfileFormAlertContext.couldNotSaveData
+  @Published var errorMessage: String = ""
+  @Published var isPresentedErrorAlert: Bool = false
+  
   init() {
     self.userSession = Auth.auth().currentUser
-    Task { await fetchUser() }
+    Task {
+      await fetchUser()
+    }
   }
-  
-  // Authentication methods
   
   // MARK: - Sign In
   func signIn(withEmail email: String, password: String) async throws {
@@ -34,12 +39,13 @@ class FirebaseAuthViewModel: ObservableObject {
       self.userSession = result.user
       await fetchUser()
     } catch {
-      print("Failed to sign user in with error: \(error.localizedDescription)")
+      errorMessage = error.localizedDescription
+      isPresentedErrorAlert = true
     }
   }
   
   // MARK: - Create User
-  func createUser(withEmail email: String, password: String, fullName: String, city: String) async throws {
+  func createUser(withCity city: String, fullName: String, email: String, password: String) async throws {
     do {
       let result = try await Auth.auth().createUser(withEmail: email, password: password)
       self.userSession = result.user
@@ -48,7 +54,9 @@ class FirebaseAuthViewModel: ObservableObject {
       try await Firestore.firestore().collection("users").document(user.id).setData(encodedUser)
       await fetchUser()
     } catch {
-      print("Failed to create user with error: \(error.localizedDescription)")
+//      errorMessage = ProfileFormAlertContext.couldNotSaveData
+      alertItem = ProfileFormAlertContext.invalidForm
+      isPresentedErrorAlert = true
     }
   }
   
