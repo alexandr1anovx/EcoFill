@@ -11,27 +11,25 @@ struct ServiceCell: View {
   // MARK: - Properties
   var service: Service
   
-  // MARK: - body
   var body: some View {
     NavigationLink {
       switch service.title {
-      case Service.ServiceType.products.rawValue: ProductsList()
       case Service.ServiceType.support.rawValue: SupportScreen()
-      case Service.ServiceType.food.rawValue: QRCodePreview()
+      case Service.ServiceType.food.rawValue: EmptyView()
       default: EmptyView()
       }
     } label: {
-      HStack(spacing:15) {
-        Image(systemName: service.image)
+      HStack(spacing: 15) {
+        Image(systemName: service.imageName)
           .font(.title)
-          .foregroundStyle(.defaultOrange)
+          .foregroundStyle(.accent)
         
-        VStack(alignment: .leading, spacing:8) {
+        VStack(alignment: .leading, spacing: 8) {
           Text(service.title)
             .font(.callout)
             .fontWeight(.semibold)
             .fontDesign(.rounded)
-            .foregroundStyle(.accent)
+            .foregroundStyle(.defaultReversed)
           
           Text(service.description)
             .font(.caption)
@@ -46,5 +44,5 @@ struct ServiceCell: View {
 #Preview {
   ServiceCell(service: Service(title: "Products",
                                description: "Watch prices.",
-                               image: "24.square.fill"))
+                               imageName: "24.square.fill"))
 }

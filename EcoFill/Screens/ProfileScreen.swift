@@ -8,48 +8,29 @@
 import SwiftUI
 
 struct ProfileScreen: View {
-  
   // MARK: - Properties
-  @AppStorage("userTheme") private var userTheme: Theme = .systemDefault
-  @Environment(\.colorScheme) private var scheme
-  @EnvironmentObject var authViewModel: AuthViewModel
-  
-  @State private var isPresentedLogOutConfirmation: Bool = false
-  @State private var changeTheme: Bool = false
+  @EnvironmentObject var authenticationVM: AuthenticationViewModel
+  @State private var isPresentedLogOutConfirmation = false
   
   // MARK: - body
   var body: some View {
     NavigationStack {
       UserDataPreview()
-        .padding(30)
+        .padding(.vertical, 30)
+        .padding(.horizontal, 23)
       
       List {
-        HStack {
-          Label("Appearance", 
-                systemImage: "moonphase.waning.crescent")
-            .font(.callout)
-            .fontWeight(.medium)
-            .fontDesign(.rounded)
-            .foregroundStyle(.defaultReversed)
-          
-          Picker("", selection: $userTheme) {
-            Text("System").tag(Theme.systemDefault)
-            Text("Light").tag(Theme.lightMode)
-            Text("Dark").tag(Theme.darkMode)
-          }
-          .onChange(of: userTheme) { _, newValue in
-            userTheme = newValue
-          }
-        }
+        AppearanceChanger()
         
-        // 'Log Out' button
-        Button("Log Out",systemImage: "rectangle.portrait.and.arrow.right") {
+        Button("Log Out", systemImage: "person.crop.circle.badge.xmark") {
           isPresentedLogOutConfirmation = true
         }
+        .fontWeight(.medium)
         .foregroundStyle(.red)
-        .confirmationDialog("",isPresented: $isPresentedLogOutConfirmation) {
-          Button("Log Out",role: .destructive) {
-            authViewModel.signOut()
+        
+        .confirmationDialog("", isPresented: $isPresentedLogOutConfirmation) {
+          Button("Log Out", role: .destructive) {
+            authenticationVM.signOut()
           }
         } message: {
           Text("Are you sure to log out?")
@@ -59,9 +40,9 @@ struct ProfileScreen: View {
       
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
-          Image("truck")
+          Image("logo")
             .resizable()
-            .frame(width: 32, height: 30)
+            .frame(width: 32, height: 32)
         }
         
         ToolbarItem(placement: .topBarTrailing) {
@@ -70,7 +51,7 @@ struct ProfileScreen: View {
           } label: {
             Image(systemName: "pencil.and.list.clipboard")
               .imageScale(.large)
-              .tint(.defaultOrange)
+              .tint(.accent)
           }
         }
       }
@@ -82,5 +63,5 @@ struct ProfileScreen: View {
 
 #Preview {
   ProfileScreen()
-    .environmentObject(AuthViewModel())
+    .environmentObject(AuthenticationViewModel())
 }

@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct MainTabScreen: View {
-  @EnvironmentObject var frbAuthViewModel: FirebaseAuthViewModel
+  // MARK: - Properties
+  @EnvironmentObject var authenticationVM: AuthenticationViewModel
+  
   var body: some View {
     Group {
-      if frbAuthViewModel.userSession != nil {
+      if authenticationVM.userSession != nil {
         MainTabView()
       } else {
         SignInScreen()
@@ -22,25 +24,20 @@ struct MainTabScreen: View {
 
 #Preview {
   MainTabScreen()
-    .environmentObject(FirebaseAuthViewModel())
+    .environmentObject(AuthenticationViewModel())
 }
 
 struct MainTabView: View {
   var body: some View {
     TabView {
-      /// Home Screen
       HomeScreen()
         .tabItem {
           Label("Home",systemImage: "house")
         }
-      
-      /// Map Screen
       MapScreen()
         .tabItem {
           Label("Maps",systemImage: "map")
         }
-      
-      /// Profile Screen
       ProfileScreen()
         .tabItem {
           Label("Profile",systemImage: "person.fill")
