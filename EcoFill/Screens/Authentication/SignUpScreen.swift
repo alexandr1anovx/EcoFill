@@ -7,123 +7,157 @@
 
 import SwiftUI
 
-enum FormTextField {
-  case fullName, email, city, password, confirmPassword
+enum TextFieldInputData {
+  case fullName, email, password, confirmPassword
+}
+
+enum Cities: String, Identifiable, CaseIterable {
+  case kyiv = "Kyiv"
+  case mykolaiv = "Mykolaiv"
+  case odesa = "Odesa"
+  
+  var id: Self { self }
 }
 
 struct SignUpScreen: View {
   
   // MARK: - Properties
-  @State private var email: String = ""
+  @State private var city: Cities = .mykolaiv
   @State private var fullName: String = ""
-  @State private var city: String = ""
+  @State private var email: String = ""
   @State private var password: String = ""
   @State private var confirmPassword: String = ""
   
-  @Environment(\.dismiss) var dismiss
-  @EnvironmentObject var authViewModel: AuthViewModel
+  @EnvironmentObject var authenticationVM: AuthenticationViewModel
+  @EnvironmentObject var firestoreVM: FirestoreViewModel
   
-  @FocusState private var focusedTextField: FormTextField?
+  @FocusState private var textFieldInputData: TextFieldInputData?
   
-  // MARK: - body
   var body: some View {
-    VStack {
-      Image(systemName: "person.crop.circle.fill.badge.plus")
-        .resizable()
-        .scaledToFit()
-        .foregroundStyle(.accent)
-        .frame(width: 80, height: 80)
-        .padding(.vertical,30)
+    VStack(spacing:15) {
+      HStack {
+        Text("City:")
+          .font(.callout)
+          .fontWeight(.semibold)
+          .fontDesign(.rounded)
+        Picker("", selection: $city) {
+          ForEach(Cities.allCases) { city in
+            Text(city.rawValue)
+          }
+        }
+        .pickerStyle(.menu)
+        .tint(.defaultReversed)
+        
+        Spacer()
+      }
+      .padding(.top,10)
       
-      VStack(spacing:15) {
-        // Full name
-        CustomTextField(text: $fullName,
-                  title: "Full Name",
-                  placeholder: "Tim Cook")
-        .focused($focusedTextField, equals: .fullName)
-        .onSubmit { focusedTextField = .email }
-        .submitLabel(.next)
+      Divider()
+      
+      // MARK: - Full name
+      CustomTextField(text: $fullName,
+                      title: "Full Name",
+                      placeholder: "Tim Cook")
+      .focused($textFieldInputData, equals: .fullName)
+      .submitLabel(.next)
+      .onSubmit {
+        textFieldInputData = .email
+      }
+      
+      // MARK: - Email
+      CustomTextField(text: $email,
+                      title: "Email",
+                      placeholder: "name@example.com")
+      .textInputAutocapitalization(.never)
+      .keyboardType(.emailAddress)
+      .focused($textFieldInputData, equals: .email)
+      .submitLabel(.next)
+      .onSubmit {
+        textFieldInputData = .password
+      }
+      
+      // MARK: - Password
+      CustomTextField(text: $password,
+                      title: "Password",
+                      placeholder: "At least 6 characters.",
+                      isSecureField: true)
+      .focused($textFieldInputData, equals: .password)
+      .submitLabel(.next)
+      .onSubmit {
+        textFieldInputData = .confirmPassword
+      }
+      
+      // MARK: - Confirm Password
+      ZStack(alignment: .trailing) {
+        CustomTextField(text: $confirmPassword,
+                        title: "Confirm password",
+                        placeholder: "Must match the password.",
+                        isSecureField: true)
+        .focused($textFieldInputData,
+                 equals: .confirmPassword)
+        .submitLabel(.done)
+        .onSubmit {
+          textFieldInputData = nil
+        }
         
-        // Email Address
-        CustomTextField(text: $email,
-                  title: "Email",
-                  placeholder: "name@example.com")
-        .textInputAutocapitalization(.never)
-        .keyboardType(.emailAddress)
-        .focused($focusedTextField, equals: .email)
-        .onSubmit { focusedTextField = .city }
-        .submitLabel(.next)
-        
-        // City
-        CustomTextField(text: $city,
-                  title: "City",
-                  placeholder: "Kyiv")
-        .focused($focusedTextField, equals: .city)
-        .onSubmit { focusedTextField = .password }
-        .submitLabel(.next)
-        
-        // Password
-        CustomTextField(text: $password,
-                  title: "Password",
-                  placeholder: "At least 6 characters.",
-                  isSecureField: true)
-        .focused($focusedTextField, equals: .password)
-        .onSubmit { focusedTextField = .confirmPassword }
-        .submitLabel(.next)
-        
-        // Confirm Password
-        ZStack(alignment: .trailing) {
-          CustomTextField(text: $confirmPassword,
-                    title: "Confirm password",
-                    placeholder: "Must match the password.",
-                    isSecureField: true)
-          .focused($focusedTextField, equals: .confirmPassword)
-          .onSubmit { focusedTextField = nil }
-          .submitLabel(.done)
+        if !password.isEmpty && !confirmPassword.isEmpty {
+          let match = password == confirmPassword
+          let displayedImage = match ? "checkmark.circle.fill" : "xmark.circle.fill"
+          let color: Color = match ? .accentColor : .red
           
-          if !password.isEmpty && !confirmPassword.isEmpty {
-            let imageName = (password == confirmPassword) ? "checkmark.circle.fill" : "xmark.circle.fill"
-            let color = (password == confirmPassword) ? Color.accentColor : Color.red
-            
-            Image(systemName: imageName)
-              .imageScale(.large)
-              .fontWeight(.semibold)
-              .foregroundStyle(color)
-          }
+          Image(systemName: displayedImage)
+            .imageScale(.large)
+            .foregroundStyle(color)
         }
       }
-      .padding(.horizontal,20)
-      
-      HStack(spacing:20) {
-        CustomButton(title: "Sign Up", bgColor: .accent) {
-          Task {
-            try await authViewModel.createUser(withEmail:email, password:password, fullName:fullName, city:city)
-          }
-        }
-        CustomButton(title: "Back", bgColor: .defaultBlack) {
-          dismiss()
-        }
-      }
-      .padding(.top,30)
-      
-      Spacer()
     }
+    .padding(20)
+    
+    // MARK: - Sign Up
+    VStack(spacing:20) {
+      CustomButton(title: "Sign Up", imageName: "person.fill.badge.plus", bgColor: .defaultOrange) {
+        Task {
+          try await authenticationVM.createUser(withCity: city.rawValue, fullName: fullName, email: email, password: password)
+        }
+      }
+      .disabled(!isValidForm)
+      .opacity(isValidForm ? 1.0 : 0.5)
+      
+      HStack {
+        Text("Already have an account?")
+          .font(.callout)
+        NavigationLink("Sign In") {
+          SignUpScreen()
+        }
+        .font(.headline)
+        .foregroundStyle(.accent)
+      }
+    }
+    .navigationTitle("Sign Up")
+    .navigationBarTitleDisplayMode(.inline)
+    
+    // MARK: - Alerts
+    .alert(item: $authenticationVM.alertItem) { alertItem in
+      Alert(title: alertItem.title,
+            message: alertItem.message,
+            dismissButton: alertItem.dismissButton)
+    }
+    Spacer()
   }
 }
 
-// MARK: - Extension
+// MARK: - Extensions
 extension SignUpScreen: AuthenticationForm {
   var isValidForm: Bool {
     return !fullName.isEmpty
-    && !email.isEmpty
-    && email.isValidEmail
-    && !city.isEmpty
-    && !password.isEmpty
-    && password.count > 5
+    && !email.isEmpty && email.isValidEmail
+    && !password.isEmpty && password.count > 5
     && confirmPassword == password
   }
 }
 
 #Preview {
   SignUpScreen()
+    .environmentObject(AuthenticationViewModel())
+    .environmentObject(FirestoreViewModel())
 }
