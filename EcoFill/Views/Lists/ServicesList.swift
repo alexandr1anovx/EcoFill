@@ -9,13 +9,11 @@ import SwiftUI
 
 struct ServicesList: View {
   var body: some View {
-    NavigationStack {
-      List(services) { service in
-        ServiceCell(service: service)
-      }
-      .listStyle(.insetGrouped)
-      .listRowSpacing(10)
+    List(services) { service in
+      ServiceCell(service: service)
     }
+    .listStyle(.plain)
+    .listRowSpacing(10)
   }
 }
 

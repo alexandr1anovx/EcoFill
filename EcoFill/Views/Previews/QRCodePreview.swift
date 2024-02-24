@@ -12,25 +12,24 @@ import CoreImage.CIFilterBuiltins
 struct QRCodePreview: View {
   
   // MARK: - Properties
-  @EnvironmentObject var frbAuthViewModel: FirebaseAuthViewModel
+  @EnvironmentObject var authenticationVM: AuthenticationViewModel
   let context = CIContext()
   let filter = CIFilter.qrCodeGenerator()
   
-  // MARK: - body
   var body: some View {
     NavigationStack {
-      if let currentUser = frbAuthViewModel.currentUser {
-        VStack(alignment: .leading,spacing:15) {
+      if let currentUser = authenticationVM.currentUser {
+        VStack(alignment: .leading, spacing:10) {
           HStack {
             Text("Full name:")
-              .foregroundStyle(.gray)
               .font(.footnote)
               .fontWeight(.semibold)
+              .foregroundStyle(.gray)
             
             Text(currentUser.fullName)
-              .foregroundStyle(.defaultReversed)
               .font(.callout)
-              .fontWeight(.semibold)
+              .fontWeight(.medium)
+              .foregroundStyle(.defaultReversed)
           }
           
           Divider()
@@ -46,23 +45,21 @@ struct QRCodePreview: View {
               .fontWeight(.medium)
           }
         }
-        .padding()
-        .navigationTitle("QR Code")
-        .navigationBarTitleDisplayMode(.inline)
+        .padding(.horizontal)
+        .padding(.top,40)
         
         Image(uiImage: generateQRCode(from: "\(currentUser.fullName)\n\(currentUser.email)"))
           .resizable()
           .interpolation(.none)
           .scaledToFit()
-          .frame(width: 170, height: 170)
-          .padding(.top,15)
+          .frame(width:170, height:170)
+          .padding(.top,20)
         
         Spacer()
       }
     }
   }
   
-  // MARK: Functions
   func generateQRCode(from string: String) -> UIImage {
     filter.message = Data(string.utf8)
     if let outputImage = filter.outputImage {
@@ -76,5 +73,5 @@ struct QRCodePreview: View {
 
 #Preview {
   QRCodePreview()
-    .environmentObject(FirebaseAuthViewModel())
+    .environmentObject(AuthenticationViewModel())
 }

@@ -12,114 +12,87 @@ import CoreLocation
 struct MapScreen: View {
   
   // MARK: - Properties
+  @EnvironmentObject var firestoreVM: FirestoreViewModel
+  @EnvironmentObject var authenticationVM: AuthenticationViewModel
+  
   @State private var locationManager = LocationManager.shared
-  @ObservedObject var dataViewModel: FirestoreDataViewModel = FirestoreDataViewModel()
-  
   @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
-  @State private var selectedMapItem: MKMapItem?
-  @State private var locationResults: [MKMapItem] = []
-  @State private var isPresentedMapItemPreview: Bool = false
-  @State private var isPresentedLocationsListMode: Bool = false
   
-  // MARK: - body
+  @State private var isPresentedLocationsList = false
+  @State private var isPresentedMapStylePreview = false
+  
+  @State private var selectedStation: Station?
+  @State private var selectedMapStyle: MapStyle = .standard
+  
   var body: some View {
     NavigationStack {
-      Map(position: $cameraPosition,selection: $selectedMapItem) {
+      Map(position: $cameraPosition) {
         
         UserAnnotation()
         
-        ForEach(locationResults, id: \.self) { mapItem in
-          let placemark = mapItem.placemark
-          let placemarkName = mapItem.name ?? ""
-          let placemarkCoordinate = placemark.coordinate
+        // MARK: - Map annotations
+        ForEach(firestoreVM.stations) { station in
+          let name = station.name
+          let coordinate = station.coordinate
           
-          Marker(placemarkName, 
-                 systemImage: "fuelpump",
-                 coordinate: placemarkCoordinate)
-          
-            .tint(.accent)
+          Annotation(name, coordinate: coordinate) {
+            ZStack {
+              Circle()
+                .foregroundStyle(Color.grRedOrange)
+                .frame(width:33, height:33)
+              Image(systemName: "fuelpump")
+                .imageScale(.medium)
+                .foregroundStyle(.white)
+            }
+            .onTapGesture {
+              selectedStation = station
+            }
+          }
         }
       }
-      // Map settings
-      .mapStyle(.standard)
-      .mapControls { MapUserLocationButton() }
-      
-      // Button to show the list of locations.
-      .overlay(alignment: .topTrailing) {
-        RoundedRectangle(cornerRadius: 8)
-          .fill(.defaultSystem)
-          .frame(width: 44, height: 44, alignment: .center)
-          .overlay {
-            Image(systemName: "list.bullet")
-              .foregroundStyle(.accent)
-              .imageScale(.large)
-            // when the user selects an image, change the state of the list presenation mode.
-              .onTapGesture { isPresentedLocationsListMode = true }
-          }
-          .padding(.trailing,4)
-          .padding(.top,60)
-      }
-      
-      // Shows a list of locations.
-      .sheet(isPresented: $isPresentedLocationsListMode) {
-        LocationsList()
-          .presentationDetents([.medium, .large])
-          .presentationDragIndicator(.visible)
-          .presentationBackgroundInteraction(.enabled(upThrough: .medium))
-      }
-      
-      .onAppear { addTestLocations() }
-      
-      // Show the sheet with information about selected gas station.
-      .sheet(isPresented: $isPresentedMapItemPreview) {
-        MapItemPreview(mapItem: $selectedMapItem,
-                       isPresentedMapItemPreview: $isPresentedMapItemPreview)
-        .presentationDetents([.fraction(0.25)])
+    }
+    .mapStyle(selectedMapStyle)
+    .mapControls {
+      MapUserLocationButton()
+    }
+    
+    // MARK: - Additional map controls
+    .overlay(alignment: .topTrailing) {
+      CustomMapControls(isPresentedLocationsList: $isPresentedLocationsList, isPresentedMapStylePreview: $isPresentedMapStylePreview)
+        .padding(.trailing,4)
+        .padding(.top,60)
+    }
+    
+    // MARK: - Sheets
+    .sheet(isPresented: $isPresentedLocationsList) {
+      LocationsList()
+        .presentationDetents([.medium, .large])
         .presentationDragIndicator(.visible)
-        .presentationBackgroundInteraction(.enabled(upThrough: .medium))
-      }
-      
-      // Switches the value when the user selects a new location.
-      .onChange(of: selectedMapItem) { _, newValue in
-        isPresentedMapItemPreview = (newValue != nil)
-      }
-      .onChange(of: locationManager.region) {
-        withAnimation { cameraPosition = .region(locationManager.region) }
-      }
+        .presentationBackgroundInteraction(.disabled)
+        .presentationCornerRadius(20)
+    }
+    
+    .sheet(isPresented: $isPresentedMapStylePreview) {
+      MapStylePreview(selectedMapStyle: $selectedMapStyle)
+        .presentationDetents([.fraction(0.15)])
+        .presentationDragIndicator(.visible)
+        .presentationBackgroundInteraction(.disabled)
+        .presentationCornerRadius(20)
+    }
+    
+    .sheet(item: $selectedStation) { station in
+      // Show an information about selected station.
+      MapItemPreview(station: station)
+        .presentationDetents([.fraction(0.38)])
+        .presentationDragIndicator(.visible)
+        .presentationBackgroundInteraction(.disabled)
+        .presentationCornerRadius(20)
     }
   }
-  
-  func addTestLocations() {
-    let mapItem1 = MKMapItem(placemark: MKPlacemark(coordinate: .station1))
-    mapItem1.name = "Station 1"
-    let mapItem2 = MKMapItem(placemark: MKPlacemark(coordinate: .station2))
-    mapItem2.name = "Station 2"
-    
-    locationResults.append(contentsOf: [mapItem1, mapItem2])
-  }
 }
 
-#Preview { MapScreen() }
-
-// MARK: - Extensions
-
-extension CLLocationCoordinate2D {
-  static let userLocation = CLLocationCoordinate2D(
-    latitude: 46.96467671636197,
-    longitude: 32.014379026091746)
-  
-  static let station1 = CLLocationCoordinate2D(
-    latitude: 46.96286391341284,
-    longitude: 32.00746990460587)
-  
-  static let station2 = CLLocationCoordinate2D(
-    latitude: 46.96409733977896,
-    longitude: 31.99735980155697)
-}
-
-extension MKCoordinateRegion {
-  static let userRegion = MKCoordinateRegion(
-    center: .userLocation,
-    latitudinalMeters: 10000,
-    longitudinalMeters: 10000)
+#Preview {
+  MapScreen()
+    .environmentObject(FirestoreViewModel())
+    .environmentObject(AuthenticationViewModel())
 }

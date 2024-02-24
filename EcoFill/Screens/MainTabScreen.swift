@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainTabScreen: View {
+  
   // MARK: - Properties
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
   
@@ -22,11 +23,6 @@ struct MainTabScreen: View {
   }
 }
 
-#Preview {
-  MainTabScreen()
-    .environmentObject(AuthenticationViewModel())
-}
-
 struct MainTabView: View {
   var body: some View {
     TabView {
@@ -36,7 +32,7 @@ struct MainTabView: View {
         }
       MapScreen()
         .tabItem {
-          Label("Maps",systemImage: "map")
+          Label("Map",systemImage: "map")
         }
       ProfileScreen()
         .tabItem {
