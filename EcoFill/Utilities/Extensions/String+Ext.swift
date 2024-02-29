@@ -44,7 +44,7 @@ extension String {
       /^/
       Optionally(.anyOf("+"))
       Optionally(.anyOf("("))
-      Repeat(count: 3) {
+      Repeat(count:3) {
         ("0"..."9")
       }
       Optionally(.anyOf(")"))
@@ -54,7 +54,7 @@ extension String {
           .whitespace
         )
       }
-      Repeat(count: 3) {
+      Repeat(count:3) {
         ("0"..."9")
       }
       Optionally {

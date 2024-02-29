@@ -83,7 +83,7 @@ struct MapScreen: View {
     .sheet(item: $selectedStation) { station in
       // Show an information about selected station.
       MapItemPreview(station: station)
-        .presentationDetents([.fraction(0.38)])
+        .presentationDetents([.fraction(0.4)])
         .presentationDragIndicator(.visible)
         .presentationBackgroundInteraction(.disabled)
         .presentationCornerRadius(20)

@@ -21,16 +21,17 @@ struct HomeScreen: View {
           UserDataPreview()
             .padding(.top,30)
             .padding(.horizontal,23)
+          
           FuelsList(selectedCity: city)
             .padding(.vertical,20)
-            .padding(.horizontal,14)
+            .padding(.horizontal,10)
           ServicesList()
         }
         .toolbar {
           ToolbarItem(placement: .topBarLeading) {
             Image("logo")
               .resizable()
-              .frame(width: 32, height: 32)
+              .frame(width:32, height:32)
           }
           
           ToolbarItem(placement: .topBarTrailing) {
@@ -46,6 +47,7 @@ struct HomeScreen: View {
                 .presentationDetents([.fraction(0.45)])
                 .presentationDragIndicator(.visible)
                 .presentationBackgroundInteraction(.disabled)
+                .presentationCornerRadius(20)
             }
           }
         }

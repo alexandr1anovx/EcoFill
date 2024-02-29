@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ProfileScreen: View {
+  
   // MARK: - Properties
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
   @State private var isPresentedLogOutConfirmation = false
@@ -16,8 +17,8 @@ struct ProfileScreen: View {
   var body: some View {
     NavigationStack {
       UserDataPreview()
-        .padding(.vertical, 30)
-        .padding(.horizontal, 23)
+        .padding(.vertical,30)
+        .padding(.horizontal,23)
       
       List {
         AppearanceChanger()
@@ -25,7 +26,7 @@ struct ProfileScreen: View {
         Button("Log Out", systemImage: "person.crop.circle.badge.xmark") {
           isPresentedLogOutConfirmation = true
         }
-        .fontWeight(.medium)
+        .font(.custom("LexendDeca-Regular", size: 16))
         .foregroundStyle(.red)
         
         .confirmationDialog("", isPresented: $isPresentedLogOutConfirmation) {
@@ -42,7 +43,7 @@ struct ProfileScreen: View {
         ToolbarItem(placement: .topBarLeading) {
           Image("logo")
             .resizable()
-            .frame(width: 32, height: 32)
+            .frame(width:32, height:32)
         }
         
         ToolbarItem(placement: .topBarTrailing) {

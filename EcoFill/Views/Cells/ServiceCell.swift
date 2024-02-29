@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ServiceCell: View {
+  
   // MARK: - Properties
   var service: Service
   
@@ -15,7 +16,6 @@ struct ServiceCell: View {
     NavigationLink {
       switch service.title {
       case Service.ServiceType.support.rawValue: SupportScreen()
-      case Service.ServiceType.food.rawValue: EmptyView()
       default: EmptyView()
       }
     } label: {
@@ -26,14 +26,12 @@ struct ServiceCell: View {
         
         VStack(alignment: .leading, spacing: 8) {
           Text(service.title)
-            .font(.callout)
-            .fontWeight(.semibold)
-            .fontDesign(.rounded)
+            .font(.lexendCallout)
             .foregroundStyle(.defaultReversed)
           
           Text(service.description)
-            .font(.caption)
-            .foregroundStyle(.secondary)
+            .font(.lexendCaption1)
+            .foregroundStyle(.gray)
             .multilineTextAlignment(.leading)
         }
       }
@@ -42,7 +40,5 @@ struct ServiceCell: View {
 }
 
 #Preview {
-  ServiceCell(service: Service(title: "Products",
-                               description: "Watch prices.",
-                               imageName: "24.square.fill"))
+  ServiceCell(service: Service(title: "Hi", description: "Hi", imageName: "house"))
 }

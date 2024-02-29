@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct FuelsList: View {
+  
   // MARK: - Properties
   @EnvironmentObject var firestoreVM: FirestoreViewModel
   var selectedCity: String

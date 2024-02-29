@@ -9,75 +9,61 @@ import SwiftUI
 import MapKit
 
 struct MapItemPreview: View {
+  
   // MARK: - Properties
   var station: Station
   
   var body: some View {
-    HStack {
-      VStack(alignment: .leading,spacing: 15) {
+    VStack(alignment: .leading, spacing: 13) {
+      
+      // MARK: - Coordinates
+      VStack(alignment: .leading, spacing: 13) {
+        Text(station.name)
+          .font(.lexendTitle3)
         
-        // MARK: - Coordinates
-        VStack(alignment: .leading,spacing:10) {
-          Text(station.name)
-            .font(.system(size: 18,
-                          weight: .medium,
-                          design: .rounded))
-          Text(station.address)
-            .font(.footnote)
-            .fontWeight(.medium)
-            .fontDesign(.rounded)
-            .foregroundStyle(.gray)
-        }
+        Text(station.address)
+          .font(.lexendFootnote)
+          .foregroundStyle(.gray)
+        
         // MARK: - Work schedule
-        VStack(alignment: .leading,spacing:5) {
-          HStack {
-            Text("Work schedule:")
-              .font(.footnote)
-              .foregroundStyle(.gray)
-            Text(station.schedule)
-              .font(.callout)
-              .foregroundStyle(.defaultOrange)
-          }
-          .fontWeight(.medium)
-          .fontDesign(.rounded)
-        }
-        
-        // MARK: - Fuels
-        ScrollableFuelsStack(station: station)
-          .padding(.top,5)
-        
-        // MARK: - Payment methods
-        HStack(spacing:10) {
-          Text("Payment methods:")
-            .font(.footnote)
-            .fontWeight(.medium)
-            .fontDesign(.rounded)
+        HStack {
+          Text("Work schedule:")
+            .font(.lexendFootnote)
             .foregroundStyle(.gray)
-          Image("visa")
-            .resizable()
-            .frame(width:40,height:40)
-          Image("applePay")
-            .resizable()
-            .frame(width:40,height:40)
-          Image("cash")
-            .resizable()
-            .frame(width:40,height:40)
-        }
-        
-        
-        Button("Get directions", systemImage: "figure.walk") {
           
+          Text(station.schedule)
+            .font(.lexendCallout)
+            .foregroundStyle(.brown)
         }
-        .font(.headline)
-        .fontWeight(.medium)
-        .fontDesign(.rounded)
-        .buttonStyle(.borderedProminent)
-        .shadow(radius:6)
-        .padding(.top,5)
       }
-      Spacer()
+      
+      // MARK: - Fuels
+      ScrollableFuelsStack(station: station)
+      
+      // MARK: - Payment methods
+      HStack(spacing: 8) {
+        Text("Pay with:")
+          .font(.lexendFootnote)
+          .foregroundStyle(.gray)
+        Image("mastercard")
+          .resizable()
+          .frame(width: 40, height: 40)
+        Image("applePay")
+          .resizable()
+          .frame(width: 40, height: 40)
+        Image("cash")
+          .resizable()
+          .frame(width: 40, height: 40)
+      }
+      
+      Button("Get directions", systemImage: "figure.walk") {
+        // action
+      }
+      .font(.lexendBody)
+      .buttonStyle(.borderedProminent)
+      .shadow(radius: 6)
     }
-    .padding(.horizontal,13)
+    .padding(.horizontal, 15)
   }
 }
 

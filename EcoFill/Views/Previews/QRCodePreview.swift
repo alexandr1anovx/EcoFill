@@ -19,16 +19,14 @@ struct QRCodePreview: View {
   var body: some View {
     NavigationStack {
       if let currentUser = authenticationVM.currentUser {
-        VStack(alignment: .leading, spacing:10) {
+        VStack(alignment: .leading, spacing: 10) {
           HStack {
             Text("Full name:")
-              .font(.footnote)
-              .fontWeight(.semibold)
+              .font(.lexendFootnote)
               .foregroundStyle(.gray)
             
             Text(currentUser.fullName)
-              .font(.callout)
-              .fontWeight(.medium)
+              .font(.lexendCallout)
               .foregroundStyle(.defaultReversed)
           }
           
@@ -36,13 +34,11 @@ struct QRCodePreview: View {
           
           HStack {
             Text("Email address:")
+              .font(.lexendFootnote)
               .foregroundStyle(.gray)
-              .font(.footnote)
-              .fontWeight(.medium)
             Text(currentUser.email)
+              .font(.lexendCallout)
               .foregroundStyle(.defaultReversed)
-              .font(.callout)
-              .fontWeight(.medium)
           }
         }
         .padding(.horizontal)
@@ -52,8 +48,8 @@ struct QRCodePreview: View {
           .resizable()
           .interpolation(.none)
           .scaledToFit()
-          .frame(width:170, height:170)
-          .padding(.top,20)
+          .frame(width: 170, height: 170)
+          .padding(.top, 20)
         
         Spacer()
       }
