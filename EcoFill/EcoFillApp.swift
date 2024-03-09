@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseCore
+import MapKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
@@ -19,15 +20,22 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct EcoFillApp: App {
   
   // MARK: - Properties
-  @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate // Register app delegate for Firebase setup
-  @AppStorage("userTheme") private var selectedTheme: Theme = .systemDefault
-  @StateObject private var frbAuthViewModel = FirebaseAuthViewModel()
   
+  // Register app delegate for Firebase setup
+  @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+  @StateObject private var authenticationVM = AuthenticationViewModel()
+  @StateObject private var firestoreVM = FirestoreViewModel()
+  @AppStorage("selectedTheme") private var selectedTheme: Theme = .systemDefault
+
   var body: some Scene {
     WindowGroup {
       MainTabScreen()
-        .environmentObject(frbAuthViewModel)
+        .environmentObject(authenticationVM)
+        .environmentObject(firestoreVM)
         .preferredColorScheme(selectedTheme.colorScheme)
+        .onAppear {
+          firestoreVM.fetchStations()
+        }
     }
   }
 }
