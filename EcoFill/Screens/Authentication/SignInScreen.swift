@@ -8,68 +8,79 @@
 import SwiftUI
 
 struct SignInScreen: View {
+  
   // MARK: - Properties
-  @EnvironmentObject var authViewModel: AuthViewModel
+  @EnvironmentObject var authenticationVM: AuthenticationViewModel
+  @FocusState private var textFieldInputData: TextFieldInputData?
   @State private var email: String = ""
   @State private var password: String = ""
-  @State private var isShowingSignUpScreen: Bool = false
-  @FocusState private var registrationFormTF: RegistrationFormTextField?
+  @State private var isPresentedSignUpScreen = false
   
-  // MARK: - body
   var body: some View {
-    VStack(spacing:20) {
-      Image(systemName: "person.crop.rectangle.badge.plus.fill")
-        .resizable()
-        .scaledToFit()
-        .foregroundStyle(.accent)
-        .frame(width: 100, height: 100)
-      
-      // MARK: - User Input Data
-      
-      CustomTextField(text: $email,
-                      title: "Email",
-                      placeholder: "name@example.com")
-      .textInputAutocapitalization(.never)
-      .keyboardType(.emailAddress)
-      .focused($registrationFormTF, equals: .email)
-      .submitLabel(.next)
-      .onSubmit { registrationFormTF = .password }
-      
-      
-      CustomTextField(text: $password,
-                      title: "Password",
-                      placeholder: "At least 6 characters.",
-                      isSecureField: true)
-      .focused($registrationFormTF, equals: .password)
-      .submitLabel(.done)
-      .onSubmit { registrationFormTF = nil }
-    }
-    .padding(.horizontal,20)
-    .padding(.vertical,20)
-    
-    // MARK: - 'Sign In' and 'Sign Up' buttons
-    
-    HStack(spacing:15) {
-      CustomButton(title: "Sign In", bgColor: .defaultBlack) {
-        Task {
-          try await authViewModel.signIn(withEmail:email, password:password)
+    NavigationStack {
+      VStack(alignment: .leading, spacing: 30) {
+        // MARK: - Text Fields
+        VStack(spacing: 15) {
+          CustomTextField(inputData: $email,
+                          title: "Email",
+                          placeholder: "name@example.com")
+          .textInputAutocapitalization(.never)
+          .keyboardType(.emailAddress)
+          .focused($textFieldInputData, equals: .email)
+          .submitLabel(.next)
+          .onSubmit { textFieldInputData = .password }
+          
+          CustomTextField(inputData: $password,
+                          title: "Password",
+                          placeholder: "At least 6 characters.",
+                          isSecureField: true)
+          .focused($textFieldInputData, equals: .password)
+          .submitLabel(.done)
+          .onSubmit { textFieldInputData = nil }
         }
-      }
-      .disabled(!isValidForm)
-      .opacity(isValidForm ? 1.0 : 0.5)
+        
       
-      CustomButton(title: "Sign Up", bgColor: .accent) {
-        isShowingSignUpScreen = true
+        // MARK: - 'Sign In' or 'Sign Up'
+        VStack(alignment: .leading, spacing: 15) {
+          Button("Sign In", systemImage: "person.fill.checkmark") {
+            Task {
+              try await authenticationVM.signIn(withEmail:email, password:password)
+            }
+          }
+          .buttonStyle(ButtonModifier(pouring: .accent))
+          .disabled(!isValidForm)
+          .opacity(isValidForm ? 1.0 : 0.5)
+          
+          HStack {
+            Text("Dont have an account?")
+              .font(.lexendFootnote)
+              .foregroundStyle(.gray)
+            
+            Text("Sign Up")
+              .font(.lexendHeadline)
+              .foregroundStyle(.blue)
+              .onTapGesture {
+                isPresentedSignUpScreen = true
+              }
+          }
+        }
+        // MARK: - Spacer
+        Spacer()
       }
-      .sheet(isPresented: $isShowingSignUpScreen) {
+      .padding(15)
+      .navigationTitle("Sign In")
+      .navigationBarTitleDisplayMode(.inline)
+      
+      .alert(item: $authenticationVM.alertItem) { alertItem in
+        Alert(title: alertItem.title,
+              message: alertItem.message,
+              dismissButton: alertItem.dismissButton)
+      }
+      
+      .sheet(isPresented: $isPresentedSignUpScreen) {
         SignUpScreen()
-          .presentationDetents([.large])
-          .presentationDragIndicator(.visible)
       }
     }
-    .padding(.top,30)
-    
-    Spacer()
   }
 }
 
@@ -85,4 +96,5 @@ extension SignInScreen: AuthenticationForm {
 
 #Preview {
   SignInScreen()
+    .environmentObject(AuthenticationViewModel())
 }
