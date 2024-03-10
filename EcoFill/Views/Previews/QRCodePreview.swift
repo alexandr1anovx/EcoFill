@@ -18,40 +18,29 @@ struct QRCodePreview: View {
   
   var body: some View {
     NavigationStack {
-      if let currentUser = authenticationVM.currentUser {
-        VStack(alignment: .leading, spacing: 10) {
+      if let user = authenticationVM.currentUser {
+        VStack(alignment: .center, spacing: 20) {
           HStack {
-            Text("Full name:")
-              .font(.lexendFootnote)
-              .foregroundStyle(.gray)
+            VStack(alignment: .leading, spacing: 5) {
+              InformationField(imageName: "initials", title: "Full name:", content: user.fullName)
+              InformationField(imageName: "book", title: "Email:", content: user.email)
+            }
             
-            Text(currentUser.fullName)
-              .font(.lexendCallout)
-              .foregroundStyle(.defaultReversed)
+            Spacer()
           }
-          
-          Divider()
-          
-          HStack {
-            Text("Email address:")
-              .font(.lexendFootnote)
-              .foregroundStyle(.gray)
-            Text(currentUser.email)
-              .font(.lexendCallout)
-              .foregroundStyle(.defaultReversed)
+
+          Image(uiImage: generateQRCode(from: "\("Alexander")\n\("sasha8811andrianov@gmail.com")"))
+            .resizable()
+            .interpolation(.none)
+            .frame(width: 150, height: 150)
+        }
+        .padding(.bottom, 40)
+        .padding(.horizontal)
+        .toolbar {
+          ToolbarItem(placement: .topBarTrailing) {
+            DismissXButton()
           }
         }
-        .padding(.horizontal)
-        .padding(.top,40)
-        
-        Image(uiImage: generateQRCode(from: "\(currentUser.fullName)\n\(currentUser.email)"))
-          .resizable()
-          .interpolation(.none)
-          .scaledToFit()
-          .frame(width: 170, height: 170)
-          .padding(.top, 20)
-        
-        Spacer()
       }
     }
   }
