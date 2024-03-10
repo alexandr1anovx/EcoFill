@@ -13,13 +13,12 @@ struct MapScreen: View {
   
   // MARK: - Properties
   @EnvironmentObject var firestoreVM: FirestoreViewModel
-  @EnvironmentObject var authenticationVM: AuthenticationViewModel
   
   @State private var locationManager = LocationManager.shared
   @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
   
-  @State private var isPresentedLocationsList = false
   @State private var isPresentedMapStylePreview = false
+  @State private var isPresentedLocationsList = false
   
   @State private var selectedStation: Station?
   @State private var selectedMapStyle: MapStyle = .standard
@@ -38,11 +37,11 @@ struct MapScreen: View {
           Annotation(name, coordinate: coordinate) {
             ZStack {
               Circle()
-                .foregroundStyle(Color.grRedOrange)
-                .frame(width:33, height:33)
-              Image(systemName: "fuelpump")
-                .imageScale(.medium)
-                .foregroundStyle(.white)
+                .foregroundStyle(.accent.gradient)
+                .frame(width: 33, height: 33)
+              Image("fuelpump")
+                .resizable()
+                .frame(width: 25, height: 25)
             }
             .onTapGesture {
               selectedStation = station
@@ -53,14 +52,15 @@ struct MapScreen: View {
     }
     .mapStyle(selectedMapStyle)
     .mapControls {
+      MapPitchToggle()
       MapUserLocationButton()
     }
     
     // MARK: - Additional map controls
     .overlay(alignment: .topTrailing) {
-      CustomMapControls(isPresentedLocationsList: $isPresentedLocationsList, isPresentedMapStylePreview: $isPresentedMapStylePreview)
-        .padding(.trailing,4)
-        .padding(.top,60)
+      MapControls(isPresentedLocationsList: $isPresentedLocationsList, isPresentedMapStylePreview: $isPresentedMapStylePreview)
+        .padding(.trailing, 5)
+        .padding(.top, 60)
     }
     
     // MARK: - Sheets
@@ -74,7 +74,7 @@ struct MapScreen: View {
     
     .sheet(isPresented: $isPresentedMapStylePreview) {
       MapStylePreview(selectedMapStyle: $selectedMapStyle)
-        .presentationDetents([.fraction(0.15)])
+        .presentationDetents([.fraction(0.2)])
         .presentationDragIndicator(.visible)
         .presentationBackgroundInteraction(.disabled)
         .presentationCornerRadius(20)
@@ -83,16 +83,17 @@ struct MapScreen: View {
     .sheet(item: $selectedStation) { station in
       // Show an information about selected station.
       MapItemPreview(station: station)
-        .presentationDetents([.fraction(0.4)])
-        .presentationDragIndicator(.visible)
+        .presentationDetents([.fraction(0.42)])
         .presentationBackgroundInteraction(.disabled)
         .presentationCornerRadius(20)
     }
   }
 }
 
+
 #Preview {
   MapScreen()
     .environmentObject(FirestoreViewModel())
     .environmentObject(AuthenticationViewModel())
 }
+
