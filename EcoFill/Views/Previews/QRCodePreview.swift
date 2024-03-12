@@ -19,20 +19,24 @@ struct QRCodePreview: View {
   var body: some View {
     NavigationStack {
       if let user = authenticationVM.currentUser {
-        VStack(alignment: .center, spacing: 20) {
-          HStack {
-            VStack(alignment: .leading, spacing: 5) {
-              InformationField(imageName: "initials", title: "Full name:", content: user.fullName)
-              InformationField(imageName: "book", title: "Email:", content: user.email)
-            }
+        VStack(spacing: 20) {
+          VStack(alignment: .leading, spacing: 10) {
+            InformationRow(
+              image: .initials,
+              title: "Full name:",
+              content: user.fullName)
             
-            Spacer()
+            InformationRow(
+              image: .book,
+              title: "Email:",
+              content: user.email)
           }
-
-          Image(uiImage: generateQRCode(from: "\("Alexander")\n\("sasha8811andrianov@gmail.com")"))
+          
+          Image(uiImage: generateQRCode(from: "\(user.fullName)\n\(user.email)"))
             .resizable()
             .interpolation(.none)
             .frame(width: 150, height: 150)
+          
         }
         .padding(.bottom, 40)
         .padding(.horizontal)
@@ -49,6 +53,7 @@ struct QRCodePreview: View {
     filter.message = Data(string.utf8)
     if let outputImage = filter.outputImage {
       if let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
+        
         return UIImage(cgImage: cgImage)
       }
     }
