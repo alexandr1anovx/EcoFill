@@ -20,9 +20,11 @@ struct FuelsList: View {
   var body: some View {
     VStack {
       if firestoreVM.stations.isEmpty {
-        CustomUnavailableView()
+        ContentUnavailableView("Internet Connection Error",
+                               systemImage: "wifi.slash",
+                               description: Text("Please, refresh your internet."))
       } else {
-        ForEach(filteredStations.prefix(1), id: \.self) { station in
+        ForEach(filteredStations.prefix(1), id: \.id) { station in
           ScrollableFuelsStack(station: station)
         }
       }
