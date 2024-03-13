@@ -9,6 +9,7 @@ import Foundation
 import RegexBuilder
 
 extension String {
+  
   var isValidEmail: Bool {
       let emailRegex = Regex {
           OneOrMore {
@@ -37,37 +38,5 @@ extension String {
           }
       }
       return self.wholeMatch(of: emailRegex) != nil
-  }
-  
-  var isValidPhoneNumber: Bool {
-    let phoneRegex = Regex {
-      /^/
-      Optionally(.anyOf("+"))
-      Optionally(.anyOf("("))
-      Repeat(count:3) {
-        ("0"..."9")
-      }
-      Optionally(.anyOf(")"))
-      Optionally {
-        CharacterClass(
-          .anyOf("-."),
-          .whitespace
-        )
-      }
-      Repeat(count:3) {
-        ("0"..."9")
-      }
-      Optionally {
-        CharacterClass(
-          .anyOf("-."),
-          .whitespace
-        )
-      }
-      Repeat(4...6) {
-        ("0"..."9")
-      }
-      /$/
-    }
-    return self.wholeMatch(of: phoneRegex) != nil
   }
 }
