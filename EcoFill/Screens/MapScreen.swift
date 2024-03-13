@@ -17,11 +17,11 @@ struct MapScreen: View {
   @State private var locationManager = LocationManager.shared
   @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
   
-  @State private var isPresentedMapStylePreview = false
-  @State private var isPresentedLocationsList = false
+  @State private var isPresentedMapStyle = false
+  @State private var isPresentedList = false
   
   @State private var selectedStation: Station?
-  @State private var selectedMapStyle: MapStyle = .standard
+  @State private var mapStyle: MapStyle = .standard
   
   var body: some View {
     NavigationStack {
@@ -39,7 +39,7 @@ struct MapScreen: View {
               Circle()
                 .foregroundStyle(.accent.gradient)
                 .frame(width: 33, height: 33)
-              Image("fuelpump")
+              Image(.fuelpump)
                 .resizable()
                 .frame(width: 25, height: 25)
             }
@@ -50,21 +50,22 @@ struct MapScreen: View {
         }
       }
     }
-    .mapStyle(selectedMapStyle)
+    .mapStyle(mapStyle)
     .mapControls {
-      MapPitchToggle()
       MapUserLocationButton()
     }
     
     // MARK: - Additional map controls
     .overlay(alignment: .topTrailing) {
-      MapControls(isPresentedLocationsList: $isPresentedLocationsList, isPresentedMapStylePreview: $isPresentedMapStylePreview)
-        .padding(.trailing, 5)
-        .padding(.top, 60)
+      MapControls(
+        isPresentedList: $isPresentedList,
+        isPresentedMapStyle: $isPresentedMapStyle)
+      .padding(.trailing, 5)
+      .padding(.top, 60)
     }
     
     // MARK: - Sheets
-    .sheet(isPresented: $isPresentedLocationsList) {
+    .sheet(isPresented: $isPresentedList) {
       LocationsList()
         .presentationDetents([.medium, .large])
         .presentationDragIndicator(.visible)
@@ -72,8 +73,8 @@ struct MapScreen: View {
         .presentationCornerRadius(20)
     }
     
-    .sheet(isPresented: $isPresentedMapStylePreview) {
-      MapStylePreview(selectedMapStyle: $selectedMapStyle)
+    .sheet(isPresented: $isPresentedMapStyle) {
+      MapStylePreview(mapStyle: $mapStyle)
         .presentationDetents([.fraction(0.2)])
         .presentationDragIndicator(.visible)
         .presentationBackgroundInteraction(.disabled)
@@ -89,11 +90,3 @@ struct MapScreen: View {
     }
   }
 }
-
-
-#Preview {
-  MapScreen()
-    .environmentObject(FirestoreViewModel())
-    .environmentObject(AuthenticationViewModel())
-}
-
