@@ -25,9 +25,8 @@ struct UserDataPreview: View {
             .foregroundStyle(.gray)
           
           HStack(spacing: 8) {
-            Image("city")
-              .resizable()
-              .frame(width: 28, height: 28)
+            Image(.city)
+              .navBarSize()
             Text(user.city)
               .font(.lexendFootnote)
               .foregroundStyle(.gray)
@@ -37,9 +36,4 @@ struct UserDataPreview: View {
       Spacer()
     }
   }
-}
-
-#Preview {
-  UserDataPreview()
-    .environmentObject(AuthenticationViewModel())
 }

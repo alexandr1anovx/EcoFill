@@ -8,15 +8,14 @@ import SwiftUI
 
 struct StationCoordinatesCell: View {
   
-  // MARK: - Properties
   var station: Station
   
   var body: some View {
     HStack {
-      VStack(alignment: .leading, spacing: 10) {
+      VStack(alignment: .leading, spacing: 8) {
         Text(station.street)
           .font(.lexendCallout)
-          .foregroundStyle(.defaultReversed)
+          .foregroundStyle(.cmReversed)
         
         HStack {
           Text("Work schedule:")
@@ -32,9 +31,8 @@ struct StationCoordinatesCell: View {
       Button("Route") {
         
       }
-      .font(.lexendBody)
-      .buttonStyle(.borderedProminent)
-      .tint(.accent)
+      .buttonStyle(CustomButtonModifier(pouring: .accent))
+      .shadow(radius: 5)
     }
   }
 }

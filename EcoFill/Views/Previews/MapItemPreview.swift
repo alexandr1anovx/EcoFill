@@ -45,13 +45,10 @@ struct MapItemPreview: View {
           Text("Pay with:")
             .font(.lexendFootnote)
             .foregroundStyle(.gray)
-          Image("mastercard")
+          Image(.mastercard)
             .resizable()
             .frame(width: 40, height: 40)
-          Image("applePay")
-            .resizable()
-            .frame(width: 40, height: 40)
-          Image("cash")
+          Image(.applePay)
             .resizable()
             .frame(width: 40, height: 40)
         }
@@ -59,7 +56,8 @@ struct MapItemPreview: View {
         Button("Get directions", systemImage: "figure.walk") {
           // action
         }
-        .buttonStyle(ButtonModifier(pouring: .accent))
+        .buttonStyle(CustomButtonModifier(pouring: .accent))
+        .shadow(radius: 5)
       }
       .padding(.horizontal, 15)
       .padding(.bottom, 40)

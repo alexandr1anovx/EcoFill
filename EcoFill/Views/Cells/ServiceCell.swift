@@ -27,7 +27,7 @@ struct ServiceCell: View {
         VStack(alignment: .leading, spacing: 8) {
           Text(service.title)
             .font(.lexendCallout)
-            .foregroundStyle(.defaultReversed)
+            .foregroundStyle(.cmReversed)
           
           Text(service.description)
             .font(.lexendCaption1)
