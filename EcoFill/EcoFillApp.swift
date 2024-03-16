@@ -25,14 +25,14 @@ struct EcoFillApp: App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
   @StateObject private var authenticationVM = AuthenticationViewModel()
   @StateObject private var firestoreVM = FirestoreViewModel()
-  @AppStorage("selectedTheme") private var selectedTheme: Theme = .systemDefault
+  @AppStorage("selectedScheme") private var selectedScheme: Scheme = .system
 
   var body: some Scene {
     WindowGroup {
       MainTabScreen()
         .environmentObject(authenticationVM)
         .environmentObject(firestoreVM)
-        .preferredColorScheme(selectedTheme.colorScheme)
+        .preferredColorScheme(selectedScheme.colorScheme)
         .onAppear {
           firestoreVM.fetchStations()
         }
