@@ -47,7 +47,7 @@ struct SignInScreen: View {
               try await authenticationVM.signIn(withEmail:email, password:password)
             }
           }
-          .buttonStyle(ButtonModifier(pouring: .accent))
+          .buttonStyle(CustomButtonModifier(pouring: .accent))
           .disabled(!isValidForm)
           .opacity(isValidForm ? 1.0 : 0.5)
           

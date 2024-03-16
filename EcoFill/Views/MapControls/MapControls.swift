@@ -11,7 +11,7 @@ struct MapControls: View {
   
   @Binding var isPresentedList: Bool
   @Binding var isPresentedMapStyle: Bool
-
+  
   var body: some View {
     VStack(spacing: 10) {
       ControlItem(image: .map) {
@@ -42,5 +42,6 @@ struct ControlItem: View {
 }
 
 #Preview {
-  MapControls(isPresentedList: .constant(false), isPresentedMapStyle: .constant(false))
+  MapControls(isPresentedList: .constant(false),
+              isPresentedMapStyle: .constant(false))
 }

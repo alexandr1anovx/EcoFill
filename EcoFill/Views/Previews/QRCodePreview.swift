@@ -65,3 +65,4 @@ struct QRCodePreview: View {
   QRCodePreview()
     .environmentObject(AuthenticationViewModel())
 }
+
