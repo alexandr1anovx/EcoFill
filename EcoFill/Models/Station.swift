@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 
 struct Station: Decodable, Identifiable, Hashable {
-  var id = UUID()
+  var id: String
   var city: String
   var euroA95: Double
   var euroDP: Double
@@ -31,7 +31,7 @@ struct Station: Decodable, Identifiable, Hashable {
 }
 
 extension Station {
-  static var testStation = Station(id: .init(),
+  static var testStation = Station(id: "test",
                                    city: "Kyiv",
                                    euroA95: 53.99,
                                    euroDP: 54.99,
