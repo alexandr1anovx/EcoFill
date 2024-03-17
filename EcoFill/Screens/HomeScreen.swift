@@ -15,37 +15,39 @@ struct HomeScreen: View {
   
   // MARK: - body
   var body: some View {
+    
     NavigationStack {
       if let city = authenticationVM.currentUser?.city {
         VStack {
           UserDataPreview()
-            .padding(.top,30)
-            .padding(.horizontal,23)
+            .padding(.top, 30)
+            .padding(.leading, 20)
           
           FuelsList(selectedCity: city)
-            .padding(.vertical,20)
-            .padding(.horizontal,10)
+            .padding(.vertical, 15)
+            .padding(.leading, 20)
+            .padding(.trailing, 8)
+          
           ServicesList()
         }
         .toolbar {
           ToolbarItem(placement: .topBarLeading) {
-            Image("logo")
-              .resizable()
-              .frame(width:32, height:32)
+            Image(.logo)
+              .navBarSize()
           }
           
           ToolbarItem(placement: .topBarTrailing) {
             Button {
               isPresentedQR = true
             } label: {
-              Image(systemName: "qrcode.viewfinder")
-                .font(.title3)
-                .foregroundStyle(.accent)
+              Image(.qr)
+                .navBarSize()
             }
+            .buttonStyle(.animated)
+            
             .sheet(isPresented: $isPresentedQR) {
               QRCodePreview()
-                .presentationDetents([.fraction(0.45)])
-                .presentationDragIndicator(.visible)
+                .presentationDetents([.fraction(0.4)])
                 .presentationBackgroundInteraction(.disabled)
                 .presentationCornerRadius(20)
             }
@@ -58,8 +60,10 @@ struct HomeScreen: View {
   }
 }
 
+
+
 #Preview {
   HomeScreen()
     .environmentObject(AuthenticationViewModel())
-    .environmentObject(FirestoreViewModel())
 }
+
