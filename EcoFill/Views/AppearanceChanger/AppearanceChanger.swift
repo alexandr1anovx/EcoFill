@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-enum Theme: String, CaseIterable {
-  case systemDefault = "System"
+enum Scheme: String, CaseIterable {
+  case system = "System"
   case light = "Light"
   case dark = "Dark"
   
   var colorScheme: ColorScheme? {
     switch self {
-    case .systemDefault: return nil
+    case .system: return nil
     case .light: return .light
     case .dark: return .dark
     }
@@ -24,26 +24,31 @@ enum Theme: String, CaseIterable {
 struct AppearanceChanger: View {
   
   // MARK: - Properties
-  @AppStorage("selectedTheme") private var selectedTheme: Theme = .systemDefault
+  @AppStorage("preferredScheme") private var preferredScheme: Scheme = .system
   
   var body: some View {
     HStack(spacing: 20) {
-      Image(selectedTheme == .dark ? .moon : .sun)
-        .defaultSize()
+      if preferredScheme == .system {
+        Image(.system)
+          .defaultSize()
+      } else {
+        Image(preferredScheme == .dark ? .moon : .sun)
+          .defaultSize()
+      }
       
       Text("Appearance")
         .font(.lexendBody)
         .foregroundStyle(.cmReversed)
       
-      Picker("", selection: $selectedTheme) {
-        Text("System").tag(Theme.systemDefault)
-        Text("Light").tag(Theme.light)
-        Text("Dark").tag(Theme.dark)
+      Picker("", selection: $preferredScheme) {
+        Text("System").tag(Scheme.system)
+        Text("Light").tag(Scheme.light)
+        Text("Dark").tag(Scheme.dark)
       }
       .pickerStyle(.menu)
       .tint(.cmReversed)
-      .onChange(of: selectedTheme) { _, newValue in
-        selectedTheme = newValue
+      .onChange(of: preferredScheme) { _, newValue in
+        preferredScheme = newValue
       }
     }
   }
@@ -52,3 +57,4 @@ struct AppearanceChanger: View {
 #Preview {
   AppearanceChanger()
 }
+
