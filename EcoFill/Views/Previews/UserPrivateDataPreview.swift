@@ -104,7 +104,7 @@ struct UserPrivateDataPreview: View {
     }
   }
   
-  func checkEmailVerification() {
+  private func checkEmailVerification() {
     if let userSession = authenticationVM.userSession {
       isEmailVerified = userSession.isEmailVerified
     }

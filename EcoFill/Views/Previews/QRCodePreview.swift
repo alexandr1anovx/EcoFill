@@ -49,7 +49,7 @@ struct QRCodePreview: View {
     }
   }
   
-  func generateQRCode(from string: String) -> UIImage {
+  private func generateQRCode(from string: String) -> UIImage {
     filter.message = Data(string.utf8)
     if let outputImage = filter.outputImage {
       if let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
