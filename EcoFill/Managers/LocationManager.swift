@@ -38,8 +38,8 @@ enum LocationError {
 @Observable
 class LocationManager: NSObject, CLLocationManagerDelegate {
   
+  static let shared = LocationManager() // Singleton
   let manager = CLLocationManager()
-  static let shared = LocationManager() // creating a Singleton
   var error: LocationError? = nil
   
   var region: MKCoordinateRegion = MKCoordinateRegion()
@@ -51,12 +51,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
 }
 
 extension LocationManager {
+  
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     locations.last.map {
       region = MKCoordinateRegion(center: CLLocationCoordinate2D(
-        latitude: $0.coordinate.latitude,
-        longitude: $0.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.05,
-                                                                    longitudeDelta: 0.05))
+        latitude: $0.coordinate.latitude, longitude: $0.coordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
     }
   }
   

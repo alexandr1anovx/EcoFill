@@ -17,7 +17,8 @@ struct ProfileScreen: View {
   var body: some View {
     NavigationStack {
       UserDataPreview()
-        .padding(20)
+        .padding(.top, 30)
+        .padding(.leading, 20)
       
       List {
         AppearanceChanger()
