@@ -15,10 +15,13 @@ struct UserPrivateDataPreview: View {
   // MARK: - Properties
   
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
+  
   @State private var fullName: String = ""
   @State private var email: String = ""
   @State private var city: String = ""
-  @State private var isPresentedEditingMode = false
+  @State private var currentPassword: String = ""
+  
+  @State private var isPresentedEditingScreen = false
   @State private var isConfirming = false
   @State private var isEmailVerified = false
   
@@ -49,24 +52,37 @@ struct UserPrivateDataPreview: View {
         
         // MARK: - Buttons
         VStack(alignment: .leading, spacing: 15) {
-
-          Button("Edit information", systemImage: "pencil") {
-            isPresentedEditingMode = true
+          
+          UniversalButton(image: .edit, title: "Change data", titleColor: .cmWhite, spacing: 10) {
+            isPresentedEditingScreen = true
           }
           .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
           
-          Button("Delete account", systemImage: "xmark.circle.fill") {
+          UniversalButton(image: .xmark, title: "Delete account", titleColor: .cmWhite, spacing: 10) {
             isConfirming = true
           }
-          .buttonStyle(CustomButtonModifier(pouring: .red))
-          
-          .confirmationDialog("", isPresented: $isConfirming) {
-            Button("Delete", role: .destructive) {
-              authenticationVM.deleteUser()
+          .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
+          .alert("Confirm Your Password", isPresented: $isConfirming) {
+            SecureField("Your password", text: $currentPassword)
+            Button("Submit") {
+              authenticationVM.deleteUser(withCurrentPassword: currentPassword)
             }
-          } message: {
-            Text("All your data will be deleted.")
           }
+          
+          
+          
+          
+          
+          
+          
+          
+//          .confirmationDialog("", isPresented: $isConfirming) {
+//            Button("Delete", role: .destructive) {
+//              authenticationVM.deleteUser()
+//            }
+//          } message: {
+//            Text("All your data will be deleted.")
+//          }
         }
         .shadow(radius: 5)
         
@@ -77,11 +93,10 @@ struct UserPrivateDataPreview: View {
       .navigationTitle("Settings")
       .navigationBarTitleDisplayMode(.inline)
       
-      .sheet(isPresented: $isPresentedEditingMode) {
+      .sheet(isPresented: $isPresentedEditingScreen) {
         EditingScreen()
           .presentationDetents([.large])
           .presentationCornerRadius(20)
-          .presentationDragIndicator(.visible)
       }
       
       .alert(item: $authenticationVM.alertItem) { alertItem in
@@ -98,6 +113,7 @@ struct UserPrivateDataPreview: View {
           email = user.email
           city = user.city
         }
+        
         // Verification for email confirmation by user.
         checkEmailVerification()
       }
@@ -105,8 +121,8 @@ struct UserPrivateDataPreview: View {
   }
   
   private func checkEmailVerification() {
-    if let userSession = authenticationVM.userSession {
-      isEmailVerified = userSession.isEmailVerified
+    if let user = authenticationVM.userSession {
+      isEmailVerified = user.isEmailVerified
     }
   }
 }
@@ -115,5 +131,3 @@ struct UserPrivateDataPreview: View {
   UserPrivateDataPreview()
     .environmentObject(AuthenticationViewModel())
 }
-
-
