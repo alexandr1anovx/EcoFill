@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		320270372B8E3778000766E1 /* ScrollableHotlineNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320270362B8E3778000766E1 /* ScrollableHotlineNumbers.swift */; };
 		32144CBA2B81200E009C3081 /* ScrollableFuelsStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32144CB92B81200E009C3081 /* ScrollableFuelsStack.swift */; };
+		32196DA52BA790CD0099B059 /* MapUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32196DA42BA790CD0099B059 /* MapUtilities.swift */; };
+		321B8F3B2BAB230E0067FA82 /* UniversalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B8F3A2BAB230E0067FA82 /* UniversalButton.swift */; };
 		3223F4E92B84D96500DA0181 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3223F4E82B84D96500DA0181 /* Fonts.swift */; };
 		323445702B4752F700C218F1 /* FirestoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234456F2B4752F700C218F1 /* FirestoreViewModel.swift */; };
 		3242D11C2B728F04005BE4A3 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242D11B2B728F04005BE4A3 /* Station.swift */; };
@@ -69,6 +71,8 @@
 /* Begin PBXFileReference section */
 		320270362B8E3778000766E1 /* ScrollableHotlineNumbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableHotlineNumbers.swift; sourceTree = "<group>"; };
 		32144CB92B81200E009C3081 /* ScrollableFuelsStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableFuelsStack.swift; sourceTree = "<group>"; };
+		32196DA42BA790CD0099B059 /* MapUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUtilities.swift; sourceTree = "<group>"; };
+		321B8F3A2BAB230E0067FA82 /* UniversalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalButton.swift; sourceTree = "<group>"; };
 		3223F4E82B84D96500DA0181 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		3234456F2B4752F700C218F1 /* FirestoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreViewModel.swift; sourceTree = "<group>"; };
 		3242D11B2B728F04005BE4A3 /* Station.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
@@ -156,6 +160,14 @@
 			path = AppearanceChanger;
 			sourceTree = "<group>";
 		};
+		32196DA32BA790B40099B059 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				32196DA42BA790CD0099B059 /* MapUtilities.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		3223F4E32B84D91800DA0181 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +183,7 @@
 		3223F4E72B84D95B00DA0181 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				32196DA32BA790B40099B059 /* Utils */,
 				32E563872B9CC7B1000BCFD4 /* Modifiers */,
 				3223F4E32B84D91800DA0181 /* Fonts */,
 				61696B752B1F784A00406421 /* Extensions */,
@@ -208,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				32E563782B9C91CE000BCFD4 /* DismissXButton.swift */,
+				321B8F3A2BAB230E0067FA82 /* UniversalButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -508,9 +522,11 @@
 				328DC4C52B9B586B00D11598 /* EditingScreen.swift in Sources */,
 				611AD1352B1D3F4800BD5EB7 /* ServicesList.swift in Sources */,
 				6105436A2B34CF5700CFC9DB /* CustomTextField.swift in Sources */,
+				321B8F3B2BAB230E0067FA82 /* UniversalButton.swift in Sources */,
 				614314942B17F9A2009A1D9C /* ProfileScreen.swift in Sources */,
 				320270372B8E3778000766E1 /* ScrollableHotlineNumbers.swift in Sources */,
 				328E9B292B8F5996008B1D67 /* HotlineNumberCell.swift in Sources */,
+				32196DA52BA790CD0099B059 /* MapUtilities.swift in Sources */,
 				61696B712B1F741F00406421 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
