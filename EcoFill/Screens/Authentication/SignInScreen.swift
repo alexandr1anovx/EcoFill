@@ -42,43 +42,45 @@ struct SignInScreen: View {
       
         // MARK: - 'Sign In' or 'Sign Up'
         VStack(alignment: .leading, spacing: 15) {
+          
           Button("Sign In", systemImage: "person.fill.checkmark") {
-            Task {
-              try await authenticationVM.signIn(withEmail:email, password:password)
+            Task(priority: .background) {
+              await authenticationVM.signIn(withEmail: email, password: password)
             }
           }
           .buttonStyle(CustomButtonModifier(pouring: .accent))
           .disabled(!isValidForm)
           .opacity(isValidForm ? 1.0 : 0.5)
           
+          
           HStack {
             Text("Dont have an account?")
               .font(.lexendFootnote)
               .foregroundStyle(.gray)
             
-            Text("Sign Up")
-              .font(.lexendHeadline)
-              .foregroundStyle(.blue)
-              .onTapGesture {
-                isPresentedSignUpScreen = true
-              }
+            Button("Sign Up") {
+              isPresentedSignUpScreen = true
+            }
+            .font(.lexendHeadline)
+            .foregroundStyle(.blue)
           }
         }
-        // MARK: - Spacer
+        .shadow(radius: 5)
+        
         Spacer()
       }
       .padding(15)
       .navigationTitle("Sign In")
       .navigationBarTitleDisplayMode(.inline)
       
+      .sheet(isPresented: $isPresentedSignUpScreen) {
+        SignUpScreen()
+      }
+      
       .alert(item: $authenticationVM.alertItem) { alertItem in
         Alert(title: alertItem.title,
               message: alertItem.message,
               dismissButton: alertItem.dismissButton)
-      }
-      
-      .sheet(isPresented: $isPresentedSignUpScreen) {
-        SignUpScreen()
       }
     }
   }
