@@ -50,6 +50,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
   }
 }
 
+// MARK: - Extensions
+
 extension LocationManager {
   
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

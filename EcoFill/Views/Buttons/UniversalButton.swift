@@ -11,7 +11,7 @@ struct UniversalButton: View {
   
   var image: ImageResource
   var title: String
-  var titleColor: Color
+  var color: Color
   var spacing: CGFloat
   var action: () -> Void?
   
@@ -24,7 +24,7 @@ struct UniversalButton: View {
           .defaultSize()
         Text(title)
           .font(.lexendCallout)
-          .foregroundStyle(titleColor)
+          .foregroundStyle(color)
       }
     }
   }

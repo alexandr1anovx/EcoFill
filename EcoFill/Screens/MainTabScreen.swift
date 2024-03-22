@@ -28,16 +28,17 @@ struct MainTabView: View {
     TabView {
       HomeScreen()
         .tabItem {
-          Label("Home",systemImage: "house")
+          Label("Home", systemImage: "house")
         }
       MapScreen()
         .tabItem {
-          Label("Map",systemImage: "map")
+          Label("Map", systemImage: "map")
         }
       ProfileScreen()
         .tabItem {
-          Label("Profile",systemImage: "person.fill")
+          Label("Profile", systemImage: "person.fill")
         }
     }
   }
 }
+

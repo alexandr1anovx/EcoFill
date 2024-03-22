@@ -14,12 +14,9 @@ struct MapControls: View {
   
   var body: some View {
     VStack(spacing: 10) {
-      ControlItem(image: .map) {
-        isPresentedMapStyle = true
-      }
-      ControlItem(image: .book) {
-        isPresentedList = true
-      }
+      
+      ControlItem(image: .map) { isPresentedMapStyle = true }
+      ControlItem(image: .book) { isPresentedList = true }
     }
   }
 }
