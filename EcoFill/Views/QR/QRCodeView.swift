@@ -9,7 +9,7 @@ import SwiftUI
 import CoreImage
 import CoreImage.CIFilterBuiltins
 
-struct QRCodePreview: View {
+struct QRCodeView: View {
   
   // MARK: - Properties
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
@@ -62,7 +62,7 @@ struct QRCodePreview: View {
 }
 
 #Preview {
-  QRCodePreview()
+  QRCodeView()
     .environmentObject(AuthenticationViewModel())
 }
 

@@ -8,7 +8,7 @@
 import SwiftUI
 import MapKit
 
-struct MapStylePreview: View {
+struct MapStyleView: View {
   
   // MARK: - Properties
   @Binding var mapStyle: MapStyle

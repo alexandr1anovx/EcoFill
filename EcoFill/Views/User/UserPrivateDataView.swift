@@ -10,7 +10,7 @@ import FirebaseAuth
 import Firebase
 
 @MainActor
-struct UserPrivateDataPreview: View {
+struct UserPrivateDataView: View {
   
   // MARK: - Properties
   
@@ -21,8 +21,10 @@ struct UserPrivateDataPreview: View {
   @State private var city: String = ""
   @State private var currentPassword: String = ""
   
-  @State private var isPresentedEditingScreen = false
-  @State private var isConfirming = false
+  @State private var isChangingEmail = false
+  @State private var isChangingPassword = false
+  
+  @State private var isConfirmingPassword = false
   @State private var isEmailVerified = false
   
   var body: some View {
@@ -42,10 +44,18 @@ struct UserPrivateDataPreview: View {
             title: "City:",
             content: city)
           
-          InformationRow(
-            image: isEmailVerified ? .verified : .notVerified,
-            title: "Email:",
-            content: email)
+          VStack(alignment: .leading, spacing: 15) {
+            
+            InformationRow(
+              image: isEmailVerified ? .verified : .notVerified,
+              title: "Email:",
+              content: email)
+            
+            Text(isEmailVerified ?
+                 "" : "Confirmation link has been sent by email.")
+            .font(.lexendFootnote)
+            .foregroundStyle(.brown)
+          }
         }
         
         Divider()
@@ -53,36 +63,30 @@ struct UserPrivateDataPreview: View {
         // MARK: - Buttons
         VStack(alignment: .leading, spacing: 15) {
           
-          UniversalButton(image: .edit, title: "Change data", titleColor: .cmWhite, spacing: 10) {
-            isPresentedEditingScreen = true
+          UniversalButton(image: .email, title: "Change email", color: .white, spacing: 10) {
+            isChangingEmail = true
           }
           .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
           
-          UniversalButton(image: .xmark, title: "Delete account", titleColor: .cmWhite, spacing: 10) {
-            isConfirming = true
+          UniversalButton(image: .password, title: "Change password", color: .white, spacing: 10) {
+            isChangingPassword = true
           }
           .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
-          .alert("Confirm Your Password", isPresented: $isConfirming) {
-            SecureField("Your password", text: $currentPassword)
-            Button("Submit") {
-              authenticationVM.deleteUser(withCurrentPassword: currentPassword)
+          
+          UniversalButton(image: .xmarkWhite, title: "Delete account", color: .white, spacing: 10) {
+            isConfirmingPassword = true
+          }
+          .buttonStyle(CustomButtonModifier(pouring: .red))
+          
+          .alert("Confirm password", isPresented: $isConfirmingPassword) {
+            SecureField("", text: $currentPassword)
+            Button("Delete") {
+              Task {
+                await authenticationVM.deleteUser(currentPassword)
+              }
             }
+            Button("Cancel", role: .cancel) {}
           }
-          
-          
-          
-          
-          
-          
-          
-          
-//          .confirmationDialog("", isPresented: $isConfirming) {
-//            Button("Delete", role: .destructive) {
-//              authenticationVM.deleteUser()
-//            }
-//          } message: {
-//            Text("All your data will be deleted.")
-//          }
         }
         .shadow(radius: 5)
         
@@ -93,11 +97,19 @@ struct UserPrivateDataPreview: View {
       .navigationTitle("Settings")
       .navigationBarTitleDisplayMode(.inline)
       
-      .sheet(isPresented: $isPresentedEditingScreen) {
-        EditingScreen()
-          .presentationDetents([.large])
+      // MARK: - Sheets
+      
+      .sheet(isPresented: $isChangingEmail) {
+        ResetEmailView()
           .presentationCornerRadius(20)
       }
+      
+      .sheet(isPresented: $isChangingPassword) {
+        ResetPasswordView()
+          .presentationCornerRadius(20)
+      }
+      
+      // MARK: - Alert
       
       .alert(item: $authenticationVM.alertItem) { alertItem in
         Alert(
@@ -128,6 +140,6 @@ struct UserPrivateDataPreview: View {
 }
 
 #Preview {
-  UserPrivateDataPreview()
+  UserPrivateDataView()
     .environmentObject(AuthenticationViewModel())
 }

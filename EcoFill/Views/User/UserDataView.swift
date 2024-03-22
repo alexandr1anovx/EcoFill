@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct UserDataPreview: View {
+struct UserDataView: View {
   
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
   

@@ -8,13 +8,16 @@
 import SwiftUI
 import MapKit
 
-struct MapItemPreview: View {
+struct MapItemView: View {
   
   // MARK: - Properties
+
   var station: Station
+  var action: () -> Void?
   
   var body: some View {
     NavigationStack {
+      
       VStack(alignment: .leading, spacing: 13) {
         // MARK: - Coordinates
         VStack(alignment: .leading, spacing: 13) {
@@ -54,7 +57,7 @@ struct MapItemPreview: View {
         }
         
         Button("Get directions", systemImage: "figure.walk") {
-          // action
+          action()
         }
         .buttonStyle(CustomButtonModifier(pouring: .accent))
         .shadow(radius: 5)
@@ -72,5 +75,5 @@ struct MapItemPreview: View {
 }
 
 #Preview {
-  MapItemPreview(station: .testStation)
+  MapItemView(station: .testStation, action: {} )
 }
