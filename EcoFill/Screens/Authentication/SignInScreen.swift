@@ -12,14 +12,17 @@ struct SignInScreen: View {
   // MARK: - Properties
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
   @FocusState private var textFieldInputData: TextFieldInputData?
+  
   @State private var email: String = ""
   @State private var password: String = ""
-  @State private var isPresentedSignUpScreen = false
+  @State private var isPresentedSignUp = false
   
   var body: some View {
     NavigationStack {
       VStack(alignment: .leading, spacing: 30) {
+        
         // MARK: - Text Fields
+        
         VStack(spacing: 15) {
           CustomTextField(inputData: $email,
                           title: "Email",
@@ -39,33 +42,30 @@ struct SignInScreen: View {
           .onSubmit { textFieldInputData = nil }
         }
         
-      
-        // MARK: - 'Sign In' or 'Sign Up'
+        // MARK: - Confirmation
+        
         VStack(alignment: .leading, spacing: 15) {
           
           Button("Sign In", systemImage: "person.fill.checkmark") {
-            Task(priority: .background) {
-              await authenticationVM.signIn(withEmail: email, password: password)
+            Task {
+              await authenticationVM.signIn(email: email, password: password)
             }
           }
           .buttonStyle(CustomButtonModifier(pouring: .accent))
           .disabled(!isValidForm)
           .opacity(isValidForm ? 1.0 : 0.5)
           
-          
           HStack {
             Text("Dont have an account?")
               .font(.lexendFootnote)
               .foregroundStyle(.gray)
             
-            Button("Sign Up") {
-              isPresentedSignUpScreen = true
-            }
-            .font(.lexendHeadline)
-            .foregroundStyle(.blue)
+            Button("Sign Up") { isPresentedSignUp = true }
+              .font(.lexendHeadline)
+              .foregroundStyle(.blue)
+              .shadow(radius: 5)
           }
         }
-        .shadow(radius: 5)
         
         Spacer()
       }
@@ -73,8 +73,10 @@ struct SignInScreen: View {
       .navigationTitle("Sign In")
       .navigationBarTitleDisplayMode(.inline)
       
-      .sheet(isPresented: $isPresentedSignUpScreen) {
+      .sheet(isPresented: $isPresentedSignUp) {
         SignUpScreen()
+          .presentationDetents([.large])
+          .presentationCornerRadius(20)
       }
       
       .alert(item: $authenticationVM.alertItem) { alertItem in
@@ -86,17 +88,10 @@ struct SignInScreen: View {
   }
 }
 
-// MARK: - Authentication Form Protocol
+// MARK: - Extensions
+
 extension SignInScreen: AuthenticationForm {
   var isValidForm: Bool {
-    return !email.isEmpty
-    && email.isValidEmail
-    && !password.isEmpty
-    && password.count > 5
+    return email.isValidEmail && password.count > 5
   }
-}
-
-#Preview {
-  SignInScreen()
-    .environmentObject(AuthenticationViewModel())
 }
