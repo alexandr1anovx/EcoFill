@@ -10,24 +10,33 @@ import FirebaseFirestore
 
 @MainActor
 class FirestoreViewModel: ObservableObject {
-  
+
   // MARK: - Properties
   @Published var stations: [Station] = []
-//  @Published var cities: [Station] = []
-  let cities = ["Kyiv", "Mykolaiv", "Odesa"]
-  
-  private var firestoreDatabase = Firestore.firestore() // Database initialization
-  
+
+  private let db = Firestore.firestore()
+
   func fetchStations() {
-    firestoreDatabase.collection("stations").addSnapshotListener { snapshot, error in
-      
-      // Check if documents in firebase is not empty
-      guard let documents = snapshot?.documents else { return }
-      
-      // Convert of 'documentSnapshot' object to 'Location' object
+    db.collection("stations").addSnapshotListener { snapshot, error in
+
+      // Check for error while fetching stations.
+      if let error {
+        print("Unable to fetch the stations: \(error.localizedDescription)")
+        return
+      }
+
+      // Check if documents in firebase is not empty.
+      guard let documents = snapshot?.documents else {
+        print("No documents in snapshot.")
+        return
+      }
+
+      // Convert the 'documentSnapshot' object to 'Station' object.
       self.stations = documents.map { documentSnapshot -> Station in
+
         let data = documentSnapshot.data()
 
+        let id = documentSnapshot.documentID
         let city = data["city"] as? String ?? ""
         let euroA95 = data["euroA95"] as? Double ?? 0.0
         let euroDP = data["euroDP"] as? Double ?? 0.0
@@ -38,8 +47,8 @@ class FirestoreViewModel: ObservableObject {
         let postalCode = data["postalCode"] as? String ?? ""
         let schedule = data["schedule"] as? String ?? ""
         let street = data["street"] as? String ?? ""
-        
-        return Station(id: .init(),
+
+        return Station(id: id,
                        city: city,
                        euroA95: euroA95,
                        euroDP: euroDP,
