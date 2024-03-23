@@ -82,7 +82,7 @@ struct UserPrivateDataView: View {
             SecureField("", text: $currentPassword)
             Button("Delete") {
               Task {
-                await authenticationVM.deleteUser(currentPassword)
+                await authenticationVM.deleteUser(withPassword: currentPassword)
               }
             }
             Button("Cancel", role: .cancel) {}
