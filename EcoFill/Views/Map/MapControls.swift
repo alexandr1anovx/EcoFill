@@ -16,7 +16,7 @@ struct MapControls: View {
     VStack(spacing: 10) {
       
       ControlItem(image: .map) { isPresentedMapStyle = true }
-      ControlItem(image: .book) { isPresentedList = true }
+      ControlItem(image: .location) { isPresentedList = true }
     }
   }
 }

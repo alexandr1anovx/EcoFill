@@ -14,7 +14,7 @@ struct LocationsList: View {
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
   @EnvironmentObject var firestoreVM: FirestoreViewModel
   @State private var selectedIndex = 0
-
+  
   let cities = ["Kyiv", "Odesa", "Mykolaiv"]
   
   var filteredStations: [Station] {
@@ -31,7 +31,6 @@ struct LocationsList: View {
         }
       }
       .pickerStyle(.segmented)
-      .colorMultiply(.brown)
       .padding(.top,10)
       .padding(15)
       
@@ -45,14 +44,14 @@ struct LocationsList: View {
       firestoreVM.fetchStations()
       
       // Setup an index for selected city.
-      if let selectedCity = authenticationVM.currentUser?.city {
-        if let index = cities.firstIndex(of: selectedCity) {
-          selectedIndex = index
-        }
+      if let selectedCity = authenticationVM.currentUser?.city,
+         let index = cities.firstIndex(of: selectedCity) {
+        selectedIndex = index
       }
     }
   }
 }
+
 
 #Preview {
   LocationsList()

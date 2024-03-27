@@ -15,7 +15,7 @@ struct DismissXButton: View {
     Button {
       dismiss()
     } label: {
-      Image(.xmarkRed)
+      Image(.xmark)
         .defaultSize()
     }
   }

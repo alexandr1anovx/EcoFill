@@ -20,14 +20,14 @@ enum Scheme: String, CaseIterable {
     }
   }
 }
-  
+
 struct AppearanceChanger: View {
   
   // MARK: - Properties
   @AppStorage("preferredScheme") private var preferredScheme: Scheme = .system
   
   var body: some View {
-    HStack(spacing: 20) {
+    HStack(spacing: 15) {
       if preferredScheme == .system {
         Image(.system)
           .defaultSize()

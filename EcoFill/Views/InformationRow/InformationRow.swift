@@ -15,7 +15,7 @@ struct InformationRow: View {
   
   var body: some View {
     
-    HStack(spacing: 8) {
+    HStack(spacing: 10) {
       Image(image)
         .defaultSize()
       Text(title)

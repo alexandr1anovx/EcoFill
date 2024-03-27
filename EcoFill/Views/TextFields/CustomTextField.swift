@@ -23,19 +23,15 @@ struct CustomTextField: View {
       
       if isSecureField {
         SecureField(placeholder, text: $inputData)
-          .font(.footnote)
+          .font(.lexendFootnote)
+          .foregroundStyle(.cmReversed)
       } else {
         TextField(placeholder, text: $inputData)
           .font(.lexendFootnote)
           .foregroundStyle(.gray)
       }
+      
       Divider()
     }
   }
-}
-
-#Preview {
-  CustomTextField(inputData: .constant(""),
-                  title: "Email address",
-                  placeholder: "Enter your email")
 }

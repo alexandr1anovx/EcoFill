@@ -9,7 +9,7 @@ import Foundation
 
 struct User: Identifiable, Codable {
   var id: String
+  var city: String
   var fullName: String
   var email: String
-  var city: String
 }
