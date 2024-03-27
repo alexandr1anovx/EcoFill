@@ -256,14 +256,14 @@
 		611AD12A2B1D3F4800BD5EB7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				32F4C3122BA0BD9500B8A2E5 /* InformationRow */,
 				326C9C6F2B9CF41300426D85 /* TextFields */,
-				320ED3CB2B7D04E800177A3E /* AppearanceChanger */,
 				32E563862B9CC701000BCFD4 /* Buttons */,
-				32E5637F2B9CBEF4000BCFD4 /* MapControls */,
-				320270352B8E3711000766E1 /* Scrollable */,
 				611AD12B2B1D3F4800BD5EB7 /* Cells */,
 				611AD12E2B1D3F4800BD5EB7 /* Lists */,
+				320270352B8E3711000766E1 /* Scrollable */,
+				32F4C3122BA0BD9500B8A2E5 /* InformationRow */,
+				320ED3CB2B7D04E800177A3E /* AppearanceChanger */,
+				32E5637F2B9CBEF4000BCFD4 /* MapControls */,
 				611AD1312B1D3F4800BD5EB7 /* Previews */,
 			);
 			path = Views;
