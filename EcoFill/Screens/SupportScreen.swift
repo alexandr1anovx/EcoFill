@@ -19,6 +19,7 @@ struct SupportScreen: View {
   
   @State private var email: String = ""
   @State private var message: String = ""
+  @State private var isPresentedAlert = false
   
   // MARK: - body
   var body: some View {
@@ -28,27 +29,33 @@ struct SupportScreen: View {
         VStack(alignment: .leading, spacing: 20) {
           CustomTextField(inputData: $email,
                           title: "Email",
-                          placeholder: "Write your email address here.")
-          .keyboardType(.emailAddress)
-          .textInputAutocapitalization(.never)
-          .autocorrectionDisabled(true)
+                          placeholder: "Write your email address.")
           .focused($focusedFeedbackTF, equals: .email)
           .submitLabel(.next)
           .onSubmit { focusedFeedbackTF = .message }
+          .keyboardType(.emailAddress)
+          .textInputAutocapitalization(.never)
+          .autocorrectionDisabled(true)
           
           CustomTextField(inputData: $message,
                           title: "Message",
-                          placeholder: "Write your message here.")
+                          placeholder: "Must contain at least 10 characters.")
           .focused($focusedFeedbackTF, equals: .message)
           .onSubmit { focusedFeedbackTF = nil }
           .submitLabel(.done)
           
-          Button("Send", systemImage: "paperplane.fill") {
-            
+          SendFeedbackBtn {
+            isPresentedAlert = true
+            message = ""
           }
-          .buttonStyle(CustomButtonModifier(pouring: .accent))
           .disabled(!isValidForm)
           .opacity(isValidForm ? 1.0 : 0.5)
+          
+          .alert("Thanks for your feedback", isPresented: $isPresentedAlert) {
+            //
+          } message: {
+            Text("Your feedback message has been sent successfully.")
+          }
         }
         .padding()
         
@@ -76,13 +83,10 @@ struct SupportScreen: View {
   }
 }
 
-#Preview {
-  SupportScreen()
-    .environmentObject(AuthenticationViewModel())
-}
+// MARK: - Extensions
 
 extension SupportScreen: AuthenticationForm {
   var isValidForm: Bool {
-    return !message.isEmpty
+    return message.count > 9
   }
 }
