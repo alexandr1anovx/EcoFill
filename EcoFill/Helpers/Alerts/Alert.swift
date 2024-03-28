@@ -29,23 +29,16 @@ struct RegistrationAlertContext {
 
 struct ProfileAlertContext {
   
-  // Inform the user to confirm the email address.
-  static let verifyEmailAddress = AlertItem(title: Text("Verify Email"),
-                                            message: Text("Please, confirm your email address in the settings."),
-                                            dismissButton: .default(Text("OK")))
+  // Account deleted successfully.
+  static let accountDeleted = AlertItem(title: Text("Account deleted"),
+                                        message: Text("All your data has been successfully erased."),
+                                        dismissButton: .default(Text("OK")))
   
-  // Account was successfully deleted.
-  static let accountDeleted = AlertItem(title: Text("Account was successfully deleted."),
-                                                    message: Text("All your data has been erased."),
-                                                    dismissButton: .default(Text("OK")))
+  static let emailUpdateFailed = AlertItem(title: Text("Email Update Failed"),
+                                             message: Text("This email address is already taken."),
+                                             dismissButton: .default(Text("OK")))
   
-  // The changes have been saved successfully.
-  static let successfullySavedData  = AlertItem(title: Text("Profile Saved"),
-                                                message: Text("Successfully saved your data."),
-                                                dismissButton: .default(Text("OK")))
-  
-  // There is an error occurred while saving changes.
-  static let couldNotSaveData = AlertItem(title: Text("Saving data error"),
-                                          message: Text("There was an error saving or retrieving your data."),
-                                          dismissButton: .default(Text("OK")))
+  static let emailVerificationSent = AlertItem(title: Text("Check Your Email"),
+                                              message: Text("The confirmation link has been sent to the specified email."),
+                                              dismissButton: .default(Text("OK")))
 }
