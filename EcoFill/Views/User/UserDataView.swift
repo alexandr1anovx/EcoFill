@@ -12,28 +12,25 @@ struct UserDataView: View {
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
   
   var body: some View {
-    HStack {
-      if let user = authenticationVM.currentUser {
-        
-        VStack(alignment: .leading, spacing: 15) {
+    if let user = authenticationVM.currentUser {
+      HStack {
+        VStack(alignment: .leading, spacing: 8) {
           Text(user.fullName)
             .font(.lexendBody)
             .foregroundStyle(.cmReversed)
-          
-          Text(user.email)
-            .font(.lexendCallout)
-            .foregroundStyle(.gray)
-          
-          HStack(spacing: 8) {
-            Image(.city)
-              .navBarSize()
-            Text(user.city)
-              .font(.lexendFootnote)
-              .foregroundStyle(.gray)
-          }
+          Row(img: .email, text: user.email)
+            .lineLimit(2)
         }
+        Spacer()
+        Row(img: .building, text: user.city)
       }
-      Spacer()
+      .padding(.top, 30)
+      .padding(.horizontal, 20)
+      .padding(.bottom, 20)
+      
+    } else {
+      Text("Server error.")
+        .font(.lexendHeadline)
     }
   }
 }

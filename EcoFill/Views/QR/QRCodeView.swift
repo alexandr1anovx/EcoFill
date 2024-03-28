@@ -23,11 +23,11 @@ struct QRCodeView: View {
           VStack(alignment: .leading, spacing: 10) {
             InformationRow(
               image: .initials,
-              title: "Full name:",
+              title: "Initials:",
               content: user.fullName)
             
             InformationRow(
-              image: .book,
+              image: .email,
               title: "Email:",
               content: user.email)
           }
