@@ -11,35 +11,33 @@ struct ProfileScreen: View {
   
   // MARK: - Properties
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
-  @State private var isConfirming = false
+  @State private var isPresentedSignOut = false
   
-  // MARK: - body
   var body: some View {
     NavigationStack {
-      UserDataPreview()
-        .padding(.top, 30)
-        .padding(.leading, 20)
+      
+      UserDataView()
       
       List {
         AppearanceChanger()
         
         Button {
-          isConfirming = true
+          isPresentedSignOut = true
         } label: {
-          HStack(spacing: 20) {
-            Image(.xmark)
-              .defaultSize()
+          HStack(spacing: 15) {
+            Image(.userDelete)
+              .resizable()
+              .frame(width: 26, height: 26)
             Text("Sign Out")
               .font(.lexendBody)
               .foregroundStyle(.red)
           }
         }
-        .confirmationDialog("Sign Out", isPresented: $isConfirming) {
+        .confirmationDialog("", isPresented: $isPresentedSignOut) {
           Button("Sign Out", role: .destructive) {
             authenticationVM.signOut()
           }
         }
-        
       }
       .listStyle(.insetGrouped)
       
@@ -51,7 +49,7 @@ struct ProfileScreen: View {
         
         ToolbarItem(placement: .topBarTrailing) {
           NavigationLink {
-            UserPrivateDataPreview()
+            UserPrivateDataView()
           } label: {
             Image(.edit)
               .navBarSize()
@@ -68,4 +66,3 @@ struct ProfileScreen: View {
   ProfileScreen()
     .environmentObject(AuthenticationViewModel())
 }
-
