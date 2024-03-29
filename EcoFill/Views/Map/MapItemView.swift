@@ -11,60 +11,48 @@ import MapKit
 struct MapItemView: View {
   
   // MARK: - Properties
-
   var station: Station
   var action: () -> Void?
   
   var body: some View {
     NavigationStack {
       
-      VStack(alignment: .leading, spacing: 13) {
-        // MARK: - Coordinates
-        VStack(alignment: .leading, spacing: 13) {
-          Text(station.name)
-            .font(.lexendBody)
-          
-          Text(station.address)
-            .font(.lexendFootnote)
-            .foregroundStyle(.gray)
-          
-          // MARK: - Work schedule
-          HStack {
-            Text("Work schedule:")
-              .font(.lexendFootnote)
-              .foregroundStyle(.gray)
-            
-            Text(station.schedule)
-              .font(.lexendCallout)
-              .foregroundStyle(.brown)
-          }
+      VStack(alignment: .leading, spacing: 15) {
+        
+        // MARK: - Station name
+        Text(station.name)
+          .font(.lexendBody)
+        
+        // MARK: - Address
+        Row(img: .location, text: station.address)
+        
+        // MARK: - Schedule
+        HStack {
+          Row(img: .clock, text: "Schedule:")
+          Text(station.schedule)
+            .font(.lexendCallout)
+            .foregroundStyle(.cmReversed)
+        }
+        
+        // MARK: - Payment
+        HStack {
+          Row(img: .cash, text: "Pay with:")
+          Image(.mastercard)
+            .navBarSize()
+          Image(.applePay)
+            .navBarSize()
         }
         
         // MARK: - Fuels
         ScrollableFuelsStack(station: station)
         
-        // MARK: - Payment methods
-        HStack(spacing: 8) {
-          Text("Pay with:")
-            .font(.lexendFootnote)
-            .foregroundStyle(.gray)
-          Image(.mastercard)
-            .resizable()
-            .frame(width: 40, height: 40)
-          Image(.applePay)
-            .resizable()
-            .frame(width: 40, height: 40)
+        // MARK: - Get directions
+        GetDirectionsBtn {
+          // action
         }
-        
-        Button("Get directions", systemImage: "figure.walk") {
-          action()
-        }
-        .buttonStyle(CustomButtonModifier(pouring: .accent))
-        .shadow(radius: 5)
       }
       .padding(.horizontal, 15)
-      .padding(.bottom, 40)
-      
+      .padding(.bottom, 35)
       .toolbar {
         ToolbarItem(placement: .topBarTrailing) {
           DismissXButton()
@@ -74,6 +62,24 @@ struct MapItemView: View {
   }
 }
 
+// MARK: - Row
+struct Row: View {
+  var img: ImageResource
+  var text: String?
+  
+  var body: some View {
+    HStack {
+      Image(img)
+        .defaultSize()
+      
+      Text(text ?? "")
+        .font(.lexendFootnote)
+        .foregroundStyle(.gray)
+    }
+  }
+}
+
+
 #Preview {
-  MapItemView(station: .testStation, action: {} )
+  MapItemView(station: .testStation, action: {})
 }
