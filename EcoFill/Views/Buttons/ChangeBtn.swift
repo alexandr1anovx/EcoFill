@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChangeBtn: View {
   var title: String
+  var img: ImageResource
   var action: () -> Void
   
   var body: some View {
@@ -16,7 +17,7 @@ struct ChangeBtn: View {
       action()
     } label: {
       HStack {
-        Image(.password)
+        Image(img)
           .defaultSize()
         Text("Change \(title)")
           .font(.lexendFootnote)
@@ -29,5 +30,5 @@ struct ChangeBtn: View {
 }
 
 #Preview {
-  ChangeBtn(title: "password", action: {})
+  ChangeBtn(title: "password", img: .password, action: {})
 }
