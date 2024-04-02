@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct ChangePasswordBtn: View {
+struct ChangeBtn: View {
+  var title: String
   var action: () -> Void
   
   var body: some View {
@@ -17,7 +18,7 @@ struct ChangePasswordBtn: View {
       HStack {
         Image(.password)
           .defaultSize()
-        Text("Change password")
+        Text("Change \(title)")
           .font(.lexendFootnote)
           .foregroundStyle(.white)
       }
@@ -28,5 +29,5 @@ struct ChangePasswordBtn: View {
 }
 
 #Preview {
-  ChangePasswordBtn(action: {})
+  ChangeBtn(title: "password", action: {})
 }
