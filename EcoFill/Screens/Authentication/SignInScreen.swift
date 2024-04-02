@@ -11,60 +11,55 @@ struct SignInScreen: View {
   
   // MARK: - Properties
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
-  @FocusState private var textFieldInputData: TextFieldInputData?
+  @FocusState private var fieldContent: TextFieldContent?
   
   @State private var email: String = ""
   @State private var password: String = ""
-  @State private var isPresentedSignUp = false
   
   var body: some View {
     NavigationStack {
-      VStack(alignment: .leading, spacing: 30) {
+      VStack(alignment: .leading, spacing: 15) {
         
-        // MARK: - Text Fields
+        // MARK: - TextFields
         
-        VStack(spacing: 15) {
-          CustomTextField(inputData: $email,
-                          title: "Email",
-                          placeholder: "name@example.com")
-          .textInputAutocapitalization(.never)
-          .keyboardType(.emailAddress)
-          .focused($textFieldInputData, equals: .email)
-          .submitLabel(.next)
-          .onSubmit { textFieldInputData = .password }
-          
-          CustomTextField(inputData: $password,
-                          title: "Password",
-                          placeholder: "At least 6 characters.",
-                          isSecureField: true)
-          .focused($textFieldInputData, equals: .password)
-          .submitLabel(.done)
-          .onSubmit { textFieldInputData = nil }
+        CustomTextField(inputData: $email,
+                        title: "Email",
+                        placeholder: "Email from your account.")
+        .textInputAutocapitalization(.never)
+        .keyboardType(.emailAddress)
+        .focused($fieldContent, equals: .email)
+        .submitLabel(.next)
+        .onSubmit { fieldContent = .password }
+        
+        CustomTextField(inputData: $password,
+                        title: "Password",
+                        placeholder: "Password for your account.",
+                        isSecureField: true)
+        .focused($fieldContent, equals: .password)
+        .submitLabel(.done)
+        .onSubmit { fieldContent = nil }
+        
+        // MARK: - Sign In
+        
+        SignInBtn {
+          Task {
+            await authenticationVM.signIn(
+              withEmail: email, password: password)
+          }
         }
+        .disabled(!isValidForm)
+        .opacity(isValidForm ? 1.0 : 0.5)
         
-        // MARK: - Confirmation
-        
-        VStack(alignment: .leading, spacing: 15) {
+        HStack {
+          Text("Dont have an account?")
+            .font(.lexendFootnote)
+            .foregroundStyle(.gray)
           
-          Button("Sign In", systemImage: "person.fill.checkmark") {
-            Task {
-              await authenticationVM.signIn(email: email, password: password)
-            }
+          NavigationLink("Sign Up") {
+            SignUpScreen()
           }
-          .buttonStyle(CustomButtonModifier(pouring: .accent))
-          .disabled(!isValidForm)
-          .opacity(isValidForm ? 1.0 : 0.5)
-          
-          HStack {
-            Text("Dont have an account?")
-              .font(.lexendFootnote)
-              .foregroundStyle(.gray)
-            
-            Button("Sign Up") { isPresentedSignUp = true }
-              .font(.lexendHeadline)
-              .foregroundStyle(.blue)
-              .shadow(radius: 5)
-          }
+          .font(.lexendHeadline)
+          .foregroundStyle(.brown)
         }
         
         Spacer()
@@ -72,12 +67,6 @@ struct SignInScreen: View {
       .padding(15)
       .navigationTitle("Sign In")
       .navigationBarTitleDisplayMode(.inline)
-      
-      .sheet(isPresented: $isPresentedSignUp) {
-        SignUpScreen()
-          .presentationDetents([.large])
-          .presentationCornerRadius(20)
-      }
       
       .alert(item: $authenticationVM.alertItem) { alertItem in
         Alert(title: alertItem.title,
@@ -94,4 +83,9 @@ extension SignInScreen: AuthenticationForm {
   var isValidForm: Bool {
     return email.isValidEmail && password.count > 5
   }
+}
+
+#Preview {
+  SignInScreen()
+    .environmentObject(AuthenticationViewModel())
 }
