@@ -46,15 +46,12 @@ struct ResetEmailView: View {
         .onSubmit { fieldContent = .confirmPassword }
         .submitLabel(.next)
         
-        UniversalButton(image: .checkmark, title: "Reset", color: .white) {
+        ResetBtn {
           Task {
-            await authenticationVM.updateEmail(
-              withEmail: email, password: currentPassword
-            )
+            await authenticationVM.updateEmail(withEmail: email, password: currentPassword)
           }
           return fieldContent = nil
         }
-        .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
         .opacity(isValidForm ? 1.0 : 0.0)
         
         Spacer()

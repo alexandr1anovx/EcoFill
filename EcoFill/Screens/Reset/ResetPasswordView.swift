@@ -48,13 +48,12 @@ struct ResetPasswordView: View {
         
         // MARK: - Confirmation
         
-        UniversalButton(image: .checkmark, title: "Reset", color: .white) {
+        ResetBtn {
           Task {
 //            await authenticationVM.updateEmail(newEmail: email, currentPassword: currentPassword)
           }
           return fieldContent = nil
         }
-        .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
         .opacity(isValidForm ? 1.0 : 0.0)
         
         Spacer()
