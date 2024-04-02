@@ -7,115 +7,88 @@
 
 import SwiftUI
 
-enum TextFieldInputData {
-  case fullName, email, password, confirmPassword
-}
-
-enum Cities: String, Identifiable, CaseIterable {
-  case kyiv = "Kyiv"
-  case mykolaiv = "Mykolaiv"
-  case odesa = "Odesa"
-  
-  var id: Self { self }
-}
-
 struct SignUpScreen: View {
   
   // MARK: - Properties
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
   @EnvironmentObject var firestoreVM: FirestoreViewModel
+  @FocusState private var fieldContent: TextFieldContent?
   
   @State private var city: Cities = .mykolaiv
-  @State private var fullName: String = ""
+  @State private var initials: String = ""
   @State private var email: String = ""
   @State private var password: String = ""
   @State private var confirmPassword: String = ""
   
-  @FocusState private var textFieldInputData: TextFieldInputData?
-  
   var body: some View {
     NavigationStack {
-      VStack(alignment: .leading, spacing: 30) {
-        // MARK: - Text Fields
-        VStack(alignment: .leading, spacing: 15) {
-          HStack {
-            Text("City:")
-              .font(.lexendCallout)
-            Picker("", selection: $city) {
-              ForEach(Cities.allCases) { city in
-                Text(city.rawValue)
-              }
-            }
-            .tint(.cmReversed)
-          }
-          
-          Divider()
-          
-          // MARK: - Full name
-          CustomTextField(inputData: $fullName,
-                          title: "Full Name",
-                          placeholder: "Tim Cook")
-          .focused($textFieldInputData, equals: .fullName)
-          .submitLabel(.next)
-          .onSubmit { textFieldInputData = .email }
-          .textInputAutocapitalization(.words)
-          
-          // MARK: - Email
-          CustomTextField(inputData: $email,
-                          title: "Email",
-                          placeholder: "name@example.com")
-          .textInputAutocapitalization(.never)
-          .keyboardType(.emailAddress)
-          .focused($textFieldInputData, equals: .email)
-          .submitLabel(.next)
-          .onSubmit { textFieldInputData = .password }
-          
-          // MARK: - Password
-          CustomTextField(inputData: $password,
-                          title: "Password",
-                          placeholder: "At least 6 characters.",
-                          isSecureField: true)
-          .focused($textFieldInputData, equals: .password)
-          .submitLabel(.next)
-          .onSubmit { textFieldInputData = .confirmPassword }
-          
-          // MARK: - Confirm Password
-          ZStack(alignment: .trailing) {
-            CustomTextField(inputData: $confirmPassword,
-                            title: "Confirm password",
-                            placeholder: "Must match the password.",
-                            isSecureField: true)
-            .focused($textFieldInputData,
-                     equals: .confirmPassword)
-            .submitLabel(.done)
-            .onSubmit { textFieldInputData = nil }
-            
-            if !password.isEmpty && !confirmPassword.isEmpty {
-              let match = password == confirmPassword
-              let displayedImage = match ? "checkmark" : "xmark"
-              
-              Image(displayedImage)
-                .defaultSize()
-            }
+      
+      VStack(alignment: .leading, spacing: 15) {
+        
+        // MARK: - Full name
+        
+        CustomTextField(inputData: $initials,
+                        title: "Initials",
+                        placeholder: "Tim Cook")
+        .focused($fieldContent, equals: .fullName)
+        .submitLabel(.next)
+        .onSubmit { fieldContent = .email }
+        .textInputAutocapitalization(.words)
+        
+        // MARK: - Email
+        
+        CustomTextField(inputData: $email,
+                        title: "Email",
+                        placeholder: "name@example.com")
+        .focused($fieldContent, equals: .email)
+        .submitLabel(.next)
+        .onSubmit { fieldContent = .password }
+        .keyboardType(.emailAddress)
+        .textInputAutocapitalization(.never)
+        
+        // MARK: - Password
+        
+        CustomTextField(inputData: $password,
+                        title: "Password",
+                        placeholder: "Must contain at least 6 characters.",
+                        isSecureField: true)
+        .focused($fieldContent, equals: .password)
+        .submitLabel(.next)
+        .onSubmit { fieldContent = .confirmPassword }
+        
+        // MARK: - Confirm Password
+        
+        CustomTextField(inputData: $confirmPassword,
+                        title: "Confirm password",
+                        placeholder: "Must match the password.",
+                        isSecureField: true)
+        .focused($fieldContent,
+                 equals: .confirmPassword)
+        .submitLabel(.done)
+        .onSubmit { fieldContent = nil }
+        
+        .overlay(alignment: .trailing) {
+          if !password.isEmpty && !confirmPassword.isEmpty {
+            let match = password == confirmPassword
+            Image(match ? .checkmark : .xmark)
+              .defaultSize()
           }
         }
         
-        Button("Sign Up", systemImage: "person.fill.badge.plus") {
-          Task {
-            try await authenticationVM.createUser(withCity: city.rawValue, fullName: fullName, email: email, password: password)
+        HStack {
+          Image(.building)
+            .defaultSize()
+          Picker("", selection: $city) {
+            ForEach(Cities.allCases) { city in
+              Text(city.rawValue)
+            }
           }
+          .tint(.cmReversed)
         }
-        .buttonStyle(CustomButtonModifier(pouring: .blue))
-        .disabled(!isValidForm)
-        .opacity(isValidForm ? 1.0 : 0.5)
-        .shadow(radius: 5)
         
-        // MARK: - Spacer
         Spacer()
       }
       .padding(15)
-      .navigationTitle("Sign Up")
-      .navigationBarTitleDisplayMode(.inline)
       
       .alert(item: $authenticationVM.alertItem) { alertItem in
         Alert(title: alertItem.title,
@@ -124,7 +97,15 @@ struct SignUpScreen: View {
       }
       .toolbar {
         ToolbarItem(placement: .topBarTrailing) {
-          DismissXButton()
+          Button("Sign Up") {
+            Task {
+              await authenticationVM.createUser(
+                withCity: city.rawValue, fullName: initials, email: email, password: password)
+            }
+          }
+          .foregroundStyle(.accent)
+          .disabled(!isValidForm)
+          .opacity(isValidForm ? 1.0 : 0.5)
         }
       }
     }
@@ -132,11 +113,12 @@ struct SignUpScreen: View {
 }
 
 // MARK: - Extensions
+
 extension SignUpScreen: AuthenticationForm {
   var isValidForm: Bool {
-    return !fullName.isEmpty
-    && !email.isEmpty && email.isValidEmail
-    && !password.isEmpty && password.count > 5
+    return !initials.isEmpty
+    && email.isValidEmail
+    && password.count > 5
     && confirmPassword == password
   }
 }
