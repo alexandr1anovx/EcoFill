@@ -21,16 +21,16 @@ struct UserPrivateDataView: View {
   @State private var city: String = ""
   @State private var currentPassword: String = ""
   
-  @State private var isChangingEmail = false
-  @State private var isChangingPassword = false
+  @State private var isPresentedEmailChange = false
+  @State private var isPresentedPasswordChange = false
   
-  @State private var isConfirmingPassword = false
+  @State private var isConfirming = false
   @State private var isEmailVerified = false
   
   var body: some View {
     NavigationStack {
       
-      VStack(alignment: .leading, spacing: 25) {
+      VStack(alignment: .leading, spacing: 20) {
         
         // MARK: - Information Fields
         VStack(alignment: .leading, spacing: 10) {
@@ -40,21 +40,20 @@ struct UserPrivateDataView: View {
             content: fullName)
           
           InformationRow(
-            image: .city,
+            image: .building,
             title: "City:",
             content: city)
           
-          VStack(alignment: .leading, spacing: 15) {
-            
+          VStack(alignment: .leading, spacing: 10) {
             InformationRow(
               image: isEmailVerified ? .verified : .notVerified,
               title: "Email:",
               content: email)
             
             Text(isEmailVerified ?
-                 "" : "Confirmation link has been sent by email.")
-            .font(.lexendFootnote)
-            .foregroundStyle(.brown)
+                 "Email is vefiried." : "Email is unverified. Confirm the link by email and re-login to your account.")
+            .font(.lexendCaption1)
+            .foregroundStyle(isEmailVerified ? .accent : .red)
           }
         }
         
@@ -63,32 +62,20 @@ struct UserPrivateDataView: View {
         // MARK: - Buttons
         VStack(alignment: .leading, spacing: 15) {
           
-          UniversalButton(image: .email, title: "Change email", color: .white, spacing: 10) {
-            isChangingEmail = true
-          }
-          .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
+          ChangeEmailBtn { isPresentedEmailChange = true }
+          ChangePasswordBtn { isPresentedPasswordChange = true }
           
-          UniversalButton(image: .password, title: "Change password", color: .white, spacing: 10) {
-            isChangingPassword = true
-          }
-          .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
-          
-          UniversalButton(image: .xmarkWhite, title: "Delete account", color: .white, spacing: 10) {
-            isConfirmingPassword = true
-          }
-          .buttonStyle(CustomButtonModifier(pouring: .red))
-          
-          .alert("Confirm password", isPresented: $isConfirmingPassword) {
-            SecureField("", text: $currentPassword)
-            Button("Delete") {
-              Task {
-                await authenticationVM.deleteUser(withPassword: currentPassword)
+          DeleteAccountBtn { isConfirming = true }
+            .alert("Confirm password", isPresented: $isConfirming) {
+              SecureField("", text: $currentPassword)
+              Button("Delete", role: .destructive) {
+                Task {
+                  await authenticationVM.deleteUser(
+                    withPassword: currentPassword)
               }
             }
-            Button("Cancel", role: .cancel) {}
           }
         }
-        .shadow(radius: 5)
         
         Spacer()
       }
@@ -99,12 +86,12 @@ struct UserPrivateDataView: View {
       
       // MARK: - Sheets
       
-      .sheet(isPresented: $isChangingEmail) {
+      .sheet(isPresented: $isPresentedEmailChange) {
         ResetEmailView()
           .presentationCornerRadius(20)
       }
       
-      .sheet(isPresented: $isChangingPassword) {
+      .sheet(isPresented: $isPresentedPasswordChange) {
         ResetPasswordView()
           .presentationCornerRadius(20)
       }
