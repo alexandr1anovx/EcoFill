@@ -17,7 +17,7 @@ struct CustomButtonModifier: ButtonStyle {
       .font(.lexendCallout)
       .foregroundColor(.white)
       .background(pouring)
-      .cornerRadius(11)
+      .cornerRadius(10)
     
     return baseButton
       .opacity(configuration.isPressed ? 0.5 : 1.0)

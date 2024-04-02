@@ -19,9 +19,8 @@ struct HomeScreen: View {
     NavigationStack {
       if let city = authenticationVM.currentUser?.city {
         VStack {
-          UserDataPreview()
-            .padding(.top, 30)
-            .padding(.leading, 20)
+          
+          UserDataView()
           
           FuelsList(selectedCity: city)
             .padding(.vertical, 15)
@@ -46,7 +45,7 @@ struct HomeScreen: View {
             .buttonStyle(.animated)
             
             .sheet(isPresented: $isPresentedQR) {
-              QRCodePreview()
+              QRCodeView()
                 .presentationDetents([.fraction(0.4)])
                 .presentationBackgroundInteraction(.disabled)
                 .presentationCornerRadius(20)
