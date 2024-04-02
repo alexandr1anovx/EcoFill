@@ -62,8 +62,12 @@ struct UserPrivateDataView: View {
         // MARK: - Buttons
         VStack(alignment: .leading, spacing: 15) {
           
-          ChangeEmailBtn { isPresentedEmailChange = true }
-          ChangePasswordBtn { isPresentedPasswordChange = true }
+          ChangeBtn(title: "email", img: .email) {
+            isPresentedEmailChange = true
+          }
+          ChangeBtn(title: "password", img: .password) {
+            isPresentedPasswordChange = true
+          }
           
           DeleteAccountBtn { isConfirming = true }
             .alert("Confirm password", isPresented: $isConfirming) {
