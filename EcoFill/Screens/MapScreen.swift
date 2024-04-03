@@ -22,71 +22,97 @@ struct MapScreen: View {
   
   @State private var selectedStation: Station?
   @State private var mapStyle: MapStyle = .standard
+  @State private var route: MKRoute?
   
   var body: some View {
     NavigationStack {
       Map(position: $cameraPosition) {
         
+        // MARK: - Annotations
         UserAnnotation()
         
-        // MARK: - Map annotations
         ForEach(firestoreVM.stations) { station in
           let name = station.name
           let coordinate = station.coordinate
           
           Annotation(name, coordinate: coordinate) {
-            ZStack {
-              Circle()
-                .foregroundStyle(.accent.gradient)
-                .frame(width: 33, height: 33)
-              Image(.fuelpump)
-                .resizable()
-                .frame(width: 25, height: 25)
-            }
-            .onTapGesture {
-              selectedStation = station
-            }
+            Circle()
+              .foregroundStyle(.brown)
+              .frame(width: 33, height: 33)
+              .overlay {
+                Image(.station)
+                  .resizable()
+                  .frame(width: 20, height: 20)
+              }
+              .onTapGesture { selectedStation = station }
           }
         }
       }
-    }
-    .mapStyle(mapStyle)
-    .mapControls {
-      MapUserLocationButton()
-    }
-    
-    // MARK: - Additional map controls
-    .overlay(alignment: .topTrailing) {
-      MapControls(
-        isPresentedList: $isPresentedList,
-        isPresentedMapStyle: $isPresentedMapStyle)
-      .padding(.trailing, 5)
-      .padding(.top, 60)
-    }
-    
-    // MARK: - Sheets
-    .sheet(isPresented: $isPresentedList) {
-      LocationsList()
-        .presentationDetents([.medium, .large])
-        .presentationDragIndicator(.visible)
-        .presentationBackgroundInteraction(.disabled)
-        .presentationCornerRadius(20)
-    }
-    
-    .sheet(isPresented: $isPresentedMapStyle) {
-      MapStylePreview(mapStyle: $mapStyle)
-        .presentationDetents([.fraction(0.2)])
-        .presentationDragIndicator(.visible)
-        .presentationBackgroundInteraction(.disabled)
-        .presentationCornerRadius(20)
-    }
-    
-    .sheet(item: $selectedStation) { station in
+      
+      // MARK: - Map Features
+      .mapStyle(mapStyle)
+      .mapControls {
+        MapUserLocationButton()
+      }
+      .overlay(alignment: .topTrailing) {
+        MapControls(
+          isPresentedList: $isPresentedList,
+          isPresentedMapStyle: $isPresentedMapStyle)
+        .padding(.trailing, 5)
+        .padding(.top, 60)
+      }
+      
+      // MARK: - Sheets
+      .sheet(isPresented: $isPresentedList) {
+        LocationsList()
+          .presentationDetents([.medium, .large])
+          .presentationDragIndicator(.visible)
+          .presentationBackgroundInteraction(.disabled)
+          .presentationCornerRadius(20)
+      }
+      
+      .sheet(isPresented: $isPresentedMapStyle) {
+        MapStyleView(mapStyle: $mapStyle)
+          .presentationDetents([.fraction(0.2)])
+          .presentationDragIndicator(.visible)
+          .presentationBackgroundInteraction(.disabled)
+          .presentationCornerRadius(20)
+      }
+      
       // Show an information about selected station.
-      MapItemPreview(station: station)
+      .sheet(item: $selectedStation) { station in
+        MapItemView(station: station) {
+          Task {
+            await requestCalculateDirections() // Show the route
+          }
+        }
         .presentationDetents([.fraction(0.42)])
         .presentationBackgroundInteraction(.disabled)
         .presentationCornerRadius(20)
+      }
     }
   }
+  
+  private func requestCalculateDirections() async {
+    
+    route = nil
+    
+    if let selectedStation {
+      guard let currentUserLocation = locationManager.manager.location else { return }
+      
+      let startingMapItem = MKMapItem(placemark: MKPlacemark(coordinate: currentUserLocation.coordinate))
+      
+      let destinationPlacemark = MKPlacemark(coordinate: selectedStation.coordinate)
+      let destinationMapItem = MKMapItem(placemark: destinationPlacemark)
+      
+      self.route = await calculateDirections(from: startingMapItem, to: destinationMapItem)
+    }
+  }
+}
+
+
+#Preview {
+  MapScreen()
+    .environmentObject(AuthenticationViewModel())
+    .environmentObject(FirestoreViewModel())
 }
