@@ -10,15 +10,14 @@
 		320270372B8E3778000766E1 /* ScrollableHotlineNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320270362B8E3778000766E1 /* ScrollableHotlineNumbers.swift */; };
 		32144CBA2B81200E009C3081 /* ScrollableFuelsStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32144CB92B81200E009C3081 /* ScrollableFuelsStack.swift */; };
 		32196DA52BA790CD0099B059 /* MapUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32196DA42BA790CD0099B059 /* MapUtilities.swift */; };
-		321B8F3B2BAB230E0067FA82 /* UniversalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B8F3A2BAB230E0067FA82 /* UniversalButton.swift */; };
 		3223F4E92B84D96500DA0181 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3223F4E82B84D96500DA0181 /* Fonts.swift */; };
 		323445702B4752F700C218F1 /* FirestoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234456F2B4752F700C218F1 /* FirestoreViewModel.swift */; };
+		3237E9082BBCA76C00C7465B /* ResetBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3237E9072BBCA76C00C7465B /* ResetBtn.swift */; };
 		3242D11C2B728F04005BE4A3 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242D11B2B728F04005BE4A3 /* Station.swift */; };
 		3249B1972BAF51B9000D4EB5 /* SignInBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3249B1962BAF51B9000D4EB5 /* SignInBtn.swift */; };
 		3249B1992BAF53C8000D4EB5 /* SignUpBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3249B1982BAF53C8000D4EB5 /* SignUpBtn.swift */; };
 		3249B19B2BAF55C4000D4EB5 /* DeleteAccountBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3249B19A2BAF55C4000D4EB5 /* DeleteAccountBtn.swift */; };
-		3249B19D2BAF56A5000D4EB5 /* ChangePasswordBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3249B19C2BAF56A5000D4EB5 /* ChangePasswordBtn.swift */; };
-		3249B19F2BAF56AE000D4EB5 /* ChangeEmailBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3249B19E2BAF56AE000D4EB5 /* ChangeEmailBtn.swift */; };
+		3249B19D2BAF56A5000D4EB5 /* ChangeBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3249B19C2BAF56A5000D4EB5 /* ChangeBtn.swift */; };
 		3249B1A12BAF6FEB000D4EB5 /* GetDirectionsBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3249B1A02BAF6FEB000D4EB5 /* GetDirectionsBtn.swift */; };
 		3249B1A32BAF76BB000D4EB5 /* SendFeedbackBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3249B1A22BAF76BB000D4EB5 /* SendFeedbackBtn.swift */; };
 		325CE7E42B80F350007E343D /* Color+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325CE7E32B80F350007E343D /* Color+Ext.swift */; };
@@ -82,15 +81,14 @@
 		320270362B8E3778000766E1 /* ScrollableHotlineNumbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableHotlineNumbers.swift; sourceTree = "<group>"; };
 		32144CB92B81200E009C3081 /* ScrollableFuelsStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableFuelsStack.swift; sourceTree = "<group>"; };
 		32196DA42BA790CD0099B059 /* MapUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUtilities.swift; sourceTree = "<group>"; };
-		321B8F3A2BAB230E0067FA82 /* UniversalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalButton.swift; sourceTree = "<group>"; };
 		3223F4E82B84D96500DA0181 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		3234456F2B4752F700C218F1 /* FirestoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreViewModel.swift; sourceTree = "<group>"; };
+		3237E9072BBCA76C00C7465B /* ResetBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetBtn.swift; sourceTree = "<group>"; };
 		3242D11B2B728F04005BE4A3 /* Station.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
 		3249B1962BAF51B9000D4EB5 /* SignInBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInBtn.swift; sourceTree = "<group>"; };
 		3249B1982BAF53C8000D4EB5 /* SignUpBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpBtn.swift; sourceTree = "<group>"; };
 		3249B19A2BAF55C4000D4EB5 /* DeleteAccountBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountBtn.swift; sourceTree = "<group>"; };
-		3249B19C2BAF56A5000D4EB5 /* ChangePasswordBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordBtn.swift; sourceTree = "<group>"; };
-		3249B19E2BAF56AE000D4EB5 /* ChangeEmailBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeEmailBtn.swift; sourceTree = "<group>"; };
+		3249B19C2BAF56A5000D4EB5 /* ChangeBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeBtn.swift; sourceTree = "<group>"; };
 		3249B1A02BAF6FEB000D4EB5 /* GetDirectionsBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDirectionsBtn.swift; sourceTree = "<group>"; };
 		3249B1A22BAF76BB000D4EB5 /* SendFeedbackBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendFeedbackBtn.swift; sourceTree = "<group>"; };
 		325CE7E32B80F350007E343D /* Color+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Ext.swift"; sourceTree = "<group>"; };
@@ -271,14 +269,13 @@
 			isa = PBXGroup;
 			children = (
 				32E563782B9C91CE000BCFD4 /* DismissXButton.swift */,
-				321B8F3A2BAB230E0067FA82 /* UniversalButton.swift */,
 				3249B1962BAF51B9000D4EB5 /* SignInBtn.swift */,
 				3249B1982BAF53C8000D4EB5 /* SignUpBtn.swift */,
 				3249B19A2BAF55C4000D4EB5 /* DeleteAccountBtn.swift */,
-				3249B19C2BAF56A5000D4EB5 /* ChangePasswordBtn.swift */,
-				3249B19E2BAF56AE000D4EB5 /* ChangeEmailBtn.swift */,
+				3249B19C2BAF56A5000D4EB5 /* ChangeBtn.swift */,
 				3249B1A02BAF6FEB000D4EB5 /* GetDirectionsBtn.swift */,
 				3249B1A22BAF76BB000D4EB5 /* SendFeedbackBtn.swift */,
+				3237E9072BBCA76C00C7465B /* ResetBtn.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -323,7 +320,6 @@
 				32BF85AB2BAE2CEE0089D34F /* QR */,
 				32BF85AA2BAE2CE10089D34F /* Map */,
 				320ED3CB2B7D04E800177A3E /* AppearanceChanger */,
-
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -564,7 +560,7 @@
 				32BF85AE2BAE4A3E0089D34F /* TextFieldContent.swift in Sources */,
 				32D672652B9F362200BAB824 /* Image+Ext.swift in Sources */,
 				32E563812B9CBF19000BCFD4 /* MapControls.swift in Sources */,
-				3249B19D2BAF56A5000D4EB5 /* ChangePasswordBtn.swift in Sources */,
+				3249B19D2BAF56A5000D4EB5 /* ChangeBtn.swift in Sources */,
 				323445702B4752F700C218F1 /* FirestoreViewModel.swift in Sources */,
 				6171A4532B1DE2D800D22A23 /* FuelsList.swift in Sources */,
 				3249B19B2BAF55C4000D4EB5 /* DeleteAccountBtn.swift in Sources */,
@@ -572,19 +568,18 @@
 				3249B1A12BAF6FEB000D4EB5 /* GetDirectionsBtn.swift in Sources */,
 				61696B772B1F7A8400406421 /* String+Ext.swift in Sources */,
 				327C2EE12B825AB300B5678E /* CLLocationCoordinate2D+Ext.swift in Sources */,
+				3237E9082BBCA76C00C7465B /* ResetBtn.swift in Sources */,
 				611AD1342B1D3F4800BD5EB7 /* StationCoordinatesCell.swift in Sources */,
 				3249B1972BAF51B9000D4EB5 /* SignInBtn.swift in Sources */,
 				3270E2FC2BADB88C0047E645 /* ResetEmailView.swift in Sources */,
 				611AD1352B1D3F4800BD5EB7 /* ServicesList.swift in Sources */,
 				6105436A2B34CF5700CFC9DB /* CustomTextField.swift in Sources */,
 				3249B1992BAF53C8000D4EB5 /* SignUpBtn.swift in Sources */,
-				321B8F3B2BAB230E0067FA82 /* UniversalButton.swift in Sources */,
 				614314942B17F9A2009A1D9C /* ProfileScreen.swift in Sources */,
 				320270372B8E3778000766E1 /* ScrollableHotlineNumbers.swift in Sources */,
 				328E9B292B8F5996008B1D67 /* HotlineNumberCell.swift in Sources */,
 				32196DA52BA790CD0099B059 /* MapUtilities.swift in Sources */,
 				61696B712B1F741F00406421 /* User.swift in Sources */,
-				3249B19F2BAF56AE000D4EB5 /* ChangeEmailBtn.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
