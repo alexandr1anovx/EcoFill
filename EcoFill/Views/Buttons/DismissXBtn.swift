@@ -7,8 +7,7 @@
 
 import SwiftUI
 
-struct DismissXButton: View {
-  
+struct DismissXBtn: View {
   @Environment(\.dismiss) var dismiss
   
   var body: some View {
@@ -19,8 +18,4 @@ struct DismissXButton: View {
         .defaultSize()
     }
   }
-}
-
-#Preview {
-  DismissXButton()
 }

@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct ChangeBtn: View {
-  var title: String
+struct ChangeDataBtn: View {
+  var data: String
   var img: ImageResource
   var action: () -> Void
   
@@ -19,7 +19,7 @@ struct ChangeBtn: View {
       HStack {
         Image(img)
           .defaultSize()
-        Text("Change \(title)")
+        Text("Change \(data)")
           .font(.lexendFootnote)
           .foregroundStyle(.white)
       }
@@ -27,8 +27,4 @@ struct ChangeBtn: View {
     .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
     .shadow(radius: 5)
   }
-}
-
-#Preview {
-  ChangeBtn(title: "password", img: .password, action: {})
 }
