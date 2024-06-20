@@ -76,7 +76,7 @@ struct SignUpScreen: View {
         }
         
         HStack {
-          Image(.building)
+          Image(.location)
             .defaultSize()
           Picker("", selection: $city) {
             ForEach(Cities.allCases) { city in
