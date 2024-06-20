@@ -10,23 +10,23 @@ import MapKit
 
 struct MapItemView: View {
   
-  // MARK: - Properties
+  // MARK: - properties
   var station: Station
-  var action: () -> Void?
+  @Binding var isShownRoute: Bool
   
   var body: some View {
     NavigationStack {
-      
       VStack(alignment: .leading, spacing: 15) {
         
-        // MARK: - Station name
+        // MARK: - name
         Text(station.name)
           .font(.lexendBody)
         
-        // MARK: - Address
+        // MARK: - address
+        
         Row(img: .location, text: station.address)
         
-        // MARK: - Schedule
+        // MARK: - schedule
         HStack {
           Row(img: .clock, text: "Schedule:")
           Text(station.schedule)
@@ -34,52 +34,35 @@ struct MapItemView: View {
             .foregroundStyle(.cmReversed)
         }
         
-        // MARK: - Payment
+        
+        // MARK: - payment
         HStack {
-          Row(img: .cash, text: "Pay with:")
+          Row(img: .payment, text: "Pay with:")
           Image(.mastercard)
             .navBarSize()
           Image(.applePay)
             .navBarSize()
         }
         
-        // MARK: - Fuels
+        // MARK: - fuels
         ScrollableFuelsStack(station: station)
         
-        // MARK: - Get directions
-        GetDirectionsBtn {
-          // action
+        // MARK: - route
+        if isShownRoute {
+          DismissRouteBtn { isShownRoute = false }
+        } else {
+          RouteBtn { isShownRoute = true }
         }
+        
       }
       .padding(.horizontal, 15)
       .padding(.bottom, 35)
       .toolbar {
         ToolbarItem(placement: .topBarTrailing) {
-          DismissXButton()
+          DismissXBtn()
+            .foregroundStyle(.red)
         }
       }
     }
   }
-}
-
-// MARK: - Row
-struct Row: View {
-  var img: ImageResource
-  var text: String?
-  
-  var body: some View {
-    HStack {
-      Image(img)
-        .defaultSize()
-      
-      Text(text ?? "")
-        .font(.lexendFootnote)
-        .foregroundStyle(.gray)
-    }
-  }
-}
-
-
-#Preview {
-  MapItemView(station: .testStation, action: {})
 }
