@@ -10,9 +10,8 @@ import MapKit
 
 struct MapStyleView: View {
   
-  // MARK: - Properties
+  // MARK: - properties
   @Binding var mapStyle: MapStyle
-  
   @State private var isStandardSelected = false
   @State private var isHybridSelected = false
   

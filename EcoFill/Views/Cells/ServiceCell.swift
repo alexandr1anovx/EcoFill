@@ -8,15 +8,13 @@
 import SwiftUI
 
 struct ServiceCell: View {
-  
-  // MARK: - Properties
   var service: Service
   
   var body: some View {
     NavigationLink {
-      switch service.title {
-      case Service.ServiceType.support.rawValue: SupportScreen()
-      default: EmptyView()
+      switch service.type {
+      case .support:
+        SupportScreen()
       }
     } label: {
       HStack(spacing: 15) {
@@ -30,7 +28,7 @@ struct ServiceCell: View {
             .foregroundStyle(.cmReversed)
           
           Text(service.description)
-            .font(.lexendCaption1)
+            .font(.lexendCaption)
             .foregroundStyle(.gray)
             .multilineTextAlignment(.leading)
         }
@@ -39,6 +37,3 @@ struct ServiceCell: View {
   }
 }
 
-#Preview {
-  ServiceCell(service: Service(title: "Hi", description: "Hi", imageName: "house"))
-}

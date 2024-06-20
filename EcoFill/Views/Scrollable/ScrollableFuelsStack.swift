@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ScrollableFuelsStack: View {
   
-  // MARK: - Properties
+  // MARK: - properties
   let station: Station
   
   var body: some View {
@@ -18,15 +18,15 @@ struct ScrollableFuelsStack: View {
         FuelCell(fuel: "A-95 Euro",
                  price: station.euroA95,
                  width: 150,
-                 pouring: Color.grGreenBlack)
+                 pouring: Color.gradientGreenBlack)
         FuelCell(fuel: "DP Euro",
                  price: station.euroDP,
                  width: 140,
-                 pouring: Color.grGreenBlack)
+                 pouring: Color.gradientGreenBlack)
         FuelCell(fuel: "Gas",
                  price: station.gas,
                  width: 105,
-                 pouring: Color.grOrangeBlack)
+                 pouring: Color.gradientOrangeBlack)
       }
       .frame(height: 50)
     }
@@ -38,3 +38,4 @@ struct ScrollableFuelsStack: View {
 #Preview {
   ScrollableFuelsStack(station: .testStation)
 }
+

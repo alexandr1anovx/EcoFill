@@ -9,24 +9,20 @@ import SwiftUI
 
 struct HomeScreen: View {
   
-  // MARK: - Properties
+  // MARK: - properties
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
   @State private var isPresentedQR = false
   
   // MARK: - body
   var body: some View {
-    
     NavigationStack {
       if let city = authenticationVM.currentUser?.city {
         VStack {
-          
           UserDataView()
-          
           FuelsList(selectedCity: city)
             .padding(.vertical, 15)
             .padding(.leading, 20)
             .padding(.trailing, 8)
-          
           ServicesList()
         }
         .toolbar {
@@ -58,11 +54,3 @@ struct HomeScreen: View {
     }
   }
 }
-
-
-
-#Preview {
-  HomeScreen()
-    .environmentObject(AuthenticationViewModel())
-}
-

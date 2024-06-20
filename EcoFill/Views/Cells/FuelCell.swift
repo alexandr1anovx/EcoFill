@@ -7,8 +7,7 @@
 import SwiftUI
 
 struct FuelCell: View {
-  
-  // MARK: - Properties
+  // MARK: - properties
   let fuel: String
   let price: Double
   let width: CGFloat
@@ -39,5 +38,6 @@ struct FuelCell: View {
   FuelCell(fuel: "Euro A-95",
            price: 45.50,
            width: 150,
-           pouring: Color.grGreenBlack)
+           pouring: Color.gradientGreenBlack)
 }
+

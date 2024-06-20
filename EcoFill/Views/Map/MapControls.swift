@@ -9,20 +9,21 @@ import SwiftUI
 
 struct MapControls: View {
   
-  @Binding var isPresentedList: Bool
-  @Binding var isPresentedMapStyle: Bool
+  // MARK: - properties
+  @Binding var isShownList: Bool
+  @Binding var isShownMapStyle: Bool
   
   var body: some View {
     VStack(spacing: 10) {
-      
-      ControlItem(image: .map) { isPresentedMapStyle = true }
-      ControlItem(image: .location) { isPresentedList = true }
+      ControlItem(image: .map) { isShownMapStyle = true }
+      ControlItem(image: .location) { isShownList = true }
     }
   }
 }
 
 struct ControlItem: View {
   
+  // MARK: - properties
   var image: ImageResource
   var action: () -> Void?
   
@@ -39,6 +40,6 @@ struct ControlItem: View {
 }
 
 #Preview {
-  MapControls(isPresentedList: .constant(false),
-              isPresentedMapStyle: .constant(false))
+  MapControls(isShownList: .constant(false),
+              isShownMapStyle: .constant(false))
 }

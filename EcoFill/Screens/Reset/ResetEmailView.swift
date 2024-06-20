@@ -6,19 +6,15 @@
 //
 
 import SwiftUI
-
-import SwiftUI
 import Firebase
 import FirebaseFirestoreSwift
 
 struct ResetEmailView: View {
   
-  // MARK: - Properties
+  // MARK: - properties
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
-  
   @State private var email: String = ""
   @State private var currentPassword: String = ""
-  
   @FocusState private var fieldContent: TextFieldContent?
   
   var body: some View {
@@ -26,7 +22,7 @@ struct ResetEmailView: View {
       
       VStack(alignment: .leading, spacing: 15) {
         
-        // MARK: - Text Fields
+        // MARK: - text Fields
         
         CustomTextField(inputData: $email,
                         title: "New email address",
@@ -59,10 +55,13 @@ struct ResetEmailView: View {
       .padding(.horizontal, 15)
       .padding(.top, 30)
       .toolbar {
-        ToolbarItem(placement: .topBarLeading) { DismissXButton() }
+        ToolbarItem(placement: .topBarLeading) {
+          DismissXBtn()
+            .foregroundStyle(.red)
+        }
       }
-      // Enable the keyboard.
-      .onAppear { fieldContent = .fullName }
+      
+      .onAppear { fieldContent = .fullName } // Enable the keyboard.
       
       .alert(item: $authenticationVM.alertItem) { alertItem in
         Alert(title: alertItem.title,
@@ -73,7 +72,7 @@ struct ResetEmailView: View {
   }
 }
 
-// MARK: - Extensions
+// MARK: - extensions
 
 extension ResetEmailView: AuthenticationForm {
   var isValidForm: Bool {
@@ -85,4 +84,3 @@ extension ResetEmailView: AuthenticationForm {
   ResetEmailView()
     .environmentObject(AuthenticationViewModel())
 }
-

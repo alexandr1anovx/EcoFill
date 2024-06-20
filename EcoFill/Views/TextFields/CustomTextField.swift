@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CustomTextField: View {
   
-  // MARK: - Properties
+  // MARK: - properties
   @Binding var inputData: String
   var title: String
   var placeholder: String
@@ -30,7 +30,6 @@ struct CustomTextField: View {
           .font(.lexendFootnote)
           .foregroundStyle(.gray)
       }
-      
       Divider()
     }
   }

@@ -15,7 +15,7 @@ struct SendFeedbackBtn: View {
       action()
     } label: {
       HStack {
-        Image(.checkmark)
+        Image(.cmCheckmark)
           .resizable()
           .frame(width: 20, height: 20)
         Text("Send feedback")
@@ -26,8 +26,4 @@ struct SendFeedbackBtn: View {
     .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
     .shadow(radius: 5)
   }
-}
-
-#Preview {
-  SendFeedbackBtn(action: {})
 }

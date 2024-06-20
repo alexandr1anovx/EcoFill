@@ -9,10 +9,9 @@ import SwiftUI
 
 struct FuelsList: View {
   
-  // MARK: - Properties
+  // MARK: - properties
   @EnvironmentObject var firestoreVM: FirestoreViewModel
   var selectedCity: String
-  
   var filteredStations: [Station] {
     firestoreVM.stations.filter { $0.city == selectedCity }
   }

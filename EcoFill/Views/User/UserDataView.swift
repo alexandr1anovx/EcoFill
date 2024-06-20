@@ -8,21 +8,23 @@
 import SwiftUI
 
 struct UserDataView: View {
-  
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
   
   var body: some View {
     if let user = authenticationVM.currentUser {
       HStack {
         VStack(alignment: .leading, spacing: 8) {
+          
           Text(user.fullName)
             .font(.lexendBody)
             .foregroundStyle(.cmReversed)
-          Row(img: .email, text: user.email)
+          Row(img: .mail, text: user.email)
             .lineLimit(2)
         }
+        
         Spacer()
-        Row(img: .building, text: user.city)
+        
+        Row(img: .location, text: user.city)
       }
       .padding(.top, 30)
       .padding(.horizontal, 20)

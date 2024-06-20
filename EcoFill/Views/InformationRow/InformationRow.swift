@@ -8,17 +8,16 @@
 import SwiftUI
 
 struct InformationRow: View {
-  
-  let image: ImageResource
-  let title: String
+  let img: ImageResource
+  let text: String
   let content: String?
   
   var body: some View {
     
     HStack(spacing: 10) {
-      Image(image)
+      Image(img)
         .defaultSize()
-      Text(title)
+      Text(text)
         .font(.lexendFootnote)
         .foregroundStyle(.gray)
       Text(content ?? "")
@@ -30,5 +29,6 @@ struct InformationRow: View {
 
 #Preview {
   InformationRow(
-    image: .initials, title: "Initials:", content: "Tim Cook")
+    img: .initials, text: "Initials:", content: "Tim Cook")
 }
+

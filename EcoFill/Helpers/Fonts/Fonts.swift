@@ -31,7 +31,7 @@ extension Font {
     return Font.custom("LexendDeca-Regular", size: 14)
   }
   
-  public static var lexendCaption1: Font {
+  public static var lexendCaption: Font {
     return Font.custom("LexendDeca-Regular", size: 11)
   }
 }

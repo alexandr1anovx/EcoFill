@@ -11,7 +11,7 @@ import CoreImage.CIFilterBuiltins
 
 struct QRCodeView: View {
   
-  // MARK: - Properties
+  // MARK: - properties
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
   let context = CIContext()
   let filter = CIFilter.qrCodeGenerator()
@@ -22,13 +22,13 @@ struct QRCodeView: View {
         VStack(spacing: 20) {
           VStack(alignment: .leading, spacing: 10) {
             InformationRow(
-              image: .initials,
-              title: "Initials:",
+              img: .initials,
+              text: "Initials:",
               content: user.fullName)
             
             InformationRow(
-              image: .email,
-              title: "Email:",
+              img: .mail,
+              text: "Email:",
               content: user.email)
           }
           
@@ -42,7 +42,8 @@ struct QRCodeView: View {
         .padding(.horizontal)
         .toolbar {
           ToolbarItem(placement: .topBarTrailing) {
-            DismissXButton()
+            DismissXBtn()
+              .foregroundStyle(.red)
           }
         }
       }
@@ -65,4 +66,5 @@ struct QRCodeView: View {
   QRCodeView()
     .environmentObject(AuthenticationViewModel())
 }
+
 

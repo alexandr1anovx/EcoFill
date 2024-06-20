@@ -43,3 +43,4 @@ extension Station {
                                    schedule: "08:00-23.00",
                                    street: "Olesia Honchara St, 79-75")
 }
+

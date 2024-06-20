@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct HotlineNumberCell: View {
-  
   var phoneNumber: String
   
   var body: some View {

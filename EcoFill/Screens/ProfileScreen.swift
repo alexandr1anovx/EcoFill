@@ -9,13 +9,12 @@ import SwiftUI
 
 struct ProfileScreen: View {
   
-  // MARK: - Properties
+  // MARK: - properties
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
   @State private var isPresentedSignOut = false
   
   var body: some View {
     NavigationStack {
-      
       UserDataView()
       
       List {
@@ -60,9 +59,4 @@ struct ProfileScreen: View {
       .navigationBarTitleDisplayMode(.inline)
     }
   }
-}
-
-#Preview {
-  ProfileScreen()
-    .environmentObject(AuthenticationViewModel())
 }

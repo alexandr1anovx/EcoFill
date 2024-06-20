@@ -13,10 +13,9 @@ enum FeedbackFormTextField {
 
 struct SupportScreen: View {
   
-  // MARK: - Properties
+  // MARK: - properties
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
   @FocusState private var focusedFeedbackTF: FeedbackFormTextField?
-  
   @State private var email: String = ""
   @State private var message: String = ""
   @State private var isPresentedAlert = false
@@ -83,7 +82,7 @@ struct SupportScreen: View {
   }
 }
 
-// MARK: - Extensions
+// MARK: - extensions
 
 extension SupportScreen: AuthenticationForm {
   var isValidForm: Bool {

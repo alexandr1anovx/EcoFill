@@ -23,7 +23,7 @@ enum Scheme: String, CaseIterable {
 
 struct AppearanceChanger: View {
   
-  // MARK: - Properties
+  // MARK: - properties
   @AppStorage("preferredScheme") private var preferredScheme: Scheme = .system
   
   var body: some View {
@@ -57,4 +57,3 @@ struct AppearanceChanger: View {
 #Preview {
   AppearanceChanger()
 }
-

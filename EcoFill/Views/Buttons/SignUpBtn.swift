@@ -26,7 +26,3 @@ struct SignUpBtn: View {
     .shadow(radius: 5)
   }
 }
-
-#Preview {
-  SignUpBtn(action: {})
-}

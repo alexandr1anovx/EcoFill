@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainTabScreen: View {
   
-  // MARK: - Properties
+  // MARK: - properties
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
   
   var body: some View {
@@ -41,4 +41,3 @@ struct MainTabView: View {
     }
   }
 }
-
