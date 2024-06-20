@@ -19,7 +19,6 @@ struct UserPrivateDataView: View {
   @State private var city: String = ""
   @State private var currentPassword: String = ""
   @State private var isShownResetEmail = false
-  @State private var isShownResetPassword = false
   @State private var isConfirming = false
   @State private var isVerifiedEmail = false
   
@@ -57,7 +56,7 @@ struct UserPrivateDataView: View {
         // MARK: - buttons
         
         VStack(alignment: .leading, spacing: 15) {
-          ChangeDataBtn(data: "email", img: .mail) {
+          ResetBtn(img: .mail, data: "email") {
             isShownResetEmail = true
           }
           
@@ -83,10 +82,6 @@ struct UserPrivateDataView: View {
       // MARK: - Sheets
       .sheet(isPresented: $isShownResetEmail) {
         ResetEmailView()
-          .presentationCornerRadius(20)
-      }
-      .sheet(isPresented: $isShownResetPassword) {
-        ResetPasswordView()
           .presentationCornerRadius(20)
       }
       
