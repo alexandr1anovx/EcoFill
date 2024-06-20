@@ -42,7 +42,7 @@ struct ResetEmailView: View {
         .onSubmit { fieldContent = .confirmPassword }
         .submitLabel(.next)
         
-        ResetBtn {
+        ResetBtn(img: .cmCheckmark, data: "") {
           Task {
             await authenticationVM.updateEmail(withEmail: email, password: currentPassword)
           }
