@@ -8,21 +8,21 @@
 import Foundation
 import MapKit
 
-
 func calculateDirections(from: MKMapItem, to: MKMapItem) async -> MKRoute? {
-    let directionsRequest = MKDirections.Request()
-    directionsRequest.transportType = .automobile
-    directionsRequest.source = from
-    directionsRequest.destination = to
-
-    do {
-        let directions = MKDirections(request: directionsRequest)
-        let response = try await directions.calculate()
-        return response.routes.first
-    } catch {
-        print("Error calculating directions: \(error)")
-        return nil
-    }
+  let request = MKDirections.Request()
+  request.transportType = .walking
+  request.source = from
+  request.destination = to
+  
+  do {
+    let directions = MKDirections(request: request)
+    let response = try await directions.calculate()
+    let route = response.routes.first
+    return route
+  } catch {
+    print("An error occurred while calculating directions: \(error)")
+    return nil
+  }
 }
 
 func calculateDistance(from: CLLocation, to: CLLocation) -> Measurement<UnitLength> {

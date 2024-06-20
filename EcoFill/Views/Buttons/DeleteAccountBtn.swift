@@ -26,7 +26,3 @@ struct DeleteAccountBtn: View {
     .shadow(radius: 5)
   }
 }
-
-#Preview {
-  DeleteAccountBtn(action: {})
-}
