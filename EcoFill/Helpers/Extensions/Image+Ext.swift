@@ -18,6 +18,6 @@ extension Image {
   func defaultSize() -> some View {
     self
       .resizable()
-      .frame(width: 24, height: 24)
+      .frame(width: 23, height: 23)
   }
 }

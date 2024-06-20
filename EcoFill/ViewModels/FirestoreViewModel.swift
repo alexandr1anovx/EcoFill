@@ -13,7 +13,6 @@ class FirestoreViewModel: ObservableObject {
 
   // MARK: - Properties
   @Published var stations: [Station] = []
-
   private let db = Firestore.firestore()
 
   func fetchStations() {

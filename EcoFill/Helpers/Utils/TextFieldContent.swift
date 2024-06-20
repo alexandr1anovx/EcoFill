@@ -12,6 +12,5 @@ enum TextFieldContent: String {
   case email
   case password
   case confirmPassword
-  
   case newPassword
 }

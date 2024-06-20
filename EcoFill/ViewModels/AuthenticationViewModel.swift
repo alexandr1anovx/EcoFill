@@ -137,7 +137,8 @@ class AuthenticationViewModel: ObservableObject {
     guard let user = userSession else { return }
     guard let currentEmail = user.email else { return }
     
-    let credential = EmailAuthProvider.credential(withEmail: currentEmail, password: password)
+    let credential = EmailAuthProvider.credential(withEmail: currentEmail,
+                                                  password: password)
     
     do {
       // 1. Reauthenticate the user.
@@ -150,7 +151,7 @@ class AuthenticationViewModel: ObservableObject {
       alertItem = ProfileAlertContext.emailVerificationSent
       
       // 4. Update the firestore collection.
-      try await db.collection("users").document(user.uid).updateData( ["email": newEmail] )
+      try await db.collection("users").document(user.uid).updateData(["email": newEmail])
       
       await fetchUser()
       
@@ -159,3 +160,4 @@ class AuthenticationViewModel: ObservableObject {
     }
   }
 }
+
