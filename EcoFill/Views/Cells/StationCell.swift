@@ -6,10 +6,11 @@
 
 import SwiftUI
 
-struct StationCoordinatesCell: View {
-  
+struct StationCell: View {
   var station: Station
-  
+  var isShownRoute: Bool
+  var action: () -> Void
+      
   var body: some View {
     HStack {
       VStack(alignment: .leading, spacing: 8) {
@@ -18,7 +19,7 @@ struct StationCoordinatesCell: View {
           .foregroundStyle(.cmReversed)
         
         HStack {
-          Text("Work schedule:")
+          Text("Schedule:")
             .foregroundStyle(.gray)
           Text(station.schedule)
             .foregroundStyle(.brown)
@@ -28,15 +29,11 @@ struct StationCoordinatesCell: View {
       
       Spacer()
       
-      Button("Route") {
-        
+      if isShownRoute {
+        DismissRouteBtn { action() }
+      } else {
+        RouteBtn { action() }
       }
-      .buttonStyle(CustomButtonModifier(pouring: .accent))
-      .shadow(radius: 5)
     }
   }
-}
-
-#Preview {
-  StationCoordinatesCell(station: .testStation)
 }

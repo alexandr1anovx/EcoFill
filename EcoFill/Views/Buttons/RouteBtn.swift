@@ -7,17 +7,17 @@
 
 import SwiftUI
 
-struct GetDirectionsBtn: View {
+struct RouteBtn: View {
   var action: () -> Void
   
   var body: some View {
     Button {
-      // action
+      action()
     } label: {
       HStack {
-        Image(.walkingBoy)
+        Image(.route)
           .defaultSize()
-        Text("Get directions")
+        Text("Route")
           .font(.lexendFootnote)
           .foregroundStyle(.white)
       }
@@ -25,8 +25,4 @@ struct GetDirectionsBtn: View {
     .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
     .shadow(radius: 5)
   }
-}
-
-#Preview {
-  GetDirectionsBtn(action: {})
 }
