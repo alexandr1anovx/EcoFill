@@ -37,7 +37,7 @@ struct MapScreen: View {
           
           Annotation(name, coordinate: coordinate) {
             Circle()
-              .foregroundStyle(.brown.gradient)
+              .foregroundStyle(.cmBlue.gradient)
               .frame(width: 33, height: 33)
               .overlay {
                 Image(.station)

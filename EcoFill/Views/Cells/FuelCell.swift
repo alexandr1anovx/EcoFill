@@ -33,11 +33,3 @@ struct FuelCell: View {
       }
   }
 }
-
-#Preview {
-  FuelCell(fuel: "Euro A-95",
-           price: 45.50,
-           width: 150,
-           pouring: Color.gradientGreenBlack)
-}
-

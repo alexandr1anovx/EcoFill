@@ -21,7 +21,7 @@ struct HomeScreen: View {
           UserDataView()
           FuelsList(selectedCity: city)
             .padding(.vertical, 15)
-            .padding(.leading, 20)
+            .padding(.leading, 15)
             .padding(.trailing, 8)
           ServicesList()
         }

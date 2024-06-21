@@ -22,7 +22,7 @@ struct RouteBtn: View {
           .foregroundStyle(.white)
       }
     }
-    .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
+    .buttonStyle(CustomButtonModifier(pouring: .cmBlue))
     .shadow(radius: 5)
   }
 }

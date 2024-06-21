@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ProfileScreen: View {
   
-  // MARK: - properties
   @EnvironmentObject var authenticationVM: AuthenticationViewModel
   @State private var isPresentedSignOut = false
   
