@@ -18,15 +18,15 @@ struct ScrollableFuelsStack: View {
         FuelCell(fuel: "A-95 Euro",
                  price: station.euroA95,
                  width: 150,
-                 pouring: Color.gradientGreenBlack)
+                 pouring: Color.gradientBlueBlack)
         FuelCell(fuel: "DP Euro",
                  price: station.euroDP,
                  width: 140,
-                 pouring: Color.gradientGreenBlack)
+                 pouring: Color.gradientBlueBlack)
         FuelCell(fuel: "Gas",
                  price: station.gas,
                  width: 105,
-                 pouring: Color.gradientOrangeBlack)
+                 pouring: Color.gradientBlueBlack)
       }
       .frame(height: 50)
     }
