@@ -8,16 +8,6 @@
 import SwiftUI
 
 extension Color {
-  
-  static let gradientOrangeBlack = LinearGradient(colors: [.orange, .cmBlack],
-                                            startPoint: .bottomLeading,
-                                            endPoint: .top)
-  
-  static let gradientGreenBlack = LinearGradient(colors: [.accent, .cmBlack],
-                                           startPoint: .bottomLeading,
-                                           endPoint: .top)
-  
-  static let gradientBlueBlack = LinearGradient(colors: [.blue, .cmBlack],
-                                          startPoint: .bottomLeading,
-                                          endPoint: .top)
+  static let gradientBlueBlack = LinearGradient(
+    colors: [.cmBlue, .cmBlack], startPoint: .bottomLeading, endPoint: .top)
 }
