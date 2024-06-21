@@ -12,7 +12,6 @@
 		3212AAC72C245371002FBA2A /* DismissRouteBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3212AAC62C245371002FBA2A /* DismissRouteBtn.swift */; };
 		3212AAC92C24538D002FBA2A /* RouteBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3212AAC82C24538D002FBA2A /* RouteBtn.swift */; };
 		3212AACB2C245BAB002FBA2A /* DismissXBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3212AACA2C245BAB002FBA2A /* DismissXBtn.swift */; };
-		3212AACD2C245BD0002FBA2A /* ChangeDataBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3212AACC2C245BD0002FBA2A /* ChangeDataBtn.swift */; };
 		32144CBA2B81200E009C3081 /* ScrollableFuelsStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32144CB92B81200E009C3081 /* ScrollableFuelsStack.swift */; };
 		32196DA52BA790CD0099B059 /* MapUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32196DA42BA790CD0099B059 /* MapUtilities.swift */; };
 		3223F4E92B84D96500DA0181 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3223F4E82B84D96500DA0181 /* Fonts.swift */; };
@@ -84,7 +83,6 @@
 		3212AAC62C245371002FBA2A /* DismissRouteBtn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissRouteBtn.swift; sourceTree = "<group>"; };
 		3212AAC82C24538D002FBA2A /* RouteBtn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBtn.swift; sourceTree = "<group>"; };
 		3212AACA2C245BAB002FBA2A /* DismissXBtn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissXBtn.swift; sourceTree = "<group>"; };
-		3212AACC2C245BD0002FBA2A /* ChangeDataBtn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeDataBtn.swift; sourceTree = "<group>"; };
 		32144CB92B81200E009C3081 /* ScrollableFuelsStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableFuelsStack.swift; sourceTree = "<group>"; };
 		32196DA42BA790CD0099B059 /* MapUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUtilities.swift; sourceTree = "<group>"; };
 		3223F4E82B84D96500DA0181 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -277,7 +275,6 @@
 		32E563862B9CC701000BCFD4 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				3212AACC2C245BD0002FBA2A /* ChangeDataBtn.swift */,
 				3212AACA2C245BAB002FBA2A /* DismissXBtn.swift */,
 				3212AAC62C245371002FBA2A /* DismissRouteBtn.swift */,
 				3212AAC82C24538D002FBA2A /* RouteBtn.swift */,
@@ -544,7 +541,6 @@
 				610543672B34CB0400CFC9DB /* SignInScreen.swift in Sources */,
 				32B0E97D2B6C70650090ABF2 /* MKCoordinateRegion+Ext.swift in Sources */,
 				32B0E97B2B6C5E6F0090ABF2 /* LocationManager.swift in Sources */,
-				3212AACD2C245BD0002FBA2A /* ChangeDataBtn.swift in Sources */,
 				6105436C2B34E2FE00CFC9DB /* SignUpScreen.swift in Sources */,
 				611AD1292B1D3F3A00BD5EB7 /* Service.swift in Sources */,
 				613AE8E62B36E21700B5048A /* AuthenticationViewModel.swift in Sources */,
@@ -746,6 +742,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -781,6 +778,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
