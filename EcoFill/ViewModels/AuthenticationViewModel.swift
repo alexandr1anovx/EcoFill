@@ -6,24 +6,24 @@
 //
 
 import Firebase
-import FirebaseFirestoreSwift
 import FirebaseAuth
-import SwiftUI
 
 protocol AuthenticationForm {
   var isValidForm: Bool { get }
 }
 
 @MainActor
-class AuthenticationViewModel: ObservableObject {
+final class AuthenticationViewModel: ObservableObject {
   
-  // MARK: - Properties
+  // MARK: - Public Properties
   @Published var userSession: FirebaseAuth.User?
   @Published var currentUser: User?
   @Published var alertItem: AlertItem?
-  private let db = Firestore.firestore()
-  private var credential: AuthCredential?
   
+  // MARK: - Private Properties
+  private let db = Firestore.firestore()
+  
+  // MARK: - Initializers
   init() {
     self.userSession = Auth.auth().currentUser
     Task {
@@ -31,133 +31,94 @@ class AuthenticationViewModel: ObservableObject {
     }
   }
   
-  // MARK: - Fetch user
+  // MARK: - Public Methods
   
-  func fetchUser() async {
-    
-    guard let uid = userSession?.uid else { return }
-    guard let snapshot = try? await db.collection("users").document(uid).getDocument() else {
-      return
-    }
-    self.currentUser = try? snapshot.data(as: User.self)
-  }
-  
-  // MARK: - Sign In
-  
-  func signIn(withEmail email: String, password: String) async {
+  func signIn(withEmail email: String, and password: String) async {
     do {
       let result = try await Auth.auth().signIn(withEmail: email, password: password)
       self.userSession = result.user
       await fetchUser()
-      
     } catch {
-      alertItem = RegistrationAlertContext.nonExistentUser
+      alertItem = RegistrationAlertContext.userDoesNotExists
     }
   }
   
-  // MARK: - Create User
+  
   
   func createUser(withCity city: String, fullName: String, email: String, password: String) async {
     do {
-      let result = try await Auth.auth().createUser(withEmail: email, password: password)
+      let createdUser = try await Auth.auth().createUser(withEmail: email, password: password)
+      self.userSession = createdUser.user
+      try await createdUser.user.sendEmailVerification()
       
-      self.userSession = result.user
-      
-      // Send a verification link to specified email.
-      try await result.user.sendEmailVerification()
-      
-      let user = User(id: result.user.uid, city: city, fullName: fullName, email: email)
-      
-      // Add the user to the database.
+      let user = User(
+        id: createdUser.user.uid,
+        city: city,
+        fullName: fullName,
+        email: email
+      )
+      // Add the user to Firebase
       let encodedUser = try Firestore.Encoder().encode(user)
       try await db.collection("users").document(user.id).setData(encodedUser)
-      
       await fetchUser()
-      
     } catch {
-      alertItem = RegistrationAlertContext.existingUser
+      alertItem = RegistrationAlertContext.userExists
     }
   }
   
-  // MARK: - Sign Out
-  
   func signOut() {
-    
     do {
       try Auth.auth().signOut()
       self.userSession = nil
       self.currentUser = nil
     } catch {
-      // Unable to sign user out with error: \(error.localizedDescription)")
+      print("Cannot sign out, \(error.localizedDescription)")
     }
   }
   
-  // MARK: - Delete
-  
   func deleteUser(withPassword password: String) async {
-    
     guard let user = userSession else { return }
     guard let email = user.email else { return }
     
     let credential = EmailAuthProvider.credential(withEmail: email, password: password)
     
     do {
-      // Reauthenticate user with provided credentials.
       try await user.reauthenticate(with: credential)
-      
-      // Successful reauthentication. Deleting the user.
       try await user.delete()
       
-      // User deleted successfully.
-      alertItem = ProfileAlertContext.accountDeleted
+      alertItem = ProfileAlertContext.successfullAccountDeletion
       userSession = nil
       currentUser = nil
-      deleteUserDataFromFirestore(withUid: user.uid)
-      
     } catch {
-      // Handle errors.
-      print("Error deleting user: \(error.localizedDescription)")
+      alertItem = ProfileAlertContext.unsuccessfullAccountDeletion
     }
   }
-  
-  func deleteUserDataFromFirestore(withUid uid: String) {
-    db.collection("users").document(uid).delete { error in
-      if let error {
-        print("Error deleting user data from Firestore: \(error.localizedDescription)")
-      } else {
-        print("Successfully deleted data from Firestore Database.")
-      }
-    }
-  }
-  
-  // MARK: - Update
   
   func updateEmail(withEmail newEmail: String, password: String) async {
-    
     guard let user = userSession else { return }
     guard let currentEmail = user.email else { return }
     
-    let credential = EmailAuthProvider.credential(withEmail: currentEmail,
-                                                  password: password)
-    
+    let credentials = EmailAuthProvider.credential(
+      withEmail: currentEmail,
+      password: password
+    )
     do {
-      // 1. Reauthenticate the user.
-      try await user.reauthenticate(with: credential)
-      
-      // 2. Send email verification.
+      try await user.reauthenticate(with: credentials)
       try await user.sendEmailVerification(beforeUpdatingEmail: newEmail)
-      
-      // 3. Show the 'emailVerificationSent' alert.
-      alertItem = ProfileAlertContext.emailVerificationSent
-      
-      // 4. Update the firestore collection.
+      alertItem = ProfileAlertContext.confirmationLinkSent
       try await db.collection("users").document(user.uid).updateData(["email": newEmail])
-      
       await fetchUser()
-      
     } catch {
-      alertItem = ProfileAlertContext.emailUpdateFailed
+      alertItem = ProfileAlertContext.unsuccessfullEmailUpdate
     }
   }
+  
+  // MARK: - Private Methods
+  private func fetchUser() async {
+    guard let uid = userSession?.uid else { return }
+    guard let snapshot = try? await db.collection("users").document(uid).getDocument() else {
+      return
+    }
+    self.currentUser = try? snapshot.data(as: User.self)
+  }
 }
-

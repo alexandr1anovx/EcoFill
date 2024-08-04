@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestore
 
 @MainActor
-class FirestoreViewModel: ObservableObject {
+final class FirestoreViewModel: ObservableObject {
 
   // MARK: - Properties
   @Published var stations: [Station] = []
