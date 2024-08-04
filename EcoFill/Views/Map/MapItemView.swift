@@ -9,60 +9,43 @@ import SwiftUI
 import MapKit
 
 struct MapItemView: View {
-  
-  // MARK: - properties
-  var station: Station
-  @Binding var isShownRoute: Bool
-  
-  var body: some View {
-    NavigationStack {
-      VStack(alignment: .leading, spacing: 15) {
-        
-        // MARK: - name
-        Text(station.name)
-          .font(.lexendBody)
-        
-        // MARK: - address
-        
-        Row(img: .location, text: station.address)
-        
-        // MARK: - schedule
-        HStack {
-          Row(img: .clock, text: "Schedule:")
-          Text(station.schedule)
-            .font(.lexendCallout)
-            .foregroundStyle(.cmReversed)
+    
+    // MARK: - Public Properties
+    var station: Station
+    @Binding var isPresentedRoute: Bool
+    
+    // MARK: - body
+    var body: some View {
+        NavigationStack {
+            VStack(alignment: .leading, spacing: 15) {
+                Text(station.name).font(.lexendBody)
+                Row(img: .location, text: station.address)
+                Row(img: .clock, text: "Schedule: \(station.schedule)")
+                
+                HStack {
+                    Row(img: .payment, text: "Pay with:")
+                    Image(.mastercard)
+                        .navBarSize()
+                    Image(.applePay)
+                        .navBarSize()
+                }
+                
+                ScrollableFuelsStack(station: station)
+
+                if isPresentedRoute {
+                    DismissRouteBtn { isPresentedRoute = false }
+                } else {
+                    RouteBtn { isPresentedRoute = true }
+                }
+            }
+            .padding(.horizontal, 15)
+            .padding(.bottom, 35)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    DismissXBtn()
+                        .foregroundStyle(.red)
+                }
+            }
         }
-        
-        
-        // MARK: - payment
-        HStack {
-          Row(img: .payment, text: "Pay with:")
-          Image(.mastercard)
-            .navBarSize()
-          Image(.applePay)
-            .navBarSize()
-        }
-        
-        // MARK: - fuels
-        ScrollableFuelsStack(station: station)
-        
-        // MARK: - route
-        if isShownRoute {
-          DismissRouteBtn { isShownRoute = false }
-        } else {
-          RouteBtn { isShownRoute = true }
-        }
-        
-      }
-      .padding(.horizontal, 15)
-      .padding(.bottom, 35)
-      .toolbar {
-        ToolbarItem(placement: .topBarTrailing) {
-          DismissXBtn()
-            .foregroundStyle(.red)
-        }
-      }
     }
-  }
 }

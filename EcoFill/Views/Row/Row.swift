@@ -9,16 +9,19 @@ import Foundation
 import SwiftUI
 
 struct Row: View {
-  var img: ImageResource
-  var text: String?
-  
-  var body: some View {
-    HStack {
-      Image(img)
-        .defaultSize()
-      Text(text ?? "")
-        .font(.lexendFootnote)
-        .foregroundStyle(.gray)
+    
+    // MARK: - Public Properties
+    let img: ImageResource
+    let text: String?
+    
+    // MARK: - body
+    var body: some View {
+        HStack {
+            Image(img)
+                .defaultSize()
+            Text(text ?? "")
+                .font(.lexendFootnote)
+                .foregroundStyle(.gray)
+        }
     }
-  }
 }

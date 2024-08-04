@@ -9,27 +9,27 @@ import SwiftUI
 import MapKit
 
 struct MapStyleView: View {
-  
-  // MARK: - properties
-  @Binding var mapStyle: MapStyle
-  @State private var isStandardSelected = false
-  @State private var isHybridSelected = false
-  
-  var body: some View {
-    HStack(spacing: 10) {
-      
-      Button("Standard") {
-        mapStyle = .standard
-        isStandardSelected = true
-        isHybridSelected = false
-      }
-      
-      Button("Hybrid") {
-        mapStyle = .hybrid
-        isStandardSelected = false
-        isHybridSelected = true
-      }
+    
+    // MARK: - Public Properties
+    @Binding var mapStyle: MapStyle
+    
+    // MARK: - Private Properties
+    @State private var isStandardSelected = false
+    @State private var isHybridSelected = false
+    
+    var body: some View {
+        HStack(spacing: 10) {
+            Button("Standard") {
+                mapStyle = .standard
+                isStandardSelected = true
+                isHybridSelected = false
+            }
+            Button("Hybrid") {
+                mapStyle = .hybrid
+                isStandardSelected = false
+                isHybridSelected = true
+            }
+        }
+        .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
     }
-    .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
-  }
 }

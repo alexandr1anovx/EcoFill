@@ -8,30 +8,30 @@
 import SwiftUI
 
 struct FuelsList: View {
-  
-  // MARK: - properties
-  @EnvironmentObject var firestoreVM: FirestoreViewModel
-  var selectedCity: String
-  var filteredStations: [Station] {
-    firestoreVM.stations.filter { $0.city == selectedCity }
-  }
-  
-  var body: some View {
-    VStack {
-      if firestoreVM.stations.isEmpty {
-        ContentUnavailableView("Server is not responding",
-                               systemImage: "gear.badge.xmark",
-                               description: Text("Please, try again later."))
-      } else {
-        ForEach(filteredStations.prefix(1), id: \.id) { station in
-          ScrollableFuelsStack(station: station)
-        }
-      }
+    
+    // MARK: - Public Properties
+    @EnvironmentObject var firestoreVM: FirestoreViewModel
+    let selectedCity: String
+    
+    // MARK: - Private Properties
+    private var filteredStations: [Station] {
+        firestoreVM.stations.filter { $0.city == selectedCity }
     }
-  }
-}
-
-#Preview {
-  FuelsList(selectedCity: "Mykolaiv")
-    .environmentObject(FirestoreViewModel())
+    
+    // MARK: - body
+    var body: some View {
+        VStack {
+            if firestoreVM.stations.isEmpty {
+                ContentUnavailableView(
+                    "Server is not responding",
+                    systemImage: "gear.badge.xmark",
+                    description: Text("Please, try again later.")
+                )
+            } else {
+                ForEach(filteredStations.prefix(1), id: \.id) { station in
+                    ScrollableFuelsStack(station: station)
+                }
+            }
+        }
+    }
 }

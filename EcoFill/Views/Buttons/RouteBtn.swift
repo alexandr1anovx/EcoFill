@@ -8,21 +8,24 @@
 import SwiftUI
 
 struct RouteBtn: View {
-  var action: () -> Void
-  
-  var body: some View {
-    Button {
-      action()
-    } label: {
-      HStack {
-        Image(.route)
-          .defaultSize()
-        Text("Route")
-          .font(.lexendFootnote)
-          .foregroundStyle(.white)
-      }
+    
+    // MARK: - Public Properties
+    let action: () -> Void
+    
+    // MARK: - body
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            HStack {
+                Image(.route)
+                    .defaultSize()
+                Text("Route")
+                    .font(.lexendFootnote)
+                    .foregroundStyle(.white)
+            }
+        }
+        .buttonStyle(CustomButtonModifier(pouring: .cmBlue))
+        .shadow(radius: 5)
     }
-    .buttonStyle(CustomButtonModifier(pouring: .cmBlue))
-    .shadow(radius: 5)
-  }
 }

@@ -8,31 +8,28 @@
 import SwiftUI
 
 struct UserDataView: View {
-  @EnvironmentObject var authenticationVM: AuthenticationViewModel
-  
-  var body: some View {
-    if let user = authenticationVM.currentUser {
-      HStack {
-        VStack(alignment: .leading, spacing: 8) {
-          
-          Text(user.fullName)
-            .font(.lexendBody)
-            .foregroundStyle(.cmReversed)
-          Row(img: .mail, text: user.email)
-            .lineLimit(2)
+    
+    // MARK: - Public Properties
+    @EnvironmentObject var authenticationVM: AuthenticationViewModel
+    
+    // MARK: - body
+    var body: some View {
+        if let user = authenticationVM.currentUser {
+            HStack {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(user.initials)
+                        .font(.lexendBody)
+                        .foregroundStyle(.cmReversed)
+                    Row(img: .mail, text: user.email)
+                        .lineLimit(2)
+                }
+                Spacer()
+                Row(img: .location, text: user.city)
+            }
+            .padding(20)
+        } else {
+            Text("Server error.")
+                .font(.lexendHeadline)
         }
-        
-        Spacer()
-        
-        Row(img: .location, text: user.city)
-      }
-      .padding(.top, 30)
-      .padding(.horizontal, 20)
-      .padding(.bottom, 20)
-      
-    } else {
-      Text("Server error.")
-        .font(.lexendHeadline)
     }
-  }
 }

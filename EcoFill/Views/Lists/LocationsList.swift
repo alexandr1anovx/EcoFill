@@ -8,61 +8,55 @@
 import SwiftUI
 
 struct LocationsList: View {
-  
-  // MARK: - properties
-  @EnvironmentObject var authenticationVM: AuthenticationViewModel
-  @EnvironmentObject var firestoreVM: FirestoreViewModel
-  @State private var selectedIndex = 0
-  @Binding var selectedStation: Station?
-  @Binding var isShownStationDetails: Bool
-  @Binding var isShownRoute: Bool
-  
-  let cities = ["Kyiv", "Odesa", "Mykolaiv"]
-  
-  var filteredStations: [Station] {
-    firestoreVM.stations.filter { $0.city == cities[selectedIndex] }
-  }
-  
-  var body: some View {
-    VStack {
-      Picker("", selection: $selectedIndex) {
-        ForEach(cities.indices, id: \.self) { index in
-          Text(cities[index])
-        }
-      }
-      .pickerStyle(.segmented)
-      .padding(.top,10)
-      .padding(15)
-      
-      List(filteredStations) { station in
-        
-        let isShownRouteCondition = selectedStation == station && isShownRoute
-        
-        StationCell(station: station, isShownRoute: isShownRouteCondition) {
-          
-          isShownStationDetails = false
-          
-          if isShownRouteCondition {
-            selectedStation = nil
-            isShownRoute = false
-            
-          } else {
-            selectedStation = station
-            isShownRoute = true
-            
-          }
-        }
-      }
-      .listStyle(.plain)
-      .listRowSpacing(15)
-    }
     
-    .onAppear {
-      if let selectedCity = authenticationVM.currentUser?.city,
-         let index = cities.firstIndex(of: selectedCity) {
-        selectedIndex = index
-      }
-    }
+    // MARK: - Public Properties
+    @EnvironmentObject var authenticationVM: AuthenticationViewModel
+    @EnvironmentObject var firestoreVM: FirestoreViewModel
+    @Binding var selectedStation: Station?
+    @Binding var isPresentedStationDetails: Bool
+    @Binding var isPresentedRoute: Bool
     
-  }
+    // MARK: - Private Properties
+    @State private var selectedIndex = 0
+    private let cities = ["Kyiv", "Odesa", "Mykolaiv"]
+    private var filteredStations: [Station] {
+        firestoreVM.stations.filter { $0.city == cities[selectedIndex] }
+    }
+    // MARK: - body
+    var body: some View {
+        VStack {
+            Picker("", selection: $selectedIndex) {
+                ForEach(cities.indices, id: \.self) { index in
+                    Text(cities[index])
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.top,10)
+            .padding(15)
+            
+            List(filteredStations) { station in
+                let isShownRoute = selectedStation == station && isPresentedRoute
+                
+                StationCell(station: station, isShownRoute: isShownRoute) {
+                    isPresentedStationDetails = false
+                    if isShownRoute {
+                        selectedStation = nil
+                        isPresentedRoute = false
+                    } else {
+                        selectedStation = station
+                        isPresentedRoute = true
+                    }
+                }
+            }
+            .listStyle(.plain)
+            .listRowSpacing(15)
+        }
+        
+        .onAppear {
+            if let selectedCity = authenticationVM.currentUser?.city,
+               let index = cities.firstIndex(of: selectedCity) {
+                selectedIndex = index
+            }
+        }
+    }
 }

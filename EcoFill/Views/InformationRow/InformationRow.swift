@@ -8,27 +8,23 @@
 import SwiftUI
 
 struct InformationRow: View {
-  let img: ImageResource
-  let text: String
-  let content: String?
-  
-  var body: some View {
     
-    HStack(spacing: 10) {
-      Image(img)
-        .defaultSize()
-      Text(text)
-        .font(.lexendFootnote)
-        .foregroundStyle(.gray)
-      Text(content ?? "")
-        .font(.lexendFootnote)
-        .foregroundStyle(.cmReversed)
+    // MARK: - Private Properties
+    let img: ImageResource
+    let text: String
+    let content: String?
+    
+    // MARK: - body
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(img)
+                .defaultSize()
+            Text(text)
+                .font(.lexendFootnote)
+                .foregroundStyle(.gray)
+            Text(content ?? "")
+                .font(.lexendFootnote)
+                .foregroundStyle(.cmReversed)
+        }
     }
-  }
 }
-
-#Preview {
-  InformationRow(
-    img: .initials, text: "Initials:", content: "Tim Cook")
-}
-

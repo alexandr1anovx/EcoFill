@@ -8,38 +8,34 @@
 import SwiftUI
 
 struct MapControls: View {
-  
-  // MARK: - properties
-  @Binding var isShownList: Bool
-  @Binding var isShownMapStyle: Bool
-  
-  var body: some View {
-    VStack(spacing: 10) {
-      ControlItem(image: .map) { isShownMapStyle = true }
-      ControlItem(image: .location) { isShownList = true }
+    
+    // MARK: - Public Properties
+    @Binding var isPresentedList: Bool
+    @Binding var isPresentedMapStyle: Bool
+    
+    // MARK: - body
+    var body: some View {
+        VStack(spacing: 10) {
+            ControlItem(image: .map) { isPresentedMapStyle = true }
+            ControlItem(image: .location) { isPresentedList = true }
+        }
     }
-  }
 }
 
 struct ControlItem: View {
-  
-  // MARK: - properties
-  var image: ImageResource
-  var action: () -> Void?
-  
-  var body: some View {
-    Button {
-      action()
-    } label: {
-      Image(image)
-        .defaultSize()
+    
+    // MARK: - Public Properties
+    var image: ImageResource
+    var action: () -> Void?
+    
+    // MARK: - body
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            Image(image).defaultSize()
+        }
+        .buttonStyle(CustomButtonModifier(pouring: .cmSystem))
+        .shadow(radius: 5)
     }
-    .buttonStyle(CustomButtonModifier(pouring: .cmSystem))
-    .shadow(radius: 5)
-  }
-}
-
-#Preview {
-  MapControls(isShownList: .constant(false),
-              isShownMapStyle: .constant(false))
 }

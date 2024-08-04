@@ -8,43 +8,26 @@
 import SwiftUI
 
 struct ResetBtn: View {
-  var img: ImageResource
-  var data: String
-  var action: () -> Void
-  
-  var body: some View {
-    Button {
-      action()
-    } label: {
-      HStack {
-        Image(img)
-          .defaultSize()
-        Text("Reset \(data)")
-          .font(.lexendFootnote)
-          .foregroundStyle(.white)
-      }
+    
+    // MARK: - Public Properties
+    let img: ImageResource
+    let data: String
+    let action: () -> Void
+    
+    // MARK: - body
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            HStack {
+                Image(img)
+                    .defaultSize()
+                Text("Reset \(data)")
+                    .font(.lexendFootnote)
+                    .foregroundStyle(.white)
+            }
+        }
+        .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
+        .shadow(radius: 5)
     }
-    .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
-    .shadow(radius: 5)
-    
-    
-    
-    
-    
-    
-//    Button {
-//      action()
-//    } label: {
-//      HStack {
-//        Image(.cmCheckmark)
-//          .resizable()
-//          .frame(width: 20, height: 20)
-//        Text("Reset")
-//          .font(.lexendCallout)
-//          .foregroundStyle(.white)
-//      }
-//    }
-//    .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
-//    .shadow(radius: 5)
-  }
 }

@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct ServicesList: View {
-  var body: some View {
-    List(services) { service in
-      ServiceCell(service: service)
+    var body: some View {
+        List(services) { service in
+            ServiceCell(service: service)
+        }
+        .listStyle(.plain)
+        .listRowSpacing(10)
     }
-    .listStyle(.plain)
-    .listRowSpacing(10)
-  }
 }
 
 #Preview {
-  ServicesList()
+    ServicesList()
 }

@@ -7,33 +7,28 @@
 import SwiftUI
 
 struct StationCell: View {
-  var station: Station
-  var isShownRoute: Bool
-  var action: () -> Void
-      
-  var body: some View {
-    HStack {
-      VStack(alignment: .leading, spacing: 8) {
-        Text(station.street)
-          .font(.lexendCallout)
-          .foregroundStyle(.cmReversed)
-        
+    
+    // MARK: - Public Properties
+    var station: Station
+    var isShownRoute: Bool
+    var action: () -> Void
+    
+    // MARK: - body
+    var body: some View {
         HStack {
-          Text("Schedule:")
-            .foregroundStyle(.gray)
-          Text(station.schedule)
-            .foregroundStyle(.brown)
+            VStack(alignment: .leading, spacing: 8) {
+                Text(station.street)
+                    .font(.lexendCallout)
+                    .foregroundStyle(.cmReversed)
+                Row(img: .clock, text: station.schedule)
+            }
+            Spacer()
+            
+            if isShownRoute {
+                DismissRouteBtn { action() }
+            } else {
+                RouteBtn { action() }
+            }
         }
-        .font(.lexendFootnote)
-      }
-      
-      Spacer()
-      
-      if isShownRoute {
-        DismissRouteBtn { action() }
-      } else {
-        RouteBtn { action() }
-      }
     }
-  }
 }

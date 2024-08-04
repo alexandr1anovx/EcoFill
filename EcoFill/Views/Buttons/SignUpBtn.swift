@@ -8,21 +8,24 @@
 import SwiftUI
 
 struct SignUpBtn: View {
-  var action: () -> Void
-  
-  var body: some View {
-    Button {
-      action()
-    } label: {
-      HStack {
-        Image(.userSignUp)
-          .defaultSize()
-        Text("Sign Up")
-          .font(.lexendFootnote)
-          .foregroundStyle(.white)
-      }
+    
+    // MARK: - Public Properties
+    var action: () -> Void
+    
+    // MARK: - body
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            HStack {
+                Image(.userSignUp)
+                    .defaultSize()
+                Text("Sign Up")
+                    .font(.lexendFootnote)
+                    .foregroundStyle(.white)
+            }
+        }
+        .buttonStyle(CustomButtonModifier(pouring: .orange))
+        .shadow(radius: 5)
     }
-    .buttonStyle(CustomButtonModifier(pouring: .orange))
-    .shadow(radius: 5)
-  }
 }
