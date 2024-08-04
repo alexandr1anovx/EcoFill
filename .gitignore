@@ -1,82 +1,47 @@
 # Xcode
-#
-# Xcode - Automatically generated project files
-xcuserdata/
+*.xcworkspace
+*.xcuserdata
 *.xccheckout
-*.xcscmblueprint
-*.xcodeproj/*
-!*.xcodeproj/project.pbxproj
-!*.xcodeproj/xcshareddata
-!*.xcworkspace/contents.xcworkspacedata
-*.xcworkspace/xcuserdata/
+*.xcuserstate
+*.xcscheme
+*.xcschemes
+*.xcuserdatad
+*.xcdebugger
+
+# Build
+build/
+DerivedData/
+*.dSYM/
+*.o
+*.a
 
 # Swift Package Manager
-#
-# Add this line if you use Carthage
-# Carthage/Build
-.swiftpm
+/.build
+/.swiftpm
+Package.pins
 Package.resolved
-.build/
 
 # CocoaPods
-#
-# We recommend against adding the Pods directory.
-# Ensure the Podfile and Podfile.lock are always in source control and up to date.
 Pods/
 Podfile.lock
-DerivedData/
-.idea/
 
 # Carthage
 Carthage/Build/
+Carthage/Checkouts/
 
 # fastlane
-#
-# It is recommended to not store the screenshots in the git repository.
-# Instead, use fastlane to re-generate the screenshots whenever they are needed.
-# For more information about the recommended setup visit:
-# https://docs.fastlane.tools/best-practices/source-control/
 fastlane/report.xml
 fastlane/Preview.html
-fastlane/screenshots/**/*.png
-fastlane/test_output
+fastlane/Preview.png
+fastlane/screenshots
 
-# Code Injection by AppCode
-.idea/
-
-# AppCode
-#
-# Uncomment if you have AppCode project files
-# *.iml
-# .idea/
-# .idea/*
-
-# Swift Playgrounds
-#
-# It's recommended to ignore playgrounds data since it is usually not relevant to others
-playgrounds/**/*.xcplaygrounddata
-
-# Xcode Archive files
-*.xcarchive
-
-# iOS, watchOS, tvOS
-#
-# Generated folders
-Build/
-*.app
-*.app.dSYM
-*.ipa
-*.dSYM.zip
-*.mobileprovision
-*.bcsymbolmap
-*.dSYM
-
-# Products
-*.gcno
-
-# Other
+# macOS
 .DS_Store
 *.swp
-*.xcuserstate
-*.lock
 
+# Archives
+*.xcarchive/
+
+# Simulator
+*.simruntimes/
+*.simulateddevices/
