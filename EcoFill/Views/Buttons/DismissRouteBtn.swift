@@ -8,22 +8,25 @@
 import SwiftUI
 
 struct DismissRouteBtn: View {
-  var action: () -> Void
-  
-  var body: some View {
-    Button {
-      action()
-    } label: {
-      HStack {
-        Image(.xmark)
-          .defaultSize()
-          .foregroundStyle(.white)
-        Text("Dismiss")
-          .font(.lexendFootnote)
-          .foregroundStyle(.white)
-      }
+    
+    // MARK: - Public Properties
+    let action: () -> Void
+    
+    // MARK: - body
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            HStack {
+                Image(.xmark)
+                    .defaultSize()
+                    .foregroundStyle(.white)
+                Text("Dismiss")
+                    .font(.lexendFootnote)
+                    .foregroundStyle(.white)
+            }
+        }
+        .buttonStyle(CustomButtonModifier(pouring: .red))
+        .shadow(radius: 5)
     }
-    .buttonStyle(CustomButtonModifier(pouring: .red))
-    .shadow(radius: 5)
-  }
 }

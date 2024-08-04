@@ -8,9 +8,9 @@
 import Foundation
 
 enum TextFieldContent: String {
-  case fullName
-  case email
-  case password
-  case confirmPassword
-  case newPassword
+    case initials
+    case email
+    case password
+    case confirmPassword
+    case newPassword
 }

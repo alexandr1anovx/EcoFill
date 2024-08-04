@@ -8,124 +8,120 @@
 import SwiftUI
 
 struct SignUpScreen: View {
-  
-  // MARK: - Properties
-  @EnvironmentObject var authenticationVM: AuthenticationViewModel
-  @EnvironmentObject var firestoreVM: FirestoreViewModel
-  @FocusState private var fieldContent: TextFieldContent?
-  
-  @State private var city: Cities = .mykolaiv
-  @State private var initials: String = ""
-  @State private var email: String = ""
-  @State private var password: String = ""
-  @State private var confirmPassword: String = ""
-  
-  var body: some View {
-    NavigationStack {
-      
-      VStack(alignment: .leading, spacing: 15) {
-        
-        // MARK: - Full name
-        
-        CustomTextField(inputData: $initials,
-                        title: "Initials",
-                        placeholder: "Tim Cook")
-        .focused($fieldContent, equals: .fullName)
-        .submitLabel(.next)
-        .onSubmit { fieldContent = .email }
-        .textInputAutocapitalization(.words)
-        
-        // MARK: - Email
-        
-        CustomTextField(inputData: $email,
-                        title: "Email",
-                        placeholder: "name@example.com")
-        .focused($fieldContent, equals: .email)
-        .submitLabel(.next)
-        .onSubmit { fieldContent = .password }
-        .keyboardType(.emailAddress)
-        .textInputAutocapitalization(.never)
-        
-        // MARK: - Password
-        
-        CustomTextField(inputData: $password,
-                        title: "Password",
-                        placeholder: "Must contain at least 6 characters.",
-                        isSecureField: true)
-        .focused($fieldContent, equals: .password)
-        .submitLabel(.next)
-        .onSubmit { fieldContent = .confirmPassword }
-        
-        // MARK: - Confirm Password
-        
-        CustomTextField(inputData: $confirmPassword,
-                        title: "Confirm password",
-                        placeholder: "Must match the password.",
-                        isSecureField: true)
-        .focused($fieldContent,
-                 equals: .confirmPassword)
-        .submitLabel(.done)
-        .onSubmit { fieldContent = nil }
-        
-        .overlay(alignment: .trailing) {
-          if !password.isEmpty && !confirmPassword.isEmpty {
-            let match = password == confirmPassword
-            Image(match ? .checkmark : .xmark)
-              .defaultSize()
-          }
-        }
-        
-        HStack {
-          Image(.location)
-            .defaultSize()
-          Picker("", selection: $city) {
-            ForEach(Cities.allCases) { city in
-              Text(city.rawValue)
+    
+    // MARK: - Public Properties
+    @EnvironmentObject var authenticationVM: AuthenticationViewModel
+    @EnvironmentObject var firestoreVM: FirestoreViewModel
+    
+    // MARK: - Private Properties
+    @FocusState private var textField: TextFieldContent?
+    @State private var initials: String = ""
+    @State private var email: String = ""
+    @State private var password: String = ""
+    @State private var confirmPassword: String = ""
+    @State private var selectedCity: City = .mykolaiv
+    
+    // MARK: - body
+    var body: some View {
+        NavigationStack {
+            VStack(alignment: .leading, spacing: 15) {
+                CustomTextField(
+                    inputData: $initials,
+                    title: "Initials",
+                    placeholder: "Tim Cook"
+                )
+                .focused($textField, equals: .initials)
+                .submitLabel(.next)
+                .onSubmit { textField = .email }
+                .textInputAutocapitalization(.words)
+                .autocorrectionDisabled()
+                
+                CustomTextField(
+                    inputData: $email,
+                    title: "Email",
+                    placeholder: "yourmail@example.com"
+                )
+                .focused($textField, equals: .email)
+                .submitLabel(.next)
+                .onSubmit { textField = .password }
+                .keyboardType(.emailAddress)
+                .textInputAutocapitalization(.never)
+                
+                CustomTextField(
+                    inputData: $password,
+                    title: "Password",
+                    placeholder: "Must contain at least 6 characters.",
+                    isSecureField: true
+                )
+                .focused($textField, equals: .password)
+                .submitLabel(.next)
+                .onSubmit { textField = .confirmPassword }
+                
+                CustomTextField(
+                    inputData: $confirmPassword,
+                    title: "Confirm password",
+                    placeholder: "Must match the password.",
+                    isSecureField: true
+                )
+                .focused($textField, equals: .confirmPassword)
+                .submitLabel(.done)
+                .onSubmit { textField = nil }
+                
+                .overlay(alignment: .trailing) {
+                    if !password.isEmpty && !confirmPassword.isEmpty {
+                        let match = password == confirmPassword
+                        Image(match ? .checkmark : .xmark)
+                            .defaultSize()
+                    }
+                }
+                
+                HStack {
+                    Image(.location)
+                        .defaultSize()
+                    Picker("", selection: $selectedCity) {
+                        ForEach(City.allCases) { city in
+                            Text(city.rawValue)
+                        }
+                    }
+                    .tint(.cmReversed)
+                }
+                Spacer()
             }
-          }
-          .tint(.cmReversed)
-        }
-        
-        Spacer()
-      }
-      .padding(15)
-      
-      .alert(item: $authenticationVM.alertItem) { alertItem in
-        Alert(title: alertItem.title,
-              message: alertItem.message,
-              dismissButton: alertItem.dismissButton)
-      }
-      .toolbar {
-        ToolbarItem(placement: .topBarTrailing) {
-          Button("Sign Up") {
-            Task {
-              await authenticationVM.createUser(
-                withCity: city.rawValue, fullName: initials, email: email, password: password)
+            .padding(15)
+            
+            .alert(item: $authenticationVM.alertItem) { alert in
+                Alert(
+                    title: alert.title,
+                    message: alert.message,
+                    dismissButton: alert.dismissButton
+                )
             }
-          }
-          .foregroundStyle(.accent)
-          .disabled(!isValidForm)
-          .opacity(isValidForm ? 1.0 : 0.5)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Sign Up") {
+                        Task {
+                            await authenticationVM.createUser(
+                                withCity: selectedCity.rawValue,
+                                initials: initials,
+                                email: email,
+                                password: password
+                            )
+                        }
+                    }
+                    .disabled(!isValidForm)
+                    .opacity(isValidForm ? 1.0 : 0.5)
+                }
+            }
         }
-      }
     }
-  }
 }
 
-// MARK: - Extensions
-
+// MARK: - AuthenticationForm
 extension SignUpScreen: AuthenticationForm {
-  var isValidForm: Bool {
-    return !initials.isEmpty
-    && email.isValidEmail
-    && password.count > 5
-    && confirmPassword == password
-  }
+    var isValidForm: Bool {
+        return !initials.isEmpty
+        && email.isValidEmail
+        && password.count > 5
+        && confirmPassword == password
+    }
 }
-
-#Preview {
-  SignUpScreen()
-    .environmentObject(AuthenticationViewModel())
-    .environmentObject(FirestoreViewModel())
-}
-

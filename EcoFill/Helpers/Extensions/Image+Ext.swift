@@ -8,16 +8,14 @@
 import SwiftUI
 
 extension Image {
-  
-  func navBarSize() -> some View {
-    self
-      .resizable()
-      .frame(width: 32, height: 32)
-  }
-  
-  func defaultSize() -> some View {
-    self
-      .resizable()
-      .frame(width: 23, height: 23)
-  }
+    func navBarSize() -> some View {
+        self
+            .resizable()
+            .frame(width: 32, height: 32)
+    }
+    func defaultSize() -> some View {
+        self
+            .resizable()
+            .frame(width: 23, height: 23)
+    }
 }
