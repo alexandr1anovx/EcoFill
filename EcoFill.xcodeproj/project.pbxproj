@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		320270372B8E3778000766E1 /* ScrollableHotlineNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320270362B8E3778000766E1 /* ScrollableHotlineNumbers.swift */; };
 		3212AAC52C24522B002FBA2A /* Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3212AAC32C24522B002FBA2A /* Row.swift */; };
 		3212AAC72C245371002FBA2A /* DismissRouteBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3212AAC62C245371002FBA2A /* DismissRouteBtn.swift */; };
 		3212AAC92C24538D002FBA2A /* RouteBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3212AAC82C24538D002FBA2A /* RouteBtn.swift */; };
@@ -27,10 +26,9 @@
 		325EC5CC2B85042A0049C234 /* LexendDeca-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 325EC5C92B85042A0049C234 /* LexendDeca-Bold.ttf */; };
 		325EC5CD2B85042A0049C234 /* LexendDeca-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 325EC5CA2B85042A0049C234 /* LexendDeca-Regular.ttf */; };
 		3270E2FC2BADB88C0047E645 /* ResetEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3270E2FB2BADB88C0047E645 /* ResetEmailView.swift */; };
-		3270E3022BADC7CC0047E645 /* Cities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3270E3012BADC7CC0047E645 /* Cities.swift */; };
+		3270E3022BADC7CC0047E645 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3270E3012BADC7CC0047E645 /* City.swift */; };
 		327C2EDF2B82592D00B5678E /* MapStyleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327C2EDE2B82592D00B5678E /* MapStyleView.swift */; };
 		327C2EE12B825AB300B5678E /* CLLocationCoordinate2D+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327C2EE02B825AB300B5678E /* CLLocationCoordinate2D+Ext.swift */; };
-		328E9B292B8F5996008B1D67 /* HotlineNumberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E9B282B8F5996008B1D67 /* HotlineNumberCell.swift */; };
 		329613982B7914DD00649CAC /* AppearanceChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329613972B7914DD00649CAC /* AppearanceChanger.swift */; };
 		32B0E97B2B6C5E6F0090ABF2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B0E97A2B6C5E6F0090ABF2 /* LocationManager.swift */; };
 		32B0E97D2B6C70650090ABF2 /* MKCoordinateRegion+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B0E97C2B6C70650090ABF2 /* MKCoordinateRegion+Ext.swift */; };
@@ -78,7 +76,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		320270362B8E3778000766E1 /* ScrollableHotlineNumbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableHotlineNumbers.swift; sourceTree = "<group>"; };
 		3212AAC32C24522B002FBA2A /* Row.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Row.swift; sourceTree = "<group>"; };
 		3212AAC62C245371002FBA2A /* DismissRouteBtn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissRouteBtn.swift; sourceTree = "<group>"; };
 		3212AAC82C24538D002FBA2A /* RouteBtn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBtn.swift; sourceTree = "<group>"; };
@@ -99,10 +96,9 @@
 		325EC5CA2B85042A0049C234 /* LexendDeca-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LexendDeca-Regular.ttf"; sourceTree = "<group>"; };
 		325EC5CE2B8504D30049C234 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3270E2FB2BADB88C0047E645 /* ResetEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetEmailView.swift; sourceTree = "<group>"; };
-		3270E3012BADC7CC0047E645 /* Cities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cities.swift; sourceTree = "<group>"; };
+		3270E3012BADC7CC0047E645 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		327C2EDE2B82592D00B5678E /* MapStyleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapStyleView.swift; sourceTree = "<group>"; };
 		327C2EE02B825AB300B5678E /* CLLocationCoordinate2D+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+Ext.swift"; sourceTree = "<group>"; };
-		328E9B282B8F5996008B1D67 /* HotlineNumberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotlineNumberCell.swift; sourceTree = "<group>"; };
 		329613972B7914DD00649CAC /* AppearanceChanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceChanger.swift; sourceTree = "<group>"; };
 		32B0E97A2B6C5E6F0090ABF2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		32B0E97C2B6C70650090ABF2 /* MKCoordinateRegion+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKCoordinateRegion+Ext.swift"; sourceTree = "<group>"; };
@@ -164,7 +160,6 @@
 		320270352B8E3711000766E1 /* Scrollable */ = {
 			isa = PBXGroup;
 			children = (
-				320270362B8E3778000766E1 /* ScrollableHotlineNumbers.swift */,
 				32144CB92B81200E009C3081 /* ScrollableFuelsStack.swift */,
 			);
 			path = Scrollable;
@@ -190,7 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				32196DA42BA790CD0099B059 /* MapUtilities.swift */,
-				3270E3012BADC7CC0047E645 /* Cities.swift */,
+				3270E3012BADC7CC0047E645 /* City.swift */,
 				32BF85AD2BAE4A3E0089D34F /* TextFieldContent.swift */,
 			);
 			path = Utils;
@@ -338,7 +333,6 @@
 				32D546B22C247DAF0074761A /* StationCell.swift */,
 				32BCC2412B8424E800AE47D6 /* FuelCell.swift */,
 				611AD12C2B1D3F4800BD5EB7 /* ServiceCell.swift */,
-				328E9B282B8F5996008B1D67 /* HotlineNumberCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -552,7 +546,7 @@
 				6171A4462B1DD11800D22A23 /* QRCodeView.swift in Sources */,
 				3223F4E92B84D96500DA0181 /* Fonts.swift in Sources */,
 				61E5E6142B17E981005B3D03 /* MainTabScreen.swift in Sources */,
-				3270E3022BADC7CC0047E645 /* Cities.swift in Sources */,
+				3270E3022BADC7CC0047E645 /* City.swift in Sources */,
 				325CE7E42B80F350007E343D /* Color+Ext.swift in Sources */,
 				61BEC9A12B1E703D00AF223D /* UserPrivateDataView.swift in Sources */,
 				6171A4442B1DCE6400D22A23 /* UserDataView.swift in Sources */,
@@ -582,10 +576,8 @@
 				6105436A2B34CF5700CFC9DB /* CustomTextField.swift in Sources */,
 				3249B1992BAF53C8000D4EB5 /* SignUpBtn.swift in Sources */,
 				614314942B17F9A2009A1D9C /* ProfileScreen.swift in Sources */,
-				320270372B8E3778000766E1 /* ScrollableHotlineNumbers.swift in Sources */,
 				3212AAC92C24538D002FBA2A /* RouteBtn.swift in Sources */,
 				3212AACB2C245BAB002FBA2A /* DismissXBtn.swift in Sources */,
-				328E9B292B8F5996008B1D67 /* HotlineNumberCell.swift in Sources */,
 				32196DA52BA790CD0099B059 /* MapUtilities.swift in Sources */,
 				61696B712B1F741F00406421 /* User.swift in Sources */,
 			);
@@ -725,10 +717,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EcoFill/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = EcoFill;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "EcoFill requires your location to work.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -761,10 +756,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EcoFill/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = EcoFill;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "EcoFill requires your location to work.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
