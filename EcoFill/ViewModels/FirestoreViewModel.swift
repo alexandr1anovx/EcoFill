@@ -19,7 +19,11 @@ final class FirestoreViewModel: ObservableObject {
     // MARK: - Public Methods
     func fetchStations() {
         db.collection("stations").addSnapshotListener { snapshot, error in
-            guard let error = error else { return }
+            if let error {
+                print("Cannot get the stations: \(error.localizedDescription)")
+                return
+            }
+            // Ensure snapshot documents are not nil
             guard let documents = snapshot?.documents else { return }
             
             self.stations = documents.map { snapshot -> Station in
