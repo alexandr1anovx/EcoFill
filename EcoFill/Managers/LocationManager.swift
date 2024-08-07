@@ -16,7 +16,7 @@ enum LocationError: Error {
     case network
     case operationFailed
     
-    var errorDescription: String {
+    private var errorDescription: String {
         switch self {
         case .authorizationDenied:
             return NSLocalizedString("Location access denied", comment: "")
