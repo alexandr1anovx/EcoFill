@@ -26,7 +26,10 @@ struct Station: Decodable, Identifiable, Hashable {
     }
     
     var coordinate: CLLocationCoordinate2D {
-        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        CLLocationCoordinate2D(
+            latitude: latitude,
+            longitude: longitude
+        )
     }
 }
 
