@@ -15,13 +15,16 @@ struct LocationsList: View {
     @Binding var selectedStation: Station?
     @Binding var isPresentedStationDetails: Bool
     @Binding var isPresentedRoute: Bool
+    let cities = ["Kyiv", "Odesa", "Mykolaiv"]
     
     // MARK: - Private Properties
     @State private var selectedIndex = 0
-    private let cities = ["Kyiv", "Odesa", "Mykolaiv"]
     private var filteredStations: [Station] {
-        firestoreVM.stations.filter { $0.city == cities[selectedIndex] }
+        firestoreVM.stations.filter {
+            $0.city == cities[selectedIndex]
+        }
     }
+    
     // MARK: - body
     var body: some View {
         VStack {
@@ -52,6 +55,7 @@ struct LocationsList: View {
             .listRowSpacing(15)
         }
         
+        // which city is selected by the user, and find its index in the cities array.
         .onAppear {
             if let selectedCity = authenticationVM.currentUser?.city,
                let index = cities.firstIndex(of: selectedCity) {
