@@ -68,9 +68,11 @@ struct SignInScreen: View {
             .navigationBarTitleDisplayMode(.inline)
             
             .alert(item: $authenticationVM.alertItem) { alert in
-                Alert(title: alert.title,
-                      message: alert.message,
-                      dismissButton: alert.dismissButton)
+                Alert(
+                    title: alert.title,
+                    message: alert.message,
+                    dismissButton: alert.dismissButton
+                )
             }
         }
     }
