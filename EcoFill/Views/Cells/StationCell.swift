@@ -9,9 +9,9 @@ import SwiftUI
 struct StationCell: View {
     
     // MARK: - Public Properties
-    var station: Station
-    var isShownRoute: Bool
-    var action: () -> Void
+    let station: Station
+    let isShownRoute: Bool
+    let action: () -> Void
     
     // MARK: - body
     var body: some View {

@@ -16,24 +16,24 @@ struct MapControls: View {
     // MARK: - body
     var body: some View {
         VStack(spacing: 10) {
-            ControlItem(image: .map) { isPresentedMapStyle = true }
-            ControlItem(image: .location) { isPresentedList = true }
+            MapControlItem(img: .map) { isPresentedMapStyle = true }
+            MapControlItem(img: .location) { isPresentedList = true }
         }
     }
 }
 
-struct ControlItem: View {
+struct MapControlItem: View {
     
     // MARK: - Public Properties
-    var image: ImageResource
-    var action: () -> Void?
+    let img: ImageResource
+    let action: () -> Void?
     
     // MARK: - body
     var body: some View {
         Button {
             action()
         } label: {
-            Image(image).defaultSize()
+            Image(img).defaultSize()
         }
         .buttonStyle(CustomButtonModifier(pouring: .cmSystem))
         .shadow(radius: 5)

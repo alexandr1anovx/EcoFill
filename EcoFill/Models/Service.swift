@@ -19,7 +19,7 @@ struct Service: Identifiable {
     let type: ServiceType
 }
 
-let services: [Service] = [
+var services: [Service] = [
     Service(
         title: "Support",
         description: "Send a feedback about our service.",

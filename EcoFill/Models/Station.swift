@@ -22,7 +22,7 @@ struct Station: Decodable, Identifiable, Hashable {
     let street: String
     
     var address: String {
-        "\(city), \(street), \(postalCode)"
+        "\(street), \(postalCode)"
     }
     
     var coordinate: CLLocationCoordinate2D {
@@ -34,7 +34,7 @@ struct Station: Decodable, Identifiable, Hashable {
 }
 
 extension Station {
-    static var testStation = Station(
+    static let testStation = Station(
         id: "test",
         city: "Kyiv",
         euroA95: 53.99,
