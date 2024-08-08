@@ -64,8 +64,3 @@ struct QRCodeView: View {
         return UIImage(resource: .xmark)
     }
 }
-
-#Preview {
-    QRCodeView()
-        .environmentObject(AuthenticationViewModel())
-}

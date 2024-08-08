@@ -11,7 +11,7 @@ import MapKit
 struct MapItemView: View {
     
     // MARK: - Public Properties
-    var station: Station
+    let station: Station
     @Binding var isPresentedRoute: Bool
     
     // MARK: - body
@@ -20,18 +20,14 @@ struct MapItemView: View {
             VStack(alignment: .leading, spacing: 15) {
                 Text(station.name).font(.lexendBody)
                 Row(img: .location, text: station.address)
-                Row(img: .clock, text: "Schedule: \(station.schedule)")
-                
+                Row(img: .clock, text: station.schedule)
                 HStack {
-                    Row(img: .payment, text: "Pay with:")
-                    Image(.mastercard)
-                        .navBarSize()
-                    Image(.applePay)
-                        .navBarSize()
+                    Row(img: .payment, text: "Payment:")
+                    Image(.mastercard).navBarSize()
+                    Image(.applePay).navBarSize()
                 }
-                
                 ScrollableFuelsStack(station: station)
-
+                
                 if isPresentedRoute {
                     DismissRouteBtn { isPresentedRoute = false }
                 } else {

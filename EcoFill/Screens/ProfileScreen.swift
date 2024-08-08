@@ -42,15 +42,13 @@ struct ProfileScreen: View {
             .listStyle(.insetGrouped)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Image(.logo)
-                        .navBarSize()
+                    Image(.logo).navBarSize()
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
                         UserPrivateDataView()
                     } label: {
-                        Image(.edit)
-                            .navBarSize()
+                        Image(.edit).navBarSize()
                     }
                 }
             }

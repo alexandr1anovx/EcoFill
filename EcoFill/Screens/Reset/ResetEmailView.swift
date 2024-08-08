@@ -25,7 +25,7 @@ struct ResetEmailView: View {
                 CustomTextField(
                     inputData: $email,
                     title: "New email",
-                    placeholder: "yournewemail@gmail.com", 
+                    placeholder: "emailname@example.com",
                     isSecureField: false
                 )
                 .focused($textField, equals: .email)
@@ -38,7 +38,7 @@ struct ResetEmailView: View {
                 CustomTextField(
                     inputData: $currentPassword,
                     title: "Current password",
-                    placeholder: "Repeat your current password.",
+                    placeholder: "Repeat your current password",
                     isSecureField: true
                 )
                 .focused($textField, equals: .password)
