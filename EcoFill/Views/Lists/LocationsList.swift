@@ -15,22 +15,22 @@ struct LocationsList: View {
     @Binding var selectedStation: Station?
     @Binding var isPresentedStationDetails: Bool
     @Binding var isPresentedRoute: Bool
-    let cities = ["Kyiv", "Odesa", "Mykolaiv"]
+    let cities: [City] = City.allCases
     
     // MARK: - Private Properties
-    @State private var selectedIndex = 0
+    @State private var selectedCity: City = .mykolaiv
     private var filteredStations: [Station] {
         firestoreVM.stations.filter {
-            $0.city == cities[selectedIndex]
+            $0.city == selectedCity.rawValue
         }
     }
     
     // MARK: - body
     var body: some View {
         VStack {
-            Picker("", selection: $selectedIndex) {
-                ForEach(cities.indices, id: \.self) { index in
-                    Text(cities[index])
+            Picker("", selection: $selectedCity) {
+                ForEach(cities) { city in
+                    Text(city.rawValue)
                 }
             }
             .pickerStyle(.segmented)
@@ -57,9 +57,9 @@ struct LocationsList: View {
         
         // which city is selected by the user, and find its index in the cities array.
         .onAppear {
-            if let selectedCity = authenticationVM.currentUser?.city,
-               let index = cities.firstIndex(of: selectedCity) {
-                selectedIndex = index
+            if let selectedCityString = authenticationVM.currentUser?.city,
+               let city = City(rawValue: selectedCityString) {
+                selectedCity = city
             }
         }
     }
