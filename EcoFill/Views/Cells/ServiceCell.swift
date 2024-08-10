@@ -1,10 +1,3 @@
-//
-//  ServiceCell.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 01.12.2023.
-//
-
 import SwiftUI
 
 struct ServiceCell: View {
@@ -37,4 +30,3 @@ struct ServiceCell: View {
         }
     }
 }
-

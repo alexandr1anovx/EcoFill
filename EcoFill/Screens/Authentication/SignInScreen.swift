@@ -1,16 +1,9 @@
-//
-//  LoginScreen.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 21.12.2023.
-//
-
 import SwiftUI
 
 struct SignInScreen: View {
     
     // MARK: - Public Properties
-    @EnvironmentObject var authenticationVM: AuthenticationViewModel
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
     // MARK: - Private Properties
     @FocusState private var textField: TextFieldContent?
@@ -41,9 +34,9 @@ struct SignInScreen: View {
                 .submitLabel(.done)
                 .onSubmit { textField = nil }
                 
-                SignInBtn {
+                SignInButton {
                     Task {
-                        await authenticationVM.signIn(
+                        await authenticationViewModel.signIn(
                             withEmail: email,
                             password: password
                         )
@@ -67,7 +60,7 @@ struct SignInScreen: View {
             .navigationTitle("Sign In")
             .navigationBarTitleDisplayMode(.inline)
             
-            .alert(item: $authenticationVM.alertItem) { alert in
+            .alert(item: $authenticationViewModel.alertItem) { alert in
                 Alert(
                     title: alert.title,
                     message: alert.message,

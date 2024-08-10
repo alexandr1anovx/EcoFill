@@ -1,17 +1,10 @@
-//
-//  SignUpScreen.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 21.12.2023.
-//
-
 import SwiftUI
 
 struct SignUpScreen: View {
     
     // MARK: - Public Properties
-    @EnvironmentObject var authenticationVM: AuthenticationViewModel
-    @EnvironmentObject var firestoreVM: FirestoreViewModel
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
+    @EnvironmentObject var firestoreViewModel: FirestoreViewModel
     
     // MARK: - Private Properties
     @FocusState private var textField: TextFieldContent?
@@ -71,13 +64,13 @@ struct SignUpScreen: View {
                     if !password.isEmpty && !confirmPassword.isEmpty {
                         let match = password == confirmPassword
                         Image(match ? .checkmark : .xmark)
-                            .defaultSize()
+                            .defaultImageSize
                     }
                 }
                 
                 HStack {
                     Image(.location)
-                        .defaultSize()
+                        .defaultImageSize
                     Picker("", selection: $selectedCity) {
                         ForEach(City.allCases) { city in
                             Text(city.rawValue)
@@ -89,7 +82,7 @@ struct SignUpScreen: View {
             }
             .padding(15)
             
-            .alert(item: $authenticationVM.alertItem) { alert in
+            .alert(item: $authenticationViewModel.alertItem) { alert in
                 Alert(
                     title: alert.title,
                     message: alert.message,
@@ -100,7 +93,7 @@ struct SignUpScreen: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Sign Up") {
                         Task {
-                            await authenticationVM.createUser(
+                            await authenticationViewModel.createUser(
                                 withCity: selectedCity.rawValue,
                                 initials: initials,
                                 email: email,

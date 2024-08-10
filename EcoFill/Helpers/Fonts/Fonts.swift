@@ -1,10 +1,3 @@
-//
-//  Fonts.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 20.02.2024.
-//
-
 import SwiftUI
 
 extension Font {

@@ -1,10 +1,3 @@
-//
-//  ProductsViewModel.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 04.01.2024.
-//
-
 import Foundation
 import FirebaseFirestore
 
@@ -13,7 +6,7 @@ final class FirestoreViewModel: ObservableObject {
     // MARK: - Public Properties
     @Published var stations: [Station] = []
     
-    // MARK: - Private properties
+    // MARK: - Private Properties
     private let db = Firestore.firestore()
     
     // MARK: - Public Methods

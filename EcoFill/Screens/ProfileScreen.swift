@@ -1,16 +1,9 @@
-//
-//  ProfileScreen.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 30.11.2023.
-//
-
 import SwiftUI
 
 struct ProfileScreen: View {
     
     // MARK: - Public Properties
-    @EnvironmentObject var authenticationVM: AuthenticationViewModel
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
     // MARK: - Private Properties
     @State private var isPresentedSignOut = false
@@ -35,20 +28,22 @@ struct ProfileScreen: View {
                 }
                 .confirmationDialog("", isPresented: $isPresentedSignOut) {
                     Button("Sign Out", role: .destructive) {
-                        authenticationVM.signOut()
+                        authenticationViewModel.signOut()
                     }
                 }
             }
             .listStyle(.insetGrouped)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Image(.logo).navBarSize()
+                    Image(.logo)
+                        .navBarImageSize
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
                         UserPrivateDataView()
                     } label: {
-                        Image(.edit).navBarSize()
+                        Image(.edit)
+                            .navBarImageSize
                     }
                 }
             }

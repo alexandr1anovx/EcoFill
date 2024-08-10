@@ -1,14 +1,6 @@
-//
-//  ButtonModifier.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 09.03.2024.
-//
-
 import SwiftUI
 
 struct CustomButtonModifier: ButtonStyle {
-    
     let pouring: Color
     
     func makeBody(configuration: Configuration) -> some View {

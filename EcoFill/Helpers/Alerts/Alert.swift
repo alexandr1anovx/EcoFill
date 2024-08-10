@@ -1,10 +1,3 @@
-//
-//  Alert.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 05.12.2023.
-//
-
 import SwiftUI
 
 struct AlertItem: Identifiable {

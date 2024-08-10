@@ -1,10 +1,3 @@
-//
-//  CLLocationCoordinate2D+Ext.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 18.02.2024.
-//
-
 import Foundation
 import MapKit
 

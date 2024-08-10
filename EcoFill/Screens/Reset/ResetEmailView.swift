@@ -1,17 +1,10 @@
-//
-//  ChangeEmailScreen.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 22.03.2024.
-//
-
 import SwiftUI
 import Firebase
 
 struct ResetEmailView: View {
     
     // MARK: - Public Properties
-    @EnvironmentObject var authenticationVM: AuthenticationViewModel
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
     // MARK: - Private Properties
     @FocusState private var textField: TextFieldContent?
@@ -45,9 +38,9 @@ struct ResetEmailView: View {
                 .onSubmit { textField = .confirmPassword }
                 .submitLabel(.next)
                 
-                ResetBtn(img: .checkmark, data: "") {
+                ResetButton(img: .checkmark, data: "") {
                     Task {
-                        await authenticationVM.updateEmail(
+                        await authenticationViewModel.updateEmail(
                             to: email,
                             withPassword: currentPassword
                         )
@@ -62,12 +55,12 @@ struct ResetEmailView: View {
             .padding(.top, 30)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    DismissXBtn()
+                    DismissXButton()
                         .foregroundStyle(.red)
                 }
             }
             .onAppear { textField = .initials } // Place cursor on first field
-            .alert(item: $authenticationVM.alertItem) { alert in
+            .alert(item: $authenticationViewModel.alertItem) { alert in
                 Alert(
                     title: alert.title,
                     message: alert.message,

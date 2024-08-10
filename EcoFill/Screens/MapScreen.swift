@@ -1,17 +1,10 @@
-//
-//  MapScreen.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 30.11.2023.
-//
-
 import SwiftUI
 import MapKit
 
 struct MapScreen: View {
     
     // MARK: - Public Properties
-    @EnvironmentObject var firestoreVM: FirestoreViewModel
+    @EnvironmentObject var firestoreViewModel: FirestoreViewModel
 
     // MARK: - Private Properties
     @State private var locationManager = LocationManager.shared
@@ -29,7 +22,7 @@ struct MapScreen: View {
         NavigationStack {
             Map(position: $cameraPosition) {
                 UserAnnotation() // user's location
-                ForEach(firestoreVM.stations) { station in
+                ForEach(firestoreViewModel.stations) { station in
                     let name = station.name
                     let coordinate = station.coordinate
                     Annotation(name, coordinate: coordinate) {
@@ -119,12 +112,11 @@ struct MapScreen: View {
             print("Cannot get user coordinates")
             return
         }
-
         guard let selectedStation else {
             print("Cannot get station coordinates")
             return
         }
-
+        
         let userCoordinate = userLocation.coordinate
         let userPlacemark = MKPlacemark(coordinate: userCoordinate)
 

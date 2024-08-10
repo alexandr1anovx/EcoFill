@@ -1,10 +1,3 @@
-//
-//  FeedbackScreen.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 10.12.2023.
-//
-
 import SwiftUI
 
 enum FeedbackFormTextField {
@@ -14,7 +7,7 @@ enum FeedbackFormTextField {
 struct SupportScreen: View {
     
     // MARK: - Public Properties
-    @EnvironmentObject var authenticationVM: AuthenticationViewModel
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
     // MARK: - Private Properties
     @FocusState private var feedbackTextField: FeedbackFormTextField?
@@ -48,14 +41,15 @@ struct SupportScreen: View {
                     .onSubmit { feedbackTextField = nil }
                     .submitLabel(.done)
                     
-                    SendFeedbackBtn {
+                    SendFeedbackButton {
                         isPresentedAlert.toggle()
                         message = ""
+                        feedbackTextField = nil
                     }
                     .disabled(!isMessageSuitable)
                     .opacity(isMessageSuitable ? 1.0 : 0.5)
                     .alert("Success!", isPresented: $isPresentedAlert) {
-                        //
+                        
                     } message: {
                         Text("Thanks! Message has been sent successfully")
                     }
@@ -67,7 +61,7 @@ struct SupportScreen: View {
             .navigationTitle("Support")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
-                if let userEmail = authenticationVM.currentUser?.email {
+                if let userEmail = authenticationViewModel.currentUser?.email {
                     email = userEmail
                 } else {
                     email = "No email"

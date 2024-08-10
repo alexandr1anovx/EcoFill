@@ -1,10 +1,3 @@
-//
-//  Color+Ext.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 17.02.2024.
-//
-
 import SwiftUI
 
 extension Color {

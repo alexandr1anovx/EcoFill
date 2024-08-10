@@ -1,16 +1,9 @@
-//
-//  HomeView.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 30.11.2023.
-//
-
 import SwiftUI
 
 struct HomeScreen: View {
     
     // MARK: - Public Properties
-    @EnvironmentObject var authenticationVM: AuthenticationViewModel
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
     // MARK: - Private Properties
     @State private var isPresentedQR = false
@@ -18,7 +11,7 @@ struct HomeScreen: View {
     // MARK: - body
     var body: some View {
         NavigationStack {
-            if let city = authenticationVM.currentUser?.city {
+            if let city = authenticationViewModel.currentUser?.city {
                 VStack {
                     UserDataView()
                     FuelsList(selectedCity: city)
@@ -30,16 +23,16 @@ struct HomeScreen: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Image(.logo)
-                            .navBarSize()
+                            .navBarImageSize
                     }
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             isPresentedQR.toggle()
                         } label: {
                             Image(.qr)
-                                .navBarSize()
+                                .navBarImageSize
                         }
-                        .buttonStyle(.animated)
+                        .buttonStyle(AnimatedButtonStyle.animated)
                     }
                 }
                 .navigationTitle("Home")
