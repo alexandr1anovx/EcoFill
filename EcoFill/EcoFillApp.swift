@@ -1,10 +1,3 @@
-//
-//  EcoFillApp.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 29.11.2023.
-//
-
 import SwiftUI
 import FirebaseCore
 
@@ -21,11 +14,11 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct EcoFillApp: App {
     
-    // MARK: - Private Properties
+    // MARK: - Public Properties
     // Register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
-    // MARK: - Public Properties
+    // MARK: - Private Properties
     @StateObject private var authenticationVM = AuthenticationViewModel()
     @StateObject private var firestoreVM = FirestoreViewModel()
     @AppStorage("preferredScheme") private var preferredScheme: Scheme = .system

@@ -1,12 +1,21 @@
-//
-//  LocationManager.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 02.02.2024.
-//
-
 import Foundation
 import MapKit
+
+final class LocationManager: NSObject, CLLocationManagerDelegate {
+    
+    // MARK: - Public Properties
+    static let shared = LocationManager()
+    let manager = CLLocationManager()
+    
+    // MARK: - Private Properties
+    private var error: LocationError? = nil
+    private var region = MKCoordinateRegion()
+    
+    override init() {
+        super.init()
+        manager.delegate = self
+    }
+}
 
 enum LocationError: Error {
     case authorizationDenied
@@ -31,22 +40,6 @@ enum LocationError: Error {
         case .operationFailed:
             return NSLocalizedString("Operation failed", comment: "")
         }
-    }
-}
-
-final class LocationManager: NSObject, CLLocationManagerDelegate {
-    
-    // MARK: - Public Properties
-    static let shared = LocationManager()
-    let manager = CLLocationManager()
-    
-    // MARK: - Private Properties
-    private var error: LocationError? = nil
-    private var region = MKCoordinateRegion()
-    
-    override init() {
-        super.init()
-        manager.delegate = self
     }
 }
 
