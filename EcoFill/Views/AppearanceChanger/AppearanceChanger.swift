@@ -1,25 +1,4 @@
-//
-//  AppearanceChanger.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 11.02.2024.
-//
-
 import SwiftUI
-
-enum Scheme: String, CaseIterable {
-    case system = "System"
-    case light = "Light"
-    case dark = "Dark"
-    
-    var colorScheme: ColorScheme? {
-        switch self {
-        case .system: return nil
-        case .light: return .light
-        case .dark: return .dark
-        }
-    }
-}
 
 struct AppearanceChanger: View {
     
@@ -31,11 +10,11 @@ struct AppearanceChanger: View {
         HStack(spacing: 15) {
             switch preferredScheme {
             case .system:
-                Image(.system).defaultSize()
+                Image(.system).defaultImageSize
             case .light:
-                Image(.sun).defaultSize()
+                Image(.sun).defaultImageSize
             case .dark:
-                Image(.moon).defaultSize()
+                Image(.moon).defaultImageSize
             }
             
             Text("Appearance")
@@ -56,6 +35,16 @@ struct AppearanceChanger: View {
     }
 }
 
-#Preview {
-    AppearanceChanger()
+enum Scheme: String, CaseIterable {
+    case system = "System"
+    case light = "Light"
+    case dark = "Dark"
+    
+    var colorScheme: ColorScheme? {
+        switch self {
+        case .system: return nil
+        case .light: return .light
+        case .dark: return .dark
+        }
+    }
 }
