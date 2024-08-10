@@ -1,20 +1,13 @@
-//
-//  UserDataPreview.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 04.12.2023.
-//
-
 import SwiftUI
 
 struct UserDataView: View {
     
     // MARK: - Public Properties
-    @EnvironmentObject var authenticationVM: AuthenticationViewModel
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
     // MARK: - body
     var body: some View {
-        if let user = authenticationVM.currentUser {
+        if let user = authenticationViewModel.currentUser {
             HStack {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(user.initials)

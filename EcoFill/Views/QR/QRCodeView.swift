@@ -1,10 +1,3 @@
-//
-//  QRCodePreview.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 04.12.2023.
-//
-
 import SwiftUI
 import CoreImage
 import CoreImage.CIFilterBuiltins
@@ -12,7 +5,7 @@ import CoreImage.CIFilterBuiltins
 struct QRCodeView: View {
     
     // MARK: - Public Properties
-    @EnvironmentObject var authenticationVM: AuthenticationViewModel
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
     // MARK: - Private Properties
     private let context = CIContext()
@@ -21,7 +14,7 @@ struct QRCodeView: View {
     // MARK: - body
     var body: some View {
         NavigationStack {
-            if let user = authenticationVM.currentUser {
+            if let user = authenticationViewModel.currentUser {
                 VStack(spacing: 20) {
                     VStack(alignment: .leading, spacing: 10) {
                         InformationRow(
@@ -45,7 +38,7 @@ struct QRCodeView: View {
                 .padding(.horizontal)
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
-                        DismissXBtn()
+                        DismissXButton()
                             .foregroundStyle(.red)
                     }
                 }

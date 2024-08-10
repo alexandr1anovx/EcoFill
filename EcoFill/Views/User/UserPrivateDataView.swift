@@ -1,10 +1,3 @@
-//
-//  UserPrivateDataPreview.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 04.12.2023.
-//
-
 import SwiftUI
 import FirebaseAuth
 import Firebase
@@ -13,7 +6,7 @@ import Firebase
 struct UserPrivateDataView: View {
     
     // MARK: - Public Properties
-    @EnvironmentObject var authenticationVM: AuthenticationViewModel
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
     // MARK: - Private Properties
     @State private var initials: String = ""
@@ -50,18 +43,18 @@ struct UserPrivateDataView: View {
                 Divider()
                 
                 VStack(alignment: .leading, spacing: 15) {
-                    ResetBtn(img: .mail, data: "email") {
+                    ResetButton(img: .mail, data: "email") {
                         isPresentedEmailReset.toggle()
                     }
                     
-                    DeleteAccountBtn {
-                        isConfirming = true
+                    DeleteAccountButton {
+                        isConfirming.toggle()
                     }
                     .alert("Confirm password", isPresented: $isConfirming) {
                         SecureField("", text: $currentPassword)
                         Button("Delete", role: .destructive) {
                             Task {
-                                await authenticationVM.deleteUser(
+                                await authenticationViewModel.deleteUser(
                                     withPassword: currentPassword
                                 )
                             }
@@ -82,7 +75,7 @@ struct UserPrivateDataView: View {
                     .presentationCornerRadius(20)
             }
             
-            .alert(item: $authenticationVM.alertItem) { alert in
+            .alert(item: $authenticationViewModel.alertItem) { alert in
                 Alert(
                     title: alert.title,
                     message: alert.message,
@@ -90,7 +83,7 @@ struct UserPrivateDataView: View {
             }
             
             .onAppear {
-                if let user = authenticationVM.currentUser {
+                if let user = authenticationViewModel.currentUser {
                     initials = user.initials
                     email = user.email
                     city = user.city
@@ -100,14 +93,10 @@ struct UserPrivateDataView: View {
         }
     }
     
+    // MARK: - Private Methods
     private func checkEmailVerification() {
-        if let user = authenticationVM.userSession {
+        if let user = authenticationViewModel.userSession {
             isVerifiedEmail = user.isEmailVerified
         }
     }
-}
-
-#Preview {
-    UserPrivateDataView()
-        .environmentObject(AuthenticationViewModel())
 }

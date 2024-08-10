@@ -1,18 +1,8 @@
-//
-//  DismissRouteBtn.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 15.06.2024.
-//
-
 import SwiftUI
 
 struct DismissRouteButton: View {
-    
-    // MARK: - Public Properties
     let action: () -> Void
     
-    // MARK: - body
     var body: some View {
         Button {
             action()
@@ -26,7 +16,7 @@ struct DismissRouteButton: View {
                     .foregroundStyle(.white)
             }
         }
-        .buttonStyle(CustomButtonModifier(pouring: .red))
+        .customButtonStyle(pouring: .red)
         .shadow(radius: 5)
     }
 }

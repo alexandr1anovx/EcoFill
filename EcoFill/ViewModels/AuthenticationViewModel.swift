@@ -1,10 +1,3 @@
-//
-//  AuthViewModel.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 23.12.2023.
-//
-
 import Firebase
 import FirebaseAuth
 

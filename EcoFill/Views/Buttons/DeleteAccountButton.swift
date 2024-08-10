@@ -1,10 +1,3 @@
-//
-//  DeleteUserBtn.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 23.03.2024.
-//
-
 import SwiftUI
 
 struct DeleteAccountButton: View {
@@ -22,7 +15,7 @@ struct DeleteAccountButton: View {
                     .foregroundStyle(.white)
             }
         }
-        .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
+        .customButtonStyle(pouring: .cmBlack)
         .shadow(radius: 5)
     }
 }

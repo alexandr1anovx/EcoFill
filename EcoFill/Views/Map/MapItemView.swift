@@ -1,10 +1,3 @@
-//
-//  LocationItemPreview.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 30.11.2023.
-//
-
 import SwiftUI
 import MapKit
 
@@ -18,27 +11,31 @@ struct MapItemView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 15) {
-                Text(station.name).font(.lexendBody)
+                Text(station.name)
+                    .font(.lexendBody)
                 Row(img: .location, text: station.address)
                 Row(img: .clock, text: station.schedule)
                 HStack {
                     Row(img: .payment, text: "Payment:")
-                    Image(.mastercard).navBarSize()
-                    Image(.applePay).navBarSize()
+                    Image(.mastercard)
+                        .navBarImageSize
+                    Image(.applePay)
+                        .navBarImageSize
                 }
+                
                 ScrollableFuelsStack(station: station)
                 
                 if isPresentedRoute {
-                    DismissRouteBtn { isPresentedRoute = false }
+                    DismissRouteButton { isPresentedRoute = false }
                 } else {
-                    RouteBtn { isPresentedRoute = true }
+                    ShowRouteButton { isPresentedRoute = true }
                 }
             }
             .padding(.horizontal, 15)
             .padding(.bottom, 35)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    DismissXBtn()
+                    DismissXButton()
                         .foregroundStyle(.red)
                 }
             }

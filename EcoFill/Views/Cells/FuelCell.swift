@@ -1,9 +1,3 @@
-//
-//  FuelCell.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 20.02.2024.
-
 import SwiftUI
 
 struct FuelCell: View {

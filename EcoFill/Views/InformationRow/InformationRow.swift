@@ -1,15 +1,8 @@
-//
-//  InformationRow.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 12.03.2024.
-//
-
 import SwiftUI
 
 struct InformationRow: View {
     
-    // MARK: - Private Properties
+    // MARK: - Public Properties
     let img: ImageResource
     let text: String
     let content: String?
@@ -18,7 +11,7 @@ struct InformationRow: View {
     var body: some View {
         HStack(spacing: 10) {
             Image(img)
-                .defaultSize()
+                .defaultImageSize
             Text(text)
                 .font(.lexendFootnote)
                 .foregroundStyle(.gray)

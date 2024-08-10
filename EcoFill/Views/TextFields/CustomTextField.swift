@@ -1,10 +1,3 @@
-//
-//  InputView.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 21.12.2023.
-//
-
 import SwiftUI
 
 struct CustomTextField: View {
@@ -15,6 +8,7 @@ struct CustomTextField: View {
     let placeholder: String
     var isSecureField = false
     
+    // MARK: - body
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
             Text(title)

@@ -1,10 +1,3 @@
-//
-//  ResetEmailBtn.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 02.04.2024.
-//
-
 import SwiftUI
 
 struct ResetButton: View {
@@ -24,7 +17,7 @@ struct ResetButton: View {
                     .foregroundStyle(.white)
             }
         }
-        .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
+        .customButtonStyle(pouring: .cmBlack)
         .shadow(radius: 5)
     }
 }

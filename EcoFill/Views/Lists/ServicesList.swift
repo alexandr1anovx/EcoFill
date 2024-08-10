@@ -1,10 +1,3 @@
-//
-//  ServicesList.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 01.12.2023.
-//
-
 import SwiftUI
 
 struct ServicesList: View {
@@ -15,8 +8,4 @@ struct ServicesList: View {
         .listStyle(.plain)
         .listRowSpacing(10)
     }
-}
-
-#Preview {
-    ServicesList()
 }

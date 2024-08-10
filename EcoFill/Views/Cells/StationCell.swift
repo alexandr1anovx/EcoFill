@@ -1,9 +1,3 @@
-//
-//  LocationCell.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 01.12.2023.
-
 import SwiftUI
 
 struct StationCell: View {
@@ -25,9 +19,9 @@ struct StationCell: View {
             Spacer()
             
             if isShownRoute {
-                DismissRouteBtn { action() }
+                DismissRouteButton { action() }
             } else {
-                RouteBtn { action() }
+                ShowRouteButton { action() }
             }
         }
     }

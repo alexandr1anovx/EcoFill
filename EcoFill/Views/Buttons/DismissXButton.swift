@@ -1,10 +1,3 @@
-//
-//  DismissXButton.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 09.03.2024.
-//
-
 import SwiftUI
 
 struct DismissXButton: View {

@@ -1,17 +1,10 @@
-//
-//  TestPicker.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 12.02.2024.
-//
-
 import SwiftUI
 
 struct LocationsList: View {
     
     // MARK: - Public Properties
-    @EnvironmentObject var authenticationVM: AuthenticationViewModel
-    @EnvironmentObject var firestoreVM: FirestoreViewModel
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
+    @EnvironmentObject var firestoreViewModel: FirestoreViewModel
     @Binding var selectedStation: Station?
     @Binding var isPresentedStationDetails: Bool
     @Binding var isPresentedRoute: Bool
@@ -20,7 +13,7 @@ struct LocationsList: View {
     // MARK: - Private Properties
     @State private var selectedCity: City = .mykolaiv
     private var filteredStations: [Station] {
-        firestoreVM.stations.filter {
+        firestoreViewModel.stations.filter {
             $0.city == selectedCity.rawValue
         }
     }
@@ -55,9 +48,8 @@ struct LocationsList: View {
             .listRowSpacing(15)
         }
         
-        // which city is selected by the user, and find its index in the cities array.
         .onAppear {
-            if let selectedCityString = authenticationVM.currentUser?.city,
+            if let selectedCityString = authenticationViewModel.currentUser?.city,
                let city = City(rawValue: selectedCityString) {
                 selectedCity = city
             }

@@ -1,10 +1,3 @@
-//
-//  ProductCell.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 04.12.2023.
-//
-
 import SwiftUI
 
 struct ScrollableFuelsStack: View {
@@ -41,8 +34,3 @@ struct ScrollableFuelsStack: View {
         .shadow(radius: 7)
     }
 }
-
-#Preview {
-    ScrollableFuelsStack(station: .testStation)
-}
-
