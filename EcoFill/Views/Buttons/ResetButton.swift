@@ -1,31 +1,30 @@
 //
-//  GetDirectionsBtn.swift
+//  ResetEmailBtn.swift
 //  EcoFill
 //
-//  Created by Alexander Andrianov on 23.03.2024.
+//  Created by Alexander Andrianov on 02.04.2024.
 //
 
 import SwiftUI
 
-struct RouteBtn: View {
-    
-    // MARK: - Public Properties
+struct ResetButton: View {
+    let img: ImageResource
+    let data: String
     let action: () -> Void
     
-    // MARK: - body
     var body: some View {
         Button {
             action()
         } label: {
             HStack {
-                Image(.route)
-                    .defaultSize()
-                Text("Route")
+                Image(img)
+                    .defaultImageSize
+                Text("Reset \(data)")
                     .font(.lexendFootnote)
                     .foregroundStyle(.white)
             }
         }
-        .buttonStyle(CustomButtonModifier(pouring: .cmBlue))
+        .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
         .shadow(radius: 5)
     }
 }

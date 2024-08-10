@@ -7,25 +7,22 @@
 
 import SwiftUI
 
-struct SignInBtn: View {
-    
-    // MARK: - Public Properties
+struct SignInButton: View {
     let action: () -> Void
     
-    // MARK: - body
     var body: some View {
         Button {
             action()
         } label: {
             HStack {
                 Image(.userSignIn)
-                    .defaultSize()
+                    .defaultImageSize
                 Text("Sign In")
                     .font(.lexendFootnote)
                     .foregroundStyle(.white)
             }
         }
-        .buttonStyle(CustomButtonModifier(pouring: .accent))
+        .customButtonStyle(pouring: .accent)
         .shadow(radius: 5)
     }
 }

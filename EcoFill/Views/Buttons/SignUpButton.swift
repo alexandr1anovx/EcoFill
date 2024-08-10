@@ -1,5 +1,5 @@
 //
-//  DeleteUserBtn.swift
+//  SignUpBtn.swift
 //  EcoFill
 //
 //  Created by Alexander Andrianov on 23.03.2024.
@@ -7,25 +7,22 @@
 
 import SwiftUI
 
-struct DeleteAccountBtn: View {
+struct SignUpButton: View {
+    var action: () -> Void
     
-    // MARK: - Public Properties
-    let action: () -> Void
-    
-    // MARK: - body
     var body: some View {
         Button {
             action()
         } label: {
             HStack {
-                Image(.userDelete)
-                    .defaultSize()
-                Text("Delete account")
+                Image(.userSignUp)
+                    .defaultImageSize
+                Text("Sign Up")
                     .font(.lexendFootnote)
                     .foregroundStyle(.white)
             }
         }
-        .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
+        .buttonStyle(CustomButtonModifier(pouring: .orange))
         .shadow(radius: 5)
     }
 }

@@ -7,18 +7,15 @@
 
 import SwiftUI
 
-struct DismissXBtn: View {
-    
-    // MARK: - Public Properties
+struct DismissXButton: View {
     @Environment(\.dismiss) var dismiss
     
-    // MARK: - body
     var body: some View {
         Button {
             dismiss()
         } label: {
             Image(.xmark)
-                .defaultSize()
+                .defaultImageSize
         }
     }
 }

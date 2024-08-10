@@ -7,20 +7,16 @@
 
 import SwiftUI
 
-struct SendFeedbackBtn: View {
-    
-    // MARK: - Public Properties
+struct SendFeedbackButton: View {
     let action: () -> Void
     
-    // MARK: - body
     var body: some View {
         Button {
             action()
         } label: {
             HStack {
                 Image(.checkmark)
-                    .resizable()
-                    .frame(width: 20, height: 20)
+                    .defaultImageSize
                 Text("Send feedback")
                     .font(.lexendFootnote)
                     .foregroundStyle(.white)

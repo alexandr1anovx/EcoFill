@@ -1,17 +1,15 @@
 //
-//  ResetEmailBtn.swift
+//  DismissRouteBtn.swift
 //  EcoFill
 //
-//  Created by Alexander Andrianov on 02.04.2024.
+//  Created by Alexander Andrianov on 15.06.2024.
 //
 
 import SwiftUI
 
-struct ResetBtn: View {
+struct DismissRouteButton: View {
     
     // MARK: - Public Properties
-    let img: ImageResource
-    let data: String
     let action: () -> Void
     
     // MARK: - body
@@ -20,14 +18,15 @@ struct ResetBtn: View {
             action()
         } label: {
             HStack {
-                Image(img)
-                    .defaultSize()
-                Text("Reset \(data)")
+                Image(.xmark)
+                    .defaultImageSize
+                    .foregroundStyle(.white)
+                Text("Dismiss")
                     .font(.lexendFootnote)
                     .foregroundStyle(.white)
             }
         }
-        .buttonStyle(CustomButtonModifier(pouring: .cmBlack))
+        .buttonStyle(CustomButtonModifier(pouring: .red))
         .shadow(radius: 5)
     }
 }
