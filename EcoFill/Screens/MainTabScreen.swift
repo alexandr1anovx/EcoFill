@@ -3,12 +3,12 @@ import SwiftUI
 struct MainTabScreen: View {
     
     // MARK: - Public Properties
-    @EnvironmentObject var authenticationVM: AuthenticationViewModel
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
     // MARK: - body
     var body: some View {
         Group {
-            if authenticationVM.userSession != nil {
+            if authenticationViewModel.userSession != nil {
                 MainTabView()
             } else {
                 SignInScreen()
@@ -30,7 +30,7 @@ struct MainTabView: View {
                 }
             ProfileScreen()
                 .tabItem {
-                    Label("Me", systemImage: "person.fill")
+                    Label("Profile", systemImage: "person.fill")
                 }
         }
     }

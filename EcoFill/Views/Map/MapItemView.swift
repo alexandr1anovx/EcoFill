@@ -13,14 +13,14 @@ struct MapItemView: View {
             VStack(alignment: .leading, spacing: 15) {
                 Text(station.name)
                     .font(.lexendBody)
-                Row(img: .location, text: station.address)
+                Row(img: .mark, text: station.address)
                 Row(img: .clock, text: station.schedule)
                 HStack {
                     Row(img: .payment, text: "Payment:")
                     Image(.mastercard)
-                        .navBarImageSize
+                        .navigationBarImageSize
                     Image(.applePay)
-                        .navBarImageSize
+                        .navigationBarImageSize
                 }
                 
                 ScrollableFuelsStack(station: station)

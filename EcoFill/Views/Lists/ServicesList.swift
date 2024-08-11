@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ServicesList: View {
     var body: some View {
-        List(services) { service in
+        List(Service.services) { service in
             ServiceCell(service: service)
         }
         .listStyle(.plain)

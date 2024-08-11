@@ -17,7 +17,7 @@ struct UserDataView: View {
                         .lineLimit(2)
                 }
                 Spacer()
-                Row(img: .location, text: user.city)
+                Row(img: .mark, text: user.city)
             }
             .padding(20)
         } else {

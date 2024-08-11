@@ -38,7 +38,7 @@ struct ResetEmailView: View {
                 .onSubmit { textField = .confirmPassword }
                 .submitLabel(.next)
                 
-                ResetButton(img: .checkmark, data: "") {
+                ResetButton(img: .success, data: "") {
                     Task {
                         await authenticationViewModel.updateEmail(
                             to: email,

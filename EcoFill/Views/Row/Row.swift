@@ -9,7 +9,7 @@ struct Row: View {
     
     // MARK: - body
     var body: some View {
-        HStack {
+        HStack(spacing: 8) {
             Image(img)
                 .defaultImageSize
             Text(text ?? "")

@@ -10,7 +10,7 @@ struct MapControls: View {
     var body: some View {
         VStack(spacing: 10) {
             MapControlItem(img: .map) { isPresentedMapStyle = true }
-            MapControlItem(img: .location) { isPresentedList = true }
+            MapControlItem(img: .mark) { isPresentedList = true }
         }
     }
 }

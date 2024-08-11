@@ -23,7 +23,7 @@ struct ProfileScreen: View {
                             .frame(width: 26, height: 26)
                         Text("Sign Out")
                             .font(.lexendBody)
-                            .foregroundStyle(.red)
+                            .foregroundStyle(.cmRed)
                     }
                 }
                 .confirmationDialog("", isPresented: $isPresentedSignOut) {
@@ -36,14 +36,14 @@ struct ProfileScreen: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Image(.logo)
-                        .navBarImageSize
+                        .logoImageSize
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
                         UserPrivateDataView()
                     } label: {
                         Image(.edit)
-                            .navBarImageSize
+                            .navigationBarImageSize
                     }
                 }
             }

@@ -10,11 +10,11 @@ struct AppearanceChanger: View {
         HStack(spacing: 15) {
             switch preferredScheme {
             case .system:
-                Image(.system).defaultImageSize
+                Image(.appearanceSystem).defaultImageSize
             case .light:
-                Image(.sun).defaultImageSize
+                Image(.appearanceLight).defaultImageSize
             case .dark:
-                Image(.moon).defaultImageSize
+                Image(.appearanceDark).defaultImageSize
             }
             
             Text("Appearance")

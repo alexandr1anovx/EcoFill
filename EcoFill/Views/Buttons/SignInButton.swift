@@ -5,17 +5,20 @@ struct SignInButton: View {
     
     var body: some View {
         Button {
+            let feedbackGenerator = UIImpactFeedbackGenerator(style: .heavy)
+            feedbackGenerator.prepare()
+            feedbackGenerator.impactOccurred()
             action()
         } label: {
             HStack {
-                Image(.userSignIn)
+                Image(.success)
                     .defaultImageSize
                 Text("Sign In")
-                    .font(.lexendFootnote)
+                    .font(.lexendCallout)
                     .foregroundStyle(.white)
             }
         }
-        .customButtonStyle(pouring: .accent)
+        .customButtonStyle(pouring: .cmBlue)
         .shadow(radius: 5)
     }
 }

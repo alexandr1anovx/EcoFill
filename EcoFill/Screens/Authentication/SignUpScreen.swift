@@ -63,13 +63,13 @@ struct SignUpScreen: View {
                 .overlay(alignment: .trailing) {
                     if !password.isEmpty && !confirmPassword.isEmpty {
                         let match = password == confirmPassword
-                        Image(match ? .checkmark : .xmark)
+                        Image(match ? .success : .xmark)
                             .defaultImageSize
                     }
                 }
                 
                 HStack {
-                    Image(.location)
+                    Image(.mark)
                         .defaultImageSize
                     Picker("", selection: $selectedCity) {
                         ForEach(City.allCases) { city in

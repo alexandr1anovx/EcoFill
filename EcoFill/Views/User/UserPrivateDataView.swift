@@ -27,16 +27,16 @@ struct UserPrivateDataView: View {
                     content: initials
                 )
                 InformationRow(
-                    img: .location,
+                    img: .mark,
                     text: "City:",
                     content: city
                 )
                 InformationRow(
-                    img: isVerifiedEmail ? .verified : .notVerified,
+                    img: isVerifiedEmail ? .verifiedEmail : .notVerifiedEmail,
                     text: "Email:",
                     content: email
                 )
-                Text(isVerifiedEmail ? "Email is vefiried." : "Email is unverified. Confirm the link by email and re-login to your account.")
+                Text(isVerifiedEmail ? "Email is confirmed" : "To confirm your email, follow the link sent to your email account")
                     .font(.lexendCaption)
                     .foregroundStyle(isVerifiedEmail ? .accent : .red)
                 
@@ -74,14 +74,12 @@ struct UserPrivateDataView: View {
                 ResetEmailView()
                     .presentationCornerRadius(20)
             }
-            
             .alert(item: $authenticationViewModel.alertItem) { alert in
                 Alert(
                     title: alert.title,
                     message: alert.message,
                     dismissButton: alert.dismissButton)
             }
-            
             .onAppear {
                 if let user = authenticationViewModel.currentUser {
                     initials = user.initials

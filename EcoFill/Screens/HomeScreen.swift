@@ -23,14 +23,14 @@ struct HomeScreen: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Image(.logo)
-                            .navBarImageSize
+                            .logoImageSize
                     }
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             isPresentedQR.toggle()
                         } label: {
                             Image(.qr)
-                                .navBarImageSize
+                                .navigationBarImageSize
                         }
                         .buttonStyle(AnimatedButtonStyle.animated)
                     }

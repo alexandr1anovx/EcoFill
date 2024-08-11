@@ -8,14 +8,14 @@ struct SendFeedbackButton: View {
             action()
         } label: {
             HStack {
-                Image(.checkmark)
+                Image(.success)
                     .defaultImageSize
                 Text("Send feedback")
                     .font(.lexendFootnote)
                     .foregroundStyle(.white)
             }
         }
-        .customButtonStyle(pouring: .cmBlack)
+        .customButtonStyle(pouring: .cmBlue)
         .shadow(radius: 5)
     }
 }

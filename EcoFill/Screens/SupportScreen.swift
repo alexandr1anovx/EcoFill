@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum FeedbackFormTextField {
+enum FeedbackTextFieldForm {
     case email, message
 }
 
@@ -10,7 +10,7 @@ struct SupportScreen: View {
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
     // MARK: - Private Properties
-    @FocusState private var feedbackTextField: FeedbackFormTextField?
+    @FocusState private var feedbackTextField: FeedbackTextFieldForm?
     @State private var email: String = ""
     @State private var message: String = ""
     @State private var isPresentedAlert = false
@@ -48,10 +48,10 @@ struct SupportScreen: View {
                     }
                     .disabled(!isMessageSuitable)
                     .opacity(isMessageSuitable ? 1.0 : 0.5)
-                    .alert("Success!", isPresented: $isPresentedAlert) {
+                    .alert("Thanks!", isPresented: $isPresentedAlert) {
                         
                     } message: {
-                        Text("Thanks! Message has been sent successfully")
+                        Text("Feedback was successfully sent")
                     }
                 }
                 .padding()
@@ -71,7 +71,7 @@ struct SupportScreen: View {
     }
 }
 
-// MARK: - AuthenticationForm
+// MARK: - SupportScreen
 extension SupportScreen {
     var isMessageSuitable: Bool { message.count > 9 }
 }

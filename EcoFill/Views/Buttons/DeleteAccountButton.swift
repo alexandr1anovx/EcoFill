@@ -15,7 +15,7 @@ struct DeleteAccountButton: View {
                     .foregroundStyle(.white)
             }
         }
-        .customButtonStyle(pouring: .cmBlack)
+        .customButtonStyle(pouring: .cmBlue)
         .shadow(radius: 5)
     }
 }
