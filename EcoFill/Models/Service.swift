@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ServiceType: String {
+enum ServiceType {
     case support
 }
 
@@ -19,12 +19,14 @@ struct Service: Identifiable {
     let type: ServiceType
 }
 
-var services: [Service] = [
-    Service(
-        title: "Support",
-        description: "Send a feedback about our service.",
-        imageName: "24.square.fill",
-        type: .support
-    )
-]
-
+// MARK: - Service
+extension Service {
+    static let services: [Service] = [
+        Service(
+            title: "Support",
+            description: "Send a feedback about us.",
+            imageName: "24.square.fill",
+            type: .support
+        )
+    ]
+}
