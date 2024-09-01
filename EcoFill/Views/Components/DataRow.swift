@@ -1,12 +1,12 @@
 import SwiftUI
 
-struct BaseRow: View {
-    let img: ImageResource
+struct DataRow: View {
+    let image: ImageResource
     let title: String?
     
     var body: some View {
         HStack(spacing: 8) {
-            Image(img)
+            Image(image)
                 .defaultImageSize
             Text(title ?? "")
                 .font(.lexendFootnote)

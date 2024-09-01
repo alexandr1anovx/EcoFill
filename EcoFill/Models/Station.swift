@@ -1,10 +1,3 @@
-//
-//  Station.swift
-//  EcoFill
-//
-//  Created by Alexander Andrianov on 06.02.2024.
-//
-
 import Foundation
 import MapKit
 
