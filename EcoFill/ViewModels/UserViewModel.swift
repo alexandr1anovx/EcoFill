@@ -1,7 +1,6 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseAuth
-import MapKit
 
 protocol RegistrationForm {
     var isValidForm: Bool { get }
@@ -10,17 +9,14 @@ protocol RegistrationForm {
 @MainActor
 final class UserViewModel: ObservableObject {
     
-    // MARK: - Public Properties
+    @Published var alertItem: AlertItem?
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
     @Published var selectedCity: City = .mykolaiv
-    @Published var alertItem: AlertItem?
     var isEmailVerified = false
     
-    // MARK: - Private Properties
     private let usersCollection = Firestore.firestore().collection("users")
     
-    // MARK: - Initializers
     init() {
         self.userSession = Auth.auth().currentUser
         Task {
@@ -28,7 +24,6 @@ final class UserViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Public Methods
     func signUp(
         withInitials initials: String,
         email: String,
@@ -50,10 +45,9 @@ final class UserViewModel: ObservableObject {
                 initials: initials
             )
             let encodedUser = try Firestore.Encoder().encode(user)
-            try await usersCollection.document(user.id).setData(encodedUser)
-            
+            let document = usersCollection.document(user.id)
+            try await document.setData(encodedUser)
             await fetchUser()
-            
         } catch {
             alertItem = RegistrationAlertContext.userExists
         }
@@ -77,11 +71,11 @@ final class UserViewModel: ObservableObject {
             try Auth.auth().signOut()
             self.userSession = nil
         } catch {
-            print(error.localizedDescription)
+            alertItem = ProfileAlertContext.unableToSignOut
         }
     }
     
-    func deleteUser(withPassword password: String) async {
+    func deleteUser(with password: String) async {
         guard let user = userSession else { return }
         guard let email = user.email else { return }
         
@@ -99,7 +93,7 @@ final class UserViewModel: ObservableObject {
         }
     }
     
-    func updateEmail(to newEmail: String, withPassword password: String) async {
+    func updateEmail(to newEmail: String, with password: String) async {
         guard let user = userSession else { return }
         guard let currentEmail = user.email else { return }
         
@@ -111,9 +105,8 @@ final class UserViewModel: ObservableObject {
             try await user.reauthenticate(with: credentials)
             try await user.sendEmailVerification(beforeUpdatingEmail: newEmail)
             alertItem = ProfileAlertContext.confirmationLinkSent
-            try await usersCollection.document(user.uid).updateData(["email": newEmail])
-            
-            // !!!!!!!!!!!!!
+            let document = usersCollection.document(user.uid)
+            try await document.updateData(["email": newEmail])
             await fetchUser()
         } catch {
             alertItem = ProfileAlertContext.unsuccessfullEmailUpdate
@@ -125,12 +118,15 @@ final class UserViewModel: ObservableObject {
         isEmailVerified = user.isEmailVerified
     }
     
-    // MARK: - Private Methods
-    func fetchUser() async {
+    private func fetchUser() async {
+        // get the user ID from the current user session
         guard let uid = userSession?.uid else { return }
+        
+        // fetch the user document from Firestore
         guard let snapshot = try? await usersCollection.document(uid).getDocument() else {
             return
         }
+        // decode the fetched document into a User object
         self.currentUser = try? snapshot.data(as: User.self)
     }
 }

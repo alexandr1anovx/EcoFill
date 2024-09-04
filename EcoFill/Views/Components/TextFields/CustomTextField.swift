@@ -1,7 +1,11 @@
 import SwiftUI
 
 enum TextFieldData {
-    case initials, email, password, confirmPassword, newPassword
+    case initials
+    case email
+    case password
+    case confirmPassword
+    case newPassword
     case message
 }
 
@@ -15,18 +19,23 @@ struct CustomTextField: View {
         VStack(alignment: .leading, spacing: 15) {
             Text(title)
                 .foregroundStyle(.cmReversed)
-                .font(.lexendCallout)
+                .font(.system(size: 16, weight: .medium, design: .rounded))
             
             if isSecureField {
                 SecureField(placeholder, text: $inputData)
-                    .font(.lexendFootnote)
+                    .font(.system(size: 14))
+                    .fontWeight(.medium)
+                    .fontDesign(.rounded)
                     .foregroundStyle(.cmReversed)
             } else {
                 TextField(placeholder, text: $inputData)
-                    .font(.lexendFootnote)
+                    .font(.system(size: 14))
+                    .fontWeight(.medium)
+                    .fontDesign(.rounded)
                     .foregroundStyle(.gray)
             }
             Divider()
         }
     }
 }
+

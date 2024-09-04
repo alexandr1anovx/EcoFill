@@ -4,18 +4,15 @@ import FirebaseFirestore
 @MainActor
 final class MapViewModel: ObservableObject {
     
-    // MARK: - Public Properties
     @Published var stations: [Station] = []
+    @Published var selectedStation: Station?
     @Published var route: MKRoute?
     @Published var isRouteShown = false
-    @Published var isShownStationData = false
-    @Published var isShownStationsList = false
-    @Published var selectedStation: Station?
+    @Published var isDetailsShown = false
+    @Published var isListShown = false
     
-    // MARK: - Private Properties
     private let locationService = LocationService.shared
     
-    // MARK: - Public Methods
     func getStations() {
         let stationsCollection = Firestore.firestore().collection("stations")
         
@@ -58,43 +55,35 @@ final class MapViewModel: ObservableObject {
         }
     }
     
-    func selectStation(_ station: Station) {
-        selectedStation = station
-        isShownStationData = true
+    func getRoute(to station: Station?) async {
+        route = nil
+        
+        guard let station else { return }
+        
+        guard let userLocation = locationService.manager.location else { return }
+        
+        let userCoordinate = userLocation.coordinate
+        let userPlacemark = MKPlacemark(coordinate: userCoordinate)
+        
+        let stationCoordinate = station.coordinate
+        let stationPlacemark = MKPlacemark(coordinate: stationCoordinate)
+        
+        let source = MKMapItem(placemark: userPlacemark)
+        let destination = MKMapItem(placemark: stationPlacemark)
+        
+        self.route = await calculateDirections(from: source, to: destination)
     }
     
     func toggleRoutePresentation() async {
         if isRouteShown {
-            await fetchRoute()
+            if let selectedStation = selectedStation {
+                await getRoute(to: selectedStation)
+            }
         } else {
             route = nil
         }
     }
     
-    func fetchRoute() async {
-        route = nil
-        guard let userLocation = locationService.manager.location else {
-            print("Cannot get user coordinates")
-            return
-        }
-        guard let selectedStation else {
-            print("Cannot get station coordinates")
-            return
-        }
-        
-        let userCoordinate = userLocation.coordinate
-        let userPlacemark = MKPlacemark(coordinate: userCoordinate)
-        
-        let stationCoordinate = selectedStation.coordinate
-        let stationPlacemark = MKPlacemark(coordinate: stationCoordinate)
-        
-        let startPoint = MKMapItem(placemark: userPlacemark)
-        let endPoint = MKMapItem(placemark: stationPlacemark)
-        
-        route = await calculateDirections(from: startPoint, to: endPoint)
-    }
-    
-    // MARK: - Private Methods
     private func calculateDirections(from: MKMapItem, to: MKMapItem) async -> MKRoute? {
         let request = MKDirections.Request()
         request.transportType = .walking

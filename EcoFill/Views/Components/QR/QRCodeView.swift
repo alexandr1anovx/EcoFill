@@ -9,39 +9,30 @@ struct QRCodeView: View {
     private let filter = CIFilter.qrCodeGenerator()
     
     var body: some View {
-        NavigationStack {
+        VStack(alignment: .center) {
+            HStack {
+                Spacer()
+                DismissXButton()
+            }
             if let user = userViewModel.currentUser {
-                VStack(spacing: 20) {
-                    VStack(alignment: .leading, spacing: 10) {
-                        DataRow(image: .initials, title: user.initials)
-                        DataRow(image: .mail, title: user.email)
-                    }
-                    Image(uiImage: generateQRCode(from: "\(user.initials)\n\(user.email)"))
-                        .resizable()
-                        .interpolation(.none)
-                        .frame(width: 150, height: 150)
-                    
-                }
-                .padding(.bottom, 40)
-                .padding(.horizontal)
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        DismissXButton()
-                            .foregroundStyle(.red)
-                    }
-                }
+                Image(uiImage: generateQRCode(from: user.initials))
+                    .resizable()
+                    .interpolation(.none)
+                    .frame(width: 180, height: 180)
+            } else {
+                ProgressView("Loading user data...")
             }
         }
+        .padding(.horizontal)
     }
 }
 
 extension QRCodeView {
     private func generateQRCode(from string: String) -> UIImage {
         filter.message = Data(string.utf8)
-        if let outputImage = filter.outputImage {
-            if let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
-                return UIImage(cgImage: cgImage)
-            }
+        if let outputImage = filter.outputImage,
+           let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
+            return UIImage(cgImage: cgImage)
         }
         return UIImage(resource: .xmark)
     }

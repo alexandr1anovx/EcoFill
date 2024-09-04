@@ -7,6 +7,8 @@ struct SignUpFormFields: View {
     @Binding var email: String
     @Binding var password: String
     @Binding var confirmPassword: String
+    @State private var isPasswordVisible = false
+    @State private var isEyeVisible = false
     
     var body: some View {
         CustomTextField(
@@ -14,20 +16,24 @@ struct SignUpFormFields: View {
             title: "Initials",
             placeholder: "Your name and surname"
         )
+        .onAppear { textFieldData = .initials }
         .focused($textFieldData, equals: .initials)
         .submitLabel(.next)
         .onSubmit { textFieldData = .email }
         .textInputAutocapitalization(.words)
-        .autocorrectionDisabled()
+        .autocorrectionDisabled(false)
         
         CustomTextField(
             inputData: $email,
             title: "Email",
-            placeholder: "mail@example.com"
+            placeholder: "email@example.com"
         )
         .focused($textFieldData, equals: .email)
         .submitLabel(.next)
-        .onSubmit { textFieldData = .password }
+        .onSubmit {
+            textFieldData = .password
+            isEyeVisible.toggle()
+        }
         .keyboardType(.emailAddress)
         .textInputAutocapitalization(.never)
         
@@ -35,11 +41,21 @@ struct SignUpFormFields: View {
             inputData: $password,
             title: "Password",
             placeholder: "Must contain at least 6 characters",
-            isSecureField: true
+            isSecureField: isPasswordVisible
         )
         .focused($textFieldData, equals: .password)
         .submitLabel(.next)
         .onSubmit { textFieldData = .confirmPassword }
+        
+        .overlay(alignment: .trailing) {
+            Button {
+                isPasswordVisible.toggle()
+            } label: {
+                Image(isPasswordVisible ? .closedEye : .openedEye)
+                    .defaultImageSize
+                    .opacity(isEyeVisible ? 1.0 : 0.0)
+            }
+        }
         
         CustomTextField(
             inputData: $confirmPassword,
@@ -54,8 +70,11 @@ struct SignUpFormFields: View {
         .overlay(alignment: .trailing) {
             if !password.isEmpty && !confirmPassword.isEmpty {
                 let match = password == confirmPassword
-                Image(match ? .success : .xmark)
-                    .defaultImageSize
+                if match {
+                    Image(.success).defaultImageSize
+                } else {
+                    Image(.xmark).defaultImageSize
+                }
             }
         }
     }

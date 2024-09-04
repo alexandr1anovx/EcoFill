@@ -21,7 +21,7 @@ struct EcoFillApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainTabScreen()
+            TabScreen()
                 .preferredColorScheme(preferredScheme.colorScheme)
                 .environmentObject(userViewModel)
                 .environmentObject(mapViewModel)

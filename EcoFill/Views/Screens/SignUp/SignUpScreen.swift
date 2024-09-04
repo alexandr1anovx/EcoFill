@@ -24,27 +24,11 @@ struct SignUpScreen: View {
                     password: $password,
                     confirmPassword: $confirmPassword
                 )
-                HStack {
-                    Image(.mark)
-                        .defaultImageSize
-                    Picker("", selection: $userViewModel.selectedCity) {
-                        ForEach(City.allCases) { city in
-                            Text(city.rawValue)
-                        }
-                    }
-                    .tint(.cmReversed)
-                }
+                CityPicker()
                 Spacer()
             }
             .padding(15)
             
-            .alert(item: $userViewModel.alertItem) { alert in
-                Alert(
-                    title: alert.title,
-                    message: alert.message,
-                    dismissButton: alert.dismissButton
-                )
-            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Sign Up") {
@@ -60,6 +44,11 @@ struct SignUpScreen: View {
                     .disabled(!isValidForm)
                     .opacity(isValidForm ? 1.0 : 0.5)
                 }
+            }
+            .alert(item: $userViewModel.alertItem) { alert in
+                Alert(title: alert.title,
+                      message: alert.message,
+                      dismissButton: alert.dismissButton)
             }
         }
     }

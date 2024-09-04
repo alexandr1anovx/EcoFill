@@ -27,18 +27,18 @@ struct Station: Decodable, Identifiable, Hashable {
 }
 
 extension Station {
-    static let testStation = Station(
-        id: "test",
-        city: "Kyiv",
-        euroA95: 53.99,
-        euroDP: 54.99,
-        gas: 24.99,
-        latitude: 50.447306,
-        longitude: 30.494783,
-        name: "EcoFill",
-        postalCode: "02000",
-        schedule: "08:00-23.00",
-        street: "Olesia Honchara St, 79-75"
+    static let emptyStation = Station(
+        id: "empty",
+        city: "None",
+        euroA95: 0.0,
+        euroDP: 0.0,
+        gas: 0.0,
+        latitude: 0.0,
+        longitude: 0.0,
+        name: "None",
+        postalCode: "None",
+        schedule: "None",
+        street: "None"
     )
 }
 

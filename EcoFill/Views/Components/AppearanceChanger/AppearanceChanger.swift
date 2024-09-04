@@ -1,5 +1,19 @@
 import SwiftUI
 
+enum Scheme: String, CaseIterable {
+    case system = "System"
+    case light = "Light"
+    case dark = "Dark"
+    
+    var colorScheme: ColorScheme? {
+        switch self {
+        case .system: return nil
+        case .light: return .light
+        case .dark: return .dark
+        }
+    }
+}
+
 struct AppearanceChanger: View {
     @AppStorage("preferredScheme") private var preferredScheme: Scheme = .system
     
@@ -7,15 +21,17 @@ struct AppearanceChanger: View {
         HStack(spacing: 15) {
             switch preferredScheme {
             case .system:
-                Image(.appearanceSystem).defaultImageSize
+                Image(.circleLefthalf).defaultImageSize
             case .light:
-                Image(.appearanceLight).defaultImageSize
+                Image(.sun).defaultImageSize
             case .dark:
-                Image(.appearanceDark).defaultImageSize
+                Image(.moon).defaultImageSize
             }
             
             Text("Appearance")
-                .font(.lexendBody)
+                .font(.system(size: 16))
+                .fontWeight(.medium)
+                .fontDesign(.rounded)
                 .foregroundStyle(.cmReversed)
             
             Picker("", selection: $preferredScheme) {
@@ -32,16 +48,3 @@ struct AppearanceChanger: View {
     }
 }
 
-enum Scheme: String, CaseIterable {
-    case system = "System"
-    case light = "Light"
-    case dark = "Dark"
-    
-    var colorScheme: ColorScheme? {
-        switch self {
-        case .system: return nil
-        case .light: return .light
-        case .dark: return .dark
-        }
-    }
-}
