@@ -2,10 +2,6 @@ import Foundation
 import FirebaseFirestore
 import FirebaseAuth
 
-protocol RegistrationForm {
-    var isValidForm: Bool { get }
-}
-
 @MainActor
 final class UserViewModel: ObservableObject {
     
