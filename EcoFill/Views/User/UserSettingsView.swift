@@ -52,7 +52,7 @@ struct UserSettingsView: View {
             .navigationBarTitleDisplayMode(.inline)
             
             .sheet(isPresented: $isResetEmailScreenShown) {
-                ResetEmailScreen()
+                ResetEmailView()
                     .interactiveDismissDisabled(true)
                     .presentationCornerRadius(20)
             }

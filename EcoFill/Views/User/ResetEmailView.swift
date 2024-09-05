@@ -1,7 +1,7 @@
 import SwiftUI
 import Firebase
 
-struct ResetEmailScreen: View {
+struct ResetEmailView: View {
     @EnvironmentObject var userVM: UserViewModel
     @EnvironmentObject var formVM: FormValidationViewModel
     @FocusState private var textFieldData: TextFieldData?

@@ -23,7 +23,7 @@
 		325EC5CB2B85042A0049C234 /* LexendDeca-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 325EC5C82B85042A0049C234 /* LexendDeca-SemiBold.ttf */; };
 		325EC5CC2B85042A0049C234 /* LexendDeca-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 325EC5C92B85042A0049C234 /* LexendDeca-Bold.ttf */; };
 		325EC5CD2B85042A0049C234 /* LexendDeca-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 325EC5CA2B85042A0049C234 /* LexendDeca-Regular.ttf */; };
-		3270E2FC2BADB88C0047E645 /* ResetEmailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3270E2FB2BADB88C0047E645 /* ResetEmailScreen.swift */; };
+		3270E2FC2BADB88C0047E645 /* ResetEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3270E2FB2BADB88C0047E645 /* ResetEmailView.swift */; };
 		3270E3022BADC7CC0047E645 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3270E3012BADC7CC0047E645 /* City.swift */; };
 		329613982B7914DD00649CAC /* AppearanceChangerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329613972B7914DD00649CAC /* AppearanceChangerView.swift */; };
 		32B0E97B2B6C5E6F0090ABF2 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B0E97A2B6C5E6F0090ABF2 /* LocationService.swift */; };
@@ -88,7 +88,7 @@
 		325EC5C92B85042A0049C234 /* LexendDeca-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LexendDeca-Bold.ttf"; sourceTree = "<group>"; };
 		325EC5CA2B85042A0049C234 /* LexendDeca-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LexendDeca-Regular.ttf"; sourceTree = "<group>"; };
 		325EC5CE2B8504D30049C234 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3270E2FB2BADB88C0047E645 /* ResetEmailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetEmailScreen.swift; sourceTree = "<group>"; };
+		3270E2FB2BADB88C0047E645 /* ResetEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetEmailView.swift; sourceTree = "<group>"; };
 		3270E3012BADC7CC0047E645 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		329613972B7914DD00649CAC /* AppearanceChangerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceChangerView.swift; sourceTree = "<group>"; };
 		32B0E97A2B6C5E6F0090ABF2 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -262,7 +262,7 @@
 				614314932B17F9A2009A1D9C /* UserScreen.swift */,
 				6171A4432B1DCE6400D22A23 /* UserDataView.swift */,
 				61BEC9A02B1E703D00AF223D /* UserSettingsView.swift */,
-				3270E2FB2BADB88C0047E645 /* ResetEmailScreen.swift */,
+				3270E2FB2BADB88C0047E645 /* ResetEmailView.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -505,7 +505,7 @@
 				323445702B4752F700C218F1 /* UserViewModel.swift in Sources */,
 				611AD1332B1D3F4800BD5EB7 /* ServiceCell.swift in Sources */,
 				61696B772B1F7A8400406421 /* String+Ext.swift in Sources */,
-				3270E2FC2BADB88C0047E645 /* ResetEmailScreen.swift in Sources */,
+				3270E2FC2BADB88C0047E645 /* ResetEmailView.swift in Sources */,
 				32C0A22D2C67FD7A00621A7A /* ButtonStyle+Ext.swift in Sources */,
 				611AD1352B1D3F4800BD5EB7 /* ServicesList.swift in Sources */,
 				6105436A2B34CF5700CFC9DB /* CustomTextField.swift in Sources */,
