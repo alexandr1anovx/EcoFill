@@ -12,7 +12,7 @@ final class StationViewModel: ObservableObject {
     @Published var isDetailsShown = false
     @Published var isListShown = false
     
-    private let locationService = LocationService.shared
+    private let locationService = LocationManager.shared
     
     func getRoute(to station: Station?) async {
         route = nil

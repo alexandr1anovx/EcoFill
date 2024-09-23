@@ -26,7 +26,7 @@
 		3270E2FC2BADB88C0047E645 /* ResetEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3270E2FB2BADB88C0047E645 /* ResetEmailView.swift */; };
 		3270E3022BADC7CC0047E645 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3270E3012BADC7CC0047E645 /* City.swift */; };
 		329613982B7914DD00649CAC /* AppearanceChangerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329613972B7914DD00649CAC /* AppearanceChangerView.swift */; };
-		32B0E97B2B6C5E6F0090ABF2 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B0E97A2B6C5E6F0090ABF2 /* LocationService.swift */; };
+		32A1F7172CA22FAD00999723 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1F7162CA22FAD00999723 /* LocationManager.swift */; };
 		32BCC2422B8424E800AE47D6 /* FuelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BCC2412B8424E800AE47D6 /* FuelCell.swift */; };
 		32C0A22B2C67FB6200621A7A /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C0A22A2C67FB6200621A7A /* View+Ext.swift */; };
 		32C0A22D2C67FD7A00621A7A /* ButtonStyle+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C0A22C2C67FD7A00621A7A /* ButtonStyle+Ext.swift */; };
@@ -91,7 +91,7 @@
 		3270E2FB2BADB88C0047E645 /* ResetEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetEmailView.swift; sourceTree = "<group>"; };
 		3270E3012BADC7CC0047E645 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		329613972B7914DD00649CAC /* AppearanceChangerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceChangerView.swift; sourceTree = "<group>"; };
-		32B0E97A2B6C5E6F0090ABF2 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		32A1F7162CA22FAD00999723 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		32BCC2412B8424E800AE47D6 /* FuelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuelCell.swift; sourceTree = "<group>"; };
 		32C0A22A2C67FB6200621A7A /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
 		32C0A22C2C67FD7A00621A7A /* ButtonStyle+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ButtonStyle+Ext.swift"; sourceTree = "<group>"; };
@@ -201,12 +201,12 @@
 			path = Stacks;
 			sourceTree = "<group>";
 		};
-		32B0E9792B6C5E640090ABF2 /* Services */ = {
+		32A1F7152CA22F9E00999723 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				32B0E97A2B6C5E6F0090ABF2 /* LocationService.swift */,
+				32A1F7162CA22FAD00999723 /* LocationManager.swift */,
 			);
-			path = Services;
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		32D45A122C860BC100C94DC2 /* Map */ = {
@@ -367,11 +367,11 @@
 		61E5E6102B17E981005B3D03 /* EcoFill */ = {
 			isa = PBXGroup;
 			children = (
+				32A1F7152CA22F9E00999723 /* Managers */,
 				611AD1252B1D3F3A00BD5EB7 /* Models */,
 				61BEC9A22B1E74FE00AF223D /* ViewModels */,
 				611AD12A2B1D3F4800BD5EB7 /* Views */,
 				323959772C82829200599876 /* App */,
-				32B0E9792B6C5E640090ABF2 /* Services */,
 				323959802C82A5F400599876 /* Utils */,
 				323959812C82A61D00599876 /* Resources */,
 			);
@@ -472,7 +472,6 @@
 				32FA10352C890A9800F4C327 /* StationViewModel.swift in Sources */,
 				32044B792C87B04300D90077 /* CityPickerView.swift in Sources */,
 				610543672B34CB0400CFC9DB /* SignInScreen.swift in Sources */,
-				32B0E97B2B6C5E6F0090ABF2 /* LocationService.swift in Sources */,
 				323959792C828E8E00599876 /* BaseButton.swift in Sources */,
 				6105436C2B34E2FE00CFC9DB /* SignUpScreen.swift in Sources */,
 				611AD1292B1D3F3A00BD5EB7 /* Service.swift in Sources */,
@@ -495,6 +494,7 @@
 				32144CBA2B81200E009C3081 /* FuelsStack.swift in Sources */,
 				32F4C3162BA0EF5A00B8A2E5 /* AnimatedButtonStyle.swift in Sources */,
 				32044B7D2C87DFDF00D90077 /* MapControlStationsList.swift in Sources */,
+				32A1F7172CA22FAD00999723 /* LocationManager.swift in Sources */,
 				329613982B7914DD00649CAC /* AppearanceChangerView.swift in Sources */,
 				61E5E6122B17E981005B3D03 /* EcoFillApp.swift in Sources */,
 				3242D11C2B728F04005BE4A3 /* Station.swift in Sources */,
