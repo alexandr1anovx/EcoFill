@@ -26,6 +26,7 @@ struct UserScreen: View {
                 .confirmationDialog("", isPresented: $isPresentedSignOut) {
                     Button("Sign Out", role: .destructive) {
                         userVM.signOut()
+                        
                     }
                 }
             }

@@ -4,7 +4,6 @@ struct SignUpScreen: View {
     
     @EnvironmentObject var userVM: UserViewModel
     @FocusState private var fieldData: TextFieldData?
-    
     @State private var initials = ""
     @State private var email = ""
     @State private var password = ""
