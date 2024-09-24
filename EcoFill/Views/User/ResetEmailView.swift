@@ -3,8 +3,14 @@ import Firebase
 
 struct ResetEmailView: View {
     @EnvironmentObject var userVM: UserViewModel
-    @EnvironmentObject var formVM: FormValidationViewModel
     @FocusState private var textFieldData: TextFieldData?
+    
+    @State private var newEmail = ""
+    @State private var password = ""
+    
+    private var isFormValid: Bool {
+         newEmail.isValidEmail && password.count > 5
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
@@ -13,7 +19,7 @@ struct ResetEmailView: View {
                 XmarkButton()
             }
             CustomTextField(
-                inputData: $formVM.email,
+                inputData: $newEmail,
                 title: "New email address",
                 placeholder: "mail@example.com",
                 isSecureField: false
@@ -26,7 +32,7 @@ struct ResetEmailView: View {
             .autocorrectionDisabled(true)
             
             CustomTextField(
-                inputData: $formVM.password,
+                inputData: $password,
                 title: "Password",
                 placeholder: "Your current password",
                 isSecureField: true
@@ -38,13 +44,13 @@ struct ResetEmailView: View {
             BaseButton("Confirm", .success, .cmBlue) {
                 Task {
                     await userVM.updateEmail(
-                        to: formVM.email,
-                        with: formVM.password
+                        to: newEmail,
+                        with: password
                     )
                 }
                 textFieldData = nil
             }
-            .opacity(formVM.isFormValid ? 1.0 : 0.5)
+            .opacity(isFormValid ? 1.0 : 0.5)
             
             Spacer()
         }

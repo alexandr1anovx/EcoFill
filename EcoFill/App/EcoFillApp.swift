@@ -19,7 +19,6 @@ struct EcoFillApp: App {
     
     @StateObject private var userVM = UserViewModel()
     @StateObject private var stationVM = StationViewModel()
-    @StateObject private var formVM = FormValidationViewModel()
     
     var body: some Scene {
         WindowGroup {
@@ -27,7 +26,6 @@ struct EcoFillApp: App {
                 .preferredColorScheme(preferredScheme.colorScheme)
                 .environmentObject(userVM)
                 .environmentObject(stationVM)
-                .environmentObject(formVM)
                 .onAppear {
                     stationVM.getStations()
                 }

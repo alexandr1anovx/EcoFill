@@ -3,15 +3,26 @@ import SwiftUI
 struct SignUpScreen: View {
     
     @EnvironmentObject var userVM: UserViewModel
-    @EnvironmentObject var formVM: FormValidationViewModel
     @FocusState private var fieldData: TextFieldData?
+    
+    @State private var initials = ""
+    @State private var email = ""
+    @State private var password = ""
+    @State private var confirmPassword = ""
+    
+    private var isSignUpFormValid: Bool {
+        !initials.isEmpty
+        && email.isValidEmail
+        && password.count > 5
+        && confirmPassword == password
+    }
     
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 15) {
                 
                 CustomTextField(
-                    inputData: $formVM.initials,
+                    inputData: $initials,
                     title: "Initials",
                     placeholder: "Your name and surname"
                 )
@@ -23,7 +34,7 @@ struct SignUpScreen: View {
                 .autocorrectionDisabled(false)
                 
                 CustomTextField(
-                    inputData: $formVM.email,
+                    inputData: $email,
                     title: "Email",
                     placeholder: "email@example.com"
                 )
@@ -34,7 +45,7 @@ struct SignUpScreen: View {
                 .textInputAutocapitalization(.never)
                 
                 CustomTextField(
-                    inputData: $formVM.password,
+                    inputData: $password,
                     title: "Password",
                     placeholder: "At least 6 characters",
                     isSecureField: true
@@ -44,7 +55,7 @@ struct SignUpScreen: View {
                 .onSubmit { fieldData = .confirmPassword }
                 
                 CustomTextField(
-                    inputData: $formVM.confirmPassword,
+                    inputData: $confirmPassword,
                     title: "Confirm password",
                     placeholder: "Must match the password",
                     isSecureField: true
@@ -63,15 +74,15 @@ struct SignUpScreen: View {
                     Button("Sign Up") {
                         Task {
                             await userVM.signUp(
-                                withInitials: formVM.initials,
-                                email: formVM.email,
-                                password: formVM.password,
+                                withInitials: initials,
+                                email: email,
+                                password: password,
                                 city: userVM.selectedCity
                             )
                         }
                     }
-                    .disabled(!formVM.isSignUpFormValid)
-                    .opacity(formVM.isSignUpFormValid ? 1.0 : 0.5)
+                    .disabled(!isSignUpFormValid)
+                    .opacity(isSignUpFormValid ? 1.0 : 0.5)
                 }
             }
             .alert(item: $userVM.alertItem) { alert in

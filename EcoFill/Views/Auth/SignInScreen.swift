@@ -3,15 +3,21 @@ import SwiftUI
 struct SignInScreen: View {
     
     @EnvironmentObject var userVM: UserViewModel
-    @EnvironmentObject var formVM: FormValidationViewModel
     @FocusState private var fieldData: TextFieldData?
+    
+    @State private var email = ""
+    @State private var password = ""
+    
+    private var isFormValid: Bool {
+        email.isValidEmail && password.count > 5
+    }
     
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 15) {
                 
                 CustomTextField(
-                    inputData: $formVM.email,
+                    inputData: $email,
                     title: "Email",
                     placeholder: "Your email"
                 )
@@ -22,7 +28,7 @@ struct SignInScreen: View {
                 .onSubmit { fieldData = .password }
                 
                 CustomTextField(
-                    inputData: $formVM.password,
+                    inputData: $password,
                     title: "Password",
                     placeholder: "Your password",
                     isSecureField: true
@@ -34,13 +40,13 @@ struct SignInScreen: View {
                 BaseButton("Sign In", .entry, .cmBlue) {
                     Task {
                         await userVM.signIn(
-                            withEmail: formVM.email,
-                            password: formVM.password
+                            withEmail: email,
+                            password: password
                         )
                     }
                 }
-                .disabled(!formVM.isFormValid)
-                .opacity(formVM.isFormValid ? 1.0 : 0.5)
+                .disabled(!isFormValid)
+                .opacity(isFormValid ? 1.0 : 0.5)
                 
                 HStack {
                     Text("Dont have an account?")

@@ -3,16 +3,22 @@ import SwiftUI
 struct SupportScreen: View {
     
     @EnvironmentObject var userVM: UserViewModel
-    @EnvironmentObject var formVM: FormValidationViewModel
     @FocusState private var fieldData: TextFieldData?
     @State private var isPresentedAlert = false
+    
+    @State private var email = ""
+    @State private var message = ""
+    
+    private var isMessageCorrect: Bool {
+        message.count > 10
+    }
     
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 10) {
                 VStack(alignment: .leading, spacing: 20) {
                     CustomTextField(
-                        inputData: $formVM.email,
+                        inputData: $email,
                         title: "Email",
                         placeholder: "The email you specified"
                     )
@@ -24,7 +30,7 @@ struct SupportScreen: View {
                     .autocorrectionDisabled(true)
                     
                     CustomTextField(
-                        inputData: $formVM.message,
+                        inputData: $message,
                         title: "Message",
                         placeholder: "At least 10 characters"
                     )
@@ -34,11 +40,11 @@ struct SupportScreen: View {
                     
                     BaseButton("Send feedback", .success, .cmBlue) {
                         isPresentedAlert.toggle()
-                        formVM.message = ""
+                        message = ""
                         fieldData = nil
                     }
-                    .disabled(!formVM.isMessageCorrect)
-                    .opacity(formVM.isMessageCorrect ? 1.0 : 0.5)
+                    .disabled(!isMessageCorrect)
+                    .opacity(isMessageCorrect ? 1.0 : 0.5)
                     
                     .alert("Thanks!", isPresented: $isPresentedAlert) {
                         
@@ -62,9 +68,9 @@ struct SupportScreen: View {
 private extension SupportScreen {
     func setEmailToTextField() {
         if let userEmail = userVM.currentUser?.email {
-            formVM.email = userEmail
+            email = userEmail
         } else {
-            formVM.email = "No email address"
+            email = "Invalid email address"
         }
     }
 }
