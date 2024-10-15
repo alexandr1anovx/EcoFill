@@ -8,15 +8,13 @@ struct UserDataView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 10) {
                     Text(user.initials)
-                        .font(.system(size: 18))
-                        .fontWeight(.medium)
-                        .fontDesign(.rounded)
+                        .font(.poppins(.medium, size: 17))
                         .foregroundStyle(.cmReversed)
-                    Row(user.email, image: .mail)
+                    CustomRow(user.email, image: "envelope")
                         .lineLimit(2)
                 }
                 Spacer()
-                Row(user.city, image: .mark)
+                CustomRow(user.city, image: "location")
             }
             .padding(20)
         } else {

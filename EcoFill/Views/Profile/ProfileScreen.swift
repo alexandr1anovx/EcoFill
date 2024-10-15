@@ -1,32 +1,30 @@
 import SwiftUI
 
-struct UserScreen: View {
+struct ProfileScreen: View {
+    
     @EnvironmentObject var userVM: UserViewModel
-    @State private var isPresentedSignOut = false
+    @State private var isPresentedSignOutAlert = false
     
     var body: some View {
         NavigationStack {
             UserDataView()
             List {
-                AppearanceChangerView()
+                AppearanceChanger()
                 Button {
-                    isPresentedSignOut.toggle()
+                    isPresentedSignOutAlert.toggle()
                 } label: {
                     HStack(spacing: 15) {
-                        Image(.userXmark)
-                            .resizable()
-                            .frame(width: 25, height: 25)
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.title3)
+                            .foregroundStyle(.red)
                         Text("Sign Out")
-                            .font(.system(size: 16))
-                            .fontWeight(.medium)
-                            .fontDesign(.rounded)
+                            .font(.poppins(.medium, size: 16))
                             .foregroundStyle(.red)
                     }
                 }
-                .confirmationDialog("", isPresented: $isPresentedSignOut) {
+                .confirmationDialog("", isPresented: $isPresentedSignOutAlert) {
                     Button("Sign Out", role: .destructive) {
                         userVM.signOut()
-                        
                     }
                 }
             }
@@ -39,7 +37,7 @@ struct UserScreen: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
-                        UserSettingsView()
+                        SettingScreen()
                     } label: {
                         Text("Edit")
                             .foregroundStyle(.cmReversed)
@@ -48,12 +46,6 @@ struct UserScreen: View {
             }
             .navigationTitle("Profile")
             .navigationBarTitleDisplayMode(.inline)
-        }
-        .alert(item: $userVM.alertItem) { alert in
-            Alert(
-                title: alert.title,
-                message: alert.message,
-                dismissButton: alert.dismissButton)
         }
     }
 }
