@@ -4,38 +4,39 @@ enum TextFieldData {
     case initials
     case email
     case password
-    case confirmPassword
-    case newPassword
-    case message
+    case feedbackMessage
 }
 
 struct CustomTextField: View {
-    @Binding var inputData: String
     let title: String
     let placeholder: String
-    var isSecureField = false
+    var isSecureField: Bool
+    let inputData: Binding<String>
+    
+    
+    init(_ title: String, placeholder: String, isSecureField: Bool = false, inputData: Binding<String>) {
+        self.title = title
+        self.placeholder = placeholder
+        self.isSecureField = isSecureField
+        self.inputData = inputData
+    }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 15) {
+        VStack(alignment: .leading, spacing: 10) {
             Text(title)
+                .font(.poppins(.medium, size: 15))
                 .foregroundStyle(.cmReversed)
-                .font(.system(size: 16, weight: .medium, design: .rounded))
             
             if isSecureField {
-                SecureField(placeholder, text: $inputData)
-                    .font(.system(size: 14))
-                    .fontWeight(.medium)
-                    .fontDesign(.rounded)
+                SecureField(placeholder, text: inputData)
+                    .font(.poppins(.medium, size: 13))
                     .foregroundStyle(.cmReversed)
             } else {
-                TextField(placeholder, text: $inputData)
-                    .font(.system(size: 14))
-                    .fontWeight(.medium)
-                    .fontDesign(.rounded)
+                TextField(placeholder, text: inputData)
+                    .font(.poppins(.medium, size: 13))
                     .foregroundStyle(.gray)
             }
             Divider()
         }
     }
 }
-

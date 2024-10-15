@@ -115,10 +115,7 @@ final class UserViewModel: ObservableObject {
     }
     
     private func fetchUser() async {
-        // get the user ID from the current user session
         guard let uid = userSession?.uid else { return }
-        
-        // fetch the user document from Firestore
         guard let snapshot = try? await usersCollection.document(uid).getDocument() else {
             return
         }

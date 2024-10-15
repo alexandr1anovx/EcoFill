@@ -15,14 +15,10 @@ struct ServiceCell: View {
                     .foregroundStyle(.accent)
                 VStack(alignment: .leading, spacing: 8) {
                     Text(service.type.rawValue)
-                        .font(.system(size: 15))
-                        .fontWeight(.medium)
-                        .fontDesign(.rounded)
+                        .font(.poppins(.medium, size: 15))
                         .foregroundStyle(.cmReversed)
                     Text(service.description)
-                        .font(.system(size: 12))
-                        .fontWeight(.regular)
-                        .fontDesign(.rounded)
+                        .font(.poppins(.regular, size: 12))
                         .foregroundStyle(.gray)
                         .multilineTextAlignment(.leading)
                 }

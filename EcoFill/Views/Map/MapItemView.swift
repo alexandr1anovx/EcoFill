@@ -6,42 +6,31 @@ struct MapItemView: View {
     let station: Station
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 15) {
-            HStack {
-                Text(station.name)
-                    .font(.system(size: 18))
-                    .fontWeight(.medium)
-                    .fontDesign(.rounded)
-                Spacer()
-                XmarkButton {
-                    stationVM.isDetailsShown = false
-                }
-            }
-            
-            Row(station.address, image: .mark)
-            Row(station.schedule, image: .clock)
+        VStack(alignment: .leading, spacing: 18) {
+            Text(station.name)
+                .font(.poppins(.medium, size: 18))
+            CustomRow(station.address, image: "location.fill")
+            CustomRow(station.schedule, image: "clock")
             
             HStack {
-                Row("Payment:", image: .payment)
-                Image(.mastercard)
-                    .navigationBarImageSize
-                Image(.applePay)
-                    .navigationBarImageSize
+                CustomRow("Pay with:", image: "creditcard")
+                Image(.mastercard).navigationBarImageSize
+                Image(.applePay).navigationBarImageSize
             }
             
-            FuelsInSelectedStation(station)
+            FuelStack(station: station)
             
             if stationVM.isRouteShown {
-                BaseButton("Hide Route", .route, .blue) {
+                CustomBtn("Hide", image: "xmark", color: .red) {
                     stationVM.isRouteShown = false
                 }
             } else {
-                BaseButton("Get directions", .route, .cmBlue) {
+                CustomBtn("Route", image: "arrow.triangle.branch", color: .accent) {
                     stationVM.isRouteShown = true
                 }
             }
         }
-        .padding(.top,10)
-        .padding(.horizontal,15)
+        .padding(.top, 10)
+        .padding(.horizontal, 15)
     }
 }

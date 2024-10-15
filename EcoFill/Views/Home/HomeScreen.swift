@@ -1,15 +1,20 @@
 import SwiftUI
 
 struct HomeScreen: View {
-    @State private var isShownQRCode = false
+    @State private var isPresentedQR = false
     
     var body: some View {
         NavigationStack {
             VStack {
                 UserDataView()
-                FuelsInSelectedCity()
-                    .padding(15)
-                ServicesList()
+                CityFuels().padding(15)
+                
+                // MARK: - List of Services
+                List(Service.services) { service in
+                    ServiceCell(service: service)
+                }
+                .listStyle(.plain)
+                .listRowSpacing(10)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -19,21 +24,22 @@ struct HomeScreen: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        isShownQRCode.toggle()
+                        isPresentedQR.toggle()
                     } label: {
-                        Image(.qr)
-                            .navigationBarImageSize
+                        Image(systemName: "qrcode")
+                            .font(.title3)
+                            .foregroundStyle(.accent)
                     }
-                    .buttonStyle(AnimatedButtonStyle.animated)
+                    .buttonStyle(.animated)
                 }
             }
             .navigationTitle("Home")
             .navigationBarTitleDisplayMode(.inline)
         }
-        .sheet(isPresented: $isShownQRCode) {
+        .sheet(isPresented: $isPresentedQR) {
             QRCodeView()
                 .presentationDetents([.height(250)])
-                .presentationBackgroundInteraction(.disabled)
+                .presentationDragIndicator(.visible)
                 .presentationCornerRadius(20)
         }
     }

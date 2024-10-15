@@ -3,18 +3,14 @@ import CoreImage
 import CoreImage.CIFilterBuiltins
 
 struct QRCodeView: View {
-    @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject var userVM: UserViewModel
     
     private let context = CIContext()
     private let filter = CIFilter.qrCodeGenerator()
     
     var body: some View {
         VStack(alignment: .center) {
-            HStack {
-                Spacer()
-                XmarkButton()
-            }
-            if let user = userViewModel.currentUser {
+            if let user = userVM.currentUser {
                 Image(uiImage: generateQRCode(from: user.initials))
                     .resizable()
                     .interpolation(.none)
@@ -27,13 +23,13 @@ struct QRCodeView: View {
     }
 }
 
-extension QRCodeView {
-    private func generateQRCode(from string: String) -> UIImage {
+private extension QRCodeView {
+    func generateQRCode(from string: String) -> UIImage {
         filter.message = Data(string.utf8)
         if let outputImage = filter.outputImage,
            let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
             return UIImage(cgImage: cgImage)
         }
-        return UIImage(resource: .xmark)
+        return UIImage()
     }
 }

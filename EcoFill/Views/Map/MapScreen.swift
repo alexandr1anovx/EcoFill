@@ -2,6 +2,7 @@ import SwiftUI
 import MapKit
 
 struct MapScreen: View {
+    
     @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
     @EnvironmentObject var stationVM: StationViewModel
     
@@ -13,12 +14,12 @@ struct MapScreen: View {
                 let coordinate = station.coordinate
                 Annotation(name, coordinate: coordinate) {
                     Circle()
-                        .foregroundStyle(.cmBlue)
-                        .frame(width: 32, height: 32)
+                        .foregroundStyle(.accent.gradient)
+                        .frame(width: 30, height: 32)
                         .overlay {
-                            Image(.station)
-                                .resizable()
-                                .frame(width: 20, height: 20)
+                            Image(systemName: "fuelpump.fill")
+                                .foregroundStyle(.cmBlack)
+                                .font(.callout)
                         }
                         .onTapGesture {
                             stationVM.selectedStation = station
@@ -26,38 +27,38 @@ struct MapScreen: View {
                         }
                 }
             }
-            
             if let route = stationVM.route {
                 MapPolyline(route.polyline)
-                    .stroke(.blue, lineWidth: 4)
+                    .stroke(.purple, lineWidth: 4)
             }
         }
         .mapControls {
             MapUserLocationButton()
         }
-        
         .overlay(alignment: .topTrailing) {
-            MapControlStationsList()
-                .padding(.trailing, 5)
-                .padding(.top, 60)
+            Button {
+                stationVM.isListShown.toggle()
+            } label: {
+                Image(systemName: "list.clipboard")
+                    .font(.title3)
+                    .foregroundStyle(.accent)
+            }
+            .customButtonStyle(pouring: .cmSystem)
+            .padding(.trailing, 5)
+            .padding(.top, 60)
         }
-        
         .sheet(isPresented: $stationVM.isListShown) {
-            LocationsList()
-                .presentationDetents([.medium, .large])
+            StationsList()
+                .presentationDetents([.height(400), .large])
                 .presentationDragIndicator(.visible)
-                .presentationBackgroundInteraction(.disabled)
-                .presentationCornerRadius(25)
+                .presentationCornerRadius(20)
         }
-        
         .sheet(isPresented: $stationVM.isDetailsShown) {
             MapItemView(station: stationVM.selectedStation ?? .emptyStation)
-            .interactiveDismissDisabled(true)
-            .presentationBackgroundInteraction(.disabled)
-            .presentationDetents([.height(290)])
-            .presentationCornerRadius(20)
+                .presentationDragIndicator(.visible)
+                .presentationDetents([.height(300)])
+                .presentationCornerRadius(20)
         }
-        
         .task(id: stationVM.isRouteShown) {
             await stationVM.toggleRoutePresentation()
         }

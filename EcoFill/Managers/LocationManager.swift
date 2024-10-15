@@ -2,9 +2,9 @@ import Foundation
 import MapKit
 
 final class LocationManager: NSObject {
-    static let shared = LocationManager()
-    let manager = CLLocationManager()
     
+    let manager = CLLocationManager()
+    static let shared = LocationManager()
     private var error: LocationError? = nil
     private var region = MKCoordinateRegion()
     

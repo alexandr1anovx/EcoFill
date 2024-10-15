@@ -4,7 +4,7 @@ struct SupportScreen: View {
     
     @EnvironmentObject var userVM: UserViewModel
     @FocusState private var fieldData: TextFieldData?
-    @State private var emailAddress = ""
+    @State private var email = ""
     @State private var message = ""
     @State private var isPresentedAlert = false
     
@@ -14,24 +14,25 @@ struct SupportScreen: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
+            
             CustomTextField(
-                inputData: $emailAddress,
-                title: "Email",
-                placeholder: "The email you specified"
+                "Email",
+                placeholder: "Enter your email address",
+                inputData: $email
             )
             .focused($fieldData, equals: .email)
             .keyboardType(.emailAddress)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled(true)
             .submitLabel(.next)
-            .onSubmit { fieldData = .message }
+            .onSubmit { fieldData = .feedbackMessage }
             
             CustomTextField(
-                inputData: $message,
-                title: "Message",
-                placeholder: "At least 10 characters"
+                "Message",
+                placeholder: "At least 10 characters",
+                inputData: $message
             )
-            .focused($fieldData, equals: .message)
+            .focused($fieldData, equals: .feedbackMessage)
             .submitLabel(.send)
             .onSubmit {
                 message = ""
@@ -39,12 +40,26 @@ struct SupportScreen: View {
                 isPresentedAlert.toggle()
             }
             
+            CustomBtn("Send message", image: "checkmark", color: .accent) {
+                isPresentedAlert.toggle()
+                message = ""
+                fieldData = nil
+            }
+            .disabled(!isMessageCorrect)
+            .opacity(isMessageCorrect ? 1.0 : 0.5)
+            
             Spacer()
         }
-        .padding()
+        .padding(.top, 25)
+        .padding(.horizontal, 20)
         .navigationTitle("Support")
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                BackBtn()
+            }
+        }
         .onAppear {
-            fieldData = .message
             displayInitialEmailAddress()
         }
         .alert("Thanks!", isPresented: $isPresentedAlert) {
@@ -53,14 +68,12 @@ struct SupportScreen: View {
             Text("Feedback was successfully sent!")
         }
     }
-}
-
-private extension SupportScreen {
-    func displayInitialEmailAddress() {
+    
+    private func displayInitialEmailAddress() {
         if let userEmail = userVM.currentUser?.email {
-            emailAddress = userEmail
+            email = userEmail
         } else {
-            emailAddress = "No email address"
+            email = "No email address"
         }
     }
 }

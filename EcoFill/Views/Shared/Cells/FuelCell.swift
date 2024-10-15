@@ -13,18 +13,14 @@ struct FuelCell: View {
     var body: some View {
         HStack(spacing: 13) {
             Text(type.rawValue)
-                .font(.system(size: 15))
-                .fontWeight(.medium)
-                .fontDesign(.rounded)
+                .font(.poppins(.medium, size: 15))
                 .foregroundStyle(.cmWhite)
             Text("\(price, specifier: "₴%.2f")")
-                .font(.system(size: 14))
-                .fontWeight(.semibold)
-                .fontDesign(.rounded)
+                .font(.poppins(.medium, size: 15))
                 .foregroundStyle(.accent)
         }
-        .padding(.vertical, 12)
-        .padding(.horizontal, 16)
+        .padding(.vertical, 13)
+        .padding(.horizontal, 15)
         .background(
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color.gradientBlueBlack)

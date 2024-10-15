@@ -15,20 +15,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct EcoFillApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @AppStorage("preferredScheme") private var preferredScheme: Scheme = .system
     
+    @AppStorage("appScheme") private var appScheme: Scheme = .system
     @StateObject private var userVM = UserViewModel()
     @StateObject private var stationVM = StationViewModel()
     
     var body: some Scene {
         WindowGroup {
-            TabScreen()
-                .preferredColorScheme(preferredScheme.colorScheme)
+            EntryPoint()
+                .preferredColorScheme(appScheme.colorScheme)
                 .environmentObject(userVM)
                 .environmentObject(stationVM)
-                .onAppear {
-                    stationVM.getStations()
-                }
         }
     }
 }
