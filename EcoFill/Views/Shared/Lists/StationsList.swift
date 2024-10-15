@@ -1,0 +1,39 @@
+import SwiftUI
+
+struct StationsList: View {
+    
+    @EnvironmentObject var userVM: UserViewModel
+    @EnvironmentObject var stationVM: StationViewModel
+    
+    private var stationsInSelectedCity: [Station] {
+        stationVM.stations.filter { $0.city == userVM.selectedCity.rawValue }
+    }
+
+    var body: some View {
+        VStack {
+            Picker("", selection: $userVM.selectedCity) {
+                ForEach(City.allCases) { city in
+                    Text(city.rawValue)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.top, 20)
+            .padding(.horizontal, 20)
+
+            List(stationsInSelectedCity) { station in
+                StationCell(station: station)
+            }
+            .listStyle(.insetGrouped)
+            .listRowSpacing(10)
+        }
+        .onAppear {
+            updateSelectedCity()
+        }
+    }
+    private func updateSelectedCity() {
+        if let cityString = userVM.currentUser?.city,
+           let city = City(rawValue: cityString) {
+            userVM.selectedCity = city
+        }
+    }
+}

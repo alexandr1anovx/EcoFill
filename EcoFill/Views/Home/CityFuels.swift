@@ -1,22 +1,23 @@
 import SwiftUI
 
-struct FuelsInSelectedCity: View {
+struct CityFuels: View {
+    
     @EnvironmentObject var userVM: UserViewModel
     @EnvironmentObject var stationVM: StationViewModel
     
-    private var selectedCityStation: Station? {
+    private var stationInSelectedCity: Station? {
         stationVM.stations.first { $0.city == userVM.currentUser?.city }
     }
     
     var body: some View {
-        if stationVM.stations.isEmpty {
-            ContentUnavailableView(
-                "Server Error. Failed to load stations!",
-                systemImage: "gear.badge.xmark",
-                description: Text("Please, try again later!")
-            )
+        if !(stationVM.stations.isEmpty) {
+            FuelStack(station: stationInSelectedCity ?? .emptyStation)
         } else {
-            FuelsStack(station: selectedCityStation ?? .emptyStation)
+            ContentUnavailableView(
+                "Failed to load stations",
+                systemImage: "gear.badge.xmark",
+                description: Text("Please, try again later.")
+            )
         }
     }
 }
