@@ -1,7 +1,6 @@
 import SwiftUI
 
-struct CityFuels: View {
-    
+struct CityFuelsView: View {
     @EnvironmentObject var userVM: UserViewModel
     @EnvironmentObject var stationVM: StationViewModel
     
@@ -10,8 +9,8 @@ struct CityFuels: View {
     }
     
     var body: some View {
-        if !(stationVM.stations.isEmpty) {
-            FuelStack(station: stationInSelectedCity ?? .emptyStation)
+        if !stationVM.stations.isEmpty {
+            FuelStack(for: stationInSelectedCity ?? .emptyStation)
         } else {
             ContentUnavailableView(
                 "Failed to load stations",

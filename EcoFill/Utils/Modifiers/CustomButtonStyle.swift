@@ -1,15 +1,19 @@
 import SwiftUI
 
-struct CustomButtonModifier: ButtonStyle {
+struct CustomButtonStyle: ButtonStyle {
     let pouring: Color
+    
+    init(with pouring: Color) {
+        self.pouring = pouring
+    }
     
     func makeBody(configuration: Configuration) -> some View {
         let baseButton = configuration.label
-            .padding(10)
-            .font(.poppins(.medium, size: 15))
+            .padding(11)
+            .font(.poppins(.medium, size: 14))
             .foregroundColor(.white)
             .background(pouring)
-            .cornerRadius(10)
+            .cornerRadius(8)
             
         return baseButton
             .opacity(configuration.isPressed ? 0.5 : 1.0)
