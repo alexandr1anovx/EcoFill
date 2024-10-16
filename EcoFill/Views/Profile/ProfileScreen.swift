@@ -2,50 +2,59 @@ import SwiftUI
 
 struct ProfileScreen: View {
     
+    @State private var isShownAlert: Bool = false
     @EnvironmentObject var userVM: UserViewModel
-    @State private var isPresentedSignOutAlert = false
     
     var body: some View {
         NavigationStack {
-            UserDataView()
-            List {
-                AppearanceChanger()
-                Button {
-                    isPresentedSignOutAlert.toggle()
-                } label: {
-                    HStack(spacing: 15) {
-                        Image(systemName: "xmark.circle.fill")
-                            .font(.title3)
-                            .foregroundStyle(.red)
-                        Text("Sign Out")
-                            .font(.poppins(.medium, size: 16))
-                            .foregroundStyle(.red)
+            ZStack {
+                Color.primaryBackground.ignoresSafeArea()
+                
+                VStack {
+                    UserDataView()
+                    List {
+                        AppSchemeCell()
+                            .listRowBackground(Color.primaryBackground)
+                        Cell(title: "Sign Out",
+                             description: "Sign out from current account.",
+                             image: "logout",
+                             imageColor: .primaryRed)
+                        .onTapGesture {
+                            isShownAlert.toggle()
+                        }
+                        .listRowBackground(Color.primaryBackground)
+                    }
+                    .listStyle(.plain)
+                }
+                .navigationTitle("Profile")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Image(.logo)
+                            .resizable()
+                            .frame(width: 54, height: 54)
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        NavigationLink {
+                            SettingScreen()
+                        } label: {
+                            Image("gear")
+                                .navigationBarImageSize
+                                .foregroundStyle(.accent)
+                        }
                     }
                 }
-                .confirmationDialog("", isPresented: $isPresentedSignOutAlert) {
+                .alert("Sign Out", isPresented: $isShownAlert) {
+                    
                     Button("Sign Out", role: .destructive) {
-                        userVM.signOut()
+                        withAnimation(.bouncy(duration: 1)) {
+                            userVM.signOut()
+                        }
                     }
+                } message: {
+                    Text("Will redirect you to the Sign In screen.")
                 }
             }
-            .listStyle(.insetGrouped)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Image(.logo)
-                        .resizable()
-                        .frame(width: 54, height: 54)
-                }
-                ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        SettingScreen()
-                    } label: {
-                        Text("Edit")
-                            .foregroundStyle(.cmReversed)
-                    }
-                }
-            }
-            .navigationTitle("Profile")
-            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

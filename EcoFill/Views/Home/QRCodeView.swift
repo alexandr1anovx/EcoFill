@@ -3,23 +3,25 @@ import CoreImage
 import CoreImage.CIFilterBuiltins
 
 struct QRCodeView: View {
-    @EnvironmentObject var userVM: UserViewModel
-    
     private let context = CIContext()
     private let filter = CIFilter.qrCodeGenerator()
+    @EnvironmentObject var userVM: UserViewModel
     
     var body: some View {
-        VStack(alignment: .center) {
-            if let user = userVM.currentUser {
-                Image(uiImage: generateQRCode(from: user.initials))
-                    .resizable()
-                    .interpolation(.none)
-                    .frame(width: 180, height: 180)
-            } else {
-                ProgressView("Loading user data...")
+        ZStack {
+            Color.primaryBackground.ignoresSafeArea()
+            
+            VStack(alignment: .center) {
+                if let user = userVM.currentUser {
+                    Image(uiImage: generateQRCode(from: user.initials))
+                        .resizable()
+                        .interpolation(.none)
+                        .frame(width: 180, height: 180)
+                } else {
+                    ProgressView("Loading user data...")
+                }
             }
         }
-        .padding(.horizontal)
     }
 }
 

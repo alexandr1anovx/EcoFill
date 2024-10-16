@@ -1,36 +1,42 @@
 import SwiftUI
 
 struct MapItemView: View {
-    
-    @EnvironmentObject var stationVM: StationViewModel
     let station: Station
+    @EnvironmentObject var stationVM: StationViewModel
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 18) {
-            Text(station.name)
-                .font(.poppins(.medium, size: 18))
-            CustomRow(station.address, image: "location.fill")
-            CustomRow(station.schedule, image: "clock")
+        ZStack {
+            Color.primaryBackground.ignoresSafeArea()
             
-            HStack {
-                CustomRow("Pay with:", image: "creditcard")
-                Image(.mastercard).navigationBarImageSize
-                Image(.applePay).navigationBarImageSize
-            }
-            
-            FuelStack(station: station)
-            
-            if stationVM.isRouteShown {
-                CustomBtn("Hide", image: "xmark", color: .red) {
-                    stationVM.isRouteShown = false
+            VStack(alignment: .leading, spacing: 20) {
+                Row(data: station.address, image: "mark", imageColor: .accent)
+                Row(data: station.schedule, image: "clock", imageColor: .accent)
+                HStack {
+                    Row(data: "Pay with:",  image: "wallet", imageColor: .accent)
+                    Text("Cash, Mastercard, Pay")
+                        .font(.poppins(.medium, size: 13))
+                        .foregroundStyle(.primaryBackgroundReversed)
+                        .opacity(0.8)
                 }
-            } else {
-                CustomBtn("Route", image: "arrow.triangle.branch", color: .accent) {
-                    stationVM.isRouteShown = true
+                
+                FuelStack(for: station)
+                
+                if stationVM.isRouteShown {
+                    Btn(title: "Hide",
+                        image: "xmark",
+                        color: .primaryRed) {
+                        stationVM.isRouteShown = false
+                    }
+                } else {
+                    Btn(title: "Route",
+                        image: "route",
+                        color: .accent) {
+                        stationVM.isRouteShown = true
+                    }
                 }
             }
+            .padding(.top, 10)
+            .padding(.horizontal, 15)
         }
-        .padding(.top, 10)
-        .padding(.horizontal, 15)
     }
 }

@@ -2,12 +2,11 @@ import SwiftUI
 
 struct SignUpScreen: View {
     
+    @State private var initials: String = ""
+    @State private var email: String = ""
+    @State private var password: String = ""
+    @FocusState private var textFieldContent: TextFieldContent?
     @EnvironmentObject var userVM: UserViewModel
-    @FocusState private var fieldData: TextFieldData?
-    
-    @State private var initials = ""
-    @State private var email = ""
-    @State private var password = ""
     
     private var isSignUpFormValid: Bool {
         !initials.isEmpty
@@ -16,72 +15,76 @@ struct SignUpScreen: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            CustomTextField(
-                "Initials",
-                placeholder: "Name and surname",
-                inputData: $initials
-            )
-            .focused($fieldData, equals: .initials)
-            .textInputAutocapitalization(.words)
-            .autocorrectionDisabled(false)
-            .submitLabel(.next)
-            .onSubmit { fieldData = .email }
+        ZStack {
+            Color.primaryBackground.ignoresSafeArea()
             
-            CustomTextField(
-                "Email",
-                placeholder: "email@example.com",
-                inputData: $email
-            )
-            .focused($fieldData, equals: .email)
-            .keyboardType(.emailAddress)
-            .textInputAutocapitalization(.never)
-            .submitLabel(.next)
-            .onSubmit { fieldData = .password }
-            
-            CustomTextField(
-                "Password",
-                placeholder: "At least 6 characters",
-                isSecureField: true,
-                inputData: $password
-            )
-            .focused($fieldData, equals: .password)
-            .submitLabel(.done)
-            .onSubmit { fieldData = nil }
-            
-            CityPickerView()
-            
-            Spacer()
-        }
-        .padding(.top, 25)
-        .padding(.horizontal, 20)
-        .navigationTitle("Sign Up")
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                BackBtn()
+            VStack(alignment: .leading, spacing: 20) {
+                CustomTF(
+                    header: "Initials",
+                    placeholder: "Name and surname",
+                    data: $initials
+                )
+                .focused($textFieldContent, equals: .initials)
+                .textInputAutocapitalization(.words)
+                .autocorrectionDisabled(true)
+                .submitLabel(.next)
+                .onSubmit { textFieldContent = .email }
+                
+                CustomTF(
+                    header: "Email",
+                    placeholder: "email@example.com",
+                    data: $email
+                )
+                .focused($textFieldContent, equals: .email)
+                .keyboardType(.emailAddress)
+                .textInputAutocapitalization(.never)
+                .submitLabel(.next)
+                .onSubmit { textFieldContent = .password }
+                
+                CustomTF(
+                    header: "Password",
+                    placeholder: "At least 6 characters",
+                    data: $password,
+                    isSecure: true
+                )
+                .focused($textFieldContent, equals: .password)
+                .submitLabel(.done)
+                .onSubmit { textFieldContent = nil }
+                
+                CityPickerView()
+                
+                Spacer()
             }
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("Sign Up") {
-                    Task {
-                        await userVM.signUp(
-                            withInitials: initials,
-                            email: email,
-                            password: password,
-                            city: userVM.selectedCity
-                        )
-                    }
+            .padding(.top, 25)
+            .padding(.horizontal, 20)
+            .navigationTitle("Sign Up")
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    BackBtn()
                 }
-                .foregroundStyle(.accent)
-                .disabled(!isSignUpFormValid)
-                .opacity(isSignUpFormValid ? 1.0 : 0.5)
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Sign Up") {
+                        Task {
+                            await userVM.signUp(
+                                withInitials: initials,
+                                email: email,
+                                password: password,
+                                city: userVM.selectedCity
+                            )
+                        }
+                    }
+                    .foregroundStyle(.accent)
+                    .disabled(!isSignUpFormValid)
+                    .opacity(isSignUpFormValid ? 1.0 : 0.5)
+                }
             }
+            .alert(item: $userVM.alertItem) { alert in
+                Alert(title: alert.title,
+                      message: alert.message,
+                      dismissButton: alert.dismissButton)
+            }
+            .onAppear { textFieldContent = .initials }
         }
-        .alert(item: $userVM.alertItem) { alert in
-            Alert(title: alert.title,
-                  message: alert.message,
-                  dismissButton: alert.dismissButton)
-        }
-        .onAppear { fieldData = .initials }
     }
 }

@@ -2,7 +2,6 @@ import SwiftUI
 import MapKit
 
 struct MapScreen: View {
-    
     @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
     @EnvironmentObject var stationVM: StationViewModel
     
@@ -18,7 +17,7 @@ struct MapScreen: View {
                         .frame(width: 30, height: 32)
                         .overlay {
                             Image(systemName: "fuelpump.fill")
-                                .foregroundStyle(.cmBlack)
+                                .foregroundStyle(.primaryBlack)
                                 .font(.callout)
                         }
                         .onTapGesture {
@@ -43,7 +42,7 @@ struct MapScreen: View {
                     .font(.title3)
                     .foregroundStyle(.accent)
             }
-            .customButtonStyle(pouring: .cmSystem)
+            .buttonModifier(pouring: .primaryBackground)
             .padding(.trailing, 5)
             .padding(.top, 60)
         }
