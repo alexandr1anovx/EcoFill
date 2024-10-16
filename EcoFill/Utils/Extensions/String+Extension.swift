@@ -1,3 +1,10 @@
+//
+//  String+Extension.swift
+//  EcoFill
+//
+//  Created by Alexander Andrianov on 16.10.2024.
+//
+
 import Foundation
 import RegexBuilder
 
@@ -32,3 +39,4 @@ extension String {
         return self.wholeMatch(of: emailRegex) != nil
     }
 }
+
