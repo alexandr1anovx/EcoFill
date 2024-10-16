@@ -1,23 +1,19 @@
 import SwiftUI
 
 struct Row: View {
-    let title: String?
-    let image: ImageResource
-    
-    init(_ title: String?, image: ImageResource) {
-        self.title = title
-        self.image = image
-    }
+    let data: String
+    let image: String
+    let imageColor: Color
     
     var body: some View {
         HStack(spacing: 8) {
             Image(image)
                 .defaultImageSize
-            Text(title ?? "")
-                .font(.system(size: 14))
-                .fontWeight(.regular)
-                .fontDesign(.rounded)
+                .foregroundStyle(imageColor)
+            Text(data)
+                .font(.poppins(.regular, size: 13))
                 .foregroundStyle(.gray)
         }
     }
 }
+

@@ -13,6 +13,7 @@
 		321DAA2E2CBEEA5D00D39207 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 321DAA2D2CBEEA5D00D39207 /* GoogleSignIn */; };
 		321DAA302CBEEA5D00D39207 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 321DAA2F2CBEEA5D00D39207 /* GoogleSignInSwift */; };
 		321DAA322CBEEAC200D39207 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 321DAA312CBEEAC200D39207 /* GoogleService-Info.plist */; };
+		321FD8DA2CC0826900868AFE /* Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321FD8D92CC0826900868AFE /* Row.swift */; };
 		322564762CBDB48100DE6AF9 /* BackBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322564752CBDB48100DE6AF9 /* BackBtn.swift */; };
 		3231D5012CBD583600B50822 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3231D5002CBD583600B50822 /* LaunchView.swift */; };
 		3231D5082CBD5A0000B50822 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3231D5052CBD5A0000B50822 /* Poppins-Regular.ttf */; };
@@ -20,7 +21,6 @@
 		3231D50A2CBD5A0000B50822 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3231D5072CBD5A0000B50822 /* Poppins-Medium.ttf */; };
 		323445702B4752F700C218F1 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234456F2B4752F700C218F1 /* UserViewModel.swift */; };
 		323959792C828E8E00599876 /* Btn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323959782C828E8E00599876 /* Btn.swift */; };
-		3239597F2C82A4B000599876 /* Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3239597E2C82A4B000599876 /* Row.swift */; };
 		3242D11C2B728F04005BE4A3 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242D11B2B728F04005BE4A3 /* Station.swift */; };
 		3270E2FC2BADB88C0047E645 /* UpdateEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3270E2FB2BADB88C0047E645 /* UpdateEmailView.swift */; };
 		329613982B7914DD00649CAC /* AppSchemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329613972B7914DD00649CAC /* AppSchemeCell.swift */; };
@@ -66,6 +66,7 @@
 		32044B7E2C87E60300D90077 /* CityFuelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityFuelsView.swift; sourceTree = "<group>"; };
 		32144CB92B81200E009C3081 /* FuelStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuelStack.swift; sourceTree = "<group>"; };
 		321DAA312CBEEAC200D39207 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		321FD8D92CC0826900868AFE /* Row.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Row.swift; path = EcoFill/Views/Shared/Row.swift; sourceTree = SOURCE_ROOT; };
 		322564752CBDB48100DE6AF9 /* BackBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackBtn.swift; sourceTree = "<group>"; };
 		3231D5002CBD583600B50822 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
 		3231D5052CBD5A0000B50822 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
@@ -73,7 +74,6 @@
 		3231D5072CBD5A0000B50822 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		3234456F2B4752F700C218F1 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		323959782C828E8E00599876 /* Btn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Btn.swift; sourceTree = "<group>"; };
-		3239597E2C82A4B000599876 /* Row.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Row.swift; path = ../Row.swift; sourceTree = "<group>"; };
 		3242D11B2B728F04005BE4A3 /* Station.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
 		325EC5CE2B8504D30049C234 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3270E2FB2BADB88C0047E645 /* UpdateEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateEmailView.swift; sourceTree = "<group>"; };
@@ -215,13 +215,6 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
-		329CE1D62CC048180074557F /* List */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = List;
-			sourceTree = "<group>";
-		};
 		32A1F7152CA22F9E00999723 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -262,12 +255,11 @@
 		32FA103D2C892C8900F4C327 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				329CE1D62CC048180074557F /* List */,
+				321FD8D92CC0826900868AFE /* Row.swift */,
 				329CE1D52CC048110074557F /* Cell */,
 				329CE1D42CC048080074557F /* Button */,
 				6171A4432B1DCE6400D22A23 /* UserDataView.swift */,
 				610543692B34CF5700CFC9DB /* CustomTF.swift */,
-				3239597E2C82A4B000599876 /* Row.swift */,
 				32F4B5022B7A4ABF003EF8D3 /* StationsList.swift */,
 				32144CB92B81200E009C3081 /* FuelStack.swift */,
 				32044B782C87B04300D90077 /* CityPickerView.swift */,
@@ -465,10 +457,10 @@
 				32A1F7172CA22FAD00999723 /* LocationManager.swift in Sources */,
 				329613982B7914DD00649CAC /* AppSchemeCell.swift in Sources */,
 				61E5E6122B17E981005B3D03 /* EcoFillApp.swift in Sources */,
+				321FD8DA2CC0826900868AFE /* Row.swift in Sources */,
 				3242D11C2B728F04005BE4A3 /* Station.swift in Sources */,
 				32F5578B2CBF6AD100CB3CA4 /* Cell.swift in Sources */,
 				329CE1CD2CC043C20074557F /* Map+Extension.swift in Sources */,
-				3239597F2C82A4B000599876 /* Row.swift in Sources */,
 				329CE1D32CC047560074557F /* UIApplication+Extension.swift in Sources */,
 				32E563892B9CC7C5000BCFD4 /* CustomButtonStyle.swift in Sources */,
 				323445702B4752F700C218F1 /* UserViewModel.swift in Sources */,
