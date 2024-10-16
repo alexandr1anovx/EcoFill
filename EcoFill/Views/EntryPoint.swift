@@ -28,7 +28,7 @@ struct EntryPoint: View {
         .onAppear {
             stationVM.getStations()
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                withAnimation(.bouncy) {
+                withAnimation(.spring(duration: 1)) {
                     isShownContent.toggle()
                 }
             }
