@@ -14,7 +14,7 @@ struct FuelCell: View {
         HStack(spacing: 13) {
             Text(type.rawValue)
                 .font(.poppins(.medium, size: 15))
-                .foregroundStyle(.cmWhite)
+                .foregroundStyle(.primaryWhite)
             Text("\(price, specifier: "₴%.2f")")
                 .font(.poppins(.medium, size: 15))
                 .foregroundStyle(.accent)
