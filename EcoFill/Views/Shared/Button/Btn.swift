@@ -18,7 +18,6 @@ struct Btn: View {
                     .foregroundStyle(.white)
             }
         }
-        .buttonStyle(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=Button Style@*/DefaultButtonStyle()/*@END_MENU_TOKEN@*/)
         .buttonModifier(pouring: color)
         .shadow(radius: 5)
     }

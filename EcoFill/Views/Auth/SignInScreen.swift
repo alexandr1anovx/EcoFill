@@ -16,9 +16,10 @@ struct SignInScreen: View {
         NavigationStack {
             ZStack {
                 Color.primaryBackground.ignoresSafeArea()
-                VStack(spacing: 15) {
-                    Image(.logo).frame(height: 100)
-                    
+                
+                VStack(spacing: 20) {
+                    Image(.logo)
+                        .frame(height: 100)
                     if isShownForm {
                         VStack(spacing: 15) {
                             
@@ -40,33 +41,48 @@ struct SignInScreen: View {
                             .onSubmit { textFieldContent = nil }
                         }
                         
-                        Btn(title: "Sign In", image: "userCheckmark",color: .accent) {
-                            Task {
-                                await userVM.signIn(withEmail: email, password: password)
+                        HStack(spacing: 10) {
+                            Btn(title: "Sign In", image: "userCheckmark", color: .accent) {
+                                Task {
+                                    await userVM.signIn(withEmail: email,
+                                                        password: password)
+                                }
                             }
+                            .disabled(!isValidForm)
+                            .opacity(isValidForm ? 1.0 : 0.5)
+                            
+                            Text("New member?")
+                                .font(.poppins(.regular, size: 14))
+                                .foregroundStyle(.gray)
+                            
+                            NavigationLink("Sign Up") {
+                                SignUpScreen()
+                            }
+                            .font(.poppins(.medium, size: 16))
+                            .foregroundStyle(.accent)
+                            
+                            Spacer()
                         }
-                        .disabled(!isValidForm)
-                        .opacity(isValidForm ? 1.0 : 0.5)
-                        
-                        SignUpOptionView()
                     }
+                    
+                    Spacer()
                 }
+                .padding(.top, 50)
                 .padding(.horizontal, 20)
             }
-            .ignoresSafeArea(.keyboard)
             .onTapGesture {
                 UIApplication.shared.endEditing()
             }
-        }
-        .alert(item: $userVM.alertItem) { alert in
-            Alert(title: alert.title,
-                  message: alert.message,
-                  dismissButton: alert.dismissButton)
-        }
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                withAnimation(.spring(duration: 0.8)) {
-                    isShownForm.toggle()
+            .alert(item: $userVM.alertItem) { alert in
+                Alert(title: alert.title,
+                      message: alert.message,
+                      dismissButton: alert.dismissButton)
+            }
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    withAnimation(.spring(duration: 1)) {
+                        isShownForm.toggle()
+                    }
                 }
             }
         }
@@ -74,7 +90,11 @@ struct SignInScreen: View {
 }
 struct SignUpOptionView: View {
     var body: some View {
-        HStack(spacing: 5) {
+        
+        HStack(spacing: 10) {
+            
+            Btn(title: "Sign In", image: "userCheckmark", color: .accent, action: {})
+            
             Text("New member?")
                 .font(.poppins(.regular, size: 14))
                 .foregroundStyle(.gray)
@@ -82,10 +102,14 @@ struct SignUpOptionView: View {
             NavigationLink("Sign Up") {
                 SignUpScreen()
             }
-            .font(.poppins(.medium, size: 15))
+            .font(.poppins(.medium, size: 16))
             .foregroundStyle(.accent)
             
             Spacer()
         }
     }
+}
+
+#Preview {
+    SignUpOptionView()
 }
