@@ -49,7 +49,6 @@
       "scale" : "2x"
     },
     {
-      "filename" : "logo-lightMode.svg",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -60,7 +59,7 @@
           "value" : "light"
         }
       ],
-      "filename" : "logo-lightMode 1.svg",
+      "filename" : "logoBlack.svg",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -71,7 +70,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "logo-darkMode.svg",
+      "filename" : "logoWhite.svg",
       "idiom" : "universal",
       "scale" : "3x"
     }
