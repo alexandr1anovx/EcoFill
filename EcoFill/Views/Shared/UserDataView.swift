@@ -6,15 +6,18 @@ struct UserDataView: View {
     var body: some View {
         if let user = userVM.currentUser {
             HStack {
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: 12) {
                     Text(user.initials)
                         .font(.poppins(.medium, size: 17))
-                        .foregroundStyle(.cmReversed)
-                    CustomRow(user.email, image: "envelope")
-                        .lineLimit(2)
+                        .foregroundStyle(.primaryBackgroundReversed)
+                    Row(data: user.email,
+                              image: "mail",
+                              imageColor: .accent)
                 }
                 Spacer()
-                CustomRow(user.city, image: "location")
+                Row(data: user.city, 
+                          image: "mark",
+                          imageColor: .accent)
             }
             .padding(20)
         } else {

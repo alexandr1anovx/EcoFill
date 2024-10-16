@@ -9,12 +9,10 @@ struct Service: Identifiable {
     let image: String
     let type: ServiceType
     let description: String
-}
-
-extension Service {
+    
     static let services: [Service] = [
         Service(
-            image: "24.square.fill",
+            image: "feedback",
             type: .support,
             description: "Send a feedback about us."
         )
