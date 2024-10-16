@@ -8,9 +8,9 @@ final class StationViewModel: ObservableObject {
     @Published var stations: [Station] = []
     @Published var selectedStation: Station?
     @Published var route: MKRoute?
-    @Published var isRouteShown = false
-    @Published var isDetailsShown = false
-    @Published var isListShown = false
+    @Published var isRouteShown: Bool = false
+    @Published var isDetailsShown: Bool = false
+    @Published var isListShown: Bool = false
     
     private let locationService = LocationManager.shared
     

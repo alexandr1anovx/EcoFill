@@ -3,6 +3,10 @@ import SwiftUI
 struct FuelStack: View {
     let station: Station
     
+    init(for station: Station) {
+        self.station = station
+    }
+    
     var body: some View {
         ScrollView(.horizontal) {
             HStack(spacing: 10) {
