@@ -22,7 +22,7 @@ enum TabBarItem: Int, CaseIterable {
         switch self {
         case .home: "house"
         case .map: "map"
-        case .profile: "user"
+        case .profile: "userFill"
         }
     }
 }

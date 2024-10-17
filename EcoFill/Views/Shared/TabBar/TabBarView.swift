@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct TabBarView: View {
     
     @State private var selectedTab = TabBarItem.home
@@ -23,7 +22,6 @@ struct TabBarView: View {
                 ProfileScreen()
                     .tag(TabBarItem.profile)
             }
-            
             HStack {
                 ForEach(TabBarItem.allCases, id: \.self) { tab in
                     TabBarButton(
@@ -37,12 +35,12 @@ struct TabBarView: View {
                     }
                 }
             }
-            .padding(.vertical, 12)
+            .padding(.vertical, 11)
             .padding(.horizontal)
-            .background(.primaryReversed)
+            .background(.primaryTabBar)
             .clipShape(.capsule)
             .padding(.horizontal, 25)
-            .shadow(radius: 10)
+            .shadow(radius: 6)
         }
     }
 }
