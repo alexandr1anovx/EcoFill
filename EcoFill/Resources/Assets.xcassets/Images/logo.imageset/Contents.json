@@ -59,7 +59,7 @@
           "value" : "light"
         }
       ],
-      "filename" : "logoBlack.svg",
+      "filename" : "LogoDark.svg",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -70,7 +70,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "logoWhite.svg",
+      "filename" : "LogoLight.svg",
       "idiom" : "universal",
       "scale" : "3x"
     }
