@@ -41,7 +41,7 @@ struct MapScreen: View {
             .padding(.top, 60)
         }
         .sheet(isPresented: $stationVM.isListShown) {
-            StationsList()
+            StationList()
                 .presentationDetents([.height(400), .large])
                 .presentationDragIndicator(.visible)
                 .presentationCornerRadius(20)

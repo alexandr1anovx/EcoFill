@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct StationsList: View {
+struct StationList: View {
     
     @EnvironmentObject var userVM: UserViewModel
     @EnvironmentObject var stationVM: StationViewModel
@@ -24,7 +24,7 @@ struct StationsList: View {
                 .padding(.horizontal, 20)
 
                 List(stationsInSelectedCity) { station in
-                    StationsListCell(station: station)
+                    StationListCell(station: station)
                         .listRowBackground(Color.primaryBackground)
                 }
                 .padding(.top, 15)

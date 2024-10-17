@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct StationsListCell: View {
+struct StationListCell: View {
     
     @EnvironmentObject var stationVM: StationViewModel
     let station: Station
