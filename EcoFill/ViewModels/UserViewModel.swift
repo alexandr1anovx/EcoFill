@@ -5,14 +5,17 @@ import FirebaseAuth
 @MainActor
 final class UserViewModel: ObservableObject {
     
+    // MARK: - Public Properties
     @Published var alertItem: AlertItem?
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
     @Published var selectedCity: City = .mykolaiv
     var isEmailVerified = false
     
+    // MARK: - Private Properties
     private let usersCollection = Firestore.firestore().collection("users")
     
+    // MARK: - Initializer
     init() {
         self.userSession = Auth.auth().currentUser
         Task {
@@ -20,6 +23,7 @@ final class UserViewModel: ObservableObject {
         }
     }
     
+    // MARK: - Public Methods
     func signUp(
         withInitials initials: String,
         email: String,
@@ -114,6 +118,7 @@ final class UserViewModel: ObservableObject {
         isEmailVerified = user.isEmailVerified
     }
     
+    // MARK: - Private Methods
     private func fetchUser() async {
         guard let uid = userSession?.uid else { return }
         guard let snapshot = try? await usersCollection.document(uid).getDocument() else {
