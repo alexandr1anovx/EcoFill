@@ -23,7 +23,7 @@ struct SettingScreen: View {
                          ? "Email is confirmed."
                          : "A confirmation link has been sent to your email.")
                     .font(.poppins(.medium, size: 12))
-                    .foregroundStyle(.primaryBackgroundReversed)
+                    .foregroundStyle(.primaryReversed)
                     
                     Divider()
                     

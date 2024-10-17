@@ -22,7 +22,7 @@ struct Cell: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(title)
                     .font(.poppins(.medium, size: 14))
-                    .foregroundStyle(.primaryBackgroundReversed)
+                    .foregroundStyle(.primaryReversed)
                 Text(description)
                     .font(.poppins(.regular, size: 12))
                     .foregroundStyle(.gray)

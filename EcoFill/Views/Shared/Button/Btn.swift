@@ -19,6 +19,6 @@ struct Btn: View {
             }
         }
         .buttonModifier(pouring: color)
-        .shadow(radius: 5)
+        .shadow(radius: 6)
     }
 }

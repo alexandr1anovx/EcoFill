@@ -23,7 +23,11 @@ struct FuelCell: View {
         .padding(.horizontal, 15)
         .background(
             RoundedRectangle(cornerRadius: 10)
-                .fill(Color.gradientBlueBlack)
+                .fill(Color.primaryBlue.gradient)
         )
     }
+}
+
+#Preview {
+    FuelCell(type: .euroA95, price: 50.50)
 }

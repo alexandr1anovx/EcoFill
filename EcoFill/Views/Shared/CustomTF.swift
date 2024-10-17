@@ -14,7 +14,7 @@ struct CustomTF: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(header)
                 .font(.poppins(.medium, size: 14))
-                .foregroundStyle(.primaryBackgroundReversed)
+                .foregroundStyle(.primaryReversed)
             Group {
                 if isSecure {
                     SecureField(placeholder, text: data)

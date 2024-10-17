@@ -9,13 +9,14 @@ struct MapItemView: View {
             Color.primaryBackground.ignoresSafeArea()
             
             VStack(alignment: .leading, spacing: 20) {
+                Spacer()
                 Row(data: station.address, image: "mark", imageColor: .accent)
                 Row(data: station.schedule, image: "clock", imageColor: .accent)
                 HStack {
                     Row(data: "Pay with:",  image: "wallet", imageColor: .accent)
                     Text("Cash, Mastercard, Pay")
                         .font(.poppins(.medium, size: 13))
-                        .foregroundStyle(.primaryBackgroundReversed)
+                        .foregroundStyle(.primaryReversed)
                         .opacity(0.8)
                 }
                 
@@ -35,8 +36,12 @@ struct MapItemView: View {
                     }
                 }
             }
-            .padding(.top, 10)
             .padding(.horizontal, 15)
         }
     }
+}
+
+#Preview {
+    MapItemView(station: Station.emptyStation)
+        .environmentObject(StationViewModel())
 }

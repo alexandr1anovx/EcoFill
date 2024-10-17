@@ -15,7 +15,7 @@ struct StationsListCell: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(station.street)
                     .font(.poppins(.medium, size: 14))
-                    .foregroundStyle(.primaryBackgroundReversed)
+                    .foregroundStyle(.primaryReversed)
                 Row(data: station.schedule,
                     image: "clock",
                     imageColor: .accent)

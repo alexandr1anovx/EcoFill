@@ -35,7 +35,7 @@ struct AppSchemeCell: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text("App Scheme")
                     .font(.poppins(.medium, size: 14))
-                    .foregroundStyle(.primaryBackgroundReversed)
+                    .foregroundStyle(.primaryReversed)
                 Text("Change background.")
                     .font(.poppins(.regular, size: 12))
                     .foregroundStyle(.gray)
@@ -43,12 +43,15 @@ struct AppSchemeCell: View {
             }
             
             Picker("", selection: $appScheme) {
-                Text("System").tag(Scheme.system)
-                Text("Light").tag(Scheme.light)
-                Text("Dark").tag(Scheme.dark)
+                Text("System")
+                    .tag(Scheme.system)
+                Text("Light")
+                    .tag(Scheme.light)
+                Text("Dark")
+                    .tag(Scheme.dark)
             }
             .pickerStyle(.menu)
-            .tint(.primaryBackgroundReversed)
+            .tint(.primaryReversed)
             .onChange(of: appScheme) { _, newScheme in
                 appScheme = newScheme
             }

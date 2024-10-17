@@ -9,7 +9,7 @@ struct UserDataView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     Text(user.initials)
                         .font(.poppins(.medium, size: 17))
-                        .foregroundStyle(.primaryBackgroundReversed)
+                        .foregroundStyle(.primaryReversed)
                     Row(data: user.email,
                               image: "mail",
                               imageColor: .accent)

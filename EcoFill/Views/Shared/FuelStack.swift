@@ -16,6 +16,6 @@ struct FuelStack: View {
             }
         }
         .scrollIndicators(.hidden)
-        .shadow(radius: 10)
+        .shadow(radius: 6)
     }
 }
