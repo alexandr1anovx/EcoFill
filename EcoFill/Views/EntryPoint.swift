@@ -10,14 +10,7 @@ struct EntryPoint: View {
         Group {
             if userVM.userSession != nil {
                 if isShownContent {
-                    TabView {
-                        HomeScreen()
-                            .tabItem { Label("Home", systemImage: "house") }
-                        MapScreen()
-                            .tabItem { Label("Map", systemImage: "map") }
-                        ProfileScreen()
-                            .tabItem { Label("Profile", systemImage: "person.fill")}
-                    }
+                    TabBarView()
                 } else {
                     LaunchView()
                 }
