@@ -31,6 +31,10 @@
 		32A1F7172CA22FAD00999723 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A1F7162CA22FAD00999723 /* LocationManager.swift */; };
 		32BCC2422B8424E800AE47D6 /* FuelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BCC2412B8424E800AE47D6 /* FuelCell.swift */; };
 		32D546B32C247DAF0074761A /* StationsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D546B22C247DAF0074761A /* StationsListCell.swift */; };
+		32DF06DA2CC165D10073A6A4 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DF06D92CC165D10073A6A4 /* TabBarView.swift */; };
+		32DF06DD2CC1748B0073A6A4 /* TabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DF06DC2CC1748B0073A6A4 /* TabBarButton.swift */; };
+		32DF06DF2CC181C60073A6A4 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DF06DE2CC181C60073A6A4 /* TabBarItem.swift */; };
+		32DF06E12CC19DF70073A6A4 /* StationMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DF06E02CC19DF70073A6A4 /* StationMark.swift */; };
 		32E563892B9CC7C5000BCFD4 /* CustomButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E563882B9CC7C5000BCFD4 /* CustomButtonStyle.swift */; };
 		32F4B5032B7A4ABF003EF8D3 /* StationsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F4B5022B7A4ABF003EF8D3 /* StationsList.swift */; };
 		32F4C3162BA0EF5A00B8A2E5 /* AnimatedButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F4C3152BA0EF5A00B8A2E5 /* AnimatedButtonStyle.swift */; };
@@ -85,6 +89,10 @@
 		32A1F7162CA22FAD00999723 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		32BCC2412B8424E800AE47D6 /* FuelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuelCell.swift; sourceTree = "<group>"; };
 		32D546B22C247DAF0074761A /* StationsListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationsListCell.swift; sourceTree = "<group>"; };
+		32DF06D92CC165D10073A6A4 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		32DF06DC2CC1748B0073A6A4 /* TabBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarButton.swift; sourceTree = "<group>"; };
+		32DF06DE2CC181C60073A6A4 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
+		32DF06E02CC19DF70073A6A4 /* StationMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationMark.swift; sourceTree = "<group>"; };
 		32E563882B9CC7C5000BCFD4 /* CustomButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonStyle.swift; sourceTree = "<group>"; };
 		32F4B5022B7A4ABF003EF8D3 /* StationsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsList.swift; sourceTree = "<group>"; };
 		32F4C3152BA0EF5A00B8A2E5 /* AnimatedButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedButtonStyle.swift; sourceTree = "<group>"; };
@@ -223,6 +231,16 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
+		32DF06DB2CC174770073A6A4 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				32DF06D92CC165D10073A6A4 /* TabBarView.swift */,
+				32DF06DC2CC1748B0073A6A4 /* TabBarButton.swift */,
+				32DF06DE2CC181C60073A6A4 /* TabBarItem.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
 		32FA10382C892B4D00F4C327 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -239,6 +257,8 @@
 			children = (
 				614314912B17F98F009A1D9C /* MapScreen.swift */,
 				611AD1322B1D3F4800BD5EB7 /* MapItemView.swift */,
+				32F4B5022B7A4ABF003EF8D3 /* StationsList.swift */,
+				32DF06E02CC19DF70073A6A4 /* StationMark.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -255,12 +275,12 @@
 		32FA103D2C892C8900F4C327 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				321FD8D92CC0826900868AFE /* Row.swift */,
+				32DF06DB2CC174770073A6A4 /* TabBar */,
 				329CE1D52CC048110074557F /* Cell */,
 				329CE1D42CC048080074557F /* Button */,
 				6171A4432B1DCE6400D22A23 /* UserDataView.swift */,
+				321FD8D92CC0826900868AFE /* Row.swift */,
 				610543692B34CF5700CFC9DB /* CustomTF.swift */,
-				32F4B5022B7A4ABF003EF8D3 /* StationsList.swift */,
 				32144CB92B81200E009C3081 /* FuelStack.swift */,
 				32044B782C87B04300D90077 /* CityPickerView.swift */,
 			);
@@ -447,16 +467,20 @@
 				61696B742B1F74EE00406421 /* Alert.swift in Sources */,
 				6171A4462B1DD11800D22A23 /* QRCodeView.swift in Sources */,
 				61E5E6142B17E981005B3D03 /* EntryPoint.swift in Sources */,
+				32DF06DF2CC181C60073A6A4 /* TabBarItem.swift in Sources */,
+				32DF06DA2CC165D10073A6A4 /* TabBarView.swift in Sources */,
 				329CE1CF2CC045F00074557F /* View+Extension.swift in Sources */,
 				61BEC9A12B1E703D00AF223D /* SettingScreen.swift in Sources */,
 				6171A4442B1DCE6400D22A23 /* UserDataView.swift in Sources */,
 				329CE1D12CC0472C0074557F /* String+Extension.swift in Sources */,
+				32DF06DD2CC1748B0073A6A4 /* TabBarButton.swift in Sources */,
 				32BCC2422B8424E800AE47D6 /* FuelCell.swift in Sources */,
 				32144CBA2B81200E009C3081 /* FuelStack.swift in Sources */,
 				32F4C3162BA0EF5A00B8A2E5 /* AnimatedButtonStyle.swift in Sources */,
 				32A1F7172CA22FAD00999723 /* LocationManager.swift in Sources */,
 				329613982B7914DD00649CAC /* AppSchemeCell.swift in Sources */,
 				61E5E6122B17E981005B3D03 /* EcoFillApp.swift in Sources */,
+				32DF06E12CC19DF70073A6A4 /* StationMark.swift in Sources */,
 				321FD8DA2CC0826900868AFE /* Row.swift in Sources */,
 				3242D11C2B728F04005BE4A3 /* Station.swift in Sources */,
 				32F5578B2CBF6AD100CB3CA4 /* Cell.swift in Sources */,
