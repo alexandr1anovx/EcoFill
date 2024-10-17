@@ -8,18 +8,12 @@ struct MapScreen: View {
     var body: some View {
         Map(position: $cameraPosition) {
             UserAnnotation()
+                .foregroundStyle(.primaryOrange)
             ForEach(stationVM.stations) { station in
                 let name = station.name
                 let coordinate = station.coordinate
                 Annotation(name, coordinate: coordinate) {
-                    Circle()
-                        .foregroundStyle(.accent.gradient)
-                        .frame(width: 30, height: 32)
-                        .overlay {
-                            Image(systemName: "fuelpump.fill")
-                                .foregroundStyle(.primaryBlack)
-                                .font(.callout)
-                        }
+                    StationMark()
                         .onTapGesture {
                             stationVM.selectedStation = station
                             stationVM.isDetailsShown = true
@@ -54,8 +48,8 @@ struct MapScreen: View {
         }
         .sheet(isPresented: $stationVM.isDetailsShown) {
             MapItemView(station: stationVM.selectedStation ?? .emptyStation)
+                .presentationDetents([.height(270)])
                 .presentationDragIndicator(.visible)
-                .presentationDetents([.height(300)])
                 .presentationCornerRadius(20)
         }
         .task(id: stationVM.isRouteShown) {

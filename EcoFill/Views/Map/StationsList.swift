@@ -11,7 +11,7 @@ struct StationsList: View {
 
     var body: some View {
         ZStack {
-            Color.primaryBackground.ignoresSafeArea()
+            Color.primaryBlue.ignoresSafeArea()
             
             VStack {
                 Picker("", selection: $userVM.selectedCity) {
