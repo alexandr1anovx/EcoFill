@@ -57,12 +57,3 @@ extension Font {
         return .custom(type.value, size: size)
     }
 }
-
-// MARK: - Color
-extension Color {
-    static let gradientBlueBlack = LinearGradient(
-        colors: [.primaryBlue, .primaryBlack],
-        startPoint: .bottomLeading,
-        endPoint: .top
-    )
-}
