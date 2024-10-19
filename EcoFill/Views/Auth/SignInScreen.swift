@@ -18,11 +18,10 @@ struct SignInScreen: View {
                 Color.primaryBackground.ignoresSafeArea()
                 
                 VStack(spacing: 20) {
-                    Image(.logo)
+                    Image("logo")
                         .frame(height: 100)
                     if isShownForm {
                         VStack(spacing: 15) {
-                            
                             CustomTF(header: "Email",
                                      placeholder: "Enter your email address",
                                      data: $email)
@@ -42,10 +41,12 @@ struct SignInScreen: View {
                         }
                         
                         HStack(spacing: 10) {
-                            Btn(title: "Sign In", image: "userCheckmark", color: .accent) {
+                            Btn(title: "Sign In", image: "userFill", color: .accent) {
                                 Task {
-                                    await userVM.signIn(withEmail: email,
-                                                        password: password)
+                                    await userVM.signIn(
+                                        withEmail: email,
+                                        password: password
+                                    )
                                 }
                             }
                             .disabled(!isValidForm)
@@ -64,52 +65,28 @@ struct SignInScreen: View {
                             Spacer()
                         }
                     }
-                    
                     Spacer()
                 }
-                .padding(.top, 50)
+                .padding(.top, 40)
                 .padding(.horizontal, 20)
-            }
-            .onTapGesture {
-                UIApplication.shared.endEditing()
             }
             .alert(item: $userVM.alertItem) { alert in
                 Alert(title: alert.title,
                       message: alert.message,
                       dismissButton: alert.dismissButton)
             }
+            .onTapGesture {
+                // Hides the keyboard when user tap on any part of the screen.
+                UIApplication.shared.endEditing()
+            }
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     withAnimation(.spring(duration: 1)) {
-                        isShownForm.toggle()
+                        isShownForm = true
                     }
                 }
             }
         }
     }
 }
-struct SignUpOptionView: View {
-    var body: some View {
-        
-        HStack(spacing: 10) {
-            
-            Btn(title: "Sign In", image: "userCheckmark", color: .accent, action: {})
-            
-            Text("New member?")
-                .font(.poppins(.regular, size: 14))
-                .foregroundStyle(.gray)
-            
-            NavigationLink("Sign Up") {
-                SignUpScreen()
-            }
-            .font(.poppins(.medium, size: 16))
-            .foregroundStyle(.accent)
-            
-            Spacer()
-        }
-    }
-}
 
-#Preview {
-    SignUpOptionView()
-}
