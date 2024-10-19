@@ -23,7 +23,7 @@ struct TabBarButton: View {
                 Image(image)
                     .resizable()
                     .frame(width: 24, height: 24)
-                    .foregroundStyle(.primaryWhite)
+                    .foregroundStyle(.tabBarIcon)
                     .opacity(0.8)
                 
                 if selectedTab == tab {
@@ -34,9 +34,7 @@ struct TabBarButton: View {
             }
             .padding(.vertical, 10)
             .padding(.horizontal)
-            .background(
-                Color.primaryWhite.opacity(selectedTab == tab ? 0.06 : 0.0)
-            )
+            .background(.primaryWhite.opacity(selectedTab == tab ? 0.08 : 0.0))
             .clipShape(.capsule)
         }
     }

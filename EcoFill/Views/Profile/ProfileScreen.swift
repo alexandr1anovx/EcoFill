@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ProfileScreen: View {
     
+    @Binding var isShownTabBar: Bool
     @State private var isShownAlert: Bool = false
     @EnvironmentObject var userVM: UserViewModel
     
@@ -37,6 +38,7 @@ struct ProfileScreen: View {
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink {
                             SettingScreen()
+                                .onAppear { isShownTabBar = false }
                         } label: {
                             Image("gear")
                                 .navigationBarImageSize
@@ -54,6 +56,7 @@ struct ProfileScreen: View {
                 } message: {
                     Text("Will redirect you to the Sign In screen.")
                 }
+                .onAppear { isShownTabBar = true }
             }
         }
     }

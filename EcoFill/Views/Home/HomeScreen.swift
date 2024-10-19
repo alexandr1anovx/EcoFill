@@ -1,8 +1,9 @@
 import SwiftUI
 
 struct HomeScreen: View {
+    
+    @Binding var isShownTabBar: Bool
     @State private var isShownQR: Bool = false
-    let services = Service.services
     
     var body: some View {
         NavigationStack {
@@ -13,10 +14,13 @@ struct HomeScreen: View {
                     UserDataView()
                     CityFuelsView()
                         .padding(15)
-                    List(services) { service in
+                    List(Service.services) { service in
+                        
                         NavigationLink {
                             switch service.type {
-                            case .support: SupportScreen()
+                            case .support: 
+                                SupportScreen()
+                                    .onAppear { isShownTabBar = false }
                             }
                         } label: {
                             Cell(title: service.type.rawValue,
@@ -53,6 +57,7 @@ struct HomeScreen: View {
                         .presentationDragIndicator(.visible)
                         .presentationCornerRadius(20)
                 }
+                .onAppear { isShownTabBar = true }
             }
         }
     }
