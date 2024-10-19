@@ -18,6 +18,6 @@ struct CustomButtonStyle: ButtonStyle {
         return baseButton
             .opacity(configuration.isPressed ? 0.5 : 1.0)
             .scaleEffect(configuration.isPressed ? 0.8 : 1.0)
-            .animation(.bouncy, value: configuration.isPressed)
+            .animation(.easeInOut(duration: 0.2), value: configuration.isPressed)
     }
 }
