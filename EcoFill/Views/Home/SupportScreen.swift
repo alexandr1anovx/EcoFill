@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct SupportScreen: View {
+    
     @State private var isShownAlert: Bool = false
     @State private var email: String = ""
     @State private var message: String = ""
@@ -32,17 +33,16 @@ struct SupportScreen: View {
                     data: $message
                 )
                 .focused($textFieldContent, equals: .feedbackMessage)
-                .submitLabel(.send)
+                .submitLabel(.done)
                 .onSubmit {
                     message = ""
                     textFieldContent = nil
                     isShownAlert.toggle()
                 }
                 
-                Btn(title: "Send message",
+                Btn(title: "Send message", 
                     image: "message",
                     color: .accent) {
-                    // Action
                     isShownAlert.toggle()
                     message = ""
                     textFieldContent = nil
@@ -52,10 +52,11 @@ struct SupportScreen: View {
                 
                 Spacer()
             }
-            .padding(.top, 40)
-            .padding(.horizontal, 22)
+            .padding(.top, 20)
+            .padding(.horizontal, 20)
             .navigationTitle("Support")
             .navigationBarBackButtonHidden(true)
+        
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     BackBtn()

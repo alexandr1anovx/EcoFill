@@ -16,14 +16,9 @@ struct StationMark: View {
                 Image("gasStation")
                     .resizable()
                     .frame(width: 19, height: 19)
-                    .foregroundStyle(.primaryOrange.gradient)
-                    .padding(.leading, 1.6)
-                    
+                    .foregroundStyle(.primaryOrange)
+                    .padding(.leading, 1.6)       
             }
             .shadow(radius: 4)
     }
-}
-
-#Preview {
-    StationMark()
 }

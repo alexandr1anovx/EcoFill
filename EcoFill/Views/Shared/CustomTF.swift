@@ -25,10 +25,11 @@ struct CustomTF: View {
             .font(.poppins(.regular, size: 13))
             .foregroundStyle(.gray)
             
-            Rectangle()
-                .frame(height: 0.5)
-                .foregroundStyle(.gray)
-                .opacity(0.4)
+            Divider()
+//            Rectangle()
+//                .frame(height: 0.5)
+//                .foregroundStyle(.gray)
+//                .opacity(0.4)
         }
     }
 }

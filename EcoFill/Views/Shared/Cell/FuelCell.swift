@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum FuelType: String {
-    case euroA95 = "A95 Euro"
+    case euroA95 = "A-95"
     case euroDP = "DP Euro"
     case gas = "Gas"
 }
@@ -15,19 +15,16 @@ struct FuelCell: View {
             Text(type.rawValue)
                 .font(.poppins(.medium, size: 15))
                 .foregroundStyle(.primaryWhite)
+                
             Text("\(price, specifier: "₴%.2f")")
                 .font(.poppins(.medium, size: 15))
-                .foregroundStyle(.accent)
+                .foregroundStyle(.primaryTeal)
         }
         .padding(.vertical, 13)
         .padding(.horizontal, 15)
         .background(
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: 12)
                 .fill(Color.primaryBlue.gradient)
         )
     }
-}
-
-#Preview {
-    FuelCell(type: .euroA95, price: 50.50)
 }

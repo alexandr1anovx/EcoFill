@@ -93,7 +93,7 @@ final class UserViewModel: ObservableObject {
         }
     }
     
-    func updateEmail(to newEmail: String, with password: String) async {
+    func updateCurrentEmail(to newEmail: String, with password: String) async {
         guard let user = userSession else { return }
         guard let currentEmail = user.email else { return }
         

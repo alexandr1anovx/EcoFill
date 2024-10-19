@@ -2,6 +2,8 @@ import SwiftUI
 import MapKit
 
 struct MapScreen: View {
+    
+    @Binding var isShownTabBar: Bool
     @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
     @EnvironmentObject var stationVM: StationViewModel
     
@@ -50,10 +52,13 @@ struct MapScreen: View {
             MapItemView(station: stationVM.selectedStation ?? .emptyStation)
                 .presentationDetents([.height(270)])
                 .presentationDragIndicator(.visible)
-                .presentationCornerRadius(20)
+                .presentationCornerRadius(25)
         }
         .task(id: stationVM.isRouteShown) {
             await stationVM.toggleRoutePresentation()
+        }
+        .onAppear {
+            isShownTabBar = true
         }
     }
 }

@@ -26,6 +26,9 @@ struct EcoFillApp: App {
                 .preferredColorScheme(appScheme.colorScheme)
                 .environmentObject(userVM)
                 .environmentObject(stationVM)
+                .onAppear {
+                    stationVM.getStations() // Get the stations data from the Firebase
+                }
         }
     }
 }

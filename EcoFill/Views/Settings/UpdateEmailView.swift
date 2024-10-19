@@ -42,7 +42,7 @@ struct UpdateEmailView: View {
                     image: "userCheckmark",
                     color: .accent) {
                     Task {
-                        await userVM.updateEmail(to: newEmail, with: password)
+                        await userVM.updateCurrentEmail(to: newEmail, with: password)
                     }
                 }
                 .disabled(!isFormValid)

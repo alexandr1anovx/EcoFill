@@ -40,8 +40,3 @@ struct MapItemView: View {
         }
     }
 }
-
-#Preview {
-    MapItemView(station: Station.emptyStation)
-        .environmentObject(StationViewModel())
-}
