@@ -46,6 +46,7 @@ struct SettingScreen: View {
                 .padding(.top, 20)
                 .padding(.horizontal)
                 .navigationTitle("Settings")
+                .navigationBarTitleDisplayMode(.inline)
                 .navigationBarBackButtonHidden(true)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {

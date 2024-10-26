@@ -55,8 +55,8 @@ struct SupportScreen: View {
             .padding(.top, 20)
             .padding(.horizontal, 20)
             .navigationTitle("Support")
+            .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
-        
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     BackBtn()
