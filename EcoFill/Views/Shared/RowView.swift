@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct Row: View {
+struct RowView: View {
     let data: String
     let image: String
     let imageColor: Color

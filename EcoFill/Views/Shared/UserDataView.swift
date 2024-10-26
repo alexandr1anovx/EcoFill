@@ -10,12 +10,12 @@ struct UserDataView: View {
                     Text(user.initials)
                         .font(.poppins(.medium, size: 17))
                         .foregroundStyle(.primaryReversed)
-                    Row(data: user.email,
+                    RowView(data: user.email,
                               image: "mail",
                               imageColor: .accent)
                 }
                 Spacer()
-                Row(data: user.city, 
+                RowView(data: user.city, 
                           image: "mark",
                           imageColor: .accent)
             }

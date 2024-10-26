@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct StationMark: View {
+struct StationMarkView: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 30)
             .foregroundStyle(.primaryBlue.gradient)

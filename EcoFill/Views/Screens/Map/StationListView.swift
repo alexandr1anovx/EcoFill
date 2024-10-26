@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct StationList: View {
+struct StationListView: View {
     
     @EnvironmentObject var userVM: UserViewModel
     @EnvironmentObject var stationVM: StationViewModel

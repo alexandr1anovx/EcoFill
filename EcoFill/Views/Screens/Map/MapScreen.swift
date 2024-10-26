@@ -15,7 +15,7 @@ struct MapScreen: View {
                 let name = station.name
                 let coordinate = station.coordinate
                 Annotation(name, coordinate: coordinate) {
-                    StationMark()
+                    StationMarkView()
                         .onTapGesture {
                             stationVM.selectedStation = station
                             stationVM.isDetailsShown = true
@@ -43,7 +43,7 @@ struct MapScreen: View {
             .padding(.top, 60)
         }
         .sheet(isPresented: $stationVM.isListShown) {
-            StationList()
+            StationListView()
                 .presentationDetents([.height(400), .large])
                 .presentationDragIndicator(.visible)
                 .presentationCornerRadius(20)

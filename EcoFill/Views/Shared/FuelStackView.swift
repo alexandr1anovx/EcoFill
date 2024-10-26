@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct FuelStack: View {
+struct FuelStackView: View {
     let station: Station
     
     init(for station: Station) {

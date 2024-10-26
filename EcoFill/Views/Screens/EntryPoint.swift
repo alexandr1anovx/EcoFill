@@ -26,3 +26,12 @@ struct EntryPoint: View {
         }
     }
 }
+
+struct LaunchView: View {
+    var body: some View {
+        ZStack {
+            Color.primaryBackground.ignoresSafeArea()
+            Image("logo")
+        }
+    }
+}
