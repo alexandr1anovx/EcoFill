@@ -16,7 +16,7 @@ struct StationListCell: View {
                 Text(station.street)
                     .font(.poppins(.medium, size: 14))
                     .foregroundStyle(.primaryReversed)
-                Row(data: station.schedule,
+                RowView(data: station.schedule,
                     image: "clock",
                     imageColor: .accent)
             }

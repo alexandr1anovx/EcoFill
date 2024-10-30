@@ -14,8 +14,8 @@ struct SettingScreen: View {
                 Color.primaryBackground.ignoresSafeArea()
                 
                 VStack(alignment: .leading, spacing: 10) {
-                    Row(data: user.initials, image: "user", imageColor: .accent)
-                    Row(data: user.email,
+                    RowView(data: user.initials, image: "user", imageColor: .accent)
+                    RowView(data: user.email,
                         image: userVM.isEmailVerified ? "userCheckmark" : "userXmark",
                         imageColor: userVM.isEmailVerified ? .accent : .red)
                     

@@ -10,7 +10,7 @@ struct CityFuelsView: View {
     
     var body: some View {
         if !stationVM.stations.isEmpty {
-            FuelStack(for: stationInSelectedCity ?? .emptyStation)
+            FuelStackView(for: stationInSelectedCity ?? .emptyStation)
         } else {
             ContentUnavailableView(
                 "Failed to load stations",

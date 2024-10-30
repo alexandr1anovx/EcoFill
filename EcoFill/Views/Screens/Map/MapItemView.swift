@@ -10,17 +10,17 @@ struct MapItemView: View {
             
             VStack(alignment: .leading, spacing: 20) {
                 Spacer()
-                Row(data: station.address, image: "mark", imageColor: .accent)
-                Row(data: station.schedule, image: "clock", imageColor: .accent)
+                RowView(data: station.address, image: "mark", imageColor: .accent)
+                RowView(data: station.schedule, image: "clock", imageColor: .accent)
                 HStack {
-                    Row(data: "Pay with:",  image: "wallet", imageColor: .accent)
+                    RowView(data: "Pay with:",  image: "wallet", imageColor: .accent)
                     Text("Cash, Mastercard, Pay")
                         .font(.poppins(.medium, size: 13))
                         .foregroundStyle(.primaryReversed)
                         .opacity(0.8)
                 }
                 
-                FuelStack(for: station)
+                FuelStackView(for: station)
                 
                 if stationVM.isRouteShown {
                     Btn(title: "Hide",
