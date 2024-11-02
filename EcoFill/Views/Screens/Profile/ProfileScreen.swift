@@ -54,7 +54,7 @@ struct ProfileScreen: View {
                         }
                     }
                 } message: {
-                    Text("Will redirect you to the Sign In screen.")
+                    Text("This action will redirect you to the Sign In screen.")
                 }
                 .onAppear { isShownTabBar = true }
             }
