@@ -14,7 +14,7 @@ final class StationViewModel: ObservableObject {
     @Published var isListShown: Bool = false
     
     // MARK: - Private Properties
-    private let locationService = LocationManager.shared
+    private let locationManager = LocationManager.shared
     
     // MARK: - Public Methods
     func getStations() {
@@ -64,7 +64,7 @@ final class StationViewModel: ObservableObject {
         
         guard let station else { return }
         
-        guard let userLocation = locationService.manager.location else { return }
+        guard let userLocation = locationManager.manager.location else { return }
         
         let userCoordinate = userLocation.coordinate
         let userPlacemark = MKPlacemark(coordinate: userCoordinate)
