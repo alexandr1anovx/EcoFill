@@ -1,20 +1,20 @@
 import Foundation
 
 enum ServiceType: String {
-    case support = "Support"
+  case support = "Support"
 }
 
 struct Service: Identifiable {
-    let id = UUID()
-    let image: String
-    let type: ServiceType
-    let description: String
-    
-    static let services: [Service] = [
-        Service(
-            image: "feedback",
-            type: .support,
-            description: "Send a feedback about us."
-        )
-    ]
+  let id = UUID()
+  let image: String
+  let type: ServiceType
+  let description: String
+  
+  static let services: [Service] = [
+    Service(
+      image: "feedback",
+      type: .support,
+      description: "Send a feedback about us."
+    )
+  ]
 }
