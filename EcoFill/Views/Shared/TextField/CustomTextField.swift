@@ -4,7 +4,7 @@ enum TextFieldContent {
     case initials, email, password, feedbackMessage
 }
 
-struct CustomTF: View {
+struct CustomTextField: View {
     let header: String
     let placeholder: String
     let data: Binding<String>
