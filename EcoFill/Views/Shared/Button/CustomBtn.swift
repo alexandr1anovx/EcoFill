@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct Btn: View {
+struct CustomBtn: View {
     let title: String
     let image: String
     let color: Color

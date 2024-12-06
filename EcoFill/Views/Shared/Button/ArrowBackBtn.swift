@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct BackBtn: View {
+struct ArrowBackBtn: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
