@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct EntryPoint: View {
+struct LaunchScreen: View {
     
     @State private var isShownContent: Bool = false
     @EnvironmentObject var userVM: UserViewModel
@@ -11,7 +11,11 @@ struct EntryPoint: View {
                 if isShownContent {
                     TabBarView()   
                 } else {
-                    LaunchView()
+                  // Launch Screen
+                  ZStack {
+                      Color.primaryBackground.ignoresSafeArea()
+                      Image("logo")
+                  }
                 }
             } else {
                 SignInScreen()
@@ -23,15 +27,6 @@ struct EntryPoint: View {
                     isShownContent.toggle()
                 }
             }
-        }
-    }
-}
-
-struct LaunchView: View {
-    var body: some View {
-        ZStack {
-            Color.primaryBackground.ignoresSafeArea()
-            Image("logo")
         }
     }
 }
