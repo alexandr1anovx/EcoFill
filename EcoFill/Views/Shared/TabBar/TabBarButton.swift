@@ -29,7 +29,7 @@ struct TabBarButton: View {
                 if selectedTab == tab {
                     Text(title)
                         .font(.poppins(.medium, size: 16))
-                        .foregroundStyle(.primaryWhite)
+                        .foregroundStyle(.tabBarIcon)
                 }
             }
             .padding(.vertical, 10)
@@ -38,4 +38,8 @@ struct TabBarButton: View {
             .clipShape(.capsule)
         }
     }
+}
+
+#Preview {
+  TabBarButton(title: "Home", image: "house", tab: .home, selectedTab: .constant(.home))
 }

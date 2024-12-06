@@ -39,14 +39,14 @@ struct TabBarView: View {
                         }
                     }
                 }
-                .padding(.vertical, 11)
+                .padding(.vertical, 12)
                 .padding(.horizontal)
                 .background(.tabBarBackground)
                 .clipShape(.capsule)
                 .padding(.horizontal, 25)
-                .shadow(radius: 8)
+                .shadow(radius: 5)
+                .padding(.bottom, 10)
             }
         }
     }
 }
-
