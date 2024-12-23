@@ -10,10 +10,10 @@ struct MapItemView: View {
       
       VStack(alignment: .leading, spacing: 20) {
         Spacer()
-        RowView(data: station.address, image: "mark", imageColor: .accent)
-        RowView(data: station.schedule, image: "clock", imageColor: .accent)
+        CustomRow(data: station.address, image: "mark", imageColor: .accent)
+        CustomRow(data: station.schedule, image: "clock", imageColor: .accent)
         HStack {
-          RowView(data: "Pay with:",  image: "wallet", imageColor: .accent)
+          CustomRow(data: "Pay with:",  image: "wallet", imageColor: .accent)
           Text("Cash, Mastercard, Pay")
             .font(.poppins(.medium, size: 13))
             .foregroundStyle(.primaryReversed)
