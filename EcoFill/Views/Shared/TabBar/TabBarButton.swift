@@ -8,38 +8,34 @@
 import SwiftUI
 
 struct TabBarButton: View {
-    let title: String
-    let image: String
-    let tab: TabBarItem
-    @Binding var selectedTab: TabBarItem
-    
-    var body: some View {
-        Button {
-            withAnimation(.spring) {
-                selectedTab = tab
-            }
-        } label: {
-            HStack(spacing: 10) {
-                Image(image)
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundStyle(.tabBarIcon)
-                    .opacity(0.8)
-                
-                if selectedTab == tab {
-                    Text(title)
-                        .font(.poppins(.medium, size: 16))
-                        .foregroundStyle(.tabBarIcon)
-                }
-            }
-            .padding(.vertical, 10)
-            .padding(.horizontal)
-            .background(.primaryWhite.opacity(selectedTab == tab ? 0.08 : 0.0))
-            .clipShape(.capsule)
+  let title: String
+  let image: String
+  let tab: TabBarItem
+  @Binding var selectedTab: TabBarItem
+  
+  var body: some View {
+    Button {
+      withAnimation(.spring) {
+        selectedTab = tab
+      }
+    } label: {
+      HStack(spacing: 10) {
+        Image(image)
+          .resizable()
+          .frame(width: 24, height: 24)
+          .foregroundStyle(.tabBarIcon)
+          .opacity(0.8)
+        
+        if selectedTab == tab {
+          Text(title)
+            .font(.poppins(.medium, size: 16))
+            .foregroundStyle(.tabBarIcon)
         }
+      }
+      .padding(.vertical, 10)
+      .padding(.horizontal)
+      .background(.primaryWhite.opacity(selectedTab == tab ? 0.08 : 0.0))
+      .clipShape(.capsule)
     }
-}
-
-#Preview {
-  TabBarButton(title: "Home", image: "house", tab: .home, selectedTab: .constant(.home))
+  }
 }
