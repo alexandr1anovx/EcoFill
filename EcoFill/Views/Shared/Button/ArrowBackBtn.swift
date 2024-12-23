@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct ArrowBackBtn: View {
-    @Environment(\.dismiss) var dismiss
-    
-    var body: some View {
-        Button {
-            dismiss()
-        } label: {
-            Image(systemName: "arrow.backward.circle.fill")
-        }
-        .font(.title3)
-        .buttonStyle(.animated)
-        .foregroundStyle(.accent)
+  @Environment(\.dismiss) var dismiss
+  
+  var body: some View {
+    Button {
+      dismiss()
+    } label: {
+      Image(systemName: "arrow.backward.circle.fill")
     }
+    .font(.title3)
+    .buttonStyle(.animated)
+    .foregroundStyle(.accent)
+  }
 }
