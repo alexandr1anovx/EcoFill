@@ -15,7 +15,7 @@ struct SupportScreen: View {
       Color.primaryBackground.ignoresSafeArea()
       
       VStack(alignment: .leading, spacing: 25) {
-        CustomTF(
+        CustomTextField(
           header: "Email",
           placeholder: "Enter email address",
           data: $email
@@ -27,7 +27,7 @@ struct SupportScreen: View {
         .submitLabel(.next)
         .onSubmit { textFieldContent = .feedbackMessage }
         
-        CustomTF(
+        CustomTextField(
           header: "Message",
           placeholder: "At least 10 characters",
           data: $message
@@ -40,7 +40,7 @@ struct SupportScreen: View {
           isShownAlert.toggle()
         }
         
-        Btn(title: "Send message", image: "message", color: .accent) {
+        CustomBtn(title: "Send message", image: "message", color: .accent) {
           isShownAlert.toggle()
           message = ""
           textFieldContent = nil
@@ -57,7 +57,7 @@ struct SupportScreen: View {
       .navigationBarBackButtonHidden(true)
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
-          BackBtn()
+          ArrowBackBtn()
         }
       }
       .onAppear {

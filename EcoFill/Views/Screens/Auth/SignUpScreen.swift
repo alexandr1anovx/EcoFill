@@ -58,6 +58,7 @@ struct SignUpScreen: View {
       .padding(.top, 25)
       .padding(.horizontal, 20)
       .navigationTitle("Sign Up")
+      .navigationBarTitleDisplayMode(.inline)
       .navigationBarBackButtonHidden(true)
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
