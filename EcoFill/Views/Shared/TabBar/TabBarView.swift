@@ -45,7 +45,6 @@ struct TabBarView: View {
         .clipShape(.capsule)
         .padding(.horizontal, 25)
         .shadow(radius: 5)
-        .padding(.bottom, 10)
       }
     }
   }
