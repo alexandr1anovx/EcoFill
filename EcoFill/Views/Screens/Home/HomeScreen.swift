@@ -2,35 +2,19 @@ import SwiftUI
 
 struct HomeScreen: View {
   
+  @State private var isShownQRCode = false
   @Binding var isShownTabBar: Bool
-  @State private var isShownQR: Bool = false
+  private let services = Service.services
   
   var body: some View {
     NavigationStack {
       ZStack {
-        Color.primaryBackground.ignoresSafeArea()
+        Color.primaryBackground.ignoresSafeArea(.all)
         
         VStack {
           UserDataView()
-          CityFuelsView()
-            .padding(15)
-          List(Service.services) { service in
-            
-            NavigationLink {
-              switch service.type {
-              case .support:
-                SupportScreen()
-                  .onAppear { isShownTabBar = false }
-              }
-            } label: {
-              CustomListCell(title: service.type.rawValue,
-                   description: service.description,
-                   image: service.image,
-                   imageColor: .accent)
-            }
-            .listRowBackground(Color.primaryBackground)
-          }
-          .listStyle(.plain)
+          CityFuelsGrid().padding(15)
+          serviceList
         }
         .navigationTitle("Home")
         .navigationBarTitleDisplayMode(.inline)
@@ -42,23 +26,46 @@ struct HomeScreen: View {
           }
           ToolbarItem(placement: .topBarTrailing) {
             Button {
-              isShownQR.toggle()
+              isShownQRCode.toggle()
             } label: {
               Image("qrcode")
                 .navigationBarImageSize
                 .foregroundStyle(.accent)
             }
             .buttonStyle(.animated)
+            .sheet(isPresented: $isShownQRCode) {
+              QRCodeView()
+                .presentationDetents([.height(250)])
+                .presentationDragIndicator(.visible)
+                .presentationCornerRadius(20)
+            }
           }
         }
-        .sheet(isPresented: $isShownQR) {
-          QRCodeView()
-            .presentationDetents([.height(250)])
-            .presentationDragIndicator(.visible)
-            .presentationCornerRadius(20)
-        }
-        .onAppear { isShownTabBar = true }
-      }
+      } // ZStack end
+      .onAppear { isShownTabBar = true }
     }
+  }
+  
+  // MARK: - Service List Component
+  @ViewBuilder
+  private var serviceList: some View {
+    List(services) { service in
+      NavigationLink {
+        switch service.type {
+        case .support:
+          SupportScreen()
+            .onAppear { isShownTabBar = false }
+        }
+      } label: {
+        PlainListCell(
+          title: service.type.rawValue.capitalized,
+          description: service.description,
+          image: service.image,
+          imageColor: .accent
+        )
+      }
+      .listRowBackground(Color.primaryBackground)
+    }
+    .listStyle(.plain)
   }
 }

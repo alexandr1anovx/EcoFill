@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct CityFuelsView: View {
+struct CityFuelsGrid: View {
   @EnvironmentObject var userVM: UserViewModel
   @EnvironmentObject var stationVM: StationViewModel
   

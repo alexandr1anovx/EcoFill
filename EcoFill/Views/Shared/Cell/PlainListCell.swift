@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CustomListCell: View {
+struct PlainListCell: View {
   let title: String
   let description: String
   let image: String
