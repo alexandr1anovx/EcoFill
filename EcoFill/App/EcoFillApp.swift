@@ -16,14 +16,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct EcoFillApp: App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
   
-  @AppStorage("appTheme") private var appTheme: Theme = .system
+  @AppStorage("appColorScheme") private var appColorScheme: AppColorScheme = .system
   @StateObject private var userVM = UserViewModel()
   @StateObject private var stationVM = StationViewModel()
   
   var body: some Scene {
     WindowGroup {
       LaunchScreen()
-        .preferredColorScheme(appTheme.colorScheme)
+        .preferredColorScheme(appColorScheme.colorScheme)
         .environmentObject(userVM)
         .environmentObject(stationVM)
         .onAppear {
