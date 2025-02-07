@@ -25,24 +25,29 @@ struct HomeScreen: View {
               .frame(width: 54, height: 54)
           }
           ToolbarItem(placement: .topBarTrailing) {
-            Button {
-              isShownQRCode.toggle()
-            } label: {
-              Image("qrcode")
-                .navigationBarImageSize
-                .foregroundStyle(.accent)
-            }
-            .buttonStyle(.animated)
-            .sheet(isPresented: $isShownQRCode) {
-              QRCodeView()
-                .presentationDetents([.height(250)])
-                .presentationDragIndicator(.visible)
-                .presentationCornerRadius(20)
-            }
+            qrcodeButton
           }
         }
       } // ZStack end
       .onAppear { isShownTabBar = true }
+    }
+  }
+  
+  // MARK: - QR Code Button
+  private var qrcodeButton: some View {
+    Button {
+      isShownQRCode.toggle()
+    } label: {
+      Image("qrcode")
+        .navigationBarImageSize
+        .foregroundStyle(.accent)
+    }
+    .buttonStyle(.animated)
+    .sheet(isPresented: $isShownQRCode) {
+      QRCodeView()
+        .presentationDetents([.height(250)])
+        .presentationDragIndicator(.visible)
+        .presentationCornerRadius(20)
     }
   }
   
