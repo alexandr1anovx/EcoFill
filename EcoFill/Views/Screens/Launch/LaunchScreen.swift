@@ -11,7 +11,6 @@ struct LaunchScreen: View {
         if isShownContent {
           TabBarView()
         } else {
-          // Launch Screen
           ZStack {
             Color.primaryBackground.ignoresSafeArea()
             Image("logo")
