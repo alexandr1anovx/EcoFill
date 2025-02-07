@@ -6,7 +6,7 @@ enum FuelType: String {
   case gas = "Gas"
 }
 
-struct FuelCell: View {
+struct CustomFuelCell: View {
   let type: FuelType
   let price: Double
   
