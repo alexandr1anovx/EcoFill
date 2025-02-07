@@ -9,7 +9,7 @@ struct QRCodeView: View {
   
   var body: some View {
     ZStack {
-      Color.primaryBackground.ignoresSafeArea()
+      Color.primaryBackground.ignoresSafeArea(.all)
       
       VStack(alignment: .center) {
         if let user = userVM.currentUser {
@@ -23,10 +23,8 @@ struct QRCodeView: View {
       }
     }
   }
-}
-
-private extension QRCodeView {
-  func generateQRCode(from string: String) -> UIImage {
+  
+  private func generateQRCode(from string: String) -> UIImage {
     filter.message = Data(string.utf8)
     if let outputImage = filter.outputImage,
        let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
