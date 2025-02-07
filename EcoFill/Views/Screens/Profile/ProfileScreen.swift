@@ -14,9 +14,9 @@ struct ProfileScreen: View {
         VStack {
           UserDataView()
           List {
-            AppThemeCell()
+            AppColorSchemeCell()
               .listRowBackground(Color.primaryBackground)
-            Cell(title: "Sign Out",
+            CustomListCell(title: "Sign Out",
                  description: "Sign out from current account.",
                  image: "logout",
                  imageColor: .primaryRed)

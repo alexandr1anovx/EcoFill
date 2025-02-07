@@ -23,7 +23,7 @@ struct HomeScreen: View {
                   .onAppear { isShownTabBar = false }
               }
             } label: {
-              Cell(title: service.type.rawValue,
+              CustomListCell(title: service.type.rawValue,
                    description: service.description,
                    image: service.image,
                    imageColor: .accent)
