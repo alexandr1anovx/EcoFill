@@ -2,10 +2,10 @@ import SwiftUI
 
 struct SignInScreen: View {
   
-  @State private var isShownForm: Bool = false
-  @State private var email: String = ""
-  @State private var password: String = ""
-  @FocusState private var textFieldContent: TextFieldContent?
+  @State private var isFormVisible = false
+  @State private var email = ""
+  @State private var password = ""
+  @FocusState private var fieldContent: AuthFieldContent?
   @EnvironmentObject var userVM: UserViewModel
   
   private var isValidForm: Bool {
@@ -15,76 +15,96 @@ struct SignInScreen: View {
   var body: some View {
     NavigationStack {
       ZStack {
-        Color.primaryBackground.ignoresSafeArea()
-        
-        VStack(alignment: .leading, spacing: 22) {
-          HStack {
-            Spacer()
-            Image("logo")
-              .frame(height: 100)
-            Spacer()
-          }
+        Color.primaryBlack.ignoresSafeArea(.all)
+        VStack(alignment: .leading, spacing: 20) {
+          logoImage
           
-          if isShownForm {
-            VStack(spacing: 20) {
-              CustomTextField(header: "Email",
-                              placeholder: "Enter your email address",
-                              data: $email)
-              .textInputAutocapitalization(.never)
-              .keyboardType(.emailAddress)
-              .focused($textFieldContent, equals: .email)
-              .submitLabel(.next)
-              .onSubmit { textFieldContent = .password }
-              
-              CustomTextField(header: "Password",
-                              placeholder: "Enter your password",
-                              data: $password,
-                              isSecure: true)
-              .focused($textFieldContent, equals: .password)
-              .submitLabel(.done)
-              .onSubmit { textFieldContent = nil }
-            }
-            
-            CustomBtn(title: "Sign In", image: "userFill", color: .accent) {
-              Task {
-                await userVM.signIn(withEmail: email, password: password)
-              }
-            }
-            .disabled(!isValidForm)
-            .opacity(isValidForm ? 1.0 : 0.5)
-            
-            HStack(spacing: 5) {
-              Text("New member?")
-                .font(.poppins(.regular, size: 14))
-                .foregroundStyle(.gray)
-              
-              NavigationLink("Sign Up") {
-                SignUpScreen()
-              }
-              .font(.poppins(.medium, size: 16))
-              .foregroundStyle(.accent)
-            }
+          if isFormVisible {
+            textFieldStack
+            signInButton
+            signUpOption
           }
           Spacer()
         }
-        .padding(.top, 15)
-        .padding(.horizontal, 20)
-      }
-      .alert(item: $userVM.alertItem) { alert in
-        Alert(title: alert.title,
-              message: alert.message,
-              dismissButton: alert.dismissButton)
+        .padding(.top, 20)
+        .padding(.horizontal, 15)
       }
       .onTapGesture {
-        // Hides the keyboard when user taps on any part of the screen.
-        UIApplication.shared.endEditing()
+        UIApplication.shared.hideKeyboard()
       }
       .onAppear {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
           withAnimation(.spring(duration: 1)) {
-            isShownForm = true
+            isFormVisible = true
           }
         }
+      }
+    }
+  }
+  
+  // MARK: - Logo Image
+  private var logoImage: some View {
+    HStack {
+      Spacer()
+      Image("logo").frame(height: 100)
+      Spacer()
+    }
+  }
+  
+  // MARK: - Text Field Stack
+  private var textFieldStack: some View {
+    VStack(spacing: 20) {
+      CSField(
+        header: "Email",
+        placeholder: "Enter your email address",
+        data: $email
+      )
+      .focused($fieldContent, equals: .emailAddress)
+      .textInputAutocapitalization(.never)
+      .keyboardType(.emailAddress)
+      .submitLabel(.next)
+      .onSubmit { fieldContent = .password }
+      
+      CSField(
+        header: "Password",
+        placeholder: "Enter your password",
+        data: $password,
+        isSecure: true
+      )
+      .focused($fieldContent, equals: .password)
+      .submitLabel(.done)
+      .onSubmit { fieldContent = nil }
+    }
+  }
+  
+  // MARK: - Sign In Button
+  private var signInButton: some View {
+    CSButton(title: "Sign In", image: "userFill", color: .accent) {
+      Task {
+        await userVM.signIn(with: email, password: password)
+      }
+    }
+    .disabled(!isValidForm)
+    .opacity(isValidForm ? 1.0 : 0.5)
+  }
+  
+  // MARK: - Sign Up Option
+  private var signUpOption: some View {
+    HStack(spacing: 5) {
+      Text("New member?")
+        .font(.poppins(.regular, size: 14))
+        .foregroundStyle(.gray)
+      NavigationLink("Sign Up") {
+        SignUpScreen()
+      }
+      .font(.poppins(.medium, size: 16))
+      .foregroundStyle(.accent)
+      .alert(item: $userVM.alertItem) { alert in
+        Alert(
+          title: alert.title,
+          message: alert.message,
+          dismissButton: alert.dismissButton
+        )
       }
     }
   }
