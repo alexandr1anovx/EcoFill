@@ -2,6 +2,13 @@ import Foundation
 import FirebaseFirestore
 import FirebaseAuth
 
+enum UserDataTextFieldContent {
+  case username
+  case emailAddress
+  case password
+  case supportMessage
+}
+
 @MainActor
 final class UserViewModel: ObservableObject {
   
@@ -9,11 +16,11 @@ final class UserViewModel: ObservableObject {
   @Published var alertItem: AlertItem?
   @Published var userSession: FirebaseAuth.User?
   @Published var currentUser: User?
-  @Published var selectedCity: City = .mykolaiv
+  @Published var selectedCity = City.mykolaiv
   var isEmailVerified = false
   
   // MARK: - Private Properties
-  private let usersCollection = Firestore.firestore().collection("users")
+  private let userCollection = Firestore.firestore().collection("users")
   
   // MARK: - Initializer
   init() {
@@ -45,7 +52,7 @@ final class UserViewModel: ObservableObject {
         initials: initials
       )
       let encodedUser = try Firestore.Encoder().encode(user)
-      let document = usersCollection.document(user.id)
+      let document = userCollection.document(user.id)
       try await document.setData(encodedUser)
       await fetchUser()
     } catch {
@@ -53,7 +60,7 @@ final class UserViewModel: ObservableObject {
     }
   }
   
-  func signIn(withEmail email: String, password: String) async {
+  func signIn(with email: String, password: String) async {
     do {
       let result = try await Auth.auth().signIn(
         withEmail: email,
@@ -105,7 +112,7 @@ final class UserViewModel: ObservableObject {
       try await user.reauthenticate(with: credentials)
       try await user.sendEmailVerification(beforeUpdatingEmail: newEmail)
       alertItem = ProfileAlertContext.confirmationLinkSent
-      let document = usersCollection.document(user.uid)
+      let document = userCollection.document(user.uid)
       try await document.updateData(["email": newEmail])
       await fetchUser()
     } catch {
@@ -121,7 +128,7 @@ final class UserViewModel: ObservableObject {
   // MARK: - Private Methods
   private func fetchUser() async {
     guard let uid = userSession?.uid else { return }
-    guard let snapshot = try? await usersCollection.document(uid).getDocument() else {
+    guard let snapshot = try? await userCollection.document(uid).getDocument() else {
       return
     }
     // decode the fetched document into a User object

@@ -9,18 +9,18 @@ final class StationViewModel: ObservableObject {
   @Published var stations: [Station] = []
   @Published var selectedStation: Station?
   @Published var route: MKRoute?
-  @Published var isRouteShown: Bool = false
-  @Published var isDetailsShown: Bool = false
-  @Published var isListShown: Bool = false
+  @Published var isRouteShown = false
+  @Published var isDetailsShown = false
+  @Published var isListShown = false
   
   // MARK: - Private Properties
   private let locationManager = LocationManager.shared
   
   // MARK: - Public Methods
   func getStations() {
-    let stationsCollection = Firestore.firestore().collection("stations")
+    let stationCollection = Firestore.firestore().collection("stations")
     
-    stationsCollection.addSnapshotListener { snapshot, error in
+    stationCollection.addSnapshotListener { snapshot, error in
       if let error {
         print(error.localizedDescription)
         return
@@ -61,9 +61,7 @@ final class StationViewModel: ObservableObject {
   
   func getRoute(to station: Station?) async {
     route = nil
-    
-    guard let station else { return }
-    
+    guard let station else { return } // check if the station exist
     guard let userLocation = locationManager.manager.location else { return }
     
     let userCoordinate = userLocation.coordinate
