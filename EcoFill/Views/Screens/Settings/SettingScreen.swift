@@ -32,7 +32,7 @@ struct SettingScreen: View {
   @State private var isShownEmailView = false
   @State private var isShownAlert = false
   @State private var password = ""
-  private var verificationStatus: EmailVerificationStatus
+  @State private var verificationStatus = EmailVerificationStatus.notVerified
   
   // MARK: - body
   var body: some View {
@@ -95,7 +95,7 @@ struct SettingScreen: View {
             dismissButton: alert.dismissButton)
     }
     .sheet(isPresented: $isShownEmailView) {
-      UpdateEmailView()
+      UpdateEmailScreen()
         .presentationDetents([.large])
         .presentationDragIndicator(.visible)
         .presentationCornerRadius(20)
