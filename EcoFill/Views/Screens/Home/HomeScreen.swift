@@ -28,7 +28,7 @@ struct HomeScreen: View {
             qrcodeButton
           }
         }
-      } // ZStack end
+      }
       .onAppear { isShownTabBar = true }
     }
   }

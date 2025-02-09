@@ -49,7 +49,7 @@ struct MapScreen: View {
         .presentationCornerRadius(20)
     }
     .sheet(isPresented: $stationVM.isDetailsShown) {
-      MapItemView(station: stationVM.selectedStation ?? .emptyStation)
+      MapItemView(station: stationVM.selectedStation ?? .mockStation)
         .presentationDetents([.height(270)])
         .presentationDragIndicator(.visible)
         .presentationCornerRadius(25)

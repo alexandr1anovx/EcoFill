@@ -7,7 +7,7 @@
 
 import UIKit
 
-// Disables the keyboard when the user taps on any part of the screen.
+// Hides the keyboard when the user taps on any part of the screen.
 extension UIApplication {
   func hideKeyboard() {
     sendAction(

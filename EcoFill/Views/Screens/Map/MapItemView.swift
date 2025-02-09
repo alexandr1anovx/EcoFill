@@ -23,11 +23,11 @@ struct MapItemView: View {
         FuelStackView(for: station)
         
         if stationVM.isRouteShown {
-          CustomBtn(title: "Hide", image: "xmark", color: .primaryRed) {
+          CSButton(title: "Hide", image: "xmark", color: .primaryRed) {
             stationVM.isRouteShown = false
           }
         } else {
-          CustomBtn(title: "Route", image: "route", color: .accent) {
+          CSButton(title: "Route", image: "route", color: .accent) {
             stationVM.isRouteShown = true
           }
         }

@@ -5,7 +5,7 @@ struct SignInScreen: View {
   @State private var isFormVisible = false
   @State private var email = ""
   @State private var password = ""
-  @FocusState private var fieldContent: AuthFieldContent?
+  @FocusState private var fieldContent: UserDataTextFieldContent?
   @EnvironmentObject var userVM: UserViewModel
   
   private var isValidForm: Bool {
@@ -15,7 +15,7 @@ struct SignInScreen: View {
   var body: some View {
     NavigationStack {
       ZStack {
-        Color.primaryBlack.ignoresSafeArea(.all)
+        Color.primaryBackground.ignoresSafeArea(.all)
         VStack(alignment: .leading, spacing: 20) {
           logoImage
           
@@ -54,7 +54,7 @@ struct SignInScreen: View {
   // MARK: - Text Field Stack
   private var textFieldStack: some View {
     VStack(spacing: 20) {
-      CSField(
+      CSTextField(
         header: "Email",
         placeholder: "Enter your email address",
         data: $email
@@ -65,7 +65,7 @@ struct SignInScreen: View {
       .submitLabel(.next)
       .onSubmit { fieldContent = .password }
       
-      CSField(
+      CSTextField(
         header: "Password",
         placeholder: "Enter your password",
         data: $password,

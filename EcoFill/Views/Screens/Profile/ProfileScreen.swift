@@ -3,27 +3,19 @@ import SwiftUI
 struct ProfileScreen: View {
   
   @Binding var isShownTabBar: Bool
-  @State private var isShownAlert: Bool = false
+  @State private var isShownAlert = false
   @EnvironmentObject var userVM: UserViewModel
   
   var body: some View {
     NavigationStack {
       ZStack {
-        Color.primaryBackground.ignoresSafeArea()
+        Color.primaryBackground.ignoresSafeArea(.all)
         
         VStack {
           UserDataView()
           List {
-            AppColorSchemeCell()
-              .listRowBackground(Color.primaryBackground)
-            CustomListCell(title: "Sign Out",
-                 description: "Sign out from current account.",
-                 image: "logout",
-                 imageColor: .primaryRed)
-            .onTapGesture {
-              isShownAlert.toggle()
-            }
-            .listRowBackground(Color.primaryBackground)
+            AppColorSchemeCell().listRowBackground(Color.primaryBackground)
+            signOutButton
           }
           .listStyle(.plain)
         }
@@ -31,33 +23,47 @@ struct ProfileScreen: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
           ToolbarItem(placement: .topBarLeading) {
-            Image(.logo)
-              .resizable()
-              .frame(width: 54, height: 54)
+            ToolbarLogoImage()
           }
           ToolbarItem(placement: .topBarTrailing) {
-            NavigationLink {
-              SettingScreen()
-                .onAppear { isShownTabBar = false }
-            } label: {
-              Image("gear")
-                .navigationBarImageSize
-                .foregroundStyle(.accent)
-            }
+            settingsButton
           }
-        }
-        .alert("Sign Out", isPresented: $isShownAlert) {
-          
-          Button("Sign Out", role: .destructive) {
-            withAnimation(.bouncy(duration: 1)) {
-              userVM.signOut()
-            }
-          }
-        } message: {
-          Text("This action will redirect you to the Sign In screen.")
         }
         .onAppear { isShownTabBar = true }
       }
+    }
+  }
+  
+  private var settingsButton: some View {
+    NavigationLink {
+      SettingScreen()
+        .onAppear { isShownTabBar = false }
+    } label: {
+      Image("gear")
+        .navigationBarImageSize
+        .foregroundStyle(.accent)
+    }
+  }
+  
+  private var signOutButton: some View {
+    PlainListCell(
+      title: "Sign Out",
+      description: "Sign out from current account.",
+      image: "logout",
+      imageColor: .primaryRed
+    )
+    .listRowBackground(Color.primaryBackground)
+    .onTapGesture {
+      isShownAlert.toggle()
+    }
+    .alert("Sign Out", isPresented: $isShownAlert) {
+      Button("Sign Out", role: .destructive) {
+        withAnimation(.easeInOut(duration: 1)) {
+          userVM.signOut()
+        }
+      }
+    } message: {
+      Text("This action will redirect you to the Sign In screen.")
     }
   }
 }

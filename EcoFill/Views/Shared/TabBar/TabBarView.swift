@@ -10,7 +10,7 @@ import SwiftUI
 struct TabBarView: View {
   
   @State private var selectedTab = TabBarItem.home
-  @State private var isShownTabBar: Bool = true
+  @State private var isShownTabBar = true
   
   init() { UITabBar.appearance().isHidden = true }
   

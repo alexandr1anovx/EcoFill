@@ -24,13 +24,13 @@ struct StationListCell: View {
       Spacer()
       
       if !isPresentedRoute {
-        CustomBtn(title: "Route", image: "route", color: .accent) {
+        CSButton(title: "Route", image: "route", color: .accent) {
           stationVM.isDetailsShown = false
           stationVM.selectedStation = station
           stationVM.isRouteShown = true
         }
       } else {
-        CustomBtn(title: "Hide", image: "xmark", color: .primaryRed) {
+        CSButton(title: "Hide", image: "xmark", color: .primaryRed) {
           stationVM.isDetailsShown = false
           stationVM.selectedStation = nil
           stationVM.isRouteShown = false

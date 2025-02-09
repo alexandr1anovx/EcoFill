@@ -16,12 +16,12 @@ struct AlertItem: Identifiable {
 struct RegistrationAlertContext {
   
   static let userDoesNotExists = AlertItem(
-    Text("Failed to Sign In"),
-    Text("The user with this address does not exist."),
+    Text("Failed to Sign In 🥺"),
+    Text("The user with this email address does not exist."),
     dismissButton: .default(Text("OK"))
   )
   static let userExists = AlertItem(
-    Text("Failed to Sign Up"),
+    Text("Failed to Sign Up 🥺"),
     Text("A user with the entered data already exists."),
     dismissButton: .default(Text("OK"))
   )

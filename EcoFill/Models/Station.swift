@@ -27,8 +27,8 @@ struct Station: Decodable, Identifiable, Hashable {
 }
 
 extension Station {
-  static let emptyStation = Station(
-    id: "empty",
+  static let mockStation = Station(
+    id: "mock",
     city: "None",
     euroA95: 0.0,
     euroDP: 0.0,

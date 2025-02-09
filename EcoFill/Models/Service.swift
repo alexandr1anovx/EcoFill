@@ -1,7 +1,7 @@
 import Foundation
 
 enum ServiceType: String {
-  case support = "Support"
+  case support
 }
 
 struct Service: Identifiable {

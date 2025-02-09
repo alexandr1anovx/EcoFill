@@ -11,7 +11,7 @@ struct SignUpScreen: View {
   @State private var username = ""
   @State private var emailAddress = ""
   @State private var password = ""
-  @FocusState private var fieldContent: AuthFieldContent?
+  @FocusState private var fieldContent: UserDataTextFieldContent?
   @EnvironmentObject var userVM: UserViewModel
   
   private var isValidForm: Bool {
@@ -23,6 +23,7 @@ struct SignUpScreen: View {
   var body: some View {
     ZStack {
       Color.primaryBackground.ignoresSafeArea(.all)
+      
       formStack
         .padding(.top, 25)
         .padding(.horizontal, 15)
@@ -46,7 +47,7 @@ struct SignUpScreen: View {
   // MARK: - Form Stack
   private var formStack: some View {
     VStack(alignment: .leading, spacing: 20) {
-      CSField(
+      CSTextField(
         header: "Username",
         placeholder: "Full Name",
         data: $username
@@ -57,7 +58,7 @@ struct SignUpScreen: View {
       .submitLabel(.next)
       .onSubmit { fieldContent = .emailAddress }
       
-      CSField(
+      CSTextField(
         header: "Email address",
         placeholder: "name@example.com",
         data: $emailAddress
@@ -68,7 +69,7 @@ struct SignUpScreen: View {
       .submitLabel(.next)
       .onSubmit { fieldContent = .password }
       
-      CSField(
+      CSTextField(
         header: "Password",
         placeholder: "At least 6 characters.",
         data: $password,
