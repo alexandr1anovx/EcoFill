@@ -2,79 +2,89 @@ import SwiftUI
 
 struct SupportScreen: View {
   
-  @State private var isShownAlert: Bool = false
-  @State private var email: String = ""
-  @State private var message: String = ""
-  @FocusState private var textFieldContent: TextFieldContent?
+  @State private var isShownAlert = false
+  @State private var emailAddress = ""
+  @State private var message = ""
+  @FocusState private var fieldContent: UserDataTextFieldContent?
   @EnvironmentObject var userVM: UserViewModel
   
-  private var isMessageCorrect: Bool { message.count > 10 }
+  private var isMessageCorrect: Bool {
+    message.count > 10
+  }
   
+  // MARK: - body
   var body: some View {
     ZStack {
-      Color.primaryBackground.ignoresSafeArea()
+      Color.primaryBackground.ignoresSafeArea(.all)
       
-      VStack(alignment: .leading, spacing: 25) {
-        CustomTextField(
-          header: "Email",
-          placeholder: "Enter email address",
-          data: $email
-        )
-        .focused($textFieldContent, equals: .email)
-        .keyboardType(.emailAddress)
-        .textInputAutocapitalization(.never)
-        .autocorrectionDisabled(true)
-        .submitLabel(.next)
-        .onSubmit { textFieldContent = .feedbackMessage }
-        
-        CustomTextField(
-          header: "Message",
-          placeholder: "At least 10 characters",
-          data: $message
-        )
-        .focused($textFieldContent, equals: .feedbackMessage)
-        .submitLabel(.done)
-        .onSubmit {
-          message = ""
-          textFieldContent = nil
-          isShownAlert.toggle()
+      formStack
+        .padding(.top, 20)
+        .padding(.horizontal, 15)
+        .navigationTitle("Support")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+          ToolbarItem(placement: .topBarLeading) {
+            ReturnButton()
+          }
         }
-        
-        CustomBtn(title: "Send message", image: "message", color: .accent) {
-          isShownAlert.toggle()
-          message = ""
-          textFieldContent = nil
+        .onAppear {
+          displayEmailAddress()
         }
-        .disabled(!isMessageCorrect)
-        .opacity(isMessageCorrect ? 1.0 : 0.5)
-        
-        Spacer()
+    }
+  }
+  
+  // MARK: - Form Stack
+  private var formStack: some View {
+    VStack(alignment: .leading, spacing: 25) {
+      CSTextField(
+        header: "Email",
+        placeholder: "Enter email address",
+        data: $emailAddress
+      )
+      .focused($fieldContent, equals: .emailAddress)
+      .keyboardType(.emailAddress)
+      .textInputAutocapitalization(.never)
+      .autocorrectionDisabled(true)
+      .submitLabel(.next)
+      .onSubmit { fieldContent = .supportMessage }
+      
+      CSTextField(
+        header: "Message",
+        placeholder: "At least 10 characters",
+        data: $message
+      )
+      .focused($fieldContent, equals: .supportMessage)
+      .submitLabel(.done)
+      .onSubmit {
+        message = ""
+        fieldContent = nil
+        isShownAlert.toggle()
       }
-      .padding(.top, 20)
-      .padding(.horizontal, 20)
-      .navigationTitle("Support")
-      .navigationBarTitleDisplayMode(.inline)
-      .navigationBarBackButtonHidden(true)
-      .toolbar {
-        ToolbarItem(placement: .topBarLeading) {
-          ArrowBackBtn()
-        }
+      
+      CSButton(title: "Send message", image: "message", color: .accent) {
+        isShownAlert.toggle()
+        message = ""
+        fieldContent = nil
       }
-      .onAppear {
-        displayInitialEmailAddress()
-      }
+      .disabled(!isMessageCorrect)
+      .opacity(isMessageCorrect ? 1 : 0.5)
       .alert("Thanks!", isPresented: $isShownAlert) {
         // "OK" button by default
       } message: {
         Text("Feedback was successfully sent!")
       }
+      
+      Spacer()
     }
   }
-  private func displayInitialEmailAddress() {
+  
+  // MARK: - Display Email Address Method
+  private func displayEmailAddress() {
     if let userEmail = userVM.currentUser?.email {
-      email = userEmail
+      emailAddress = userEmail
     } else {
-      email = "No email address"
+      emailAddress = "No email address"
     }
   }
 }
