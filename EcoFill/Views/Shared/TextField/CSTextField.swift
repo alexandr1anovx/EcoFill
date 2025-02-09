@@ -1,20 +1,7 @@
 import SwiftUI
 
-enum TextFieldContent {
-  case initials, email, password, feedbackMessage
-}
-
-enum AuthFieldContent {
-  case username
-  case emailAddress
-  case password
-}
-
-enum SupportFieldContent {
-  case feedbackMessage
-}
-
-struct CSField: View {
+struct CSTextField: View {
+  
   let header: String
   let placeholder: String
   let data: Binding<String>
