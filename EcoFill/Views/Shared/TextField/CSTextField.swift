@@ -2,27 +2,41 @@ import SwiftUI
 
 struct CSTextField: View {
   
-  let header: String
-  let placeholder: String
-  let data: Binding<String>
-  var isSecure: Bool = false
+  let icon: String
+  let prompt: String
+  @Binding var inputData: String
+  var isSecure = false
   
   var body: some View {
-    VStack(alignment: .leading, spacing: 8) {
-      Text(header)
-        .font(.poppins(.medium, size: 14))
-        .foregroundStyle(.primaryReversed)
+    HStack(spacing: 15) {
+      Image(icon)
+        .imageScale(.medium)
+        .foregroundStyle(.accent)
       Group {
         if isSecure {
-          SecureField(placeholder, text: data)
+          SecureField(prompt, text: $inputData)
         } else {
-          TextField(placeholder, text: data)
+          TextField(prompt, text: $inputData)
         }
       }
-      .font(.poppins(.regular, size: 13))
-      .foregroundStyle(.gray)
-      
-      Divider()
+      .font(.subheadline)
+      .fontDesign(.monospaced)
     }
+    .listRowInsets(
+      EdgeInsets(
+        top: 28,
+        leading: 15,
+        bottom: 22,
+        trailing: 15
+      )
+    )
   }
+}
+
+#Preview {
+  CSTextField(
+    icon: "man",
+    prompt: "Enter your password",
+    inputData: .constant("123")
+  )
 }
