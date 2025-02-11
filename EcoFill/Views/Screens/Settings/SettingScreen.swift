@@ -1,119 +1,183 @@
 import SwiftUI
 import FirebaseAuth
 
-enum EmailVerificationStatus: String {
-  case verified, notVerified
+enum EmailStatus: String {
+  case confirmed, notConfirmed
   
   var message: String {
     switch self {
-    case .verified: "Email is verified."
-    case .notVerified: "A confirmation link has been sent to your email address."
-    }
-  }
-  
-  var iconName: String {
-    switch self {
-    case .verified: "userCheckmark"
-    case .notVerified: "userXmark"
+    case .confirmed:
+      "Email confirmed."
+    case .notConfirmed:
+      "Email not confirmed. A confirmation link has been sent to your e-mail address."
     }
   }
   
   var color: Color {
     switch self {
-    case .verified: .accent
-    case .notVerified: .red
+    case .confirmed: .gray
+    case .notConfirmed: .red
     }
   }
 }
 
 struct SettingScreen: View {
   
-  @EnvironmentObject var userVM: UserViewModel
-  @State private var isShownEmailView = false
+  @State private var currentEmail = ""
+  @State private var newEmail = ""
+  @State private var formPassword = ""
+  @State private var deletionPassword = ""
+  
+  @State private var emailStatus = EmailStatus.notConfirmed
   @State private var isShownAlert = false
-  @State private var password = ""
-  @State private var verificationStatus = EmailVerificationStatus.notVerified
+  
+  @FocusState private var fieldContent: UserDataTextFieldContent?
+  @EnvironmentObject var userVM: UserViewModel
+  
+  private var isValidForm: Bool {
+    newEmail.isValidEmail && formPassword.count > 5
+  }
   
   // MARK: - body
   var body: some View {
-    if let user = userVM.currentUser {
-      ZStack {
-        Color.primaryBackground.ignoresSafeArea(.all)
+    ZStack {
+      Color.primaryBackground.ignoresSafeArea(.all)
+      VStack(spacing: 10) {
+        textFields
+        emailStatusMessage
         
-        VStack(alignment: .leading, spacing: 10) {
-          CustomRow(
-            data: user.initials,
-            image: "user",
-            imageColor: .accent
-          )
-          CustomRow(
-            data: user.email,
-            image: verificationStatus.iconName,
-            imageColor: verificationStatus.color
-          )
-          Text(verificationStatus.message)
-            .font(.poppins(.medium, size: 12))
-            .foregroundStyle(.primaryReversed)
-          
-          Divider()
-          
-          VStack(alignment: .leading, spacing: 15) {
-            updateEmailButton
-            deleteAccountButton
-          }
-          .padding(.top, 10)
-          
-          Spacer()
-        }
-        .padding(.top, 20)
-        .padding(.horizontal)
-        .navigationTitle("Settings")
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-          ToolbarItem(placement: .topBarLeading) {
-            ReturnButton()
-          }
-        }
-        .onAppear {
-          userVM.checkEmailVerificationStatus()
+        Spacer()
+        updateEmailButton
+        deleteAccountButton.padding(.bottom, 10)
+      }
+      .navigationTitle("Settings")
+      .navigationBarTitleDisplayMode(.inline)
+      .navigationBarBackButtonHidden(true)
+      .toolbar {
+        ToolbarItem(placement: .topBarLeading) {
+          ReturnButton()
         }
       }
-    } else {
-      ProgressView("Loading user data...")
+      .onAppear {
+        userVM.checkEmailVerificationStatus()
+        displayEmailAddress()
+      }
     }
   }
   
-  // MARK: - Update Email button
+  // MARK: Text Fields
+  private var textFields: some View {
+    List {
+      CSTextField(
+        icon: "envelope",
+        prompt: "Current email address",
+        inputData: $currentEmail
+      )
+      .disabled(true)
+      
+      CSTextField(
+        icon: "envelope",
+        prompt: "New email address",
+        inputData: $newEmail
+      )
+      .keyboardType(.emailAddress)
+      .textInputAutocapitalization(.never)
+      .autocorrectionDisabled(true)
+      .submitLabel(.next)
+      .onSubmit { fieldContent = .password }
+      
+      CSTextField(
+        icon: "key",
+        prompt: "Current password",
+        inputData: $formPassword,
+        isSecure: true
+      )
+      .focused($fieldContent, equals: .password)
+      .submitLabel(.done)
+      .onSubmit { fieldContent = nil }
+    }
+    .listStyle(.insetGrouped)
+    .scrollContentBackground(.hidden)
+    .scrollIndicators(.hidden)
+    .scrollDisabled(true)
+    .frame(height: 190)
+    .shadow(radius: 2)
+  }
+  
+  // MARK: - Email Status Message
+  private var emailStatusMessage: some View {
+    Text(emailStatus.message)
+      .font(.caption)
+      .foregroundStyle(emailStatus.color)
+      .padding(.horizontal, 20)
+  }
+  
+  // MARK: Update Email button
   private var updateEmailButton: some View {
-    CSButton(title: "Update email", image: "mail", color: .accent) {
-      isShownEmailView.toggle()
+    Button {
+      Task {
+        await userVM.updateCurrentEmail(to: newEmail, with: formPassword)
+      }
+    } label: {
+      Text("Update Email")
+        .font(.callout).bold()
+        .fontDesign(.monospaced)
+        .foregroundStyle(.white)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 8)
     }
+    .buttonStyle(.borderedProminent)
+    .tint(.accent)
+    .padding(.horizontal, 20)
+    .shadow(radius: 3)
+    .disabled(!isValidForm)
     .alert(item: $userVM.alertItem) { alert in
-      Alert(title: alert.title,
-            message: alert.message,
-            dismissButton: alert.dismissButton)
-    }
-    .sheet(isPresented: $isShownEmailView) {
-      UpdateEmailScreen()
-        .presentationDetents([.large])
-        .presentationDragIndicator(.visible)
-        .presentationCornerRadius(20)
+      Alert(
+        title: alert.title,
+        message: alert.message,
+        dismissButton: alert.dismissButton
+      )
     }
   }
   
-  // MARK: - Delete Account button
+  // MARK: Delete Account button
   private var deleteAccountButton: some View {
-    CSButton(title: "Delete account", image: "xmark", color: .primaryRed) {
+    Button {
       isShownAlert.toggle()
+    } label: {
+      Text("Delete Account")
+        .font(.callout).bold()
+        .fontDesign(.monospaced)
+        .foregroundStyle(.white)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 8)
     }
+    .buttonStyle(.borderedProminent)
+    .tint(.primaryRed)
+    .padding(.horizontal, 20)
+    .shadow(radius: 3)
     .alert("Confirm password", isPresented: $isShownAlert) {
-      SecureField("", text: $password)
+      SecureField("", text: $deletionPassword)
       Button("Delete", role: .destructive) {
         Task {
-          await userVM.deleteUser(with: password)
+          await userVM.deleteUser(with: deletionPassword)
         }
       }
     }
   }
+  
+  // MARK: - Methods
+  private func displayEmailAddress() {
+    if let userEmail = userVM.currentUser?.email {
+      currentEmail = userEmail
+    } else {
+      currentEmail = "No email address"
+    }
+  }
+}
+
+#Preview {
+  SettingScreen()
+    .environmentObject( UserViewModel() )
+    .environmentObject( StationViewModel() )
 }
