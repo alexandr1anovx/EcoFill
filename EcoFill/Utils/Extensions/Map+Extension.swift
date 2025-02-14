@@ -8,7 +8,7 @@
 import Foundation
 import MapKit
 
-// MARK: - MKCoordinateRegion
+// MARK: MKCoordinateRegion
 extension MKCoordinateRegion: @retroactive Equatable {
   public static func == (lhs: MKCoordinateRegion, rhs: MKCoordinateRegion) -> Bool {
     if lhs.center.latitude == rhs.center.latitude &&
@@ -25,7 +25,7 @@ extension MKCoordinateRegion: @retroactive Equatable {
     longitudinalMeters: 10000)
 }
 
-// MARK: - CLLocationCoordinate2D
+// MARK: CLLocationCoordinate2D
 extension CLLocationCoordinate2D {
   static let userLocation = CLLocationCoordinate2D(
     latitude: 46.959843,

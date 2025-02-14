@@ -7,21 +7,21 @@
 
 import SwiftUI
 
-// MARK: - View
+// MARK: View
 extension View {
   func buttonModifier(pouring: Color) -> some View {
     self.buttonStyle(CustomButtonStyle(with: pouring))
   }
 }
 
-// MARK: - ButtonStyle
+// MARK: ButtonStyle
 extension ButtonStyle where Self == AnimatedButtonStyle {
   static var animated: AnimatedButtonStyle {
     return AnimatedButtonStyle()
   }
 }
 
-// MARK: - Image
+// MARK: Image
 extension Image {
   var navigationBarImageSize: some View {
     self
