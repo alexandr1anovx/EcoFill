@@ -20,9 +20,9 @@ enum TabBarItem: Int, CaseIterable {
   
   var iconName: String {
     switch self {
-    case .home: "house"
+    case .home: "home"
     case .map: "map"
-    case .profile: "userFill"
+    case .profile: "menu"
     }
   }
 }

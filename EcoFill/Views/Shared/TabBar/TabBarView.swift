@@ -11,6 +11,7 @@ struct TabBarView: View {
   
   @State private var selectedTab = TabBarItem.home
   @State private var isShownTabBar = true
+  private let tabs = TabBarItem.allCases
   
   init() { UITabBar.appearance().isHidden = true }
   
@@ -27,25 +28,30 @@ struct TabBarView: View {
       
       if isShownTabBar {
         HStack {
-          ForEach(TabBarItem.allCases, id: \.self) { tab in
+          ForEach(tabs, id: \.self) { tab in
             TabBarButton(
               title: tab.title,
               image: tab.iconName,
               tab: tab,
               selectedTab: $selectedTab
             )
-            if tab != TabBarItem.allCases.last {
+            if tab != tabs.last {
               Spacer()
             }
           }
         }
-        .padding(.vertical, 12)
-        .padding(.horizontal)
+        .padding(10)
         .background(.tabBarBackground)
         .clipShape(.capsule)
-        .padding(.horizontal, 25)
-        .shadow(radius: 5)
+        .padding(.horizontal, 30)
+        .shadow(radius: 2)
       }
     }
   }
+}
+
+#Preview {
+  TabBarView()
+    .environmentObject( StationViewModel() )
+    .environmentObject( UserViewModel() )
 }
