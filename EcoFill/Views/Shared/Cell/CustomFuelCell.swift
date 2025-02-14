@@ -11,18 +11,19 @@ struct CustomFuelCell: View {
   let price: Double
   
   var body: some View {
-    HStack(spacing: 15) {
+    HStack(spacing: 12) {
       Text(type.rawValue)
-        .font(.poppins(.medium, size: 15))
-        .foregroundStyle(.primaryWhite)
-      
+        .font(.callout)
+        .fontWeight(.bold)
+        .fontDesign(.monospaced)
+        .foregroundStyle(.white)
       Text("\(price, specifier: "₴%.2f")")
         .font(.poppins(.bold, size: 15))
-        .foregroundStyle(.orange)
+        .foregroundStyle(.green)
     }
-    .padding(13)
-    .background(.primaryBlue)
-    .clipShape(.rect(cornerRadius: 10))
+    .padding(14)
+    .background(.black)
+    .clipShape(.rect(cornerRadius: 12))
   }
 }
 

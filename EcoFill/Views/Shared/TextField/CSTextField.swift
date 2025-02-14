@@ -2,21 +2,19 @@ import SwiftUI
 
 struct CSTextField: View {
   
-  let icon: String
-  let prompt: String
+  let icon: ImageResource
+  let hint: String
   @Binding var inputData: String
   var isSecure = false
   
   var body: some View {
     HStack(spacing: 15) {
-      Image(icon)
-        .imageScale(.medium)
-        .foregroundStyle(.accent)
+      Image(icon).foregroundStyle(.accent)
       Group {
         if isSecure {
-          SecureField(prompt, text: $inputData)
+          SecureField(hint, text: $inputData)
         } else {
-          TextField(prompt, text: $inputData)
+          TextField(hint, text: $inputData)
         }
       }
       .font(.subheadline)
@@ -35,8 +33,8 @@ struct CSTextField: View {
 
 #Preview {
   CSTextField(
-    icon: "man",
-    prompt: "Enter your password",
+    icon: .user,
+    hint: "Enter your password",
     inputData: .constant("123")
   )
 }

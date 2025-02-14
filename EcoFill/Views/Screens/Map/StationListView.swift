@@ -6,40 +6,63 @@ struct StationListView: View {
   @EnvironmentObject var stationVM: StationViewModel
   
   private var stationsInSelectedCity: [Station] {
-    stationVM.stations.filter { $0.city == userVM.selectedCity.rawValue }
+    stationVM.stations.filter {
+      $0.city == userVM.selectedCity.title
+    }
+  }
+  
+  // Picker Style Customization
+  init() {
+    UISegmentedControl.appearance().selectedSegmentTintColor = .accent
+    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.label], for: .normal)
+    UISegmentedControl.appearance().backgroundColor = .systemBackground
   }
   
   var body: some View {
     ZStack {
-      Color.primaryBlue.ignoresSafeArea()
+      Color.primaryBackground.ignoresSafeArea(.all)
       
-      VStack {
-        Picker("", selection: $userVM.selectedCity) {
-          ForEach(City.allCases) { city in
-            Text(city.rawValue)
-          }
-        }
-        .pickerStyle(.segmented)
-        .padding(.top, 20)
-        .padding(.horizontal, 20)
+      VStack(spacing: 0) {
+        cityPicker
+          .padding(.top, 25)
+          .padding(.horizontal, 20)
         
         List(stationsInSelectedCity) { station in
           StationListCell(station: station)
-            .listRowBackground(Color.primaryBackground)
         }
-        .padding(.top, 15)
-        .listStyle(.plain)
-        .listRowSpacing(10)
+        .listStyle(.insetGrouped)
+        .listRowSpacing(15)
+        .scrollContentBackground(.hidden)
+        .scrollIndicators(.hidden)
+        .shadow(radius: 3)
+        .padding(.top, 5)
       }
     }
     .onAppear {
-      updateSelectedCity()
+      displaySelectedCity()
     }
   }
-  private func updateSelectedCity() {
+  
+  private var cityPicker: some View {
+    Picker("", selection: $userVM.selectedCity) {
+      ForEach(City.allCases) { city in
+        Text(city.title)
+      }
+    }.pickerStyle(.segmented)
+  }
+  
+  // MARK: - Logic Methods
+  private func displaySelectedCity() {
     if let cityString = userVM.currentUser?.city,
        let city = City(rawValue: cityString) {
       userVM.selectedCity = city
     }
   }
+}
+
+#Preview {
+  StationListView()
+    .environmentObject( UserViewModel() )
+    .environmentObject( StationViewModel() )
 }

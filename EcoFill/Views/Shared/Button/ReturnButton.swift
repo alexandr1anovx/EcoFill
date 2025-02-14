@@ -11,19 +11,15 @@ struct ReturnButton: View {
   @Environment(\.dismiss) var dismiss
   
   var body: some View {
-    Button {
-      dismiss()
-    } label: {
-      Image(systemName: "arrow.backward.circle")
-        .symbolVariant(.fill)
-        .imageScale(.large)
-        .foregroundStyle(.accent)
-    }
-    .buttonStyle(.animated)
+    Image(systemName: "arrowshape.left.circle.fill")
+      .imageScale(.large)
+      .foregroundStyle(.accent)
+      .onTapGesture {
+        dismiss()
+      }
   }
 }
 
 #Preview {
   ReturnButton()
-  
 }
