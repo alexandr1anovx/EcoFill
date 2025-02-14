@@ -8,18 +8,27 @@ struct MapScreen: View {
   @EnvironmentObject var stationVM: StationViewModel
   
   var body: some View {
+    mapView
+      .mapControls {
+        MapUserLocationButton()
+      }
+      .overlay(alignment: .topTrailing) {
+        showListButton
+      }
+      .task(id: stationVM.isShownRoute) {
+        await stationVM.toggleRoutePresentation()
+      }
+      .onAppear { isShownTabBar = true }
+  }
+  
+  private var mapView: some View {
     Map(position: $cameraPosition) {
       UserAnnotation()
-        .foregroundStyle(.primaryOrange)
       ForEach(stationVM.stations) { station in
         let name = station.name
         let coordinate = station.coordinate
         Annotation(name, coordinate: coordinate) {
-          StationMarkView()
-            .onTapGesture {
-              stationVM.selectedStation = station
-              stationVM.isDetailsShown = true
-            }
+          stationMark(for: station)
         }
       }
       if let route = stationVM.route {
@@ -27,36 +36,47 @@ struct MapScreen: View {
           .stroke(.purple, lineWidth: 4)
       }
     }
-    .mapControls {
-      MapUserLocationButton()
-    }
-    .overlay(alignment: .topTrailing) {
-      Button {
-        stationVM.isListShown.toggle()
-      } label: {
-        Image(systemName: "list.clipboard")
-          .font(.title3)
-          .foregroundStyle(.accent)
+  }
+  
+  private func stationMark(for station: Station) -> some View {
+    Image(systemName: "fuelpump.fill")
+      .foregroundStyle(.accent)
+      .padding(6)
+      .background(.black)
+      .clipShape(.circle)
+      .shadow(radius: 3)
+      .onTapGesture {
+        stationVM.selectedStation = station
+        stationVM.isShownDetail = true
       }
-      .buttonModifier(pouring: .primaryBackground)
-      .padding(.trailing, 5)
-      .padding(.top, 60)
+      .sheet(isPresented: $stationVM.isShownDetail) {
+        MapItemView(station: stationVM.selectedStation ?? .mockStation)
+          .presentationDetents([.height(270)])
+          .presentationDragIndicator(.visible)
+          .presentationCornerRadius(30)
+      }
+  }
+  
+  private var showListButton: some View {
+    Button {
+      stationVM.isShownList.toggle()
+    } label: {
+      Image(.menu).foregroundStyle(.green)
     }
-    .sheet(isPresented: $stationVM.isListShown) {
+    .buttonModifier(pouring: .primaryBlack)
+    .padding(.trailing, 5)
+    .padding(.top, 55)
+    .sheet(isPresented: $stationVM.isShownList) {
       StationListView()
-        .presentationDetents([.height(400), .large])
+        .presentationDetents([.height(450)])
         .presentationDragIndicator(.visible)
         .presentationCornerRadius(20)
     }
-    .sheet(isPresented: $stationVM.isDetailsShown) {
-      MapItemView(station: stationVM.selectedStation ?? .mockStation)
-        .presentationDetents([.height(270)])
-        .presentationDragIndicator(.visible)
-        .presentationCornerRadius(25)
-    }
-    .task(id: stationVM.isRouteShown) {
-      await stationVM.toggleRoutePresentation()
-    }
-    .onAppear { isShownTabBar = true }
   }
+}
+
+#Preview {
+  MapScreen(isShownTabBar: .constant(false))
+    .environmentObject( StationViewModel() )
+    .environmentObject( UserViewModel() )
 }

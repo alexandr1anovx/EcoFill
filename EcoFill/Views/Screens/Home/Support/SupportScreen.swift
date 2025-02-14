@@ -2,84 +2,94 @@ import SwiftUI
 
 struct SupportScreen: View {
   
-  @State private var isShownAlert = false
   @State private var emailAddress = ""
   @State private var message = ""
-  @FocusState private var fieldContent: UserDataTextFieldContent?
+  @State private var isShownAlert = false
   @EnvironmentObject var userVM: UserViewModel
   
   private var isMessageCorrect: Bool {
     message.count > 10
   }
   
-  // MARK: - body
   var body: some View {
     ZStack {
       Color.primaryBackground.ignoresSafeArea(.all)
-      
-      formStack
-        .padding(.top, 20)
-        .padding(.horizontal, 15)
-        .navigationTitle("Support")
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-          ToolbarItem(placement: .topBarLeading) {
-            ReturnButton()
-          }
+      VStack(spacing: 20) {
+        textFields
+        guideLabel.padding(.horizontal)
+        sendMessageButton
+        Spacer()
+      }
+      .navigationTitle("Support")
+      .navigationBarTitleDisplayMode(.inline)
+      .navigationBarBackButtonHidden(true)
+      .toolbar {
+        ToolbarItem(placement: .topBarLeading) {
+          ReturnButton()
         }
-        .onAppear {
-          displayEmailAddress()
-        }
+      }
+      .onAppear {
+        displayEmailAddress()
+      }
     }
   }
   
-  // MARK: - Form Stack
-  private var formStack: some View {
-    VStack(alignment: .leading, spacing: 25) {
+  private var textFields: some View {
+    List {
       CSTextField(
-        header: "Email",
-        placeholder: "Enter email address",
-        data: $emailAddress
+        icon: .envelope,
+        hint: "Your email address",
+        inputData: $emailAddress
       )
-      .focused($fieldContent, equals: .emailAddress)
-      .keyboardType(.emailAddress)
-      .textInputAutocapitalization(.never)
-      .autocorrectionDisabled(true)
-      .submitLabel(.next)
-      .onSubmit { fieldContent = .supportMessage }
+      .disabled(true)
       
       CSTextField(
-        header: "Message",
-        placeholder: "At least 10 characters",
-        data: $message
+        icon: .message,
+        hint: "At least 10 characters",
+        inputData: $message
       )
-      .focused($fieldContent, equals: .supportMessage)
       .submitLabel(.done)
-      .onSubmit {
-        message = ""
-        fieldContent = nil
-        isShownAlert.toggle()
-      }
-      
-      CSButton(title: "Send message", image: "message", color: .accent) {
-        isShownAlert.toggle()
-        message = ""
-        fieldContent = nil
-      }
-      .disabled(!isMessageCorrect)
-      .opacity(isMessageCorrect ? 1 : 0.5)
-      .alert("Thanks!", isPresented: $isShownAlert) {
-        // "OK" button by default
-      } message: {
-        Text("Feedback was successfully sent!")
-      }
-      
-      Spacer()
+    }
+    .listStyle(.sidebar)
+    .frame(height: 140)
+    .scrollContentBackground(.hidden)
+    .scrollIndicators(.hidden)
+    .scrollDisabled(true)
+    .shadow(radius: 2)
+  }
+  
+  private var guideLabel: some View {
+    Text("Our support team is here to help! Please use polite and respectful language in all communications.")
+      .font(.caption2)
+      .foregroundStyle(.gray)
+      .multilineTextAlignment(.leading)
+  }
+  
+  private var sendMessageButton: some View {
+    Button {
+      message = "" // clear the message field
+      isShownAlert.toggle()
+    } label: {
+      Text("Send message")
+        .font(.callout).bold()
+        .fontDesign(.monospaced)
+        .foregroundStyle(.white)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 8)
+    }
+    .buttonStyle(.borderedProminent)
+    .tint(.accent)
+    .padding(.horizontal, 20)
+    .shadow(radius: 2)
+    .disabled(!isMessageCorrect)
+    .alert("Thanks!", isPresented: $isShownAlert) {
+      // "OK" button by default
+    } message: {
+      Text("Feedback was successfully sent!")
     }
   }
   
-  // MARK: - Display Email Address Method
+  // MARK: - Logic Methods
   private func displayEmailAddress() {
     if let userEmail = userVM.currentUser?.email {
       emailAddress = userEmail
@@ -87,4 +97,8 @@ struct SupportScreen: View {
       emailAddress = "No email address"
     }
   }
+}
+
+#Preview {
+  SupportScreen().environmentObject( UserViewModel() )
 }

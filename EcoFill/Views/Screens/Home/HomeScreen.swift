@@ -2,75 +2,56 @@ import SwiftUI
 
 struct HomeScreen: View {
   
-  @State private var isShownQRCode = false
   @Binding var isShownTabBar: Bool
-  private let services = Service.services
   
   var body: some View {
     NavigationStack {
       ZStack {
         Color.primaryBackground.ignoresSafeArea(.all)
-        
-        VStack {
+        VStack(spacing: 0) {
           UserDataView()
           CityFuelsGrid().padding(15)
           serviceList
         }
         .navigationTitle("Home")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-          ToolbarItem(placement: .topBarLeading) {
-            Image(.logo)
-              .resizable()
-              .frame(width: 54, height: 54)
-          }
-          ToolbarItem(placement: .topBarTrailing) {
-            qrcodeButton
-          }
-        }
       }
       .onAppear { isShownTabBar = true }
     }
   }
   
-  // MARK: - QR Code Button
-  private var qrcodeButton: some View {
-    Button {
-      isShownQRCode.toggle()
-    } label: {
-      Image("qrcode")
-        .navigationBarImageSize
-        .foregroundStyle(.accent)
-    }
-    .buttonStyle(.animated)
-    .sheet(isPresented: $isShownQRCode) {
-      QRCodeView()
-        .presentationDetents([.height(250)])
-        .presentationDragIndicator(.visible)
-        .presentationCornerRadius(20)
-    }
-  }
-  
-  // MARK: - Service List Component
-  @ViewBuilder
   private var serviceList: some View {
-    List(services) { service in
-      NavigationLink {
-        switch service.type {
-        case .support:
-          SupportScreen()
-            .onAppear { isShownTabBar = false }
-        }
-      } label: {
-        PlainListCell(
-          title: service.type.rawValue.capitalized,
-          description: service.description,
-          image: service.image,
-          imageColor: .accent
+    List(ServiceType.allCases, id: \ .self) { service in
+      NavigationLink(destination: destinationView(for: service)) {
+        ListCell(
+          title: service.title,
+          subtitle: service.subtitle,
+          icon: service.icon,
+          iconColor: .accent
         )
       }
-      .listRowBackground(Color.primaryBackground)
     }
-    .listStyle(.plain)
+    .listStyle(.insetGrouped)
+    .scrollContentBackground(.hidden)
+    .scrollIndicators(.hidden)
+    .shadow(radius: 1)
   }
+  
+  @ViewBuilder
+  private func destinationView(for service: ServiceType) -> some View {
+    switch service {
+    case .support:
+      SupportScreen()
+        .onAppear { isShownTabBar = false }
+    case .qrcode:
+      QRCodeView()
+        .onAppear { isShownTabBar = false }
+    }
+  }
+}
+
+#Preview {
+  HomeScreen(isShownTabBar: .constant(true))
+    .environmentObject( UserViewModel() )
+    .environmentObject( StationViewModel() )
 }

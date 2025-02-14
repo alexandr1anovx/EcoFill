@@ -15,7 +15,7 @@ enum EmailStatus: String {
   
   var color: Color {
     switch self {
-    case .confirmed: .gray
+    case .confirmed: .green
     case .notConfirmed: .red
     }
   }
@@ -27,8 +27,6 @@ struct SettingScreen: View {
   @State private var newEmail = ""
   @State private var formPassword = ""
   @State private var deletionPassword = ""
-  
-  @State private var emailStatus = EmailStatus.notConfirmed
   @State private var isShownAlert = false
   
   @FocusState private var fieldContent: UserDataTextFieldContent?
@@ -42,13 +40,12 @@ struct SettingScreen: View {
   var body: some View {
     ZStack {
       Color.primaryBackground.ignoresSafeArea(.all)
-      VStack(spacing: 10) {
+      VStack(alignment: .leading, spacing: 10) {
         textFields
         emailStatusMessage
-        
         Spacer()
         updateEmailButton
-        deleteAccountButton.padding(.bottom, 10)
+        deleteAccountButton
       }
       .navigationTitle("Settings")
       .navigationBarTitleDisplayMode(.inline)
@@ -65,19 +62,18 @@ struct SettingScreen: View {
     }
   }
   
-  // MARK: Text Fields
   private var textFields: some View {
     List {
       CSTextField(
-        icon: "envelope",
-        prompt: "Current email address",
+        icon: .envelope,
+        hint: "Current email address",
         inputData: $currentEmail
       )
       .disabled(true)
       
       CSTextField(
-        icon: "envelope",
-        prompt: "New email address",
+        icon: .envelope,
+        hint: "New email address",
         inputData: $newEmail
       )
       .keyboardType(.emailAddress)
@@ -87,8 +83,8 @@ struct SettingScreen: View {
       .onSubmit { fieldContent = .password }
       
       CSTextField(
-        icon: "key",
-        prompt: "Current password",
+        icon: .lock,
+        hint: "Current password",
         inputData: $formPassword,
         isSecure: true
       )
@@ -104,15 +100,13 @@ struct SettingScreen: View {
     .shadow(radius: 2)
   }
   
-  // MARK: - Email Status Message
   private var emailStatusMessage: some View {
-    Text(emailStatus.message)
-      .font(.caption)
-      .foregroundStyle(emailStatus.color)
-      .padding(.horizontal, 20)
+    Text(userVM.emailStatus.message)
+      .font(.footnote)
+      .foregroundStyle(userVM.emailStatus.color)
+      .padding(.horizontal, 25)
   }
   
-  // MARK: Update Email button
   private var updateEmailButton: some View {
     Button {
       Task {
@@ -140,7 +134,6 @@ struct SettingScreen: View {
     }
   }
   
-  // MARK: Delete Account button
   private var deleteAccountButton: some View {
     Button {
       isShownAlert.toggle()
@@ -153,7 +146,7 @@ struct SettingScreen: View {
         .padding(.vertical, 8)
     }
     .buttonStyle(.borderedProminent)
-    .tint(.primaryRed)
+    .tint(.red)
     .padding(.horizontal, 20)
     .shadow(radius: 3)
     .alert("Confirm password", isPresented: $isShownAlert) {
@@ -166,7 +159,7 @@ struct SettingScreen: View {
     }
   }
   
-  // MARK: - Methods
+  // MARK: - Logic Methods
   private func displayEmailAddress() {
     if let userEmail = userVM.currentUser?.email {
       currentEmail = userEmail

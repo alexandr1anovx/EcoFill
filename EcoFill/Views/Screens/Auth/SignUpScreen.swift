@@ -1,7 +1,10 @@
 import SwiftUI
 
 enum City: String, Identifiable, CaseIterable {
-  case kyiv, mykolaiv, odesa
+  case kyiv
+  case mykolaiv
+  case odesa
+  
   var id: Self { self }
   var title: String { self.rawValue.capitalized }
 }
@@ -13,6 +16,7 @@ struct SignUpScreen: View {
   @State private var password = ""
   @FocusState private var fieldContent: UserDataTextFieldContent?
   @EnvironmentObject var userVM: UserViewModel
+  @Environment(\.dismiss) var dismiss
   
   private var isValidForm: Bool {
     !username.isEmpty
@@ -20,48 +24,51 @@ struct SignUpScreen: View {
     && password.count > 5
   }
   
+  // Picker Style Customization
+  init() {
+    UISegmentedControl.appearance().selectedSegmentTintColor = .accent
+    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.label], for: .normal)
+    UISegmentedControl.appearance().backgroundColor = .systemBackground
+  }
+  
   var body: some View {
     ZStack {
       Color.primaryBackground.ignoresSafeArea(.all)
-      
-      formStack
-        .padding(.top, 25)
-        .padding(.horizontal, 15)
-        .navigationTitle("Sign Up")
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
-        .onAppear {
-          fieldContent = .username
+      VStack(spacing: 15) {
+        textFields
+        cityPicker.padding(.horizontal, 23)
+        signUpButton.padding(.top, 10)
+        signInOption
+        Spacer()
+      }
+      .navigationTitle("Sign Up")
+      .navigationBarTitleDisplayMode(.inline)
+      .navigationBarBackButtonHidden(true)
+      .toolbar {
+        ToolbarItem(placement: .topBarLeading) {
+          ReturnButton()
         }
-        .toolbar {
-          ToolbarItem(placement: .topBarLeading) {
-            ReturnButton()
-          }
-          ToolbarItem(placement: .topBarTrailing) {
-            signUpButton
-          }
-        }
+      }
     }
   }
   
-  // MARK: - Form Stack
-  private var formStack: some View {
-    VStack(alignment: .leading, spacing: 20) {
+  private var textFields: some View {
+    List {
       CSTextField(
-        header: "Username",
-        placeholder: "Full Name",
-        data: $username
+        icon: .user,
+        hint: "Full Name",
+        inputData: $username
       )
       .focused($fieldContent, equals: .username)
       .textInputAutocapitalization(.words)
-      .autocorrectionDisabled(true)
       .submitLabel(.next)
       .onSubmit { fieldContent = .emailAddress }
       
       CSTextField(
-        header: "Email address",
-        placeholder: "name@example.com",
-        data: $emailAddress
+        icon: .envelope,
+        hint: "name@example.com",
+        inputData: $emailAddress
       )
       .focused($fieldContent, equals: .emailAddress)
       .keyboardType(.emailAddress)
@@ -70,33 +77,38 @@ struct SignUpScreen: View {
       .onSubmit { fieldContent = .password }
       
       CSTextField(
-        header: "Password",
-        placeholder: "At least 6 characters.",
-        data: $password,
+        icon: .lock,
+        hint: "Password",
+        inputData: $password,
         isSecure: true
       )
       .focused($fieldContent, equals: .password)
       .submitLabel(.done)
       .onSubmit { fieldContent = nil }
-      
-      cityPicker
-      Spacer()
     }
+    .frame(height: 185)
+    .scrollContentBackground(.hidden)
+    .scrollIndicators(.hidden)
+    .scrollDisabled(true)
+    .shadow(radius: 2)
   }
   
-  // MARK: - City Picker
   private var cityPicker: some View {
-    Picker("", selection: $userVM.selectedCity) {
-      ForEach(City.allCases) { city in
-        Text(city.title)
-      }
+    VStack(alignment: .leading, spacing: 15) {
+      Text("Select your city:")
+        .font(.footnote)
+        .fontDesign(.monospaced)
+        .foregroundStyle(.gray)
+      Picker("", selection: $userVM.selectedCity) {
+        ForEach(City.allCases) { city in
+          Text(city.title)
+        }
+      }.pickerStyle(.segmented)
     }
-    .pickerStyle(.segmented)
   }
   
-  // MARK: - Sign Up Button
   private var signUpButton: some View {
-    Button("Sign Up") {
+    Button {
       Task {
         await userVM.signUp(
           withInitials: username,
@@ -105,10 +117,19 @@ struct SignUpScreen: View {
           city: userVM.selectedCity
         )
       }
+    } label: {
+      Text("Sign Up")
+        .font(.callout).bold()
+        .fontDesign(.monospaced)
+        .foregroundStyle(.white)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 8)
     }
-    .foregroundStyle(.accent)
+    .buttonStyle(.borderedProminent)
+    .tint(.accent)
+    .padding(.horizontal, 20)
+    .shadow(radius: 5)
     .disabled(!isValidForm)
-    .opacity(isValidForm ? 1 : 0.5)
     .alert(item: $userVM.alertItem) { alert in
       Alert(
         title: alert.title,
@@ -117,4 +138,26 @@ struct SignUpScreen: View {
       )
     }
   }
+  
+  private var signInOption: some View {
+    Button {
+      dismiss()
+    } label: {
+      HStack(spacing: 8) {
+        Text("Already a member?")
+          .font(.footnote)
+          .fontDesign(.monospaced)
+          .foregroundStyle(.gray)
+        Text("Sign In.")
+          .font(.callout).bold()
+          .fontDesign(.monospaced)
+          .foregroundStyle(.accent)
+      }
+    }
+  }
+}
+
+#Preview {
+  SignUpScreen()
+    .environmentObject( UserViewModel() )
 }

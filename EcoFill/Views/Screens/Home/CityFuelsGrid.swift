@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct CityFuelsGrid: View {
+  
+  // MARK: - Properties
   @EnvironmentObject var userVM: UserViewModel
   @EnvironmentObject var stationVM: StationViewModel
   

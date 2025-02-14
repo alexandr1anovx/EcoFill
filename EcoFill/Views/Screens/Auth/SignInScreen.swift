@@ -16,25 +16,23 @@ struct SignInScreen: View {
     NavigationStack {
       ZStack {
         Color.primaryBackground.ignoresSafeArea(.all)
-        VStack(alignment: .leading, spacing: 20) {
-          logoImage
-          
+        VStack(spacing: 15) {
+          Image(.logo).frame(height: 50)
           if isFormVisible {
-            textFieldStack
+            textFields
             signInButton
             signUpOption
           }
           Spacer()
         }
-        .padding(.top, 20)
-        .padding(.horizontal, 15)
+        .padding(.top, 50)
       }
       .onTapGesture {
         UIApplication.shared.hideKeyboard()
       }
       .onAppear {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-          withAnimation(.spring(duration: 1)) {
+          withAnimation(.spring(duration: 0.8)) {
             isFormVisible = true
           }
         }
@@ -42,22 +40,12 @@ struct SignInScreen: View {
     }
   }
   
-  // MARK: - Logo Image
-  private var logoImage: some View {
-    HStack {
-      Spacer()
-      Image("logo").frame(height: 100)
-      Spacer()
-    }
-  }
-  
-  // MARK: - Text Field Stack
-  private var textFieldStack: some View {
-    VStack(spacing: 20) {
+  private var textFields: some View {
+    List {
       CSTextField(
-        header: "Email",
-        placeholder: "Enter your email address",
-        data: $email
+        icon: .envelope,
+        hint: "Email address",
+        inputData: $email
       )
       .focused($fieldContent, equals: .emailAddress)
       .textInputAutocapitalization(.never)
@@ -66,46 +54,67 @@ struct SignInScreen: View {
       .onSubmit { fieldContent = .password }
       
       CSTextField(
-        header: "Password",
-        placeholder: "Enter your password",
-        data: $password,
+        icon: .lock,
+        hint: "Password",
+        inputData: $password,
         isSecure: true
       )
       .focused($fieldContent, equals: .password)
       .submitLabel(.done)
       .onSubmit { fieldContent = nil }
     }
+    .listStyle(.insetGrouped)
+    .frame(height: 140)
+    .scrollContentBackground(.hidden)
+    .scrollDisabled(true)
+    .shadow(radius: 1)
   }
   
-  // MARK: - Sign In Button
   private var signInButton: some View {
-    CSButton(title: "Sign In", image: "userFill", color: .accent) {
+    Button {
       Task {
         await userVM.signIn(with: email, password: password)
       }
+    } label: {
+      Text("Sign In")
+        .font(.callout).bold()
+        .fontDesign(.monospaced)
+        .foregroundStyle(.white)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 8)
     }
+    .buttonStyle(.borderedProminent)
+    .tint(.accent)
+    .padding(.horizontal, 20)
+    .shadow(radius: 3)
     .disabled(!isValidForm)
-    .opacity(isValidForm ? 1.0 : 0.5)
+    .alert(item: $userVM.alertItem) { alert in
+      Alert(
+        title: alert.title,
+        message: alert.message,
+        dismissButton: alert.dismissButton
+      )
+    }
   }
   
-  // MARK: - Sign Up Option
   private var signUpOption: some View {
     HStack(spacing: 5) {
       Text("New member?")
-        .font(.poppins(.regular, size: 14))
+        .font(.footnote)
         .foregroundStyle(.gray)
-      NavigationLink("Sign Up") {
+      NavigationLink {
         SignUpScreen()
-      }
-      .font(.poppins(.medium, size: 16))
-      .foregroundStyle(.accent)
-      .alert(item: $userVM.alertItem) { alert in
-        Alert(
-          title: alert.title,
-          message: alert.message,
-          dismissButton: alert.dismissButton
-        )
+      } label: {
+        Text("Sign Up.")
+          .font(.callout).bold()
+          .foregroundStyle(.accent)
       }
     }
+    .fontDesign(.monospaced)
   }
+}
+
+#Preview {
+  SignInScreen()
+    .environmentObject(UserViewModel())
 }

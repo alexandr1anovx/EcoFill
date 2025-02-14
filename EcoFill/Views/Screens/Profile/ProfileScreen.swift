@@ -1,5 +1,7 @@
 import SwiftUI
 
+
+
 struct ProfileScreen: View {
   
   @Binding var isShownTabBar: Bool
@@ -10,25 +12,22 @@ struct ProfileScreen: View {
     NavigationStack {
       ZStack {
         Color.primaryBackground.ignoresSafeArea(.all)
-        
-        VStack {
+        VStack(spacing: 0) {
           UserDataView()
           List {
-            AppColorSchemeCell().listRowBackground(Color.primaryBackground)
+            AppColorSchemeCell()
+            settingsButton
+            rateUsButton
             signOutButton
           }
-          .listStyle(.plain)
+          .listStyle(.insetGrouped)
+          .scrollContentBackground(.hidden)
+          .scrollIndicators(.hidden)
+          .listRowSpacing(10)
+          .shadow(radius: 1)
         }
         .navigationTitle("Profile")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-          ToolbarItem(placement: .topBarLeading) {
-            ToolbarLogoImage()
-          }
-          ToolbarItem(placement: .topBarTrailing) {
-            settingsButton
-          }
-        }
         .onAppear { isShownTabBar = true }
       }
     }
@@ -39,20 +38,35 @@ struct ProfileScreen: View {
       SettingScreen()
         .onAppear { isShownTabBar = false }
     } label: {
-      Image("gear")
-        .navigationBarImageSize
-        .foregroundStyle(.accent)
+      ListCell(
+        title: "Settings",
+        subtitle: "Change your personal data.",
+        icon: .settings,
+        iconColor: .primaryReversed
+      )
     }
   }
   
-  private var signOutButton: some View {
-    PlainListCell(
-      title: "Sign Out",
-      description: "Sign out from current account.",
-      image: "logout",
-      imageColor: .primaryRed
+  private var rateUsButton: some View {
+    ListCell(
+      title: "Rate Us",
+      subtitle: "Help more people to know about us.",
+      icon: .like,
+      iconColor: .orange
     )
-    .listRowBackground(Color.primaryBackground)
+  }
+  
+  private var signOutButton: some View {
+    HStack(spacing: 15) {
+      Image(.signOut)
+        .foregroundStyle(.red)
+      Text("Sign Out")
+        .font(.system(size: 15))
+        .fontWeight(.medium)
+        .fontDesign(.monospaced)
+        .foregroundStyle(.primaryReversed)
+        .padding(.vertical, 10)
+    }
     .onTapGesture {
       isShownAlert.toggle()
     }
@@ -66,4 +80,10 @@ struct ProfileScreen: View {
       Text("This action will redirect you to the Sign In screen.")
     }
   }
+}
+
+#Preview {
+  ProfileScreen(isShownTabBar: .constant(false))
+    .environmentObject(UserViewModel())
+    .environmentObject(StationViewModel())
 }
