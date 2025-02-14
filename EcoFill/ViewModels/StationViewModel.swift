@@ -5,15 +5,13 @@ import FirebaseFirestore
 @MainActor
 final class StationViewModel: ObservableObject {
   
-  // MARK: - Public Properties
   @Published var stations: [Station] = []
   @Published var selectedStation: Station?
   @Published var route: MKRoute?
-  @Published var isRouteShown = false
-  @Published var isDetailsShown = false
-  @Published var isListShown = false
+  @Published var isShownRoute = false
+  @Published var isShownDetail = false
+  @Published var isShownList = false
   
-  // MARK: - Private Properties
   private let locationManager = LocationManager.shared
   
   // MARK: - Public Methods
@@ -77,7 +75,7 @@ final class StationViewModel: ObservableObject {
   }
   
   func toggleRoutePresentation() async {
-    if isRouteShown {
+    if isShownRoute {
       if let selectedStation = selectedStation {
         await getRoute(to: selectedStation)
       }

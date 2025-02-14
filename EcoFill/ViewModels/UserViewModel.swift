@@ -12,14 +12,12 @@ enum UserDataTextFieldContent {
 @MainActor
 final class UserViewModel: ObservableObject {
   
-  // MARK: - Public Properties
   @Published var alertItem: AlertItem?
   @Published var userSession: FirebaseAuth.User?
   @Published var currentUser: User?
   @Published var selectedCity = City.mykolaiv
-  var isEmailVerified = false
+  @Published var emailStatus: EmailStatus = .notConfirmed
   
-  // MARK: - Private Properties
   private let userCollection = Firestore.firestore().collection("users")
   
   // MARK: - Initializer
@@ -47,7 +45,7 @@ final class UserViewModel: ObservableObject {
       
       let user = User(
         id: result.user.uid,
-        city: city.rawValue,
+        city: city.title,
         email: email,
         initials: initials
       )
@@ -122,7 +120,7 @@ final class UserViewModel: ObservableObject {
   
   func checkEmailVerificationStatus() {
     guard let user = userSession else { return }
-    isEmailVerified = user.isEmailVerified
+    emailStatus = user.isEmailVerified ? .confirmed : .notConfirmed
   }
   
   // MARK: - Private Methods
