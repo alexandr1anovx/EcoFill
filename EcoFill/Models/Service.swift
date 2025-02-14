@@ -1,20 +1,28 @@
 import Foundation
+import DeveloperToolsSupport
 
-enum ServiceType: String {
+enum ServiceType: String, CaseIterable {
+  case qrcode
   case support
-}
-
-struct Service: Identifiable {
-  let id = UUID()
-  let image: String
-  let type: ServiceType
-  let description: String
   
-  static let services: [Service] = [
-    Service(
-      image: "feedback",
-      type: .support,
-      description: "Send a feedback about us."
-    )
-  ]
+  var icon: ImageResource {
+    switch self {
+    case .qrcode: .qrcode
+    case .support: .message
+    }
+  }
+  
+  var title: String {
+    switch self {
+    case .qrcode: "QR Code"
+    case .support: "Support"
+    }
+  }
+  
+  var subtitle: String {
+    switch self {
+    case .qrcode: "Scan this code to get bonuses."
+    case .support: "Send a feedback about us."
+    }
+  }
 }
