@@ -10,7 +10,7 @@
 		32044B7F2C87E60300D90077 /* CityFuelsGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32044B7E2C87E60300D90077 /* CityFuelsGrid.swift */; };
 		32144CBA2B81200E009C3081 /* FuelStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32144CB92B81200E009C3081 /* FuelStackView.swift */; };
 		321DAA322CBEEAC200D39207 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 321DAA312CBEEAC200D39207 /* GoogleService-Info.plist */; };
-		321FD8DA2CC0826900868AFE /* CustomRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321FD8D92CC0826900868AFE /* CustomRow.swift */; };
+		321FD8DA2CC0826900868AFE /* CSRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321FD8D92CC0826900868AFE /* CSRow.swift */; };
 		322564762CBDB48100DE6AF9 /* ReturnButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322564752CBDB48100DE6AF9 /* ReturnButton.swift */; };
 		3231D5082CBD5A0000B50822 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3231D5052CBD5A0000B50822 /* Poppins-Regular.ttf */; };
 		3231D5092CBD5A0000B50822 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3231D5062CBD5A0000B50822 /* Poppins-Bold.ttf */; };
@@ -18,7 +18,6 @@
 		323445702B4752F700C218F1 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234456F2B4752F700C218F1 /* UserViewModel.swift */; };
 		323959792C828E8E00599876 /* CSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323959782C828E8E00599876 /* CSButton.swift */; };
 		3242D11C2B728F04005BE4A3 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3242D11B2B728F04005BE4A3 /* Station.swift */; };
-		3270E2FC2BADB88C0047E645 /* UpdateEmailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3270E2FB2BADB88C0047E645 /* UpdateEmailScreen.swift */; };
 		329613982B7914DD00649CAC /* AppColorSchemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329613972B7914DD00649CAC /* AppColorSchemeCell.swift */; };
 		329CE1CD2CC043C20074557F /* Map+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329CE1CC2CC043C20074557F /* Map+Extension.swift */; };
 		329CE1CF2CC045F00074557F /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329CE1CE2CC045F00074557F /* View+Extension.swift */; };
@@ -30,11 +29,10 @@
 		32DF06DA2CC165D10073A6A4 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DF06D92CC165D10073A6A4 /* TabBarView.swift */; };
 		32DF06DD2CC1748B0073A6A4 /* TabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DF06DC2CC1748B0073A6A4 /* TabBarButton.swift */; };
 		32DF06DF2CC181C60073A6A4 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DF06DE2CC181C60073A6A4 /* TabBarItem.swift */; };
-		32DF06E12CC19DF70073A6A4 /* StationMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DF06E02CC19DF70073A6A4 /* StationMarkView.swift */; };
 		32E563892B9CC7C5000BCFD4 /* CustomButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E563882B9CC7C5000BCFD4 /* CustomButtonStyle.swift */; };
 		32F4B5032B7A4ABF003EF8D3 /* StationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F4B5022B7A4ABF003EF8D3 /* StationListView.swift */; };
 		32F4C3162BA0EF5A00B8A2E5 /* AnimatedButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F4C3152BA0EF5A00B8A2E5 /* AnimatedButtonStyle.swift */; };
-		32F5578B2CBF6AD100CB3CA4 /* PlainListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F5578A2CBF6AD100CB3CA4 /* PlainListCell.swift */; };
+		32F5578B2CBF6AD100CB3CA4 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F5578A2CBF6AD100CB3CA4 /* ListCell.swift */; };
 		32FA10352C890A9800F4C327 /* StationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FA10342C890A9800F4C327 /* StationViewModel.swift */; };
 		50BAC33C2D0290AA00CD052B /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAC33B2D0290AA00CD052B /* Font+Extension.swift */; };
 		6105433A2B34BD0700CFC9DB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 610543392B34BD0700CFC9DB /* FirebaseAuth */; };
@@ -61,13 +59,14 @@
 		61E5E6162B17E981005B3D03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61E5E6152B17E981005B3D03 /* Assets.xcassets */; };
 		61E5E6192B17E981005B3D03 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61E5E6182B17E981005B3D03 /* Preview Assets.xcassets */; };
 		D1ABF2402D58F8C4001E4656 /* ToolbarLogoImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ABF23F2D58F8C4001E4656 /* ToolbarLogoImage.swift */; };
+		D1C540462D5A0E8000678D8C /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C540452D5A0E8000678D8C /* Color+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		32044B7E2C87E60300D90077 /* CityFuelsGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityFuelsGrid.swift; sourceTree = "<group>"; };
 		32144CB92B81200E009C3081 /* FuelStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuelStackView.swift; sourceTree = "<group>"; };
 		321DAA312CBEEAC200D39207 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		321FD8D92CC0826900868AFE /* CustomRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomRow.swift; path = EcoFill/Views/Shared/CustomRow.swift; sourceTree = SOURCE_ROOT; };
+		321FD8D92CC0826900868AFE /* CSRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CSRow.swift; path = EcoFill/Views/Shared/CSRow.swift; sourceTree = SOURCE_ROOT; };
 		322564752CBDB48100DE6AF9 /* ReturnButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnButton.swift; sourceTree = "<group>"; };
 		3231D5052CBD5A0000B50822 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		3231D5062CBD5A0000B50822 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
@@ -76,7 +75,6 @@
 		323959782C828E8E00599876 /* CSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSButton.swift; sourceTree = "<group>"; };
 		3242D11B2B728F04005BE4A3 /* Station.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
 		325EC5CE2B8504D30049C234 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3270E2FB2BADB88C0047E645 /* UpdateEmailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateEmailScreen.swift; sourceTree = "<group>"; };
 		329613972B7914DD00649CAC /* AppColorSchemeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColorSchemeCell.swift; sourceTree = "<group>"; };
 		329CE1CC2CC043C20074557F /* Map+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Map+Extension.swift"; sourceTree = "<group>"; };
 		329CE1CE2CC045F00074557F /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
@@ -88,11 +86,10 @@
 		32DF06D92CC165D10073A6A4 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		32DF06DC2CC1748B0073A6A4 /* TabBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarButton.swift; sourceTree = "<group>"; };
 		32DF06DE2CC181C60073A6A4 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
-		32DF06E02CC19DF70073A6A4 /* StationMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationMarkView.swift; sourceTree = "<group>"; };
 		32E563882B9CC7C5000BCFD4 /* CustomButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonStyle.swift; sourceTree = "<group>"; };
 		32F4B5022B7A4ABF003EF8D3 /* StationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationListView.swift; sourceTree = "<group>"; };
 		32F4C3152BA0EF5A00B8A2E5 /* AnimatedButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedButtonStyle.swift; sourceTree = "<group>"; };
-		32F5578A2CBF6AD100CB3CA4 /* PlainListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainListCell.swift; sourceTree = "<group>"; };
+		32F5578A2CBF6AD100CB3CA4 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		32FA10342C890A9800F4C327 /* StationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationViewModel.swift; sourceTree = "<group>"; };
 		50BAC33B2D0290AA00CD052B /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		610543662B34CB0400CFC9DB /* SignInScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInScreen.swift; sourceTree = "<group>"; };
@@ -115,6 +112,7 @@
 		61E5E6152B17E981005B3D03 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		61E5E6182B17E981005B3D03 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D1ABF23F2D58F8C4001E4656 /* ToolbarLogoImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarLogoImage.swift; sourceTree = "<group>"; };
+		D1C540452D5A0E8000678D8C /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,7 +135,6 @@
 			isa = PBXGroup;
 			children = (
 				61BEC9A02B1E703D00AF223D /* SettingScreen.swift */,
-				3270E2FB2BADB88C0047E645 /* UpdateEmailScreen.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -211,7 +208,7 @@
 		329CE1D52CC048110074557F /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				32F5578A2CBF6AD100CB3CA4 /* PlainListCell.swift */,
+				32F5578A2CBF6AD100CB3CA4 /* ListCell.swift */,
 				329613972B7914DD00649CAC /* AppColorSchemeCell.swift */,
 				32BCC2412B8424E800AE47D6 /* CustomFuelCell.swift */,
 			);
@@ -253,7 +250,6 @@
 				614314912B17F98F009A1D9C /* MapScreen.swift */,
 				611AD1322B1D3F4800BD5EB7 /* MapItemView.swift */,
 				32F4B5022B7A4ABF003EF8D3 /* StationListView.swift */,
-				32DF06E02CC19DF70073A6A4 /* StationMarkView.swift */,
 				32D546B22C247DAF0074761A /* StationListCell.swift */,
 			);
 			path = Map;
@@ -276,7 +272,7 @@
 				329CE1D52CC048110074557F /* Cell */,
 				329CE1D42CC048080074557F /* Button */,
 				6171A4432B1DCE6400D22A23 /* UserDataView.swift */,
-				321FD8D92CC0826900868AFE /* CustomRow.swift */,
+				321FD8D92CC0826900868AFE /* CSRow.swift */,
 				32144CB92B81200E009C3081 /* FuelStackView.swift */,
 				D1ABF23F2D58F8C4001E4656 /* ToolbarLogoImage.swift */,
 			);
@@ -344,9 +340,10 @@
 			children = (
 				329CE1CC2CC043C20074557F /* Map+Extension.swift */,
 				329CE1CE2CC045F00074557F /* View+Extension.swift */,
+				50BAC33B2D0290AA00CD052B /* Font+Extension.swift */,
+				D1C540452D5A0E8000678D8C /* Color+Extension.swift */,
 				329CE1D02CC0472C0074557F /* String+Extension.swift */,
 				329CE1D22CC047560074557F /* UIApplication+Extension.swift */,
-				50BAC33B2D0290AA00CD052B /* Font+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -504,16 +501,15 @@
 				32A1F7172CA22FAD00999723 /* LocationManager.swift in Sources */,
 				329613982B7914DD00649CAC /* AppColorSchemeCell.swift in Sources */,
 				61E5E6122B17E981005B3D03 /* EcoFillApp.swift in Sources */,
-				32DF06E12CC19DF70073A6A4 /* StationMarkView.swift in Sources */,
-				321FD8DA2CC0826900868AFE /* CustomRow.swift in Sources */,
+				D1C540462D5A0E8000678D8C /* Color+Extension.swift in Sources */,
+				321FD8DA2CC0826900868AFE /* CSRow.swift in Sources */,
 				50BAC33C2D0290AA00CD052B /* Font+Extension.swift in Sources */,
 				3242D11C2B728F04005BE4A3 /* Station.swift in Sources */,
-				32F5578B2CBF6AD100CB3CA4 /* PlainListCell.swift in Sources */,
+				32F5578B2CBF6AD100CB3CA4 /* ListCell.swift in Sources */,
 				329CE1CD2CC043C20074557F /* Map+Extension.swift in Sources */,
 				329CE1D32CC047560074557F /* UIApplication+Extension.swift in Sources */,
 				32E563892B9CC7C5000BCFD4 /* CustomButtonStyle.swift in Sources */,
 				323445702B4752F700C218F1 /* UserViewModel.swift in Sources */,
-				3270E2FC2BADB88C0047E645 /* UpdateEmailScreen.swift in Sources */,
 				6105436A2B34CF5700CFC9DB /* CSTextField.swift in Sources */,
 				614314942B17F9A2009A1D9C /* ProfileScreen.swift in Sources */,
 				61696B712B1F741F00406421 /* User.swift in Sources */,
