@@ -3,16 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.883629913710-9afmkeobv416a6ss2e49cv6rbappcmim</string>
-			</array>
-		</dict>
-	</array>
+	<array/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Poppins-Bold.ttf</string>
