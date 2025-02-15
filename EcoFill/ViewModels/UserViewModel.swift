@@ -9,6 +9,24 @@ enum UserDataTextFieldContent {
   case supportMessage
 }
 
+enum EmailStatus {
+  case confirmed, notConfirmed
+  
+  var message: String {
+    switch self {
+    case .confirmed: "Confirmed."
+    case .notConfirmed: "Not confirmed."
+    }
+  }
+  
+  var hint: String {
+    switch self {
+    case .confirmed: ""
+    case .notConfirmed: "A confirmation link has been sent to your e-mail address."
+    }
+  }
+}
+
 @MainActor
 final class UserViewModel: ObservableObject {
   
