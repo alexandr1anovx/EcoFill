@@ -14,15 +14,3 @@ extension Color {
     endPoint: .bottomTrailing
   )
 }
-
-private struct Test: View {
-  var body: some View {
-    ZStack {
-      Color.appBackground.ignoresSafeArea(.all)
-    }
-  }
-}
-
-#Preview {
-  Test()
-}
