@@ -13,10 +13,10 @@
       "color" : {
         "color-space" : "srgb",
         "components" : {
-          "alpha" : "1.000",
-          "blue" : "0x1A",
-          "green" : "0x17",
-          "red" : "0x17"
+          "alpha" : "0.850",
+          "blue" : "0xFB",
+          "green" : "0xFB",
+          "red" : "0xFB"
         }
       },
       "idiom" : "universal"
