@@ -54,7 +54,6 @@
 		61E5E6142B17E981005B3D03 /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E5E6132B17E981005B3D03 /* LaunchScreen.swift */; };
 		61E5E6162B17E981005B3D03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61E5E6152B17E981005B3D03 /* Assets.xcassets */; };
 		61E5E6192B17E981005B3D03 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61E5E6182B17E981005B3D03 /* Preview Assets.xcassets */; };
-		D1ABF2402D58F8C4001E4656 /* ToolbarLogoImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ABF23F2D58F8C4001E4656 /* ToolbarLogoImage.swift */; };
 		D1C540462D5A0E8000678D8C /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C540452D5A0E8000678D8C /* Color+Extension.swift */; };
 		D1CD5F7D2D60C2BD008E6B57 /* Image+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CD5F7C2D60C2BD008E6B57 /* Image+Extension.swift */; };
 		D1F5A54D2D60CCE400D57A9C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D1F5A54C2D60CCE400D57A9C /* GoogleService-Info.plist */; };
@@ -105,7 +104,6 @@
 		61E5E6132B17E981005B3D03 /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		61E5E6152B17E981005B3D03 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		61E5E6182B17E981005B3D03 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		D1ABF23F2D58F8C4001E4656 /* ToolbarLogoImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarLogoImage.swift; sourceTree = "<group>"; };
 		D1C540452D5A0E8000678D8C /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		D1CD5F7C2D60C2BD008E6B57 /* Image+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extension.swift"; sourceTree = "<group>"; };
 		D1F5A54C2D60CCE400D57A9C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -260,7 +258,6 @@
 				6171A4432B1DCE6400D22A23 /* UserDataView.swift */,
 				321FD8D92CC0826900868AFE /* CSRow.swift */,
 				32144CB92B81200E009C3081 /* FuelStackView.swift */,
-				D1ABF23F2D58F8C4001E4656 /* ToolbarLogoImage.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -469,7 +466,6 @@
 				32D546B32C247DAF0074761A /* StationListCell.swift in Sources */,
 				322564762CBDB48100DE6AF9 /* ReturnButton.swift in Sources */,
 				614314902B17F980009A1D9C /* HomeScreen.swift in Sources */,
-				D1ABF2402D58F8C4001E4656 /* ToolbarLogoImage.swift in Sources */,
 				32044B7F2C87E60300D90077 /* CityFuelsGrid.swift in Sources */,
 				61696B742B1F74EE00406421 /* Alert.swift in Sources */,
 				6171A4462B1DD11800D22A23 /* QRCodeView.swift in Sources */,
