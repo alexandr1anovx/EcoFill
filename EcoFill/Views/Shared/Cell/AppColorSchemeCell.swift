@@ -30,7 +30,7 @@ struct AppColorSchemeCell: View {
       switch appColorScheme {
       case .system:
         Image(.nightDay)
-          .foregroundStyle(.indigo)
+          .foregroundStyle(.gray)
       case .light:
         Image(.sun)
           .foregroundStyle(.yellow)

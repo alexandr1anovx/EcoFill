@@ -32,7 +32,7 @@ struct StationListView: View {
           StationListCell(station: station)
         }
         .listStyle(.insetGrouped)
-        .listRowSpacing(15)
+        .listRowSpacing(20)
         .scrollContentBackground(.hidden)
         .scrollIndicators(.hidden)
         .shadow(radius: 3)

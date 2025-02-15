@@ -6,51 +6,43 @@ struct UserDataView: View {
   var body: some View {
     if let user = userVM.currentUser {
       HStack {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 15) {
           
-          HStack(spacing: 12) {
+          // Username
+          HStack(spacing: 10) {
             Image(.user)
               .foregroundStyle(.accent)
             Text(user.initials)
-              .font(.system(size: 15))
-              .fontWeight(.bold)
+              .font(.callout).bold()
               .fontDesign(.monospaced)
               .foregroundStyle(.primaryReversed)
           }
-//          label(for: user.initials, icon: .user)
-//          Text(user.initials)
-//            .font(.callout)
-//            .fontWeight(.medium)
-//            .fontDesign(.monospaced)
-//            .foregroundStyle(.primaryReversed)
-          label(for: user.email, icon: .envelope)
-//          Text("\(user.email)")
-//            .font(.callout)
-//            .foregroundStyle(.gray)
+          
+          HStack(spacing: 10) {
+            Image(.envelope)
+              .foregroundStyle(.accent)
+            Text(user.email)
+              .font(.system(size: 14))
+              .fontWeight(.medium)
+              .fontDesign(.monospaced)
+              .foregroundStyle(.gray)
+          }
         }
         Spacer()
-        label(for: user.city, icon: .marker)
-//        CSRow(
-//          data: user.city,
-//          image: "mappin",
-//          imageColor: .accent
-//        )
+        
+        HStack(spacing: 10) {
+          Image(.marker)
+            .foregroundStyle(.accent)
+          Text(user.city)
+            .font(.system(size: 14))
+            .fontWeight(.medium)
+            .fontDesign(.monospaced)
+            .foregroundStyle(.gray)
+        }
       }
       .padding(20)
     } else {
       ProgressView()
-    }
-  }
-  
-  private func label(for data: String, icon: ImageResource) -> some View {
-    HStack(spacing: 12) {
-      Image(icon)
-        .foregroundStyle(.accent)
-      Text(data)
-        .font(.system(size: 14))
-        .fontWeight(.medium)
-        .fontDesign(.monospaced)
-        .foregroundStyle(.gray)
     }
   }
 }
@@ -58,4 +50,5 @@ struct UserDataView: View {
 #Preview {
   UserDataView()
     .environmentObject(UserViewModel())
+    .environmentObject(StationViewModel())
 }

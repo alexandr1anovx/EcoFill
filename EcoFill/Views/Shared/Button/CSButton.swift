@@ -1,25 +1,31 @@
 import SwiftUI
 
 struct CSButton: View {
+  
   let title: String
-  let bgColor: Color
+  let color: Color
   let action: () -> Void
   
   var body: some View {
     Button(action: action) {
       Text(title)
-        .font(.callout)
-        .fontWeight(.medium)
+        .font(.callout).bold()
+        .fontDesign(.monospaced)
         .foregroundStyle(.white)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 8)
     }
-    .buttonModifier(pouring: bgColor)
+    .buttonStyle(.borderedProminent)
+    .tint(color)
+    .padding(.horizontal, 20)
+    .shadow(radius: 3)
   }
 }
 
 #Preview {
   CSButton(
     title: "Route",
-    bgColor: .accent,
+    color: .accent,
     action: {}
   )
 }
