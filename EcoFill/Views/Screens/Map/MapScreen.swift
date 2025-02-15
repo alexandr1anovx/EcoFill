@@ -25,15 +25,15 @@ struct MapScreen: View {
     Map(position: $cameraPosition) {
       UserAnnotation()
       ForEach(stationVM.stations) { station in
-        let name = station.name
+        
         let coordinate = station.coordinate
-        Annotation(name, coordinate: coordinate) {
+        Annotation("EcoFill", coordinate: coordinate) {
           stationMark(for: station)
         }
       }
       if let route = stationVM.route {
         MapPolyline(route.polyline)
-          .stroke(.purple, lineWidth: 4)
+          .stroke(.green, lineWidth: 3)
       }
     }
   }
@@ -61,11 +61,14 @@ struct MapScreen: View {
     Button {
       stationVM.isShownList.toggle()
     } label: {
-      Image(.menu).foregroundStyle(.green)
+      Image(.menu)
+        .foregroundStyle(.accent)
+        .padding(11)
+        .background(.primaryBackground.opacity(0.8))
+        .clipShape(.buttonBorder)
     }
-    .buttonModifier(pouring: .primaryBlack)
-    .padding(.trailing, 5)
-    .padding(.top, 55)
+    .padding(.trailing, 6)
+    .padding(.top, 60)
     .sheet(isPresented: $stationVM.isShownList) {
       StationListView()
         .presentationDetents([.height(450)])

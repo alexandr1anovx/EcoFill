@@ -48,9 +48,10 @@ struct SignInScreen: View {
         inputData: $email
       )
       .focused($fieldContent, equals: .emailAddress)
-      .textInputAutocapitalization(.never)
       .keyboardType(.emailAddress)
-      .submitLabel(.next)
+      .autocorrectionDisabled(true)
+      .textInputAutocapitalization(.never)
+      .submitLabel(.continue)
       .onSubmit { fieldContent = .password }
       
       CSTextField(
@@ -71,22 +72,11 @@ struct SignInScreen: View {
   }
   
   private var signInButton: some View {
-    Button {
+    CSButton(title: "Sign In", color: .accent) {
       Task {
         await userVM.signIn(with: email, password: password)
       }
-    } label: {
-      Text("Sign In")
-        .font(.callout).bold()
-        .fontDesign(.monospaced)
-        .foregroundStyle(.white)
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 8)
     }
-    .buttonStyle(.borderedProminent)
-    .tint(.accent)
-    .padding(.horizontal, 20)
-    .shadow(radius: 3)
     .disabled(!isValidForm)
     .alert(item: $userVM.alertItem) { alert in
       Alert(

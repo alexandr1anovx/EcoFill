@@ -1,26 +1,6 @@
 import SwiftUI
 import FirebaseAuth
 
-enum EmailStatus: String {
-  case confirmed, notConfirmed
-  
-  var message: String {
-    switch self {
-    case .confirmed:
-      "Email confirmed."
-    case .notConfirmed:
-      "Email not confirmed. A confirmation link has been sent to your e-mail address."
-    }
-  }
-  
-  var color: Color {
-    switch self {
-    case .confirmed: .green
-    case .notConfirmed: .red
-    }
-  }
-}
-
 struct SettingScreen: View {
   
   @State private var currentEmail = ""
@@ -101,29 +81,30 @@ struct SettingScreen: View {
   }
   
   private var emailStatusMessage: some View {
-    Text(userVM.emailStatus.message)
-      .font(.footnote)
-      .foregroundStyle(userVM.emailStatus.color)
-      .padding(.horizontal, 25)
+    VStack(alignment: .leading, spacing: 6) {
+      HStack(spacing: 4) {
+        Text("Email status:")
+          .font(.footnote)
+          .fontWeight(.medium)
+        Text(userVM.emailStatus.message)
+          .font(.footnote).bold()
+          .foregroundStyle(
+            userVM.emailStatus == .confirmed ? .green : .red
+          )
+      }
+      Text(userVM.emailStatus.hint)
+        .font(.caption)
+        .foregroundStyle(.gray)
+    }
+    .padding(.horizontal, 20)
   }
   
   private var updateEmailButton: some View {
-    Button {
+    CSButton(title: "Update Email", color: .accent) {
       Task {
         await userVM.updateCurrentEmail(to: newEmail, with: formPassword)
       }
-    } label: {
-      Text("Update Email")
-        .font(.callout).bold()
-        .fontDesign(.monospaced)
-        .foregroundStyle(.white)
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 8)
     }
-    .buttonStyle(.borderedProminent)
-    .tint(.accent)
-    .padding(.horizontal, 20)
-    .shadow(radius: 3)
     .disabled(!isValidForm)
     .alert(item: $userVM.alertItem) { alert in
       Alert(
@@ -135,20 +116,9 @@ struct SettingScreen: View {
   }
   
   private var deleteAccountButton: some View {
-    Button {
+    CSButton(title: "Delete Account", color: .red) {
       isShownAlert.toggle()
-    } label: {
-      Text("Delete Account")
-        .font(.callout).bold()
-        .fontDesign(.monospaced)
-        .foregroundStyle(.white)
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 8)
     }
-    .buttonStyle(.borderedProminent)
-    .tint(.red)
-    .padding(.horizontal, 20)
-    .shadow(radius: 3)
     .alert("Confirm password", isPresented: $isShownAlert) {
       SecureField("", text: $deletionPassword)
       Button("Delete", role: .destructive) {

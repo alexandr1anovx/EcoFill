@@ -45,7 +45,7 @@ struct SupportScreen: View {
       
       CSTextField(
         icon: .message,
-        hint: "At least 10 characters",
+        hint: "At least 10 characters.",
         inputData: $message
       )
       .submitLabel(.done)
@@ -66,21 +66,10 @@ struct SupportScreen: View {
   }
   
   private var sendMessageButton: some View {
-    Button {
-      message = "" // clear the message field
+    CSButton(title: "Send Message", color: .accent) {
+      message = ""
       isShownAlert.toggle()
-    } label: {
-      Text("Send message")
-        .font(.callout).bold()
-        .fontDesign(.monospaced)
-        .foregroundStyle(.white)
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 8)
     }
-    .buttonStyle(.borderedProminent)
-    .tint(.accent)
-    .padding(.horizontal, 20)
-    .shadow(radius: 2)
     .disabled(!isMessageCorrect)
     .alert("Thanks!", isPresented: $isShownAlert) {
       // "OK" button by default

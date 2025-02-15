@@ -62,7 +62,7 @@ struct SignUpScreen: View {
       )
       .focused($fieldContent, equals: .username)
       .textInputAutocapitalization(.words)
-      .submitLabel(.next)
+      .submitLabel(.continue)
       .onSubmit { fieldContent = .emailAddress }
       
       CSTextField(
@@ -72,8 +72,9 @@ struct SignUpScreen: View {
       )
       .focused($fieldContent, equals: .emailAddress)
       .keyboardType(.emailAddress)
+      .autocorrectionDisabled(true)
       .textInputAutocapitalization(.never)
-      .submitLabel(.next)
+      .submitLabel(.continue)
       .onSubmit { fieldContent = .password }
       
       CSTextField(
@@ -108,7 +109,7 @@ struct SignUpScreen: View {
   }
   
   private var signUpButton: some View {
-    Button {
+    CSButton(title: "Sign Up", color: .accent) {
       Task {
         await userVM.signUp(
           withInitials: username,
@@ -117,18 +118,7 @@ struct SignUpScreen: View {
           city: userVM.selectedCity
         )
       }
-    } label: {
-      Text("Sign Up")
-        .font(.callout).bold()
-        .fontDesign(.monospaced)
-        .foregroundStyle(.white)
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 8)
     }
-    .buttonStyle(.borderedProminent)
-    .tint(.accent)
-    .padding(.horizontal, 20)
-    .shadow(radius: 5)
     .disabled(!isValidForm)
     .alert(item: $userVM.alertItem) { alert in
       Alert(
