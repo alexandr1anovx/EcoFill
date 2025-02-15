@@ -17,7 +17,9 @@ struct SignInScreen: View {
       ZStack {
         Color.primaryBackground.ignoresSafeArea(.all)
         VStack(spacing: 15) {
-          Image(.logo).frame(height: 50)
+          Image(.logo)
+            .frame(height: 100)
+            .shadow(radius: 2)
           if isFormVisible {
             textFields
             signInButton
@@ -25,7 +27,7 @@ struct SignInScreen: View {
           }
           Spacer()
         }
-        .padding(.top, 50)
+        .padding(.top, 30)
       }
       .onTapGesture {
         UIApplication.shared.hideKeyboard()
@@ -97,7 +99,7 @@ struct SignInScreen: View {
       } label: {
         Text("Sign Up.")
           .font(.callout).bold()
-          .foregroundStyle(.accent)
+          .foregroundStyle(.green)
       }
     }
     .fontDesign(.monospaced)

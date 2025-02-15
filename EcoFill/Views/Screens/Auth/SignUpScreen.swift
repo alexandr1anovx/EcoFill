@@ -141,7 +141,7 @@ struct SignUpScreen: View {
         Text("Sign In.")
           .font(.callout).bold()
           .fontDesign(.monospaced)
-          .foregroundStyle(.accent)
+          .foregroundStyle(.green)
       }
     }
   }
