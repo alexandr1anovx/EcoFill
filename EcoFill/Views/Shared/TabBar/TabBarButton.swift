@@ -11,8 +11,8 @@ struct TabBarButton: View {
   
   let title: String
   let image: String
-  let tab: TabBarItem
-  @Binding var selectedTab: TabBarItem
+  let tab: Tab
+  @Binding var selectedTab: Tab
   
   var body: some View {
     Button {
@@ -20,10 +20,8 @@ struct TabBarButton: View {
         selectedTab = tab
       }
     } label: {
-      HStack(spacing: 8) {
+      HStack(spacing: 10) {
         Image(image)
-          .resizable()
-          .frame(width: 24, height: 24)
           .foregroundStyle(.tabBarIcon)
         
         if selectedTab == tab {
@@ -35,12 +33,12 @@ struct TabBarButton: View {
       }
       .padding(.vertical, 10)
       .padding(.horizontal)
-      .background(.white.opacity(selectedTab == tab ? 0.07 : 0.0))
+      .background(.white.opacity(selectedTab == tab ? 0.1 : 0.0))
       .clipShape(.capsule)
     }
   }
 }
 
 #Preview {
-  TabBarButton(title: "Button", image: "man", tab: .home, selectedTab: .constant(.home))
+  TabBarButton(title: "Button", image: "home", tab: .home, selectedTab: .constant(.home))
 }

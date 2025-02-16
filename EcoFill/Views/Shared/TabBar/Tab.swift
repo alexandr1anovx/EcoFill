@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TabBarItem: Int, CaseIterable {
+enum Tab: Int, CaseIterable {
   case home = 0, map, profile
   
   var title: String {

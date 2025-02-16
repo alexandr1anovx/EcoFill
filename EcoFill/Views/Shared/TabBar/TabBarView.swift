@@ -9,9 +9,9 @@ import SwiftUI
 
 struct TabBarView: View {
   
-  @State private var selectedTab = TabBarItem.home
+  @State private var selectedTab = Tab.home
   @State private var isShownTabBar = true
-  private let tabs = TabBarItem.allCases
+  private let tabs = Tab.allCases
   
   init() { UITabBar.appearance().isHidden = true }
   
@@ -19,11 +19,11 @@ struct TabBarView: View {
     ZStack(alignment: .bottom) {
       TabView(selection: $selectedTab) {
         HomeScreen(isShownTabBar: $isShownTabBar)
-          .tag(TabBarItem.home)
+          .tag(Tab.home)
         MapScreen(isShownTabBar: $isShownTabBar)
-          .tag(TabBarItem.map)
+          .tag(Tab.map)
         ProfileScreen(isShownTabBar: $isShownTabBar)
-          .tag(TabBarItem.profile)
+          .tag(Tab.profile)
       }
       
       if isShownTabBar {
