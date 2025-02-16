@@ -1,1 +1,4 @@
-Development stack: MVVM, SwiftUI, Combine, Firebase
+Development Stack:
+- Framework: SwiftUI, Combine.
+- Architecture: MVVM.
+- BaaS: Firebase.
