@@ -15,6 +15,18 @@ struct MapScreen: View {
       .overlay(alignment: .topTrailing) {
         showListButton
       }
+      .sheet(isPresented: $stationVM.isShownDetail) {
+        MapItemView(station: stationVM.selectedStation ?? .mockStation)
+          .presentationDetents([.height(270)])
+          .presentationDragIndicator(.visible)
+          .presentationCornerRadius(30)
+      }
+      .sheet(isPresented: $stationVM.isShownList) {
+        StationListView()
+          .presentationDetents([.height(450)])
+          .presentationDragIndicator(.visible)
+          .presentationCornerRadius(20)
+      }
       .task(id: stationVM.isShownRoute) {
         await stationVM.toggleRoutePresentation()
       }
@@ -33,7 +45,7 @@ struct MapScreen: View {
       }
       if let route = stationVM.route {
         MapPolyline(route.polyline)
-          .stroke(.green, lineWidth: 3)
+          .stroke(.green, lineWidth: 4)
       }
     }
   }
@@ -49,12 +61,7 @@ struct MapScreen: View {
         stationVM.selectedStation = station
         stationVM.isShownDetail = true
       }
-      .sheet(isPresented: $stationVM.isShownDetail) {
-        MapItemView(station: stationVM.selectedStation ?? .mockStation)
-          .presentationDetents([.height(270)])
-          .presentationDragIndicator(.visible)
-          .presentationCornerRadius(30)
-      }
+    
   }
   
   private var showListButton: some View {
@@ -69,12 +76,6 @@ struct MapScreen: View {
     }
     .padding(.trailing, 6)
     .padding(.top, 60)
-    .sheet(isPresented: $stationVM.isShownList) {
-      StationListView()
-        .presentationDetents([.height(450)])
-        .presentationDragIndicator(.visible)
-        .presentationCornerRadius(20)
-    }
   }
 }
 
