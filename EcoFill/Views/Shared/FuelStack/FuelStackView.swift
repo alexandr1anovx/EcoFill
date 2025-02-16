@@ -10,9 +10,9 @@ struct FuelStackView: View {
   var body: some View {
     ScrollView(.horizontal) {
       HStack(spacing: 10) {
-        CustomFuelCell(type: .euroA95, price: station.euroA95)
-        CustomFuelCell(type: .euroDP, price: station.euroDP)
-        CustomFuelCell(type: .gas, price: station.gas)
+        FuelStackCell(type: .euroA95, price: station.euroA95)
+        FuelStackCell(type: .euroDP, price: station.euroDP)
+        FuelStackCell(type: .gas, price: station.gas)
       }
     }
     .scrollIndicators(.hidden)

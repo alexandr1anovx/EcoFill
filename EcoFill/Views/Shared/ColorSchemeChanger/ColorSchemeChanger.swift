@@ -14,7 +14,7 @@ enum AppColorScheme: String, CaseIterable {
   var title: String { self.rawValue.capitalized }
 }
 
-struct AppColorSchemeCell: View {
+struct ColorSchemeChanger: View {
   @AppStorage("appColorScheme") private var appColorScheme = AppColorScheme.system
   
   var body: some View {
@@ -63,5 +63,5 @@ struct AppColorSchemeCell: View {
 }
 
 #Preview {
-  AppColorSchemeCell()
+  ColorSchemeChanger()
 }

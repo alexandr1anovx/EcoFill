@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct UserDataView: View {
+struct UserDataHeader: View {
   @EnvironmentObject var userVM: UserViewModel
   
   var body: some View {
@@ -48,7 +48,7 @@ struct UserDataView: View {
 }
 
 #Preview {
-  UserDataView()
+  UserDataHeader()
     .environmentObject(UserViewModel())
     .environmentObject(StationViewModel())
 }
