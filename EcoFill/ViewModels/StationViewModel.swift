@@ -83,7 +83,7 @@ final class StationViewModel: ObservableObject {
   // MARK: - Private Methods
   private func calculateDirections(from: MKMapItem, to: MKMapItem) async -> MKRoute? {
     let request = MKDirections.Request()
-    request.transportType = .walking
+    request.transportType = .automobile
     request.source = from
     request.destination = to
     
