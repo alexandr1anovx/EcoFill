@@ -1,11 +1,11 @@
 import SwiftUI
-
-
+import StoreKit
 
 struct ProfileScreen: View {
   
   @Binding var isShownTabBar: Bool
   @State private var isShownAlert = false
+  @Environment(\.requestReview) var requestReview
   @EnvironmentObject var userVM: UserViewModel
   
   var body: some View {
@@ -48,12 +48,16 @@ struct ProfileScreen: View {
   }
   
   private var rateUsButton: some View {
-    ListCell(
-      title: "Rate Us",
-      subtitle: "Help more people to know about us.",
-      icon: .like,
-      iconColor: .orange
-    )
+    Button {
+      requestReview()
+    } label: {
+      ListCell(
+        title: "Rate Us",
+        subtitle: "Help more people to know about us.",
+        icon: .like,
+        iconColor: .orange
+      )
+    }
   }
   
   private var signOutButton: some View {
