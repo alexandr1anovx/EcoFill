@@ -9,7 +9,7 @@ struct HomeScreen: View {
       ZStack {
         Color.primaryBackground.ignoresSafeArea(.all)
         VStack(spacing: 0) {
-          UserDataView()
+          UserDataHeader()
           CityFuelsGrid().padding(15)
           serviceList
         }
@@ -44,7 +44,7 @@ struct HomeScreen: View {
       SupportScreen()
         .onAppear { isShownTabBar = false }
     case .qrcode:
-      QRCodeView()
+      QRCodeScreen()
         .onAppear { isShownTabBar = false }
     }
   }

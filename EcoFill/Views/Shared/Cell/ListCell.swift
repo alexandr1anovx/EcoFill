@@ -22,14 +22,13 @@ struct ListCell: View {
         Text(title)
           .font(.system(size: 15))
           .fontWeight(.medium)
-          .fontDesign(.monospaced)
           .foregroundStyle(.primaryReversed)
         Text(subtitle)
           .font(.caption)
-          .fontDesign(.monospaced)
           .foregroundStyle(.gray)
           .multilineTextAlignment(.leading)
       }
+      .fontDesign(.monospaced)
     }
   }
 }

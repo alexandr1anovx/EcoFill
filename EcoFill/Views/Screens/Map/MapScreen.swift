@@ -64,7 +64,7 @@ struct MapScreen: View {
       Image(.menu)
         .foregroundStyle(.accent)
         .padding(11)
-        .background(.primaryBackground.opacity(0.8))
+        .background(.primaryBackground)
         .clipShape(.buttonBorder)
     }
     .padding(.trailing, 6)

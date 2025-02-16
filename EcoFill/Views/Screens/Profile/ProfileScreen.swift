@@ -13,9 +13,9 @@ struct ProfileScreen: View {
       ZStack {
         Color.primaryBackground.ignoresSafeArea(.all)
         VStack(spacing: 0) {
-          UserDataView()
+          UserDataHeader()
           List {
-            AppColorSchemeCell()
+            ColorSchemeChanger()
             settingsButton
             rateUsButton
             signOutButton
