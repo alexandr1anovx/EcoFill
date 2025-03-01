@@ -6,6 +6,12 @@ struct CSButton: View {
   let color: Color
   let action: () -> Void
   
+  init(_ title: String, color: Color, action: @escaping () -> Void) {
+    self.title = title
+    self.color = color
+    self.action = action
+  }
+  
   var body: some View {
     Button(action: action) {
       Text(title)
@@ -23,9 +29,5 @@ struct CSButton: View {
 }
 
 #Preview {
-  CSButton(
-    title: "Route",
-    color: .accent,
-    action: {}
-  )
+  CSButton("Route", color: .accent, action: {})
 }
