@@ -109,7 +109,7 @@ struct SignUpScreen: View {
   }
   
   private var signUpButton: some View {
-    CSButton(title: "Sign Up", color: .accent) {
+    CSButton("Sign Up", color: .accent) {
       Task {
         await userVM.signUp(
           withInitials: username,

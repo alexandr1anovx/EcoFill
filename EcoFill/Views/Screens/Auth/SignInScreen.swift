@@ -74,7 +74,7 @@ struct SignInScreen: View {
   }
   
   private var signInButton: some View {
-    CSButton(title: "Sign In", color: .accent) {
+    CSButton("Sign In", color: .accent) {
       Task {
         await userVM.signIn(with: email, password: password)
       }

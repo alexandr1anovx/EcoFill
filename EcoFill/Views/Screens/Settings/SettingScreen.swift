@@ -100,7 +100,7 @@ struct SettingScreen: View {
   }
   
   private var updateEmailButton: some View {
-    CSButton(title: "Update Email", color: .accent) {
+    CSButton("Update Email", color: .accent) {
       Task {
         await userVM.updateCurrentEmail(to: newEmail, with: formPassword)
       }
@@ -116,7 +116,7 @@ struct SettingScreen: View {
   }
   
   private var deleteAccountButton: some View {
-    CSButton(title: "Delete Account", color: .red) {
+    CSButton("Delete Account", color: .red) {
       isShownAlert.toggle()
     }
     .alert("Confirm password", isPresented: $isShownAlert) {
