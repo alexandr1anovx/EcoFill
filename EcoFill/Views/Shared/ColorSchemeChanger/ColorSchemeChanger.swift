@@ -10,54 +10,27 @@ enum AppColorScheme: String, CaseIterable {
     case .dark: return .dark
     }
   }
-  
   var title: String { self.rawValue.capitalized }
 }
 
 struct ColorSchemeChanger: View {
-  @AppStorage("appColorScheme") private var appColorScheme = AppColorScheme.system
+  @AppStorage("appColorScheme") private var appColorScheme: AppColorScheme = .system
   
   var body: some View {
-    HStack(spacing: 15) {
-      schemeIcon
-      schemeTitle
-      schemePicker
-    }
-  }
-  
-  private var schemeIcon: some View {
-    Group {
-      switch appColorScheme {
-      case .system:
-        Image(.nightDay)
-          .foregroundStyle(.gray)
-      case .light:
-        Image(.sun)
-          .foregroundStyle(.yellow)
-      case .dark:
-        Image(.moon)
-          .foregroundStyle(.indigo)
+    HStack {
+      Text("Color scheme:")
+        .font(.subheadline)
+        .fontWeight(.medium)
+        .foregroundStyle(.primaryLabel)
+      Picker("", selection: $appColorScheme) {
+        ForEach(AppColorScheme.allCases, id: \.self) { scheme in
+          Text(scheme.title)
+        }
       }
-    }
-  }
-  
-  private var schemeTitle: some View {
-    Text("Color scheme:")
-      .font(.system(size: 15))
-      .fontWeight(.medium)
-      .fontDesign(.monospaced)
-      .foregroundStyle(.primaryReversed)
-  }
-  
-  private var schemePicker: some View {
-    Picker("", selection: $appColorScheme) {
-      ForEach(AppColorScheme.allCases, id: \.self) { scheme in
-        Text(scheme.title)
+      .tint(.primaryLabel)
+      .onChange(of: appColorScheme) { _, newScheme in
+        appColorScheme = newScheme
       }
-    }
-    .tint(.primaryReversed)
-    .onChange(of: appColorScheme) { _, newScheme in
-      appColorScheme = newScheme
     }
   }
 }
