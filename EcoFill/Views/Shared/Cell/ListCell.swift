@@ -11,33 +11,45 @@ struct ListCell: View {
   
   let title: String
   let subtitle: String
-  let icon: ImageResource
+  let iconName: String
   let iconColor: Color
+  
+  init(
+    title: String,
+    subtitle: String,
+    icon: String,
+    iconColor: Color
+  ) {
+    self.title = title
+    self.subtitle = subtitle
+    self.iconName = icon
+    self.iconColor = iconColor
+  }
   
   var body: some View {
     HStack(spacing: 15) {
-      Image(icon)
+      Image(systemName: iconName)
+        .frame(width: 18, height: 18)
         .foregroundStyle(iconColor)
-      VStack(alignment: .leading, spacing: 8) {
+      VStack(alignment: .leading, spacing: 6) {
         Text(title)
-          .font(.system(size: 15))
+          .font(.subheadline)
           .fontWeight(.medium)
-          .foregroundStyle(.primaryReversed)
+          .foregroundStyle(.primaryLabel)
         Text(subtitle)
-          .font(.caption)
+          .font(.caption2)
           .foregroundStyle(.gray)
           .multilineTextAlignment(.leading)
       }
-      .fontDesign(.monospaced)
     }
   }
 }
 
 #Preview {
   ListCell(
-    title: "Title",
-    subtitle: "Description",
-    icon: .user,
-    iconColor: .accent
+    title: "Settings",
+    subtitle: "Change your personal data.",
+    icon: "gear",
+    iconColor: .white
   )
 }

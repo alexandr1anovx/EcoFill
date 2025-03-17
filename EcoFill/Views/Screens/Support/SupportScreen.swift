@@ -2,66 +2,74 @@ import SwiftUI
 
 struct SupportScreen: View {
   
-  @State private var emailAddress = ""
+  @State private var email = ""
   @State private var message = ""
   @State private var isShownAlert = false
   @EnvironmentObject var userVM: UserViewModel
   
   private var isMessageCorrect: Bool {
-    message.count > 10 && message.count < 500
+    message.count > 10 && message.count <= 100
   }
   
   var body: some View {
     ZStack {
-      Color.primaryBackground.ignoresSafeArea(.all)
-      VStack(spacing:0) {
+      Color.appBackground.ignoresSafeArea(.all)
+      VStack(spacing: 0) {
         textFields
         sendMessageButton
+        Spacer()
       }
       .navigationTitle("Support")
       .navigationBarTitleDisplayMode(.inline)
-      .navigationBarBackButtonHidden(true)
-      .toolbar {
-        ToolbarItem(placement: .topBarLeading) {
-          ReturnButton()
-        }
-      }
       .onAppear {
-        displayEmailAddress()
+        loadUserEmail()
       }
+    }
+    .onTapGesture {
+      UIApplication.shared.hideKeyboard()
     }
   }
   
   private var textFields: some View {
     List {
       Section {
-        CSTextField(
-          icon: .envelope,
-          hint: "Your email address",
-          inputData: $emailAddress
+        DefaultTextField(
+          inputData: $email,
+          iconName: "envelope",
+          hint: "Your email address"
         )
         .disabled(true)
+        .frame(height: 50)
         
-        TextFieldForMessage("At least 10 characters.", $message)
-          .submitLabel(.done)
+        ExtendedTextField(
+          inputData: $message,
+          iconName: "message",
+          hint: "Write your feedback...",
+          maxCount: 100
+        )
+        .frame(height: 80)
       } header: {
         Text("Send your feedback")
       } footer: {
         Text("Our support team is here to help! Please use polite and respectful language in all communications.")
       }
     }
+    .frame(height: 280)
     .listStyle(.insetGrouped)
     .scrollContentBackground(.hidden)
     .scrollIndicators(.hidden)
     .scrollDisabled(true)
-    .shadow(radius: 2)
+    .shadow(radius: 1)
   }
   
   private var sendMessageButton: some View {
-    CSButton("Send Message", color: .accent) {
+    Button {
       message = ""
       isShownAlert.toggle()
+    } label: {
+      ButtonLabel("Send Message", textColor: .primaryText, pouring: .buttonBackground)
     }
+    .opacity(!isMessageCorrect ? 0.5 : 1)
     .disabled(!isMessageCorrect)
     .alert("Thanks!", isPresented: $isShownAlert) {
       // "OK" button by default
@@ -70,16 +78,12 @@ struct SupportScreen: View {
     }
   }
   
-  // MARK: - Logic Methods
-  private func displayEmailAddress() {
-    if let userEmail = userVM.currentUser?.email {
-      emailAddress = userEmail
-    } else {
-      emailAddress = "No email address"
-    }
+  // MARK: - Data Methods
+  private func loadUserEmail() {
+    email = userVM.currentUser?.email ?? "No email address"
   }
 }
 
 #Preview {
-  SupportScreen().environmentObject( UserViewModel() )
+  SupportScreen().environmentObject(UserViewModel())
 }

@@ -11,23 +11,20 @@ struct ProfileScreen: View {
   var body: some View {
     NavigationStack {
       ZStack {
-        Color.primaryBackground.ignoresSafeArea(.all)
+        Color.appBackground.ignoresSafeArea(.all)
         VStack(spacing: 0) {
           UserDataHeader()
           List {
-            ColorSchemeChanger()
             settingsButton
             rateUsButton
             signOutButton
           }
-          .listStyle(.insetGrouped)
           .scrollContentBackground(.hidden)
           .scrollIndicators(.hidden)
           .listRowSpacing(10)
           .shadow(radius: 1)
         }
         .navigationTitle("Profile")
-        .navigationBarTitleDisplayMode(.inline)
         .onAppear { isShownTabBar = true }
       }
     }
@@ -41,8 +38,8 @@ struct ProfileScreen: View {
       ListCell(
         title: "Settings",
         subtitle: "Change your personal data.",
-        icon: .settings,
-        iconColor: .primaryReversed
+        icon: "gear",
+        iconColor: .primaryLabel
       )
     }
   }
@@ -54,25 +51,22 @@ struct ProfileScreen: View {
       ListCell(
         title: "Rate Us",
         subtitle: "Help more people to know about us.",
-        icon: .like,
+        icon: "hand.thumbsup",
         iconColor: .orange
       )
     }
   }
   
   private var signOutButton: some View {
-    HStack(spacing: 15) {
-      Image(.signOut)
-        .foregroundStyle(.red)
-      Text("Sign Out")
-        .font(.system(size: 15))
-        .fontWeight(.medium)
-        .fontDesign(.monospaced)
-        .foregroundStyle(.primaryReversed)
-        .padding(.vertical, 10)
-    }
-    .onTapGesture {
+    Button {
       isShownAlert.toggle()
+    } label: {
+      ListCell(
+        title: "Log Out",
+        subtitle: "Securely sign out of your account.",
+        icon: "rectangle.portrait.and.arrow.right",
+        iconColor: .red
+      )
     }
     .alert("Sign Out", isPresented: $isShownAlert) {
       Button("Sign Out", role: .destructive) {
