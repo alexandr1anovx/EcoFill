@@ -1,9 +1,7 @@
 import SwiftUI
 
 enum City: String, Identifiable, CaseIterable {
-  case kyiv
-  case mykolaiv
-  case odesa
+  case kyiv, mykolaiv, odesa
   
   var id: Self { self }
   var title: String { self.rawValue.capitalized }
@@ -11,64 +9,58 @@ enum City: String, Identifiable, CaseIterable {
 
 struct SignUpScreen: View {
   
-  @State private var username = ""
+  @State private var fullName = ""
   @State private var emailAddress = ""
   @State private var password = ""
+  @State private var selectedCity: City = .mykolaiv
+  
   @FocusState private var fieldContent: UserDataTextFieldContent?
   @EnvironmentObject var userVM: UserViewModel
   @Environment(\.dismiss) var dismiss
   
   private var isValidForm: Bool {
-    !username.isEmpty
+    !fullName.isEmpty
     && emailAddress.isValidEmail
     && password.count > 5
   }
   
-  // Picker Style Customization
   init() {
-    UISegmentedControl.appearance().selectedSegmentTintColor = .accent
-    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
-    UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.label], for: .normal)
-    UISegmentedControl.appearance().backgroundColor = .systemBackground
+    setupPickerAppearance()
   }
   
   var body: some View {
     ZStack {
-      Color.primaryBackground.ignoresSafeArea(.all)
-      VStack(spacing: 15) {
+      Color.appBackground.ignoresSafeArea(.all)
+      VStack(spacing: 0) {
+        AuthHeaderView(for: .signUp)
+          .padding(.top, 10)
         textFields
-        cityPicker.padding(.horizontal, 23)
-        signUpButton.padding(.top, 10)
-        signInOption
+        cityPicker
+          .padding(.top, 15)
+          .padding(.horizontal, 23)
+        signUpButton.padding(.top, 25)
+        signInOption.padding(.top, 15)
         Spacer()
-      }
-      .navigationTitle("Sign Up")
-      .navigationBarTitleDisplayMode(.inline)
-      .navigationBarBackButtonHidden(true)
-      .toolbar {
-        ToolbarItem(placement: .topBarLeading) {
-          ReturnButton()
-        }
       }
     }
   }
   
   private var textFields: some View {
     List {
-      CSTextField(
-        icon: .user,
-        hint: "Full Name",
-        inputData: $username
+      DefaultTextField(
+        inputData: $fullName,
+        iconName: "person",
+        hint: "Full Name"
       )
-      .focused($fieldContent, equals: .username)
+      .focused($fieldContent, equals: .fullName)
       .textInputAutocapitalization(.words)
       .submitLabel(.continue)
       .onSubmit { fieldContent = .emailAddress }
       
-      CSTextField(
-        icon: .envelope,
-        hint: "name@example.com",
-        inputData: $emailAddress
+      DefaultTextField(
+        inputData: $emailAddress,
+        iconName: "envelope",
+        hint: "name@example.com"
       )
       .focused($fieldContent, equals: .emailAddress)
       .keyboardType(.emailAddress)
@@ -77,30 +69,29 @@ struct SignUpScreen: View {
       .submitLabel(.continue)
       .onSubmit { fieldContent = .password }
       
-      CSTextField(
-        icon: .lock,
-        hint: "Password",
+      SecuredTextField(
         inputData: $password,
-        isSecure: true
+        iconName: "lock",
+        hint: "Password"
       )
       .focused($fieldContent, equals: .password)
       .submitLabel(.done)
       .onSubmit { fieldContent = nil }
     }
-    .frame(height: 185)
+    .frame(height: 195)
+    .environment(\.defaultMinListRowHeight, 53)
     .scrollContentBackground(.hidden)
     .scrollIndicators(.hidden)
     .scrollDisabled(true)
-    .shadow(radius: 2)
+    .shadow(radius: 1)
   }
   
   private var cityPicker: some View {
-    VStack(alignment: .leading, spacing: 15) {
+    VStack(alignment: .leading, spacing: 12) {
       Text("Select your city:")
         .font(.footnote)
-        .fontDesign(.monospaced)
         .foregroundStyle(.gray)
-      Picker("", selection: $userVM.selectedCity) {
+      Picker("", selection: $selectedCity) {
         ForEach(City.allCases) { city in
           Text(city.title)
         }
@@ -109,17 +100,20 @@ struct SignUpScreen: View {
   }
   
   private var signUpButton: some View {
-    CSButton("Sign Up", color: .accent) {
+    Button {
       Task {
         await userVM.signUp(
-          withInitials: username,
+          withFullName: fullName,
           email: emailAddress,
           password: password,
-          city: userVM.selectedCity
+          city: selectedCity
         )
       }
+    } label: {
+      ButtonLabel("Sign Up", textColor: .primaryText, pouring: .buttonBackground)
     }
     .disabled(!isValidForm)
+    .opacity(!isValidForm ? 0.5 : 1)
     .alert(item: $userVM.alertItem) { alert in
       Alert(
         title: alert.title,
@@ -133,17 +127,22 @@ struct SignUpScreen: View {
     Button {
       dismiss()
     } label: {
-      HStack(spacing: 8) {
-        Text("Already a member?")
-          .font(.footnote)
-          .fontDesign(.monospaced)
-          .foregroundStyle(.gray)
-        Text("Sign In.")
-          .font(.callout).bold()
-          .fontDesign(.monospaced)
-          .foregroundStyle(.green)
+      HStack(spacing: 5) {
+        Text("Already a member?").foregroundStyle(.gray)
+        Text("Sign In.").foregroundStyle(.primaryLabel)
       }
+      .font(.footnote)
+      .fontWeight(.semibold)
     }
+  }
+  
+  // MARK: UI Setup Methods
+  private func setupPickerAppearance() {
+    let appearance = UISegmentedControl.appearance()
+    appearance.selectedSegmentTintColor = .buttonBackground
+    appearance.setTitleTextAttributes([.foregroundColor: UIColor.primaryText], for: .selected)
+    appearance.setTitleTextAttributes([.foregroundColor: UIColor.label], for: .normal)
+    appearance.backgroundColor = .systemBackground
   }
 }
 

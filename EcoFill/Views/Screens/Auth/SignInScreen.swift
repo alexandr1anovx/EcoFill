@@ -15,15 +15,22 @@ struct SignInScreen: View {
   var body: some View {
     NavigationStack {
       ZStack {
-        Color.primaryBackground.ignoresSafeArea(.all)
-        VStack(spacing: 15) {
-          Image(.logo)
-            .frame(height: 100)
-            .shadow(radius: 2)
+        Color.appBackground.ignoresSafeArea(.all)
+        VStack(spacing: 0) {
+          Image(.logo).frame(height: 80)
           if isFormVisible {
+            AuthHeaderView(for: .signIn)
+              .padding(.top, 35)
             textFields
-            signInButton
-            signUpOption
+            signInButton.padding(.top, 20)
+            
+            HStack(spacing: 0) {
+              forgotPasswordButton
+              Spacer()
+              signUpOption
+            }
+            .padding(.horizontal, 23)
+            .padding(.top, 18)
           }
           Spacer()
         }
@@ -44,10 +51,10 @@ struct SignInScreen: View {
   
   private var textFields: some View {
     List {
-      CSTextField(
-        icon: .envelope,
-        hint: "Email address",
-        inputData: $email
+      DefaultTextField(
+        inputData: $email,
+        iconName: "envelope",
+        hint: "Email address"
       )
       .focused($fieldContent, equals: .emailAddress)
       .keyboardType(.emailAddress)
@@ -56,30 +63,33 @@ struct SignInScreen: View {
       .submitLabel(.continue)
       .onSubmit { fieldContent = .password }
       
-      CSTextField(
-        icon: .lock,
-        hint: "Password",
+      SecuredTextField(
         inputData: $password,
-        isSecure: true
+        iconName: "lock",
+        hint: "Password"
       )
       .focused($fieldContent, equals: .password)
       .submitLabel(.done)
       .onSubmit { fieldContent = nil }
     }
     .listStyle(.insetGrouped)
-    .frame(height: 140)
     .scrollContentBackground(.hidden)
     .scrollDisabled(true)
+    .frame(height: 145)
+    .environment(\.defaultMinListRowHeight, 53)
     .shadow(radius: 1)
   }
   
   private var signInButton: some View {
-    CSButton("Sign In", color: .accent) {
+    Button {
       Task {
-        await userVM.signIn(with: email, password: password)
+        await userVM.signIn(withEmail: email, password: password)
       }
+    } label: {
+      ButtonLabel("Sign In", textColor: .primaryText, pouring: .buttonBackground)
     }
     .disabled(!isValidForm)
+    .opacity(!isValidForm ? 0.5 : 1)
     .alert(item: $userVM.alertItem) { alert in
       Alert(
         title: alert.title,
@@ -89,22 +99,70 @@ struct SignInScreen: View {
     }
   }
   
+  private var forgotPasswordButton: some View {
+    Button {
+      // action...
+    } label: {
+      Text("Forgot password?")
+        .font(.caption)
+        .fontWeight(.semibold)
+        .foregroundStyle(.gray)
+        .underline(true)
+    }
+  }
+  
   private var signUpOption: some View {
     HStack(spacing: 5) {
-      Text("New member?")
-        .font(.footnote)
-        .foregroundStyle(.gray)
+      Text("New member?").foregroundStyle(.gray)
       NavigationLink {
         SignUpScreen()
       } label: {
-        Text("Sign Up.")
-          .font(.callout).bold()
-          .foregroundStyle(.green)
+        Text("Sign Up.").foregroundStyle(.primaryLabel)
       }
     }
-    .fontDesign(.monospaced)
+    .font(.footnote)
+    .fontWeight(.semibold)
   }
 }
+
+enum AuthAction {
+  case signIn, signUp
+  
+  var title: String {
+    switch self {
+    case .signIn: "Sign in."
+    case .signUp: "Sign up."
+    }
+  }
+  var subtitle: String {
+    switch self {
+    case .signIn: "Enter your credentials."
+    case .signUp: "Create a new account."
+    }
+  }
+}
+
+struct AuthHeaderView: View {
+  let authAction: AuthAction
+  
+  init(for authAction: AuthAction) {
+    self.authAction = authAction
+  }
+  
+  var body: some View {
+    HStack(alignment: .firstTextBaseline) {
+      Text(authAction.title)
+        .font(.title3)
+        .fontWeight(.bold)
+        .foregroundStyle(.primaryLabel)
+      Text(authAction.subtitle)
+        .font(.headline)
+        .fontWeight(.medium)
+        .foregroundStyle(.gray)
+    }
+  }
+}
+
 
 #Preview {
   SignInScreen()
