@@ -18,11 +18,11 @@ enum Tab: Int, CaseIterable {
     }
   }
   
-  var iconName: String {
+  var imageName: String {
     switch self {
-    case .home: "home"
+    case .home: "house"
     case .map: "map"
-    case .profile: "menu"
+    case .profile: "person"
     }
   }
 }

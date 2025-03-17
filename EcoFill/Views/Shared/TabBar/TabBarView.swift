@@ -31,7 +31,7 @@ struct TabBarView: View {
           ForEach(tabs, id: \.self) { tab in
             TabBarButton(
               title: tab.title,
-              image: tab.iconName,
+              imageName: tab.imageName,
               tab: tab,
               selectedTab: $selectedTab
             )
@@ -40,8 +40,8 @@ struct TabBarView: View {
             }
           }
         }
-        .padding(10)
-        .background(.tabBarBackground)
+        .padding(11)
+        .background(.buttonBackground)
         .clipShape(.capsule)
         .padding(.horizontal, 30)
         .shadow(radius: 2)

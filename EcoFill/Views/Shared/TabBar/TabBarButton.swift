@@ -10,28 +10,27 @@ import SwiftUI
 struct TabBarButton: View {
   
   let title: String
-  let image: String
+  let imageName: String
   let tab: Tab
   @Binding var selectedTab: Tab
   
   var body: some View {
     Button {
-      withAnimation(.spring) {
-        selectedTab = tab
-      }
+      withAnimation { selectedTab = tab }
+      let impact = UISelectionFeedbackGenerator()
+      impact.selectionChanged()
     } label: {
       HStack(spacing: 10) {
-        Image(image)
-          .foregroundStyle(.tabBarIcon)
-        
+        Image(systemName: imageName)
+          .foregroundStyle(.primaryText)
         if selectedTab == tab {
           Text(title)
-            .font(.callout).bold()
-            .fontDesign(.monospaced)
-            .foregroundStyle(.tabBarIcon)
+            .font(.callout)
+            .fontWeight(.semibold)
+            .foregroundStyle(.primaryText)
         }
       }
-      .padding(.vertical, 10)
+      .padding(.vertical, 12)
       .padding(.horizontal)
       .background(.white.opacity(selectedTab == tab ? 0.1 : 0.0))
       .clipShape(.capsule)
@@ -40,5 +39,10 @@ struct TabBarButton: View {
 }
 
 #Preview {
-  TabBarButton(title: "Button", image: "home", tab: .home, selectedTab: .constant(.home))
+  TabBarButton(
+    title: "Button",
+    imageName: "house",
+    tab: .home,
+    selectedTab: .constant(.home)
+  )
 }
