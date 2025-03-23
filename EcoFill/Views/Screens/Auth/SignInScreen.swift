@@ -100,8 +100,8 @@ struct SignInScreen: View {
   }
   
   private var forgotPasswordButton: some View {
-    Button {
-      // action...
+    NavigationLink {
+      ForgotPasswordScreen()
     } label: {
       Text("Forgot password?")
         .font(.caption)
@@ -162,7 +162,6 @@ struct AuthHeaderView: View {
     }
   }
 }
-
 
 #Preview {
   SignInScreen()
