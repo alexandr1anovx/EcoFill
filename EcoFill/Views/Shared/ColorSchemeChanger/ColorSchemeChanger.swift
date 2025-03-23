@@ -1,20 +1,20 @@
 import SwiftUI
 
-enum AppColorScheme: String, CaseIterable {
+enum ColorTheme: String, CaseIterable {
   case system, light, dark
+  var title: String { rawValue.capitalized }
   
-  var colorScheme: ColorScheme? {
+  var colorTheme: ColorScheme? {
     switch self {
     case .system: return nil
     case .light: return .light
     case .dark: return .dark
     }
   }
-  var title: String { self.rawValue.capitalized }
 }
 
 struct ColorSchemeChanger: View {
-  @AppStorage("appColorScheme") private var appColorScheme: AppColorScheme = .system
+  @AppStorage("colorTheme") private var selectedColorTheme: ColorTheme = .system
   
   var body: some View {
     HStack {
@@ -22,15 +22,12 @@ struct ColorSchemeChanger: View {
         .font(.subheadline)
         .fontWeight(.medium)
         .foregroundStyle(.primaryLabel)
-      Picker("", selection: $appColorScheme) {
-        ForEach(AppColorScheme.allCases, id: \.self) { scheme in
-          Text(scheme.title)
+      Picker("", selection: $selectedColorTheme) {
+        ForEach(ColorTheme.allCases, id: \.self) { theme in
+          Text(theme.title)
         }
       }
       .tint(.primaryLabel)
-      .onChange(of: appColorScheme) { _, newScheme in
-        appColorScheme = newScheme
-      }
     }
   }
 }
