@@ -1,9 +1,11 @@
 import SwiftUI
+import MapKit
 
 struct StationListCell: View {
   
   @EnvironmentObject var stationVM: StationViewModel
   let station: Station
+  let transportTypes = MKDirectionsTransportType.allCases
   
   private var isPresentedRoute: Bool {
     stationVM.selectedStation == station
@@ -15,85 +17,97 @@ struct StationListCell: View {
       addressLabel
       scheduleLabel
       paymentLabel
-      routeConditionButton
+      HStack{
+        routeConditionButton.buttonStyle(.plain)
+        HStack(spacing:8){
+          ForEach(transportTypes, id: \.self) { transportType in
+            transportTypeLabel(for: transportType)
+          }
+        }
+      }
     }
   }
   
+  private func transportTypeLabel(for type: MKDirectionsTransportType) -> some View {
+    Image(systemName: type.iconName)
+      .imageScale(.small)
+      .foregroundStyle(type == stationVM.selectedTransportType ? .primaryLime : .gray)
+      .padding(10)
+      .background(.black)
+      .clipShape(.circle)
+      .onTapGesture {
+        stationVM.selectedTransportType = type
+      }
+  }
+  
   private var addressLabel: some View {
-    HStack(spacing: 10) {
+    HStack {
       Image(.marker)
-        .foregroundStyle(.accent)
+        .foregroundStyle(.primaryIcon)
       Text(station.street)
         .font(.footnote)
         .fontWeight(.medium)
-        .fontDesign(.monospaced)
-        .foregroundStyle(.gray)
+        .foregroundStyle(.primaryLabel)
         .lineLimit(2)
         .multilineTextAlignment(.leading)
     }
   }
   
   private var scheduleLabel: some View {
-    HStack(spacing: 10) {
+    HStack {
       Image(.clock)
-        .foregroundStyle(.accent)
+        .foregroundStyle(.primaryIcon)
       Text(station.schedule)
         .font(.footnote)
         .fontWeight(.medium)
-        .fontDesign(.monospaced)
-        .foregroundStyle(.gray)
+        .foregroundStyle(.primaryLabel)
     }
   }
   
   private var paymentLabel: some View {
     HStack {
-      Image(.money)
-        .foregroundStyle(.accent)
-      Text("Payment:")
-        .foregroundStyle(.gray)
-        .padding(.leading, 3)
-      Text("Cash, ApplePay.")
-        .foregroundStyle(.primaryReversed)
+      Image(.money).foregroundStyle(.primaryIcon)
+      Text("Payment:").foregroundStyle(.primaryLabel)
+      Text("Cash, ApplePay.").foregroundStyle(.gray)
     }
     .font(.footnote)
     .fontWeight(.medium)
-    .fontDesign(.monospaced)
   }
   
   @ViewBuilder
   private var routeConditionButton: some View {
     if !isPresentedRoute {
       Button {
-        stationVM.isShownDetail = false
+        stationVM.isShownStationDataSheet = false
         stationVM.selectedStation = station
         stationVM.isShownRoute = true
       } label: {
         Text("Show Route")
-          .font(.system(size: 14)).bold()
-          .fontDesign(.monospaced)
-          .foregroundStyle(.white)
+          .font(.subheadline)
+          .fontWeight(.medium)
+          .foregroundStyle(.black)
           .frame(maxWidth: .infinity)
-          .padding(.vertical, 4)
+          .padding(.vertical, 12)
+          .background(.primaryLime)
+          .clipShape(.rect(cornerRadius: 15))
+          .shadow(radius: 1)
       }
-      .buttonStyle(.borderedProminent)
-      .tint(.accent)
-      .shadow(radius: 3)
     } else {
       Button {
-        stationVM.isShownDetail = false
+        stationVM.isShownStationDataSheet = false
         stationVM.selectedStation = nil
         stationVM.isShownRoute = false
       } label: {
         Text("Hide Route")
-          .font(.system(size: 14)).bold()
-          .fontDesign(.monospaced)
+          .font(.subheadline)
+          .fontWeight(.medium)
           .foregroundStyle(.white)
           .frame(maxWidth: .infinity)
-          .padding(.vertical, 5)
+          .padding(.vertical, 12)
+          .background(.red)
+          .clipShape(.rect(cornerRadius: 15))
+          .shadow(radius: 1)
       }
-      .buttonStyle(.borderedProminent)
-      .tint(.red)
-      .shadow(radius: 3)
     }
   }
 }
