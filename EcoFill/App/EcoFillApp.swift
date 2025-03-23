@@ -14,21 +14,19 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct EcoFillApp: App {
+  
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
   
-  @AppStorage("appColorScheme") private var appColorScheme: AppColorScheme = .system
+  @AppStorage("colorTheme") private var selectedColorTheme: ColorTheme = .system
   @StateObject private var userVM = UserViewModel()
   @StateObject private var stationVM = StationViewModel()
   
   var body: some Scene {
     WindowGroup {
       LaunchScreen()
-        .preferredColorScheme(appColorScheme.colorScheme)
+        .preferredColorScheme(selectedColorTheme.colorTheme)
         .environmentObject(userVM)
         .environmentObject(stationVM)
-        .onAppear {
-          stationVM.getStations() // Get the stations data from the Firebase
-        }
     }
   }
 }
