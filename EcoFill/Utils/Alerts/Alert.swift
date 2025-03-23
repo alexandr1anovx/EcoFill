@@ -54,3 +54,17 @@ struct ProfileAlertContext {
     dismissButton: .default(Text("OK"))
   )
 }
+
+struct PasswordResetAlertContext {
+  static let resetLinkSent = AlertItem(
+    Text("Reset Link Sent"),
+    Text("A password reset link has been sent to your email."),
+    dismissButton: .default(Text("OK"))
+  )
+  
+  static let resetLinkFailed = AlertItem(
+    Text("Failed to Send Reset Link"),
+    Text("Failed to send password reset email. Please check your email address and try again."),
+    dismissButton: .default(Text("OK"))
+  )
+}
