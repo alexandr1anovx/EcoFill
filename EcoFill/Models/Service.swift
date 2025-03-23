@@ -5,10 +5,10 @@ enum ServiceType: String, CaseIterable {
   case qrcode
   case support
   
-  var icon: ImageResource {
+  var icon: String {
     switch self {
-    case .qrcode: .qrcode
-    case .support: .message
+    case .qrcode: "qrcode"
+    case .support: "message"
     }
   }
   
