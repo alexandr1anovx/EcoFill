@@ -1,21 +1,19 @@
 import SwiftUI
 
 struct HomeScreen: View {
-  
   @Binding var isShownTabBar: Bool
   
   var body: some View {
     NavigationStack {
       ZStack {
-        Color.primaryBackground.ignoresSafeArea(.all)
+        Color.appBackground.ignoresSafeArea(.all)
         VStack(spacing: 0) {
           UserDataHeader()
           CityFuelsGrid().padding(15)
           serviceList
         }
-        .navigationTitle("Home")
-        .navigationBarTitleDisplayMode(.inline)
       }
+      .navigationTitle("Home")
       .onAppear { isShownTabBar = true }
     }
   }
@@ -27,7 +25,7 @@ struct HomeScreen: View {
           title: service.title,
           subtitle: service.subtitle,
           icon: service.icon,
-          iconColor: .accent
+          iconColor: .primaryIcon
         )
       }
     }
