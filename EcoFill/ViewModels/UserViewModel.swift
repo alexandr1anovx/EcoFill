@@ -86,7 +86,7 @@ final class UserViewModel: ObservableObject {
       try Auth.auth().signOut()
       self.userSession = nil
     } catch {
-      alertItem = ProfileAlertContext.unableToSignOut
+      alertItem = ProfileAlertContext.failedToSignOut
     }
   }
   

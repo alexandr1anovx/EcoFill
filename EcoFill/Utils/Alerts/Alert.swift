@@ -48,7 +48,7 @@ struct ProfileAlertContext {
     Text("A confirmation link has been sent to your email address."),
     dismissButton: .default(Text("OK"))
   )
-  static let unableToSignOut = AlertItem(
+  static let failedToSignOut = AlertItem(
     Text("Failed to Sign Out"),
     Text("Please, contact support for assistance"),
     dismissButton: .default(Text("OK"))
