@@ -3,42 +3,39 @@ import FirebaseFirestore
 import FirebaseAuth
 
 enum UserDataTextFieldContent {
-  case username
+  case fullName
   case emailAddress
   case password
   case supportMessage
 }
 
 enum EmailStatus {
-  case confirmed, notConfirmed
+  case verified, unverified
   
   var message: String {
     switch self {
-    case .confirmed: "Confirmed."
-    case .notConfirmed: "Not confirmed."
+    case .verified: "Verified."
+    case .unverified: "Unverified."
     }
   }
-  
   var hint: String {
     switch self {
-    case .confirmed: ""
-    case .notConfirmed: "A confirmation link has been sent to your e-mail address."
+    case .verified: ""
+    case .unverified: "A confirmation link has been sent to the email address."
     }
   }
 }
 
 @MainActor
 final class UserViewModel: ObservableObject {
-  
-  @Published var alertItem: AlertItem?
   @Published var userSession: FirebaseAuth.User?
   @Published var currentUser: User?
-  @Published var selectedCity = City.mykolaiv
-  @Published var emailStatus: EmailStatus = .notConfirmed
+  @Published var selectedCity: City = .mykolaiv
+  @Published var emailStatus: EmailStatus = .unverified
+  @Published var alertItem: AlertItem?
   
   private let userCollection = Firestore.firestore().collection("users")
   
-  // MARK: - Initializer
   init() {
     self.userSession = Auth.auth().currentUser
     Task {
@@ -47,26 +44,22 @@ final class UserViewModel: ObservableObject {
   }
   
   // MARK: - Public Methods
+  
   func signUp(
-    withInitials initials: String,
+    withFullName fullName: String,
     email: String,
     password: String,
     city: City
   ) async {
     do {
       let result = try await Auth.auth().createUser(
-        withEmail: email,
-        password: password
+        withEmail: email, password: password
       )
       self.userSession = result.user
       try await result.user.sendEmailVerification()
       
-      let user = User(
-        id: result.user.uid,
-        city: city.title,
-        email: email,
-        initials: initials
-      )
+      let user = User(id: result.user.uid, fullName: fullName, email: email, city: city.title, points: 0)
+      
       let encodedUser = try Firestore.Encoder().encode(user)
       let document = userCollection.document(user.id)
       try await document.setData(encodedUser)
@@ -76,11 +69,10 @@ final class UserViewModel: ObservableObject {
     }
   }
   
-  func signIn(with email: String, password: String) async {
+  func signIn(withEmail email: String, password: String) async {
     do {
       let result = try await Auth.auth().signIn(
-        withEmail: email,
-        password: password
+        withEmail: email, password: password
       )
       self.userSession = result.user
       await fetchUser()
@@ -98,16 +90,18 @@ final class UserViewModel: ObservableObject {
     }
   }
   
-  func deleteUser(with password: String) async {
+  func deleteUser(withPassword password: String) async {
     guard let user = userSession else { return }
-    guard let email = user.email else { return }
-    
-    let credential = EmailAuthProvider.credential(
-      withEmail: email,
-      password: password
+    guard let userEmail = user.email else { return }
+    let userCredential = EmailAuthProvider.credential(
+      withEmail: userEmail, password: password
     )
     do {
-      try await user.reauthenticate(with: credential)
+      try await user.reauthenticate(with: userCredential)
+      // Delete user from the collection
+      let userRef = userCollection.document(user.uid)
+      try await userRef.delete()
+      // Delete user from authentication section
       try await user.delete()
       alertItem = ProfileAlertContext.successfullAccountDeletion
       userSession = nil
@@ -116,13 +110,14 @@ final class UserViewModel: ObservableObject {
     }
   }
   
-  func updateCurrentEmail(to newEmail: String, with password: String) async {
+  func updateEmail(
+    toEmail newEmail: String,
+    withPassword password: String
+  ) async {
     guard let user = userSession else { return }
-    guard let currentEmail = user.email else { return }
-    
+    guard let userEmail = user.email else { return }
     let credentials = EmailAuthProvider.credential(
-      withEmail: currentEmail,
-      password: password
+      withEmail: userEmail, password: password
     )
     do {
       try await user.reauthenticate(with: credentials)
@@ -136,18 +131,27 @@ final class UserViewModel: ObservableObject {
     }
   }
   
-  func checkEmailVerificationStatus() {
+  func checkEmailStatus() {
     guard let user = userSession else { return }
-    emailStatus = user.isEmailVerified ? .confirmed : .notConfirmed
+    emailStatus = user.isEmailVerified ? .verified : .unverified
+  }
+  
+  func sendPasswordReset(to email: String) async {
+    do {
+      try await Auth.auth().sendPasswordReset(withEmail: email)
+      alertItem = PasswordResetAlertContext.resetLinkSent
+    } catch {
+      alertItem = PasswordResetAlertContext.resetLinkFailed
+    }
   }
   
   // MARK: - Private Methods
+  
   private func fetchUser() async {
     guard let uid = userSession?.uid else { return }
     guard let snapshot = try? await userCollection.document(uid).getDocument() else {
       return
     }
-    // decode the fetched document into a User object
     self.currentUser = try? snapshot.data(as: User.self)
   }
 }
