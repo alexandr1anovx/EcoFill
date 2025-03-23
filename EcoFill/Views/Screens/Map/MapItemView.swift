@@ -1,4 +1,27 @@
 import SwiftUI
+import MapKit
+
+extension MKDirectionsTransportType: CaseIterable, Hashable {
+  public static var allCases: [MKDirectionsTransportType] {
+    return [.automobile, .walking]
+  }
+  
+  var title: String {
+    switch self {
+    case .automobile: "Automobile"
+    case .walking: "Walking"
+    default: "Unknown"
+    }
+  }
+  
+  var iconName: String {
+    switch self {
+    case .automobile: "car"
+    case .walking: "figure.walk"
+    default: "questionmark"
+    }
+  }
+}
 
 struct MapItemView: View {
   
@@ -7,59 +30,76 @@ struct MapItemView: View {
   
   var body: some View {
     ZStack {
-      Color.primaryBackground.ignoresSafeArea(.all)
-      VStack(alignment: .leading, spacing: 20) {
+      Color.appBackground.ignoresSafeArea(.all)
+      VStack(alignment: .leading, spacing: 18) {
         Spacer()
-        addressLabel
-        scheduleLabel
-        paymentLabel
-        FuelStackView(for: station)
+        addressLabel.padding(.leading, 15)
+        scheduleLabel.padding(.leading, 15)
+        paymentLabel.padding(.leading, 15)
+        HStack(spacing: 8) {
+          Text("Transport type:")
+            .font(.footnote)
+            .fontWeight(.medium)
+            .foregroundStyle(.primaryLabel)
+          ForEach(MKDirectionsTransportType.allCases, id: \.self) { type in
+            transportTypeLabel(for: type)
+          }
+        }
+        
+        .padding(.horizontal,15)
+        FuelStackView(for: station).padding(.horizontal, 15)
         routeButton
       }
-      .padding(.horizontal, 15)
     }
   }
   
+  private func transportTypeLabel(for type: MKDirectionsTransportType) -> some View {
+    Label(type.title, systemImage: type.iconName)
+      .font(.footnote)
+      .fontWeight(.medium)
+      .foregroundStyle(type == stationVM.selectedTransportType ? .black : .primaryLime)
+      .padding(10)
+      .background(type == stationVM.selectedTransportType ? .primaryLime : .black)
+      .clipShape(.capsule)
+      .shadow(radius: 2)
+      .animation(.spring, value: stationVM.selectedTransportType)
+      .onTapGesture {
+        stationVM.selectedTransportType = type
+      }
+  }
+  
   private var addressLabel: some View {
-    HStack(spacing: 10) {
+    HStack(spacing: 8) {
       Image(.marker)
-        .foregroundStyle(.accent)
+        .foregroundStyle(.primaryIcon)
       Text(station.street)
-        .font(.system(size: 14))
+        .font(.footnote)
         .fontWeight(.medium)
-        .fontDesign(.monospaced)
-        .foregroundStyle(.gray)
+        .foregroundStyle(.primaryLabel)
         .lineLimit(2)
         .multilineTextAlignment(.leading)
     }
   }
   
   private var scheduleLabel: some View {
-    HStack(spacing: 10) {
+    HStack(spacing: 8) {
       Image(.clock)
-        .foregroundStyle(.accent)
+        .foregroundStyle(.primaryIcon)
       Text(station.schedule)
-        .font(.system(size: 14))
+        .font(.footnote)
         .fontWeight(.medium)
-        .fontDesign(.monospaced)
-        .foregroundStyle(.gray)
+        .foregroundStyle(.primaryLabel)
     }
   }
   
   private var paymentLabel: some View {
-    HStack(spacing:0) {
-      Image(.money)
-        .foregroundStyle(.accent)
-      Text("Payment:")
-        .foregroundStyle(.gray)
-        .padding(.leading, 10)
-      Text("Cash, ApplePay.")
-        .padding(.leading, 5)
-        .foregroundStyle(.primaryReversed)
+    HStack(spacing: 8) {
+      Image(.money).foregroundStyle(.primaryIcon)
+      Text("Payment:").foregroundStyle(.primaryLabel)
+      Text("Cash, ApplePay.").foregroundStyle(.gray)
     }
-    .font(.system(size: 14))
+    .font(.footnote)
     .fontWeight(.medium)
-    .fontDesign(.monospaced)
   }
   
   @ViewBuilder
@@ -68,35 +108,27 @@ struct MapItemView: View {
       Button {
         stationVM.isShownRoute = false
       } label: {
-        Text("Hide Route")
-          .font(.callout).bold()
-          .fontDesign(.monospaced)
-          .foregroundStyle(.white)
-          .frame(maxWidth: .infinity)
-          .padding(.vertical, 8)
+        ButtonLabel(
+          "Hide Route",
+          textColor: .white,
+          pouring: .red
+        )
       }
-      .buttonStyle(.borderedProminent)
-      .tint(.red)
-      .shadow(radius: 3)
     } else {
       Button {
         stationVM.isShownRoute = true
       } label: {
-        Text("Show Route")
-          .font(.callout).bold()
-          .fontDesign(.monospaced)
-          .foregroundStyle(.white)
-          .frame(maxWidth: .infinity)
-          .padding(.vertical, 8)
+        ButtonLabel(
+          "Show Route",
+          textColor: .black,
+          pouring: .primaryLime
+        )
       }
-      .buttonStyle(.borderedProminent)
-      .tint(.accent)
-      .shadow(radius: 2)
     }
   }
 }
 
 #Preview {
   MapItemView(station: .mockStation)
-    .environmentObject( StationViewModel() )
+    .environmentObject(StationViewModel())
 }

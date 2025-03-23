@@ -10,27 +10,29 @@ struct MapScreen: View {
   var body: some View {
     mapView
       .mapControls {
+        MapPitchToggle()
         MapUserLocationButton()
       }
       .overlay(alignment: .topTrailing) {
         showListButton
       }
-      .sheet(isPresented: $stationVM.isShownDetail) {
-        MapItemView(station: stationVM.selectedStation ?? .mockStation)
-          .presentationDetents([.height(270)])
-          .presentationDragIndicator(.visible)
-          .presentationCornerRadius(30)
-      }
-      .sheet(isPresented: $stationVM.isShownList) {
-        StationListView()
-          .presentationDetents([.height(450)])
-          .presentationDragIndicator(.visible)
-          .presentationCornerRadius(20)
-      }
       .task(id: stationVM.isShownRoute) {
         await stationVM.toggleRoutePresentation()
       }
       .onAppear { isShownTabBar = true }
+    
+      .sheet(isPresented: $stationVM.isShownStationDataSheet) {
+        MapItemView(station: stationVM.selectedStation ?? .mockStation)
+          .presentationDetents([.height(320)])
+          .presentationDragIndicator(.visible)
+          .presentationCornerRadius(30)
+      }
+      .sheet(isPresented: $stationVM.isShownStationList) {
+        StationListView()
+          .presentationDetents([.height(450)])
+          .presentationDragIndicator(.visible)
+          .presentationCornerRadius(30)
+      }
   }
   
   private var mapView: some View {
@@ -52,35 +54,37 @@ struct MapScreen: View {
   
   private func stationMark(for station: Station) -> some View {
     Image(systemName: "fuelpump.fill")
-      .foregroundStyle(.accent)
+      .foregroundStyle(.primaryLime)
+      .opacity(0.8)
       .padding(6)
-      .background(.black)
+      .background(.primaryBlack)
       .clipShape(.circle)
       .shadow(radius: 3)
       .onTapGesture {
         stationVM.selectedStation = station
-        stationVM.isShownDetail = true
+        stationVM.isShownStationDataSheet = true
       }
-    
   }
   
   private var showListButton: some View {
     Button {
-      stationVM.isShownList.toggle()
+      stationVM.isShownStationList.toggle()
     } label: {
-      Image(.menu)
-        .foregroundStyle(.accent)
-        .padding(11)
-        .background(.primaryBackground)
-        .clipShape(.buttonBorder)
+      Image(systemName: "list.bullet")
+        .imageScale(.large)
+        .foregroundStyle(.primaryText)
+        .padding(.vertical, 12)
+        .padding(.horizontal, 8.5)
+        .background(.buttonBackground)
+        .clipShape(.rect(cornerRadius: 7))
     }
-    .padding(.trailing, 6)
+    .padding(.trailing, 5)
     .padding(.top, 60)
   }
 }
 
 #Preview {
   MapScreen(isShownTabBar: .constant(false))
-    .environmentObject( StationViewModel() )
-    .environmentObject( UserViewModel() )
+    .environmentObject(StationViewModel())
+    .environmentObject(UserViewModel())
 }
