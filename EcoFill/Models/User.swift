@@ -2,7 +2,8 @@ import Foundation
 
 struct User: Identifiable, Codable {
   let id: String
-  let city: String
+  let fullName: String
   let email: String
-  let initials: String
+  let city: String
+  let points: Int
 }
