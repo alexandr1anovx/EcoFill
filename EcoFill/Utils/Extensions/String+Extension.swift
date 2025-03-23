@@ -39,4 +39,3 @@ extension String {
     return self.wholeMatch(of: emailRegex) != nil
   }
 }
-
