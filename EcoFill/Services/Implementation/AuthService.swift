@@ -2,17 +2,10 @@ import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 
-protocol AuthServiceProtocol {
-  
-  var userSession: FirebaseAuth.User? { get }
-  func signUp(withFullName: String, email: String, password: String, city: String) async throws
-  func signIn(withEmail: String, password: String) async throws
-  func signOut() throws
-  func deleteUser(withPassword: String) async throws
-  func updateEmail(toEmail: String, withPassword: String) async throws
-  func checkEmailStatus() -> EmailStatus
-  func sendPasswordReset(to: String) async throws
-  
+enum AuthError: Error {
+  case userNotFound
+  case emailNotFound
+  case reauthenticationFailed
 }
 
 final class AuthService: AuthServiceProtocol {
@@ -93,10 +86,4 @@ final class AuthService: AuthServiceProtocol {
   func sendPasswordReset(to email: String) async throws {
     try await Auth.auth().sendPasswordReset(withEmail: email)
   }
-}
-
-enum AuthError: Error {
-  case userNotFound
-  case emailNotFound
-  case reauthenticationFailed
 }
