@@ -57,6 +57,7 @@
 		D15EC3612D947B7E001AACE6 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15EC35E2D947B7E001AACE6 /* UserService.swift */; };
 		D15EC3842D949199001AACE6 /* AuthServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15EC3832D949199001AACE6 /* AuthServiceProtocol.swift */; };
 		D15EC3862D9491B0001AACE6 /* UserServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15EC3852D9491B0001AACE6 /* UserServiceProtocol.swift */; };
+		D15EC3882D9494EA001AACE6 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15EC3872D9494EA001AACE6 /* View+Extension.swift */; };
 		D164CAED2D84593E00B769D9 /* ButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D164CAEC2D84593E00B769D9 /* ButtonLabel.swift */; };
 		D164CAEF2D84595000B769D9 /* ButtonLabelWithIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D164CAEE2D84595000B769D9 /* ButtonLabelWithIcon.swift */; };
 		D1A4FE052D8F808900D49185 /* ForgotPasswordScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A4FE042D8F808900D49185 /* ForgotPasswordScreen.swift */; };
@@ -115,6 +116,7 @@
 		D15EC35E2D947B7E001AACE6 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		D15EC3832D949199001AACE6 /* AuthServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceProtocol.swift; sourceTree = "<group>"; };
 		D15EC3852D9491B0001AACE6 /* UserServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceProtocol.swift; sourceTree = "<group>"; };
+		D15EC3872D9494EA001AACE6 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		D164CAEC2D84593E00B769D9 /* ButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonLabel.swift; sourceTree = "<group>"; };
 		D164CAEE2D84595000B769D9 /* ButtonLabelWithIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonLabelWithIcon.swift; sourceTree = "<group>"; };
 		D1A4FE042D8F808900D49185 /* ForgotPasswordScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordScreen.swift; sourceTree = "<group>"; };
@@ -284,6 +286,7 @@
 				329CE1D02CC0472C0074557F /* String+Extension.swift */,
 				329CE1D22CC047560074557F /* UIApplication+Extension.swift */,
 				D1CD5F7C2D60C2BD008E6B57 /* Image+Extension.swift */,
+				D15EC3872D9494EA001AACE6 /* View+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -664,6 +667,7 @@
 				D15EC3842D949199001AACE6 /* AuthServiceProtocol.swift in Sources */,
 				32A1F7172CA22FAD00999723 /* LocationManager.swift in Sources */,
 				329613982B7914DD00649CAC /* ColorSchemeChanger.swift in Sources */,
+				D15EC3882D9494EA001AACE6 /* View+Extension.swift in Sources */,
 				61E5E6122B17E981005B3D03 /* EcoFillApp.swift in Sources */,
 				D15EC3862D9491B0001AACE6 /* UserServiceProtocol.swift in Sources */,
 				50BAC33C2D0290AA00CD052B /* Font+Extension.swift in Sources */,
