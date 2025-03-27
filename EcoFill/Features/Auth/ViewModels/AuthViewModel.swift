@@ -31,7 +31,7 @@ final class AuthViewModel: ObservableObject {
   
   @Published var userSession: FirebaseAuth.User?
   @Published var currentUser: User?
-  @Published var selectedCity: City = .mykolaiv
+  @Published var userCity: City = .mykolaiv
   @Published var emailStatus: EmailStatus = .unverified
   @Published var alertItem: AlertItem?
   
@@ -133,3 +133,4 @@ final class AuthViewModel: ObservableObject {
     }
   }
 }
+
