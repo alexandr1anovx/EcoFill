@@ -1,1 +1,1 @@
-Development stack: MVVM, SwiftUI, Combine, Firebase
+Development stack: MVVM, SwiftUI, Firebase.
