@@ -28,7 +28,7 @@ struct TabBarView: View {
       
       if isShownTabBar {
         HStack {
-          ForEach(tabs, id: \.self) { tab in
+          ForEach(tabs) { tab in
             TabBarButton(
               title: tab.title,
               imageName: tab.imageName,
@@ -52,6 +52,8 @@ struct TabBarView: View {
 
 #Preview {
   TabBarView()
+    .environmentObject( MapViewModel() )
+    .environmentObject( AuthViewModel() )
     .environmentObject( StationViewModel() )
-    .environmentObject( UserViewModel() )
 }
+
