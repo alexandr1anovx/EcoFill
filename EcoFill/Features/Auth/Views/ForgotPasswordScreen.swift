@@ -8,23 +8,20 @@
 import SwiftUI
 
 struct ForgotPasswordScreen: View {
-  @State private var email = ""
-  @State private var isResetEmailSent = false
-  @FocusState private var fieldContent: UserDataTextFieldContent?
-  @EnvironmentObject var userVM: UserViewModel
-  @Environment(\.dismiss) private var dismiss
   
-  private var isValidForm: Bool {
-    email.isValidEmail
-  }
+  @State private var email = ""
+  @State private var isResetLinkSent = false
+  @FocusState private var fieldContent: UserDataTextFieldContent?
+  @EnvironmentObject var authViewModel: AuthViewModel
+  @Environment(\.dismiss) private var dismiss
   
   var body: some View {
     ZStack {
       Color.appBackground.ignoresSafeArea(.all)
       VStack(spacing: 0) {
           
-          if isResetEmailSent {
-            successMessage
+          if isResetLinkSent {
+            successView
           } else {
             Text("Reset password.")
               .font(.title3)
@@ -42,9 +39,8 @@ struct ForgotPasswordScreen: View {
               .frame(maxWidth: .infinity, alignment: .leading)
               .padding(.leading, 23)
             textField
-            resetButton.padding(.top, 20)
+            sendLinkButton.padding(.top, 20)
           }
-        
         Spacer()
       }
     }
@@ -75,12 +71,13 @@ struct ForgotPasswordScreen: View {
     .shadow(radius: 1)
   }
   
-  private var resetButton: some View {
+  private var sendLinkButton: some View {
     Button {
       Task {
-        await userVM.sendPasswordReset(to: email)
+        await authViewModel.sendPasswordReset(to: email)
         withAnimation {
-          isResetEmailSent.toggle()
+          isResetLinkSent.toggle()
+          email = ""
         }
       }
     } label: {
@@ -90,9 +87,9 @@ struct ForgotPasswordScreen: View {
         pouring: .buttonBackground
       )
     }
-    .disabled(!isValidForm)
-    .opacity(!isValidForm ? 0.5 : 1)
-    .alert(item: $userVM.alertItem) { alert in
+    .disabled(!email.isValidEmail)
+    .opacity(!email.isValidEmail ? 0.5 : 1)
+    .alert(item: $authViewModel.alertItem) { alert in
       Alert(
         title: alert.title,
         message: alert.message,
@@ -101,7 +98,7 @@ struct ForgotPasswordScreen: View {
     }
   }
   
-  private var successMessage: some View {
+  private var successView: some View {
     VStack(spacing: 20) {
       Image(systemName: "checkmark.circle.fill")
         .font(.largeTitle)
@@ -126,7 +123,7 @@ struct ForgotPasswordScreen: View {
           .padding(.horizontal, 30)
           .background(
             RoundedRectangle(cornerRadius: 10)
-              .stroke(Color.primaryIcon, lineWidth: 2)
+              .stroke(.primaryIcon, lineWidth: 2)
           )
       }.padding(.top,10)
     }
@@ -135,5 +132,6 @@ struct ForgotPasswordScreen: View {
 
 #Preview {
   ForgotPasswordScreen()
-    .environmentObject( UserViewModel() )
+    .environmentObject( AuthViewModel() )
 }
+
