@@ -1,9 +1,11 @@
 import Foundation
 import DeveloperToolsSupport
 
-enum ServiceType: String, CaseIterable {
+enum ServiceType: String, CaseIterable, Identifiable {
   case qrcode
   case support
+  
+  var id: Self { self }
   
   var icon: String {
     switch self {
@@ -26,3 +28,4 @@ enum ServiceType: String, CaseIterable {
     }
   }
 }
+
