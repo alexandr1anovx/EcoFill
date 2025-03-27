@@ -8,6 +8,8 @@
 import Foundation
 import MapKit
 
+// MARK: MKCoordinateRegion
+
 extension MKCoordinateRegion: @retroactive Equatable {
   public static func == (lhs: MKCoordinateRegion, rhs: MKCoordinateRegion) -> Bool {
     if lhs.center.latitude == rhs.center.latitude &&
@@ -24,9 +26,36 @@ extension MKCoordinateRegion: @retroactive Equatable {
     longitudinalMeters: 10000)
 }
 
+// MARK: CLLocationCoordinate2D
+
 extension CLLocationCoordinate2D {
   static let userLocation = CLLocationCoordinate2D(
     latitude: 46.959843,
     longitude: 32.012848
   )
 }
+
+// MARK: MKDirectionsTransportType
+
+extension MKDirectionsTransportType: CaseIterable, Hashable {
+  public static var allCases: [MKDirectionsTransportType] {
+    return [.automobile, .walking]
+  }
+  
+  var title: String {
+    switch self {
+    case .automobile: "Automobile"
+    case .walking: "Walking"
+    default: "Unknown"
+    }
+  }
+  
+  var iconName: String {
+    switch self {
+    case .automobile: "car"
+    case .walking: "figure.walk"
+    default: "questionmark"
+    }
+  }
+}
+
