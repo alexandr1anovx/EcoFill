@@ -1,32 +1,10 @@
 import SwiftUI
 import MapKit
 
-extension MKDirectionsTransportType: CaseIterable, Hashable {
-  public static var allCases: [MKDirectionsTransportType] {
-    return [.automobile, .walking]
-  }
-  
-  var title: String {
-    switch self {
-    case .automobile: "Automobile"
-    case .walking: "Walking"
-    default: "Unknown"
-    }
-  }
-  
-  var iconName: String {
-    switch self {
-    case .automobile: "car"
-    case .walking: "figure.walk"
-    default: "questionmark"
-    }
-  }
-}
-
 struct MapItemView: View {
   
   let station: Station
-  @EnvironmentObject var stationVM: StationViewModel
+  @EnvironmentObject var mapViewModel: MapViewModel
   
   var body: some View {
     ZStack {
@@ -35,14 +13,14 @@ struct MapItemView: View {
         Spacer()
         addressLabel.padding(.leading, 15)
         scheduleLabel.padding(.leading, 15)
-        paymentLabel.padding(.leading, 15)
+        paymentMethodsLabel.padding(.leading, 15)
         HStack(spacing: 8) {
           Text("Transport type:")
             .font(.footnote)
             .fontWeight(.medium)
             .foregroundStyle(.primaryLabel)
           ForEach(MKDirectionsTransportType.allCases, id: \.self) { type in
-            transportTypeLabel(for: type)
+            transportLabel(for: type)
           }
         }
         
@@ -53,18 +31,18 @@ struct MapItemView: View {
     }
   }
   
-  private func transportTypeLabel(for type: MKDirectionsTransportType) -> some View {
+  private func transportLabel(for type: MKDirectionsTransportType) -> some View {
     Label(type.title, systemImage: type.iconName)
       .font(.footnote)
       .fontWeight(.medium)
-      .foregroundStyle(type == stationVM.selectedTransportType ? .black : .primaryLime)
+      .foregroundStyle(type == mapViewModel.selectedTransportType ? .black : .primaryLime)
       .padding(10)
-      .background(type == stationVM.selectedTransportType ? .primaryLime : .black)
+      .background(type == mapViewModel.selectedTransportType ? .primaryLime : .black)
       .clipShape(.capsule)
       .shadow(radius: 2)
-      .animation(.spring, value: stationVM.selectedTransportType)
+      .animation(.spring, value: mapViewModel.selectedTransportType)
       .onTapGesture {
-        stationVM.selectedTransportType = type
+        mapViewModel.selectedTransportType = type
       }
   }
   
@@ -92,7 +70,7 @@ struct MapItemView: View {
     }
   }
   
-  private var paymentLabel: some View {
+  private var paymentMethodsLabel: some View {
     HStack(spacing: 8) {
       Image(.money).foregroundStyle(.primaryIcon)
       Text("Payment:").foregroundStyle(.primaryLabel)
@@ -104,25 +82,17 @@ struct MapItemView: View {
   
   @ViewBuilder
   private var routeButton: some View {
-    if stationVM.isShownRoute {
+    if mapViewModel.isShownRoute {
       Button {
-        stationVM.isShownRoute = false
+        mapViewModel.isShownRoute = false
       } label: {
-        ButtonLabel(
-          "Hide Route",
-          textColor: .white,
-          pouring: .red
-        )
+        ButtonLabel("Hide Route", textColor: .white, pouring: .red)
       }
     } else {
       Button {
-        stationVM.isShownRoute = true
+        mapViewModel.isShownRoute = true
       } label: {
-        ButtonLabel(
-          "Show Route",
-          textColor: .black,
-          pouring: .primaryLime
-        )
+        ButtonLabel("Show Route", textColor: .black, pouring: .primaryLime)
       }
     }
   }
@@ -130,5 +100,6 @@ struct MapItemView: View {
 
 #Preview {
   MapItemView(station: .mockStation)
-    .environmentObject(StationViewModel())
+    .environmentObject(MapViewModel())
 }
+

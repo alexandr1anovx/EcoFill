@@ -4,7 +4,7 @@ enum City: String, Identifiable, CaseIterable {
   case kyiv, mykolaiv, odesa
   
   var id: Self { self }
-  var title: String { self.rawValue.capitalized }
+  var title: String { rawValue.capitalized }
 }
 
 struct SignUpScreen: View {
@@ -15,7 +15,7 @@ struct SignUpScreen: View {
   @State private var selectedCity: City = .mykolaiv
   
   @FocusState private var fieldContent: UserDataTextFieldContent?
-  @EnvironmentObject var userVM: UserViewModel
+  @EnvironmentObject var authViewModel: AuthViewModel
   @Environment(\.dismiss) var dismiss
   
   private var isValidForm: Bool {
@@ -102,7 +102,7 @@ struct SignUpScreen: View {
   private var signUpButton: some View {
     Button {
       Task {
-        await userVM.signUp(
+        await authViewModel.signUp(
           withFullName: fullName,
           email: emailAddress,
           password: password,
@@ -114,7 +114,7 @@ struct SignUpScreen: View {
     }
     .disabled(!isValidForm)
     .opacity(!isValidForm ? 0.5 : 1)
-    .alert(item: $userVM.alertItem) { alert in
+    .alert(item: $authViewModel.alertItem) { alert in
       Alert(
         title: alert.title,
         message: alert.message,
@@ -148,5 +148,6 @@ struct SignUpScreen: View {
 
 #Preview {
   SignUpScreen()
-    .environmentObject( UserViewModel() )
+    .environmentObject( AuthViewModel() )
 }
+

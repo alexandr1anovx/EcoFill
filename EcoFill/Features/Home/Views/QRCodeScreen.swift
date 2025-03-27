@@ -12,14 +12,14 @@ struct QRCodeScreen: View {
   @State private var scannedCode: String?
   @State private var errorMessage: String?
   @State private var isAlertVisible = false
-  @EnvironmentObject var userVM: UserViewModel
+  @EnvironmentObject var authViewModel: AuthViewModel
   
   var body: some View {
     ZStack {
       Color.appBackground.ignoresSafeArea(.all)
       VStack(spacing: 10) {
         
-        if let user = userVM.currentUser {
+        if let user = authViewModel.currentUser {
           HStack(spacing: 0) {
             Text(user.id.dropLast(4))
               .font(.subheadline)
@@ -70,24 +70,31 @@ struct QRCodeScreen: View {
         }
       }
     }
+    .onAppear {
+      generateQRCodeImage()
+    }
     .toolbar {
       ToolbarItem(placement: .topBarTrailing) {
         Button("Allow Camera") {
           isAlertVisible.toggle()
         }
         .alert(isPresented: $isAlertVisible) {
-          Alert (title: Text("Camera access required to take photos"),
-                 message: Text("Go to Settings?"),
-                 primaryButton: .default(Text("Settings"), action: {
-            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-          }),secondaryButton: .default(Text("Cancel")))
+          Alert(
+            title: Text("Camera access required to take photos"),
+            message: Text("Go to Settings?"),
+            primaryButton: .default(Text("Settings"), action: {
+              UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+            }),
+            secondaryButton: .default(Text("Cancel"))
+          )
         }
       }
     }
-    .onAppear { generateQRCodeImage() }
   }
   
-  func openAppSettings() {
+  // MARK: Logic Methods
+  
+  private func openAppSettings() {
     guard let appSettings = URL(string: UIApplication.openSettingsURLString) else {
       return
     }
@@ -97,14 +104,14 @@ struct QRCodeScreen: View {
   }
   
   private func generateQRCodeImage() {
-    guard let fullName = userVM.currentUser?.fullName, !fullName.isEmpty else {
+    guard let user = authViewModel.currentUser else {
       errorMessage = "Error: Full name is missing."
       return
     }
     
     let context = CIContext()
     let filter = CIFilter.qrCodeGenerator()
-    filter.message = Data(fullName.utf8)
+    filter.message = Data(user.fullName.utf8)
     
     if let outputImage = filter.outputImage,
        let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
@@ -118,3 +125,4 @@ struct QRCodeScreen: View {
 #Preview {
   QRCodeScreen()
 }
+

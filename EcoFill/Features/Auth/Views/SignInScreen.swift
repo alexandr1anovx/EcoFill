@@ -6,7 +6,7 @@ struct SignInScreen: View {
   @State private var email = ""
   @State private var password = ""
   @FocusState private var fieldContent: UserDataTextFieldContent?
-  @EnvironmentObject var userVM: UserViewModel
+  @EnvironmentObject var authViewModel: AuthViewModel
   
   private var isValidForm: Bool {
     email.isValidEmail && password.count > 5
@@ -83,14 +83,15 @@ struct SignInScreen: View {
   private var signInButton: some View {
     Button {
       Task {
-        await userVM.signIn(withEmail: email, password: password)
+        await authViewModel.signIn(withEmail: email, password: password)
+        password = ""
       }
     } label: {
       ButtonLabel("Sign In", textColor: .primaryText, pouring: .buttonBackground)
     }
     .disabled(!isValidForm)
     .opacity(!isValidForm ? 0.5 : 1)
-    .alert(item: $userVM.alertItem) { alert in
+    .alert(item: $authViewModel.alertItem) { alert in
       Alert(
         title: alert.title,
         message: alert.message,
@@ -165,5 +166,6 @@ struct AuthHeaderView: View {
 
 #Preview {
   SignInScreen()
-    .environmentObject(UserViewModel())
+    .environmentObject(AuthViewModel())
 }
+

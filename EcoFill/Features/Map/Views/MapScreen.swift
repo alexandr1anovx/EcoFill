@@ -5,7 +5,8 @@ struct MapScreen: View {
   
   @Binding var isShownTabBar: Bool
   @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
-  @EnvironmentObject var stationVM: StationViewModel
+  @EnvironmentObject var stationViewModel: StationViewModel
+  @EnvironmentObject var mapViewModel: MapViewModel
   
   var body: some View {
     mapView
@@ -16,18 +17,18 @@ struct MapScreen: View {
       .overlay(alignment: .topTrailing) {
         showListButton
       }
-      .task(id: stationVM.isShownRoute) {
-        await stationVM.toggleRoutePresentation()
+      .task(id: mapViewModel.isShownRoute) {
+        await mapViewModel.toggleRoutePresentation()
       }
       .onAppear { isShownTabBar = true }
     
-      .sheet(isPresented: $stationVM.isShownStationDataSheet) {
-        MapItemView(station: stationVM.selectedStation ?? .mockStation)
+      .sheet(isPresented: $mapViewModel.isShownStationPreview) {
+        MapItemView(station: mapViewModel.selectedStation ?? .mockStation)
           .presentationDetents([.height(320)])
           .presentationDragIndicator(.visible)
           .presentationCornerRadius(30)
       }
-      .sheet(isPresented: $stationVM.isShownStationList) {
+      .sheet(isPresented: $mapViewModel.isShownStationList) {
         StationListView()
           .presentationDetents([.height(450)])
           .presentationDragIndicator(.visible)
@@ -38,14 +39,14 @@ struct MapScreen: View {
   private var mapView: some View {
     Map(position: $cameraPosition) {
       UserAnnotation()
-      ForEach(stationVM.stations) { station in
+      ForEach(stationViewModel.stations) { station in
         
         let coordinate = station.coordinate
         Annotation("EcoFill", coordinate: coordinate) {
           stationMark(for: station)
         }
       }
-      if let route = stationVM.route {
+      if let route = mapViewModel.route {
         MapPolyline(route.polyline)
           .stroke(.green, lineWidth: 4)
       }
@@ -61,14 +62,14 @@ struct MapScreen: View {
       .clipShape(.circle)
       .shadow(radius: 3)
       .onTapGesture {
-        stationVM.selectedStation = station
-        stationVM.isShownStationDataSheet = true
+        mapViewModel.selectedStation = station
+        mapViewModel.isShownStationPreview = true
       }
   }
   
   private var showListButton: some View {
     Button {
-      stationVM.isShownStationList.toggle()
+      mapViewModel.isShownStationList.toggle()
     } label: {
       Image(systemName: "list.bullet")
         .imageScale(.large)
@@ -85,6 +86,7 @@ struct MapScreen: View {
 
 #Preview {
   MapScreen(isShownTabBar: .constant(false))
-    .environmentObject(StationViewModel())
-    .environmentObject(UserViewModel())
+    .environmentObject( StationViewModel() )
+    .environmentObject( AuthViewModel() )
 }
+
