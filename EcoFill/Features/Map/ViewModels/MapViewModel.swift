@@ -8,7 +8,7 @@ import MapKit
   @Published var selectedTransportType: MKDirectionsTransportType = .automobile
   @Published var route: MKRoute?
   @Published var isShownRoute = false
-  @Published var isShownStationDataSheet = false
+  @Published var isShownStationPreview = false
   @Published var isShownStationList = false
   
   // MARK: Public Methods
@@ -54,3 +54,4 @@ import MapKit
     }
   }
 }
+
