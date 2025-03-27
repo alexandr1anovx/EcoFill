@@ -1,18 +1,27 @@
 import SwiftUI
 
 enum FuelType: String {
-  case euroA95 = "A-95 Euro"
-  case euroDP = "DP Euro"
-  case gas = "Gas"
+  case euroA95
+  case euroDP
+  case gas
+  
+  var title: String {
+    switch self {
+    case .euroA95: "A-95 Euro"
+    case .euroDP: "DP Euro"
+    case .gas: "Gas"
+    }
+  }
 }
 
 struct FuelStackCell: View {
+  
   let type: FuelType
   let price: Double
   
   var body: some View {
     HStack(spacing: 10) {
-      Text(type.rawValue)
+      Text(type.title)
         .font(.subheadline)
         .fontWeight(.bold)
         .foregroundStyle(.white)
@@ -29,3 +38,4 @@ struct FuelStackCell: View {
 #Preview {
   FuelStackCell(type: .euroA95, price: 50.4)
 }
+
