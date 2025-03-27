@@ -19,7 +19,7 @@ struct HomeScreen: View {
   }
   
   private var serviceList: some View {
-    List(ServiceType.allCases, id: \ .self) { service in
+    List(ServiceType.allCases) { service in
       NavigationLink(destination: destinationView(for: service)) {
         ListCell(
           title: service.title,
@@ -50,6 +50,7 @@ struct HomeScreen: View {
 
 #Preview {
   HomeScreen(isShownTabBar: .constant(true))
-    .environmentObject( UserViewModel() )
-    .environmentObject( StationViewModel() )
+    .environmentObject( AuthViewModel() )
+    .environmentObject( MapViewModel() )
 }
+
