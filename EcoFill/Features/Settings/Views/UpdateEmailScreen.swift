@@ -15,7 +15,7 @@ struct UpdateEmailScreen: View {
   @State private var isShownConfirmationAlert = false
   
   @FocusState private var fieldContent: UserDataTextFieldContent?
-  @EnvironmentObject var userVM: UserViewModel
+  @EnvironmentObject var authViewModel: AuthViewModel
   
   private var isValidForm: Bool {
     newEmail.isValidEmail && password.count > 5
@@ -34,7 +34,7 @@ struct UpdateEmailScreen: View {
     .navigationTitle("Email Update")
     .navigationBarTitleDisplayMode(.inline)
     .onAppear {
-      userVM.checkEmailStatus()
+      authViewModel.checkEmailStatus()
       loadUserEmail()
     }
   }
@@ -82,14 +82,14 @@ struct UpdateEmailScreen: View {
       HStack(spacing: 5) {
         Text("Email status:")
           .fontWeight(.medium)
-        Text(userVM.emailStatus.message)
+        Text(authViewModel.emailStatus.message)
           .fontWeight(.bold)
           .foregroundStyle(
-            userVM.emailStatus == .verified ? .primaryLime : .red
+            authViewModel.emailStatus == .verified ? .primaryLime : .red
           )
       }
       .font(.footnote)
-      Text(userVM.emailStatus.hint)
+      Text(authViewModel.emailStatus.hint)
         .font(.caption)
         .foregroundStyle(.gray)
     }
@@ -99,14 +99,15 @@ struct UpdateEmailScreen: View {
   private var updateEmailButton: some View {
     Button {
       Task {
-        await userVM.updateEmail(toEmail: newEmail, withPassword: password)
+        await authViewModel.updateEmail(toEmail: newEmail, withPassword: password)
+        password = ""
       }
     } label: {
       ButtonLabel("Update Email", textColor: .primaryText, pouring: .buttonBackground)
     }
     .disabled(!isValidForm)
     .opacity(!isValidForm ? 0.5 : 1)
-    .alert(item: $userVM.alertItem) { alert in
+    .alert(item: $authViewModel.alertItem) { alert in
       Alert(
         title: alert.title,
         message: alert.message,
@@ -116,12 +117,13 @@ struct UpdateEmailScreen: View {
   }
   
   private func loadUserEmail() {
-    currentEmail = userVM.currentUser?.email ?? "No email address"
+    currentEmail = authViewModel.currentUser?.email ?? "No email address"
   }
 }
 
 #Preview {
   UpdateEmailScreen()
-    .environmentObject(UserViewModel())
-    .environmentObject(StationViewModel())
+    .environmentObject(AuthViewModel())
+    .environmentObject(MapViewModel())
 }
+

@@ -1,13 +1,14 @@
 import SwiftUI
 
 struct LaunchScreen: View {
+  
   @State private var isShownContent = false
-  @EnvironmentObject var userVM: UserViewModel
+  @EnvironmentObject var authViewModel: AuthViewModel
   @EnvironmentObject var stationVM: StationViewModel
   
   var body: some View {
     Group {
-      if userVM.userSession != nil {
+      if authViewModel.userSession != nil {
         if isShownContent {
           TabBarView()
         } else {
@@ -37,6 +38,7 @@ struct LaunchScreen: View {
 
 #Preview {
   LaunchScreen()
-    .environmentObject(UserViewModel())
-    .environmentObject(StationViewModel())
+    .environmentObject(AuthViewModel())
+    .environmentObject(MapViewModel())
 }
+

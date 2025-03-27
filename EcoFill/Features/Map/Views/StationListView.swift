@@ -1,12 +1,12 @@
 import SwiftUI
 
 struct StationListView: View {
-  @EnvironmentObject var userVM: UserViewModel
-  @EnvironmentObject var stationVM: StationViewModel
+  @EnvironmentObject var authViewModel: AuthViewModel
+  @EnvironmentObject var stationViewModel: StationViewModel
   
   private var selectedCityStations: [Station] {
-    stationVM.stations.filter {
-      $0.city == userVM.selectedCity.title
+    stationViewModel.stations.filter {
+      $0.city == authViewModel.userCity.title
     }
   }
   
@@ -14,7 +14,7 @@ struct StationListView: View {
     ZStack {
       Color.appBackground.ignoresSafeArea(.all)
       VStack(spacing:8) {
-        Picker("", selection: $userVM.selectedCity) {
+        Picker("", selection: $authViewModel.userCity) {
           ForEach(City.allCases) { city in
             Text(city.title)
           }
@@ -39,12 +39,14 @@ struct StationListView: View {
   }
   
   // MARK: - UI Setup Methods
+  
   private func displaySelectedCity() {
-    if let cityString = userVM.currentUser?.city,
+    if let cityString = authViewModel.currentUser?.city,
        let city = City(rawValue: cityString) {
-      userVM.selectedCity = city
+      authViewModel.userCity = city
     }
   }
+  
   private func setupPickerAppearance() {
     let appearance = UISegmentedControl.appearance()
     appearance.selectedSegmentTintColor = .buttonBackground
@@ -56,6 +58,7 @@ struct StationListView: View {
 
 #Preview {
   StationListView()
-    .environmentObject(UserViewModel())
-    .environmentObject(StationViewModel())
+    .environmentObject(AuthViewModel())
+    .environmentObject(MapViewModel())
 }
+

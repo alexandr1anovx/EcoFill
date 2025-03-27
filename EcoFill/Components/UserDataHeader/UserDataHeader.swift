@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct UserDataHeader: View {
-  @EnvironmentObject var userVM: UserViewModel
+  @EnvironmentObject var userVM: AuthViewModel
   
   var body: some View {
     if let user = userVM.currentUser {
@@ -34,6 +34,7 @@ struct UserDataHeader: View {
 
 #Preview {
   UserDataHeader()
-    .environmentObject(UserViewModel())
-    .environmentObject(StationViewModel())
+    .environmentObject(AuthViewModel())
+    .environmentObject(MapViewModel())
 }
+

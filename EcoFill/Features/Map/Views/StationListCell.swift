@@ -3,13 +3,13 @@ import MapKit
 
 struct StationListCell: View {
   
-  @EnvironmentObject var stationVM: StationViewModel
   let station: Station
-  let transportTypes = MKDirectionsTransportType.allCases
+  @EnvironmentObject var mapViewModel: MapViewModel
   
+  private let transportTypes = MKDirectionsTransportType.allCases
   private var isPresentedRoute: Bool {
-    stationVM.selectedStation == station
-    && stationVM.isShownRoute
+    mapViewModel.selectedStation == station
+    && mapViewModel.isShownRoute
   }
   
   var body: some View {
@@ -21,22 +21,22 @@ struct StationListCell: View {
         routeConditionButton.buttonStyle(.plain)
         HStack(spacing:8){
           ForEach(transportTypes, id: \.self) { transportType in
-            transportTypeLabel(for: transportType)
+            transportLabel(for: transportType)
           }
         }
       }
     }
   }
   
-  private func transportTypeLabel(for type: MKDirectionsTransportType) -> some View {
+  private func transportLabel(for type: MKDirectionsTransportType) -> some View {
     Image(systemName: type.iconName)
       .imageScale(.small)
-      .foregroundStyle(type == stationVM.selectedTransportType ? .primaryLime : .gray)
+      .foregroundStyle(type == mapViewModel.selectedTransportType ? .primaryLime : .gray)
       .padding(10)
       .background(.black)
       .clipShape(.circle)
       .onTapGesture {
-        stationVM.selectedTransportType = type
+        mapViewModel.selectedTransportType = type
       }
   }
   
@@ -78,9 +78,9 @@ struct StationListCell: View {
   private var routeConditionButton: some View {
     if !isPresentedRoute {
       Button {
-        stationVM.isShownStationDataSheet = false
-        stationVM.selectedStation = station
-        stationVM.isShownRoute = true
+        mapViewModel.isShownStationPreview = false
+        mapViewModel.selectedStation = station
+        mapViewModel.isShownRoute = true
       } label: {
         Text("Show Route")
           .font(.subheadline)
@@ -94,9 +94,9 @@ struct StationListCell: View {
       }
     } else {
       Button {
-        stationVM.isShownStationDataSheet = false
-        stationVM.selectedStation = nil
-        stationVM.isShownRoute = false
+        mapViewModel.isShownStationPreview = false
+        mapViewModel.selectedStation = nil
+        mapViewModel.isShownRoute = false
       } label: {
         Text("Hide Route")
           .font(.subheadline)
@@ -114,5 +114,6 @@ struct StationListCell: View {
 
 #Preview {
   StationListCell(station: .mockStation)
-    .environmentObject( StationViewModel() )
+    .environmentObject( MapViewModel() )
 }
+

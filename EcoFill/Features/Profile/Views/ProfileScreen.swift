@@ -6,7 +6,7 @@ struct ProfileScreen: View {
   @Binding var isShownTabBar: Bool
   @State private var isShownAlert = false
   @Environment(\.requestReview) var requestReview
-  @EnvironmentObject var userVM: UserViewModel
+  @EnvironmentObject var authViewModel: AuthViewModel
   
   var body: some View {
     NavigationStack {
@@ -71,7 +71,7 @@ struct ProfileScreen: View {
     .alert("Sign Out", isPresented: $isShownAlert) {
       Button("Sign Out", role: .destructive) {
         withAnimation(.easeInOut(duration: 1)) {
-          userVM.signOut()
+          authViewModel.signOut()
         }
       }
     } message: {
@@ -82,6 +82,7 @@ struct ProfileScreen: View {
 
 #Preview {
   ProfileScreen(isShownTabBar: .constant(false))
-    .environmentObject(UserViewModel())
-    .environmentObject(StationViewModel())
+    .environmentObject(AuthViewModel())
+    .environmentObject(MapViewModel())
 }
+

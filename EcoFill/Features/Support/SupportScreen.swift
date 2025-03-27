@@ -5,7 +5,7 @@ struct SupportScreen: View {
   @State private var email = ""
   @State private var message = ""
   @State private var isShownAlert = false
-  @EnvironmentObject var userVM: UserViewModel
+  @EnvironmentObject var authViewModel: AuthViewModel
   
   private var isMessageCorrect: Bool {
     message.count > 10 && message.count <= 100
@@ -78,12 +78,14 @@ struct SupportScreen: View {
     }
   }
   
-  // MARK: - Data Methods
+  // MARK: Logic Methods
+  
   private func loadUserEmail() {
-    email = userVM.currentUser?.email ?? "No email address"
+    email = authViewModel.currentUser?.email ?? "No email address"
   }
 }
 
 #Preview {
-  SupportScreen().environmentObject(UserViewModel())
+  SupportScreen().environmentObject(AuthViewModel())
 }
+
