@@ -13,7 +13,7 @@ enum ColorTheme: String, CaseIterable {
   }
 }
 
-struct ColorSchemeChanger: View {
+struct ColorThemePickerView: View {
   @AppStorage("colorTheme") private var selectedColorTheme: ColorTheme = .system
   
   var body: some View {
@@ -33,5 +33,5 @@ struct ColorSchemeChanger: View {
 }
 
 #Preview {
-  ColorSchemeChanger()
+  ColorThemePickerView()
 }
