@@ -1,24 +1,22 @@
-import Foundation
-import MapKit
+//
+//  StationViewModel.swift
+//  EcoFill
+//
+//  Created by Alexander Andrianov on 27.03.2025.
+//
+
 import FirebaseFirestore
 
-@MainActor
-final class StationViewModel: ObservableObject {
+@MainActor final class StationViewModel: ObservableObject {
+  
+  // MARK: Properties
   
   @Published var stations: [Station] = []
-  @Published var selectedStation: Station?
-  @Published var selectedTransportType: MKDirectionsTransportType = .automobile
-  @Published var route: MKRoute?
-  @Published var isShownRoute = false
-  @Published var isShownStationDataSheet = false
-  @Published var isShownStationList = false
+  let stationCollection = Firestore.firestore().collection("stations")
   
-  private let locationManager = LocationManager.shared
+  // MARK: Public Methods
   
-  // MARK: - Public Methods
   func getStations() {
-    let stationCollection = Firestore.firestore().collection("stations")
-    
     stationCollection.addSnapshotListener { snapshot, error in
       if let error {
         print(error.localizedDescription)
@@ -51,47 +49,6 @@ final class StationViewModel: ObservableObject {
           street: street
         )
       }
-    }
-  }
-  
-  func getRoute(to station: Station?) async {
-    route = nil
-    guard let station else { return }
-    guard let userLocation = locationManager.manager.location else { return }
-    let userCoordinate = userLocation.coordinate
-    let userPlacemark = MKPlacemark(coordinate: userCoordinate)
-    let stationCoordinate = station.coordinate
-    let stationPlacemark = MKPlacemark(coordinate: stationCoordinate)
-    let source = MKMapItem(placemark: userPlacemark)
-    let destination = MKMapItem(placemark: stationPlacemark)
-    self.route = await calculateDirections(from: source, to: destination)
-  }
-  
-  func toggleRoutePresentation() async {
-    if isShownRoute {
-      if let selectedStation = selectedStation {
-        await getRoute(to: selectedStation)
-      }
-    } else {
-      route = nil
-    }
-  }
-  
-  // MARK: - Private Methods
-  private func calculateDirections(from: MKMapItem, to: MKMapItem) async -> MKRoute? {
-    let request = MKDirections.Request()
-    request.transportType = selectedTransportType
-    request.source = from
-    request.destination = to
-    
-    do {
-      let directions = MKDirections(request: request)
-      let response = try await directions.calculate()
-      let route = response.routes.first
-      return route
-    } catch {
-      print(error.localizedDescription)
-      return nil
     }
   }
 }

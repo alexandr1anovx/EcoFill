@@ -27,7 +27,7 @@ enum EmailStatus {
 }
 
 @MainActor
-final class UserViewModel: ObservableObject {
+final class AuthViewModel: ObservableObject {
   
   @Published var userSession: FirebaseAuth.User?
   @Published var currentUser: User?
