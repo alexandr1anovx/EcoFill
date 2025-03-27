@@ -7,8 +7,10 @@
 
 import Foundation
 
-enum Tab: Int, CaseIterable {
+enum Tab: Int, CaseIterable, Identifiable {
   case home = 0, map, profile
+  
+  var id: Int { self.hashValue }
   
   var title: String {
     switch self {
@@ -26,3 +28,4 @@ enum Tab: Int, CaseIterable {
     }
   }
 }
+
