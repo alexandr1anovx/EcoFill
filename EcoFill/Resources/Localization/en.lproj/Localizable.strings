@@ -1,0 +1,105 @@
+/* 
+  Localizable.strings
+  EcoFill
+
+  Created by Alexander Andrianov on 28.03.2025.
+  
+*/
+
+// MARK: Common UI Elements
+
+"OK" = "OK";
+"Cancel" = "Cancel";
+"Done" = "Done";
+"Save" = "Save";
+"Delete" = "Delete";
+"Edit" = "Edit";
+"Back" = "Back";
+"Next" = "Next";
+"Continue" = "Continue";
+"Close" = "Close";
+"Search" = "Search";
+"Settings" = "Settings";
+"Profile" = "Profile";
+"Home" = "Home";
+"Map" = "Map";
+"Support" = "Support";
+"Thanks!" = "Thanks!";
+
+// MARK: Auth
+
+"sign_in_title" = "Sign In";
+"sign_in_subtitle" = "Enter your credentials.";
+"sign_in_button" = "Sign In";
+
+"sign_up_title" = "Sign Up";
+"sign_up_subtitle" = "Create account.";
+"sign_up_button" = "Sign Up";
+
+"forgot_password" = "Forgot password?";
+
+// QR Code Screen
+"qrcode_not_available" = "QR Code is not available.";
+"qrcode_screen_subtitle" = "Scan your code to receive bonuses.";
+"scanning_successful" = "Scanning was successful!";
+"bonuses_credited" = "Bonuses successfully credited to the balance.";
+"loading_user_data" = "Loading user data...";
+"allow_camera" = "Allow Camera";
+"camera_access_required" = "Camera access required to take photos";
+"go_to_settings" = "Go to Settings?";
+"error_missing_full_name" = "Error: Full name is missing.";
+"error_generating_qrcode" = "Error when generating QR code.";
+
+// MARK: Map Item View
+"transport_type" = "Transport type:";
+"payment_label" = "Payment:";
+"payment_methods" = "Cash, ApplePay.";
+"show_route" = "Show Route";
+"hide_route" = "Hide Route";
+
+// MARK: Profile Screen
+"profile_title" = "Profile";
+"settings_title" = "Settings";
+"settings_subtitle" = "Change your personal data.";
+"rate_us_title" = "Rate Us";
+"rate_us_subtitle" = "Help more people to know about us.";
+"log_out_title" = "Log Out";
+"log_out_subtitle" = "Securely sign out of your account.";
+"sign_out_alert_title" = "Sign Out";
+"sign_out_button" = "Sign Out";
+"sign_out_alert_message" = "This action will redirect you to the Sign In screen.";
+
+// MARK: Settings Screen
+"update_email_title" = "Update Email";
+"update_email_subtitle" = "Update your email address.";
+"delete_account_title" = "Delete Account";
+"delete_account_subtitle" = "It will permanently delete your data.";
+"password_alert_title" = "Password";
+"cancel_button" = "Cancel";
+"confirm_button" = "Confirm";
+"delete_account_message" = "Enter your account password to delete your account.";
+
+// MARK: Update Email Screen
+"email_update_title" = "Email Update";
+"current_email_hint" = "Current email address";
+"new_email_hint" = "New email address";
+"current_password_hint" = "Current password";
+"email_status_label" = "Email status:";
+"update_email_button" = "Update Email";
+"no_email_address" = "No email address";
+
+// MARK: Email Status
+"email_status_verified" = "Verified.";
+"email_status_unverified" = "Unverified.";
+"email_status_unverified_hint" = "A confirmation link has been sent to the email address.";
+
+// MARK: Language Picker
+"language_label" = "Language:";
+"language_english" = "English";
+"language_ukrainian" = "Ukrainian";
+
+// MARK: Color Theme Picker
+"color_scheme_label" = "Color scheme:";
+"theme_system" = "System";
+"theme_light" = "Light";
+"theme_dark" = "Dark";
