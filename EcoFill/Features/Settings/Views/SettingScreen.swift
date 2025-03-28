@@ -1,16 +1,17 @@
 import SwiftUI
-import FirebaseAuth
 
 struct SettingScreen: View {
-  @State private var password = ""
+  
+  @State private var deletionPassword = ""
   @State private var isShownDeletetionAlert = false
-  @EnvironmentObject var userVM: UserViewModel
+  @EnvironmentObject var authViewModel: AuthViewModel
   
   var body: some View {
     ZStack {
       Color.appBackground.ignoresSafeArea(.all)
       List {
-        ColorSchemeChanger()
+        ColorThemePickerView()
+        LanguagePickerView()
         updateEmailCell
         deleteAccountCell
       }
@@ -18,6 +19,7 @@ struct SettingScreen: View {
       .scrollIndicators(.hidden)
       .listRowSpacing(10)
       .shadow(radius: 1)
+      .environment(\.defaultMinListRowHeight, 55)
     }
     .navigationTitle("Settings")
     .navigationBarTitleDisplayMode(.inline)
@@ -48,10 +50,12 @@ struct SettingScreen: View {
       )
     }
     .alert("Password", isPresented: $isShownDeletetionAlert) {
-      SecureField("", text: $password)
-      Button("Confirm", role: .destructive) {
+      SecureField("", text: $deletionPassword)
+      Button("Cancel", role: .cancel) { deletionPassword = "" }
+      Button("Confirm") {
         Task {
-          await userVM.deleteUser(withPassword: password)
+          await authViewModel.deleteUser(withPassword: deletionPassword)
+          deletionPassword = ""
         }
       }
     } message: {
@@ -62,6 +66,7 @@ struct SettingScreen: View {
 
 #Preview {
   SettingScreen()
-    .environmentObject( UserViewModel() )
-    .environmentObject( StationViewModel() )
+    .environmentObject( AuthViewModel() )
+    .environmentObject( MapViewModel() )
 }
+
