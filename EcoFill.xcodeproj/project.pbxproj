@@ -325,13 +325,13 @@
 		D15EC36D2D948EA4001AACE6 /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				D15EC37E2D948FFF001AACE6 /* Support */,
 				D15EC37D2D948FC6001AACE6 /* Launch */,
+				D15EC36E2D948EAD001AACE6 /* Auth */,
 				D15EC37A2D948FA4001AACE6 /* Home */,
-				D15EC3752D948EF5001AACE6 /* Settings */,
+				D15EC37E2D948FFF001AACE6 /* Support */,
 				D15EC3742D948EEF001AACE6 /* Map */,
 				D15EC3712D948ED8001AACE6 /* Profile */,
-				D15EC36E2D948EAD001AACE6 /* Auth */,
+				D15EC3752D948EF5001AACE6 /* Settings */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -367,16 +367,8 @@
 			isa = PBXGroup;
 			children = (
 				D15EC3732D948EE5001AACE6 /* Views */,
-				D15EC3722D948EDF001AACE6 /* ViewModels */,
 			);
 			path = Profile;
-			sourceTree = "<group>";
-		};
-		D15EC3722D948EDF001AACE6 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		D15EC3732D948EE5001AACE6 /* Views */ = {
@@ -401,7 +393,6 @@
 			isa = PBXGroup;
 			children = (
 				D15EC3792D948F16001AACE6 /* Views */,
-				D15EC3782D948F11001AACE6 /* ViewModels */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -426,13 +417,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		D15EC3782D948F11001AACE6 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
 		D15EC3792D948F16001AACE6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -445,7 +429,6 @@
 		D15EC37A2D948FA4001AACE6 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				D15EC37C2D948FB3001AACE6 /* ViewModels */,
 				D15EC37B2D948FAE001AACE6 /* Views */,
 			);
 			path = Home;
@@ -460,13 +443,6 @@
 				32044B7E2C87E60300D90077 /* CityFuelsGrid.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		D15EC37C2D948FB3001AACE6 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		D15EC37D2D948FC6001AACE6 /* Launch */ = {
