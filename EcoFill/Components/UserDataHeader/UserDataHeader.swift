@@ -20,7 +20,7 @@ struct UserDataHeader: View {
         HStack(spacing: 8) {
           Image(.marker)
             .foregroundStyle(.primaryIcon)
-          Text(user.city)
+          Text(user.localizedCity)
             .font(.footnote)
             .fontWeight(.medium)
             .foregroundStyle(.gray)

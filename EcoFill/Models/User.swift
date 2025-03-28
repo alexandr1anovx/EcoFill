@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 struct User: Identifiable, Codable {
   let id: String
@@ -6,4 +6,8 @@ struct User: Identifiable, Codable {
   let email: String
   let city: String
   let points: Int
+  
+  var localizedCity: LocalizedStringKey {
+    LocalizedStringKey(city)
+  }
 }
