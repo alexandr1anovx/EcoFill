@@ -29,6 +29,7 @@ struct EcoFillApp: App {
         .environmentObject(authViewModel)
         .environmentObject(stationViewModel)
         .environmentObject(mapViewModel)
+        .environment(\.defaultMinListRowHeight, 53)
     }
   }
 }
