@@ -9,13 +9,13 @@ import SwiftUI
 
 struct ButtonLabelWithIcon: View {
   
-  let title: String
+  let title: LocalizedStringKey
   let iconName: String
   let textColor: Color
   let pouring: Color
   
   init(
-    _ title: String,
+    _ title: LocalizedStringKey,
     icon: String,
     textColor: Color,
     pouring: Color

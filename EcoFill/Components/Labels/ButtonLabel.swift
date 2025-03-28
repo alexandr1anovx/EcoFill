@@ -9,11 +9,15 @@ import SwiftUI
 
 struct ButtonLabel: View {
   
-  let title: String
+  let title: LocalizedStringKey
   let textColor: Color
   let pouring: Color
   
-  init(_ title: String, textColor: Color, pouring: Color) {
+  init(
+    _ title: LocalizedStringKey,
+    textColor: Color,
+    pouring: Color
+  ) {
     self.title = title
     self.textColor = textColor
     self.pouring = pouring

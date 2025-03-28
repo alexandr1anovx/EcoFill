@@ -4,7 +4,7 @@ struct DefaultTextField: View {
   
   @Binding var inputData: String
   let iconName: String
-  let hint: String
+  let hint: LocalizedStringKey
   
   var body: some View {
     HStack(spacing: 15) {

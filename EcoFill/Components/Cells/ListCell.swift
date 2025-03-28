@@ -9,14 +9,14 @@ import SwiftUI
 
 struct ListCell: View {
   
-  let title: String
-  let subtitle: String
+  let title: LocalizedStringKey
+  let subtitle: LocalizedStringKey
   let iconName: String
   let iconColor: Color
   
   init(
-    title: String,
-    subtitle: String,
+    title: LocalizedStringKey,
+    subtitle: LocalizedStringKey,
     icon: String,
     iconColor: Color
   ) {

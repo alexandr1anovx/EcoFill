@@ -11,7 +11,7 @@ struct ExtendedTextField: View {
   
   @Binding var inputData: String
   let iconName: String
-  let hint: String
+  let hint: LocalizedStringKey
   let maxCount: Int
   
   private var isReachedLetterLimit: Bool {

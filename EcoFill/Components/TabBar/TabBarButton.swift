@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TabBarButton: View {
   
-  let title: String
+  let title: LocalizedStringKey
   let imageName: String
   let tab: Tab
   @Binding var selectedTab: Tab

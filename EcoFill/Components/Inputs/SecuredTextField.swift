@@ -15,7 +15,7 @@ struct SecuredTextField: View {
   
   @Binding var inputData: String
   let iconName: String
-  let hint: String
+  let hint: LocalizedStringKey
   @State private var isShownData = false
   @FocusState var fieldStatus: TextFieldStatus?
   
