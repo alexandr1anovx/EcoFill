@@ -1,10 +1,19 @@
 import SwiftUI
 
 enum City: String, Identifiable, CaseIterable {
-  case kyiv, mykolaiv, odesa
+  case kyiv
+  case mykolaiv
+  case odesa
   
   var id: Self { self }
-  var title: String { rawValue.capitalized }
+  
+  var title: LocalizedStringKey {
+    switch self {
+    case .kyiv: "Kyiv"
+    case .mykolaiv: "Mykolaiv"
+    case .odesa: "Odesa"
+    }
+  }
 }
 
 struct SignUpScreen: View {
@@ -50,7 +59,7 @@ struct SignUpScreen: View {
       DefaultTextField(
         inputData: $fullName,
         iconName: "person",
-        hint: "Full Name"
+        hint: "input_fullName"
       )
       .focused($fieldContent, equals: .fullName)
       .textInputAutocapitalization(.words)
@@ -60,7 +69,7 @@ struct SignUpScreen: View {
       DefaultTextField(
         inputData: $emailAddress,
         iconName: "envelope",
-        hint: "name@example.com"
+        hint: "input_email"
       )
       .focused($fieldContent, equals: .emailAddress)
       .keyboardType(.emailAddress)
@@ -72,14 +81,13 @@ struct SignUpScreen: View {
       SecuredTextField(
         inputData: $password,
         iconName: "lock",
-        hint: "Password"
+        hint: "input_password"
       )
       .focused($fieldContent, equals: .password)
       .submitLabel(.done)
       .onSubmit { fieldContent = nil }
     }
     .frame(height: 195)
-    .environment(\.defaultMinListRowHeight, 53)
     .scrollContentBackground(.hidden)
     .scrollIndicators(.hidden)
     .scrollDisabled(true)
@@ -88,7 +96,7 @@ struct SignUpScreen: View {
   
   private var cityPicker: some View {
     VStack(alignment: .leading, spacing: 12) {
-      Text("Select your city:")
+      Text("select_your_city")
         .font(.footnote)
         .foregroundStyle(.gray)
       Picker("", selection: $selectedCity) {
@@ -110,7 +118,7 @@ struct SignUpScreen: View {
         )
       }
     } label: {
-      ButtonLabel("Sign Up", textColor: .primaryText, pouring: .buttonBackground)
+      ButtonLabel("sign_up_button", textColor: .primaryText, pouring: .buttonBackground)
     }
     .disabled(!isValidForm)
     .opacity(!isValidForm ? 0.5 : 1)
@@ -128,8 +136,8 @@ struct SignUpScreen: View {
       dismiss()
     } label: {
       HStack(spacing: 5) {
-        Text("Already a member?").foregroundStyle(.gray)
-        Text("Sign In.").foregroundStyle(.primaryLabel)
+        Text("already_a_member?").foregroundStyle(.gray)
+        Text("sign_in_button").foregroundStyle(.primaryLabel)
       }
       .font(.footnote)
       .fontWeight(.semibold)
@@ -137,6 +145,7 @@ struct SignUpScreen: View {
   }
   
   // MARK: UI Setup Methods
+  
   private func setupPickerAppearance() {
     let appearance = UISegmentedControl.appearance()
     appearance.selectedSegmentTintColor = .buttonBackground
@@ -150,4 +159,3 @@ struct SignUpScreen: View {
   SignUpScreen()
     .environmentObject( AuthViewModel() )
 }
-
