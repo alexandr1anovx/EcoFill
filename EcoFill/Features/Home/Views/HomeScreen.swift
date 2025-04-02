@@ -30,6 +30,7 @@ struct HomeScreen: View {
       }
     }
     .listStyle(.insetGrouped)
+    .listRowSpacing(10)
     .scrollContentBackground(.hidden)
     .scrollIndicators(.hidden)
     .shadow(radius: 1)

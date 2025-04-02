@@ -6,14 +6,14 @@ struct StationListView: View {
   
   private var selectedCityStations: [Station] {
     stationViewModel.stations.filter {
-      $0.city == authViewModel.userCity.title
+      $0.city == authViewModel.userCity.rawValue.capitalized
     }
   }
   
   var body: some View {
     ZStack {
       Color.appBackground.ignoresSafeArea(.all)
-      VStack(spacing:8) {
+      VStack(spacing: 8) {
         Picker("", selection: $authViewModel.userCity) {
           ForEach(City.allCases) { city in
             Text(city.title)
