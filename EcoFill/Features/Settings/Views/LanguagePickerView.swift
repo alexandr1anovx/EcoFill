@@ -12,7 +12,13 @@ enum Language: String, CaseIterable, Identifiable {
   case ukrainian
   
   var id: Self { self }
-  var title: String { rawValue.capitalized }
+  
+  var title: LocalizedStringKey {
+    switch self {
+    case .english: "language_english"
+    case .ukrainian: "language_ukrainian"
+    }
+  }
 }
 
 struct LanguagePickerView: View {
@@ -23,7 +29,7 @@ struct LanguagePickerView: View {
       HStack(spacing: 15) {
         Image(systemName: "globe")
           .foregroundStyle(.pink)
-        Text("Language:")
+        Text("language_label")
           .font(.subheadline)
           .fontWeight(.medium)
       }

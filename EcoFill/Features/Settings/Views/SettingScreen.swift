@@ -21,7 +21,7 @@ struct SettingScreen: View {
       .shadow(radius: 1)
       .environment(\.defaultMinListRowHeight, 55)
     }
-    .navigationTitle("Settings")
+    .navigationTitle("settings_title")
     .navigationBarTitleDisplayMode(.inline)
   }
   
@@ -30,8 +30,8 @@ struct SettingScreen: View {
       UpdateEmailScreen()
     } label: {
       ListCell(
-        title: "Update Email",
-        subtitle: "Update your email address.",
+        title: "updateEmail_title",
+        subtitle: "updateEmail_subtitle",
         icon: "envelope",
         iconColor: .primaryLabel
       )
@@ -43,8 +43,8 @@ struct SettingScreen: View {
       isShownDeletetionAlert.toggle()
     } label: {
       ListCell(
-        title: "Delete Account",
-        subtitle: "It will pernamently delete your data.",
+        title: "delete_account_title",
+        subtitle: "delete_account_subtitle",
         icon: "xmark.circle.fill",
         iconColor: .red
       )
@@ -59,7 +59,7 @@ struct SettingScreen: View {
         }
       }
     } message: {
-      Text("Enter your account password to delete your account.")
+      Text("delete_account_message")
     }
   }
 }
@@ -69,4 +69,3 @@ struct SettingScreen: View {
     .environmentObject( AuthViewModel() )
     .environmentObject( MapViewModel() )
 }
-

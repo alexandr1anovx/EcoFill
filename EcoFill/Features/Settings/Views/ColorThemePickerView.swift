@@ -2,7 +2,14 @@ import SwiftUI
 
 enum ColorTheme: String, CaseIterable {
   case system, light, dark
-  var title: String { rawValue.capitalized }
+  
+  var title: LocalizedStringKey {
+    switch self {
+    case .system: "theme_system"
+    case .light: "theme_light"
+    case .dark: "theme_dark"
+    }
+  }
   
   var colorTheme: ColorScheme? {
     switch self {
@@ -18,7 +25,7 @@ struct ColorThemePickerView: View {
   
   var body: some View {
     HStack {
-      Text("Color scheme:")
+      Text("color_theme_label")
         .font(.subheadline)
         .fontWeight(.medium)
         .foregroundStyle(.primaryLabel)
