@@ -36,8 +36,8 @@ struct ProfileScreen: View {
         .onAppear { isShownTabBar = false }
     } label: {
       ListCell(
-        title: "Settings",
-        subtitle: "Change your personal data.",
+        title: "settings_title",
+        subtitle: "settings_subtitle",
         icon: "gear",
         iconColor: .primaryLabel
       )
@@ -49,8 +49,8 @@ struct ProfileScreen: View {
       requestReview()
     } label: {
       ListCell(
-        title: "Rate Us",
-        subtitle: "Help more people to know about us.",
+        title: "rate_us_title",
+        subtitle: "rate_us_subtitle",
         icon: "hand.thumbsup",
         iconColor: .orange
       )
@@ -62,20 +62,20 @@ struct ProfileScreen: View {
       isShownAlert.toggle()
     } label: {
       ListCell(
-        title: "Log Out",
-        subtitle: "Securely sign out of your account.",
+        title: "sign_out_title",
+        subtitle: "sign_out_subtitle",
         icon: "rectangle.portrait.and.arrow.right",
         iconColor: .red
       )
     }
-    .alert("Sign Out", isPresented: $isShownAlert) {
-      Button("Sign Out", role: .destructive) {
+    .alert("sign_out_subtitle", isPresented: $isShownAlert) {
+      Button("sign_out_title", role: .destructive) {
         withAnimation(.easeInOut(duration: 1)) {
           authViewModel.signOut()
         }
       }
     } message: {
-      Text("This action will redirect you to the Sign In screen.")
+      Text("sign_out_alert_message")
     }
   }
 }

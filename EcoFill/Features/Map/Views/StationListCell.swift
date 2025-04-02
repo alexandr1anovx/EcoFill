@@ -19,7 +19,7 @@ struct StationListCell: View {
       paymentLabel
       HStack{
         routeConditionButton.buttonStyle(.plain)
-        HStack(spacing:8){
+        HStack(spacing: 8){
           ForEach(transportTypes, id: \.self) { transportType in
             transportLabel(for: transportType)
           }
@@ -67,7 +67,7 @@ struct StationListCell: View {
   private var paymentLabel: some View {
     HStack {
       Image(.money).foregroundStyle(.primaryIcon)
-      Text("Payment:").foregroundStyle(.primaryLabel)
+      Text("payment_label").foregroundStyle(.primaryLabel)
       Text("Cash, ApplePay.").foregroundStyle(.gray)
     }
     .font(.footnote)
@@ -82,7 +82,7 @@ struct StationListCell: View {
         mapViewModel.selectedStation = station
         mapViewModel.isShownRoute = true
       } label: {
-        Text("Show Route")
+        Text("show_route")
           .font(.subheadline)
           .fontWeight(.medium)
           .foregroundStyle(.black)
@@ -98,7 +98,7 @@ struct StationListCell: View {
         mapViewModel.selectedStation = nil
         mapViewModel.isShownRoute = false
       } label: {
-        Text("Hide Route")
+        Text("hide_route")
           .font(.subheadline)
           .fontWeight(.medium)
           .foregroundStyle(.white)
@@ -116,4 +116,3 @@ struct StationListCell: View {
   StationListCell(station: .mockStation)
     .environmentObject( MapViewModel() )
 }
-

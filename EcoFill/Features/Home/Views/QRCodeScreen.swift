@@ -2,10 +2,6 @@ import SwiftUI
 import CoreImage
 import CoreImage.CIFilterBuiltins
 
-import SwiftUI
-import CoreImage
-import CoreImage.CIFilterBuiltins
-
 struct QRCodeScreen: View {
   
   @State private var qrCodeImage: UIImage?
@@ -37,27 +33,27 @@ struct QRCodeScreen: View {
               .cornerRadius(10)
               .padding()
           } else {
-            Text("QR Code is not available.")
+            Text("qrcode_not_available")
               .foregroundColor(.red)
           }
           
           Spacer()
           
-          Text("Scan QR code:")
+          Text("qrcode_screen_message")
             .font(.title2)
             .fontWeight(.bold)
           
           if scannedCode != nil {
             VStack(spacing: 12) {
               Label {
-                Text("Scanning was successful!")
+                Text("scanning_successful")
                   .font(.headline)
                   .fontWeight(.semibold)
               } icon: {
                 Image(systemName: "checkmark.circle.fill")
                   .foregroundStyle(.green)
               }
-              Text("Bonuses successfully credited to the balance.")
+              Text("bonuses_credited")
                 .font(.subheadline)
                 .fontWeight(.medium)
             }
@@ -66,7 +62,7 @@ struct QRCodeScreen: View {
             QRScannerView(scannedCode: $scannedCode, errorMessage: $errorMessage)
           }
         } else {
-          ProgressView("Loading user data...")
+          ProgressView("loading_user_data")
         }
       }
     }
@@ -75,13 +71,13 @@ struct QRCodeScreen: View {
     }
     .toolbar {
       ToolbarItem(placement: .topBarTrailing) {
-        Button("Allow Camera") {
+        Button("allow_camera") {
           isAlertVisible.toggle()
         }
         .alert(isPresented: $isAlertVisible) {
           Alert(
-            title: Text("Camera access required to take photos"),
-            message: Text("Go to Settings?"),
+            title: Text("camera_access_required"),
+            message: Text("go_to_settings"),
             primaryButton: .default(Text("Settings"), action: {
               UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
             }),
@@ -105,7 +101,7 @@ struct QRCodeScreen: View {
   
   private func generateQRCodeImage() {
     guard let user = authViewModel.currentUser else {
-      errorMessage = "Error: Full name is missing."
+      errorMessage = "error_missing_full_name"
       return
     }
     
@@ -117,7 +113,7 @@ struct QRCodeScreen: View {
        let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
       qrCodeImage = UIImage(cgImage: cgImage)
     } else {
-      errorMessage = "Error when generating QR code."
+      errorMessage = "error_generating_qrcode"
     }
   }
 }
@@ -125,4 +121,3 @@ struct QRCodeScreen: View {
 #Preview {
   QRCodeScreen()
 }
-

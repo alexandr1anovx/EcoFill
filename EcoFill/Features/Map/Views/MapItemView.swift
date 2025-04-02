@@ -15,7 +15,7 @@ struct MapItemView: View {
         scheduleLabel.padding(.leading, 15)
         paymentMethodsLabel.padding(.leading, 15)
         HStack(spacing: 8) {
-          Text("Transport type:")
+          Text("transport_type")
             .font(.footnote)
             .fontWeight(.medium)
             .foregroundStyle(.primaryLabel)
@@ -23,7 +23,6 @@ struct MapItemView: View {
             transportLabel(for: type)
           }
         }
-        
         .padding(.horizontal,15)
         FuelStackView(for: station).padding(.horizontal, 15)
         routeButton
@@ -50,31 +49,37 @@ struct MapItemView: View {
     HStack(spacing: 8) {
       Image(.marker)
         .foregroundStyle(.primaryIcon)
-      Text(station.street)
-        .font(.footnote)
-        .fontWeight(.medium)
+      Text("street_label")
         .foregroundStyle(.primaryLabel)
+      Text(station.street)
+        .foregroundStyle(.gray)
         .lineLimit(2)
         .multilineTextAlignment(.leading)
     }
+    .font(.footnote)
+    .fontWeight(.medium)
   }
   
   private var scheduleLabel: some View {
     HStack(spacing: 8) {
       Image(.clock)
         .foregroundStyle(.primaryIcon)
-      Text(station.schedule)
-        .font(.footnote)
-        .fontWeight(.medium)
+      Text("schedule_label")
         .foregroundStyle(.primaryLabel)
+      Text(station.schedule)
+        .foregroundStyle(.gray)
     }
+    .font(.footnote)
+    .fontWeight(.medium)
   }
   
   private var paymentMethodsLabel: some View {
     HStack(spacing: 8) {
       Image(.money).foregroundStyle(.primaryIcon)
-      Text("Payment:").foregroundStyle(.primaryLabel)
-      Text("Cash, ApplePay.").foregroundStyle(.gray)
+      Text("payment_label")
+        .foregroundStyle(.primaryLabel)
+      Text("payment_methods")
+        .foregroundStyle(.gray)
     }
     .font(.footnote)
     .fontWeight(.medium)
@@ -86,13 +91,13 @@ struct MapItemView: View {
       Button {
         mapViewModel.isShownRoute = false
       } label: {
-        ButtonLabel("Hide Route", textColor: .white, pouring: .red)
+        ButtonLabel("hide_route", textColor: .white, pouring: .red)
       }
     } else {
       Button {
         mapViewModel.isShownRoute = true
       } label: {
-        ButtonLabel("Show Route", textColor: .black, pouring: .primaryLime)
+        ButtonLabel("show_route", textColor: .black, pouring: .primaryLime)
       }
     }
   }
@@ -102,4 +107,3 @@ struct MapItemView: View {
   MapItemView(station: .mockStation)
     .environmentObject(MapViewModel())
 }
-
