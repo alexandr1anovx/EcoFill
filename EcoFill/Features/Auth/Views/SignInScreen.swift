@@ -23,14 +23,9 @@ struct SignInScreen: View {
               .padding(.top, 35)
             textFields
             signInButton.padding(.top, 20)
-            
-            HStack(spacing: 0) {
-              forgotPasswordButton
-              Spacer()
-              signUpOption
-            }
-            .padding(.horizontal, 23)
-            .padding(.top, 18)
+            forgotPasswordButton
+              .padding(.vertical, 23)
+            signUpOption
           }
           Spacer()
         }
@@ -54,7 +49,7 @@ struct SignInScreen: View {
       DefaultTextField(
         inputData: $email,
         iconName: "envelope",
-        hint: "Email address"
+        hint: "input_email"
       )
       .focused($fieldContent, equals: .emailAddress)
       .keyboardType(.emailAddress)
@@ -66,7 +61,7 @@ struct SignInScreen: View {
       SecuredTextField(
         inputData: $password,
         iconName: "lock",
-        hint: "Password"
+        hint: "input_password"
       )
       .focused($fieldContent, equals: .password)
       .submitLabel(.done)
@@ -76,7 +71,6 @@ struct SignInScreen: View {
     .scrollContentBackground(.hidden)
     .scrollDisabled(true)
     .frame(height: 145)
-    .environment(\.defaultMinListRowHeight, 53)
     .shadow(radius: 1)
   }
   
@@ -87,7 +81,7 @@ struct SignInScreen: View {
         password = ""
       }
     } label: {
-      ButtonLabel("Sign In", textColor: .primaryText, pouring: .buttonBackground)
+      ButtonLabel("sign_in_button", textColor: .primaryText, pouring: .buttonBackground)
     }
     .disabled(!isValidForm)
     .opacity(!isValidForm ? 0.5 : 1)
@@ -104,7 +98,7 @@ struct SignInScreen: View {
     NavigationLink {
       ForgotPasswordScreen()
     } label: {
-      Text("Forgot password?")
+      Text("forgot_password")
         .font(.caption)
         .fontWeight(.semibold)
         .foregroundStyle(.gray)
@@ -114,11 +108,11 @@ struct SignInScreen: View {
   
   private var signUpOption: some View {
     HStack(spacing: 5) {
-      Text("New member?").foregroundStyle(.gray)
+      Text("new_member?").foregroundStyle(.gray)
       NavigationLink {
         SignUpScreen()
       } label: {
-        Text("Sign Up.").foregroundStyle(.primaryLabel)
+        Text("sign_up_button").foregroundStyle(.primaryLabel)
       }
     }
     .font(.footnote)
@@ -126,46 +120,7 @@ struct SignInScreen: View {
   }
 }
 
-enum AuthAction {
-  case signIn, signUp
-  
-  var title: String {
-    switch self {
-    case .signIn: "Sign in."
-    case .signUp: "Sign up."
-    }
-  }
-  var subtitle: String {
-    switch self {
-    case .signIn: "Enter your credentials."
-    case .signUp: "Create a new account."
-    }
-  }
-}
-
-struct AuthHeaderView: View {
-  let authAction: AuthAction
-  
-  init(for authAction: AuthAction) {
-    self.authAction = authAction
-  }
-  
-  var body: some View {
-    HStack(alignment: .firstTextBaseline) {
-      Text(authAction.title)
-        .font(.title3)
-        .fontWeight(.bold)
-        .foregroundStyle(.primaryLabel)
-      Text(authAction.subtitle)
-        .font(.headline)
-        .fontWeight(.medium)
-        .foregroundStyle(.gray)
-    }
-  }
-}
-
 #Preview {
   SignInScreen()
     .environmentObject(AuthViewModel())
 }
-

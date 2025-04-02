@@ -1,6 +1,6 @@
-import Foundation
 import FirebaseFirestore
 import FirebaseAuth
+import SwiftUI
 
 enum UserDataTextFieldContent {
   case fullName
@@ -12,16 +12,17 @@ enum UserDataTextFieldContent {
 enum EmailStatus {
   case verified, unverified
   
-  var message: String {
+  var message: LocalizedStringKey {
     switch self {
-    case .verified: "Verified."
-    case .unverified: "Unverified."
+    case .verified: "email_status_verified"
+    case .unverified: "email_status_unverified"
     }
   }
-  var hint: String {
+  
+  var hint: LocalizedStringKey {
     switch self {
     case .verified: ""
-    case .unverified: "A confirmation link has been sent to the email address."
+    case .unverified: "email_status_unverified_hint"
     }
   }
 }
@@ -57,7 +58,7 @@ final class AuthViewModel: ObservableObject {
     city: City
   ) async {
     do {
-      try await authService.signUp(withFullName: fullName, email: email, password: password, city: city.title)
+      try await authService.signUp(withFullName: fullName, email: email, password: password, city: city.rawValue.capitalized)
       self.userSession = authService.userSession
       await fetchUser()
     } catch {

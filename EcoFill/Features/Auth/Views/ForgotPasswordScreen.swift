@@ -23,22 +23,18 @@ struct ForgotPasswordScreen: View {
           if isResetLinkSent {
             successView
           } else {
-            Text("Reset password.")
-              .font(.title3)
+            Text("reset_password_title")
+              .font(.headline)
               .fontWeight(.bold)
               .foregroundStyle(.primaryLabel)
               .padding(.top, 25)
-              .frame(maxWidth: .infinity, alignment: .leading)
-              .padding(.leading, 23)
-            
-            Text("Enter your email to receive a password reset link.")
-              .font(.headline)
-              .fontWeight(.medium)
+            Text("reset_password_subtitle")
+              .font(.subheadline)
               .foregroundStyle(.gray)
-              .padding(.top, 5)
-              .frame(maxWidth: .infinity, alignment: .leading)
-              .padding(.leading, 23)
-            textField
+              .padding(.top, 20)
+              .padding(.horizontal)
+            
+            emailTextField
             sendLinkButton.padding(.top, 20)
           }
         Spacer()
@@ -49,12 +45,12 @@ struct ForgotPasswordScreen: View {
     }
   }
   
-  private var textField: some View {
+  private var emailTextField: some View {
     List {
       DefaultTextField(
         inputData: $email,
         iconName: "envelope",
-        hint: "Email address"
+        hint: "input_email"
       )
       .focused($fieldContent, equals: .emailAddress)
       .keyboardType(.emailAddress)
@@ -82,7 +78,7 @@ struct ForgotPasswordScreen: View {
       }
     } label: {
       ButtonLabel(
-        "Send Reset Link",
+        "send_reset_link_button",
         textColor: .primaryText,
         pouring: .buttonBackground
       )
@@ -104,28 +100,14 @@ struct ForgotPasswordScreen: View {
         .font(.largeTitle)
         .foregroundStyle(.green)
       
-      Text("Reset Link Sent")
+      Text("sent_link_title")
         .font(.title3)
         .fontWeight(.bold)
       
-      Text("Check your email for instructions to reset your password.")
+      Text("sent_link_message")
         .font(.body)
         .multilineTextAlignment(.center)
         .padding(.horizontal, 20)
-      
-      Button {
-        dismiss()
-      } label: {
-        Text("Back to Sign In")
-          .font(.headline)
-          .foregroundStyle(.primaryLabel)
-          .padding(.vertical, 12)
-          .padding(.horizontal, 30)
-          .background(
-            RoundedRectangle(cornerRadius: 10)
-              .stroke(.primaryIcon, lineWidth: 2)
-          )
-      }.padding(.top,10)
     }
   }
 }
@@ -134,4 +116,3 @@ struct ForgotPasswordScreen: View {
   ForgotPasswordScreen()
     .environmentObject( AuthViewModel() )
 }
-
