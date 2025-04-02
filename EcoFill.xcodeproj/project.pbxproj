@@ -57,10 +57,12 @@
 		D164CAED2D84593E00B769D9 /* ButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D164CAEC2D84593E00B769D9 /* ButtonLabel.swift */; };
 		D164CAEF2D84595000B769D9 /* ButtonLabelWithIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D164CAEE2D84595000B769D9 /* ButtonLabelWithIcon.swift */; };
 		D1A4FE052D8F808900D49185 /* ForgotPasswordScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A4FE042D8F808900D49185 /* ForgotPasswordScreen.swift */; };
+		D1ABCD132D974B5D0046F5AF /* AuthHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1ABCD122D974B5D0046F5AF /* AuthHeaderView.swift */; };
 		D1B219AB2D84D6E700E49D63 /* SecuredTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B219AA2D84D6E700E49D63 /* SecuredTextField.swift */; };
 		D1CD5F7D2D60C2BD008E6B57 /* Image+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CD5F7C2D60C2BD008E6B57 /* Image+Extension.swift */; };
 		D1D0F20F2D8A9E6100A08307 /* QRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D0F20E2D8A9E6100A08307 /* QRScannerView.swift */; };
 		D1DF67FC2D835B4700D44420 /* UpdateEmailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1DF67FB2D835B4700D44420 /* UpdateEmailScreen.swift */; };
+		D1E0B3072D96C01600C40242 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D1E0B3052D96C01600C40242 /* Localizable.strings */; };
 		D1F5A54D2D60CCE400D57A9C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D1F5A54C2D60CCE400D57A9C /* GoogleService-Info.plist */; };
 		D1FFA9402D9615CE00F9CB3B /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FFA93F2D9615CE00F9CB3B /* AuthViewModel.swift */; };
 		D1FFA9422D96163E00F9CB3B /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FFA9412D96163E00F9CB3B /* MapViewModel.swift */; };
@@ -117,10 +119,13 @@
 		D164CAEC2D84593E00B769D9 /* ButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonLabel.swift; sourceTree = "<group>"; };
 		D164CAEE2D84595000B769D9 /* ButtonLabelWithIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonLabelWithIcon.swift; sourceTree = "<group>"; };
 		D1A4FE042D8F808900D49185 /* ForgotPasswordScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordScreen.swift; sourceTree = "<group>"; };
+		D1ABCD122D974B5D0046F5AF /* AuthHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHeaderView.swift; sourceTree = "<group>"; };
 		D1B219AA2D84D6E700E49D63 /* SecuredTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuredTextField.swift; sourceTree = "<group>"; };
 		D1CD5F7C2D60C2BD008E6B57 /* Image+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extension.swift"; sourceTree = "<group>"; };
 		D1D0F20E2D8A9E6100A08307 /* QRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerView.swift; sourceTree = "<group>"; };
 		D1DF67FB2D835B4700D44420 /* UpdateEmailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateEmailScreen.swift; sourceTree = "<group>"; };
+		D1E0B3062D96C01600C40242 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D1E0B3082D96C02100C40242 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D1F5A54C2D60CCE400D57A9C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D1FFA93F2D9615CE00F9CB3B /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		D1FFA9412D96163E00F9CB3B /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
@@ -154,6 +159,7 @@
 		323959812C82A61D00599876 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D1E0B3042D96BEC500C40242 /* Localization */,
 				323959842C82B3CE00599876 /* Fonts */,
 				61E5E6152B17E981005B3D03 /* Assets.xcassets */,
 				61E5E6182B17E981005B3D03 /* Preview Assets.xcassets */,
@@ -193,8 +199,8 @@
 			isa = PBXGroup;
 			children = (
 				61696B702B1F741F00406421 /* User.swift */,
-				611AD1272B1D3F3A00BD5EB7 /* Service.swift */,
 				3242D11B2B728F04005BE4A3 /* Station.swift */,
+				611AD1272B1D3F3A00BD5EB7 /* Service.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -260,6 +266,7 @@
 			children = (
 				D15EC3672D948DA0001AACE6 /* Extensions */,
 				D15EC3662D948D95001AACE6 /* DI */,
+				32A1F7152CA22F9E00999723 /* Managers */,
 				D15E54CC2D611EE80041F9A2 /* Alerts */,
 			);
 			path = Core;
@@ -353,6 +360,7 @@
 				610543662B34CB0400CFC9DB /* SignInScreen.swift */,
 				6105436B2B34E2FE00CFC9DB /* SignUpScreen.swift */,
 				D1A4FE042D8F808900D49185 /* ForgotPasswordScreen.swift */,
+				D1ABCD122D974B5D0046F5AF /* AuthHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -378,7 +386,6 @@
 			children = (
 				D15EC3772D948F0B001AACE6 /* Views */,
 				D15EC3762D948F04001AACE6 /* ViewModels */,
-				32A1F7152CA22F9E00999723 /* Managers */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -492,6 +499,14 @@
 			path = UserDataHeader;
 			sourceTree = "<group>";
 		};
+		D1E0B3042D96BEC500C40242 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				D1E0B3052D96C01600C40242 /* Localizable.strings */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -539,6 +554,7 @@
 			knownRegions = (
 				en,
 				Base,
+				uk,
 			);
 			mainGroup = 61E5E6052B17E981005B3D03;
 			packageReferences = (
@@ -561,6 +577,7 @@
 				3231D5092CBD5A0000B50822 /* Poppins-Bold.ttf in Resources */,
 				61E5E6192B17E981005B3D03 /* Preview Assets.xcassets in Resources */,
 				61E5E6162B17E981005B3D03 /* Assets.xcassets in Resources */,
+				D1E0B3072D96C01600C40242 /* Localizable.strings in Resources */,
 				3231D5082CBD5A0000B50822 /* Poppins-Regular.ttf in Resources */,
 				3231D50A2CBD5A0000B50822 /* Poppins-Medium.ttf in Resources */,
 				D1F5A54D2D60CCE400D57A9C /* GoogleService-Info.plist in Resources */,
@@ -587,6 +604,7 @@
 				611AD1372B1D3F4800BD5EB7 /* MapItemView.swift in Sources */,
 				32D546B32C247DAF0074761A /* StationListCell.swift in Sources */,
 				614314902B17F980009A1D9C /* HomeScreen.swift in Sources */,
+				D1ABCD132D974B5D0046F5AF /* AuthHeaderView.swift in Sources */,
 				32044B7F2C87E60300D90077 /* CityFuelsGrid.swift in Sources */,
 				D1DF67FC2D835B4700D44420 /* UpdateEmailScreen.swift in Sources */,
 				61696B742B1F74EE00406421 /* Alert.swift in Sources */,
@@ -627,6 +645,18 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		D1E0B3052D96C01600C40242 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D1E0B3062D96C01600C40242 /* en */,
+				D1E0B3082D96C02100C40242 /* uk */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		61E5E61A2B17E981005B3D03 /* Debug */ = {
