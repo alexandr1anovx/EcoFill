@@ -31,7 +31,7 @@ struct UpdateEmailScreen: View {
         Spacer()
       }
     }
-    .navigationTitle("Email Update")
+    .navigationTitle("updateEmail_title")
     .navigationBarTitleDisplayMode(.inline)
     .onAppear {
       authViewModel.checkEmailStatus()
@@ -44,14 +44,14 @@ struct UpdateEmailScreen: View {
       DefaultTextField(
         inputData: $currentEmail,
         iconName: "envelope",
-        hint: "Current email address"
+        hint: "input_email_current"
       )
       .disabled(true)
       
       DefaultTextField(
         inputData: $newEmail,
         iconName: "envelope",
-        hint: "New email address"
+        hint: "input_email_new"
       )
       .keyboardType(.emailAddress)
       .textInputAutocapitalization(.never)
@@ -62,14 +62,13 @@ struct UpdateEmailScreen: View {
       DefaultTextField(
         inputData: $password,
         iconName: "lock",
-        hint: "Current password"
+        hint: "input_password_current"
       )
       .focused($fieldContent, equals: .password)
       .submitLabel(.done)
       .onSubmit { fieldContent = nil }
     }
     .listStyle(.insetGrouped)
-    .environment(\.defaultMinListRowHeight, 53)
     .scrollContentBackground(.hidden)
     .scrollIndicators(.hidden)
     .scrollDisabled(true)
@@ -80,7 +79,7 @@ struct UpdateEmailScreen: View {
   private var emailStatusMessage: some View {
     VStack(alignment: .leading, spacing: 6) {
       HStack(spacing: 5) {
-        Text("Email status:")
+        Text("email_status_label")
           .fontWeight(.medium)
         Text(authViewModel.emailStatus.message)
           .fontWeight(.bold)
@@ -103,7 +102,7 @@ struct UpdateEmailScreen: View {
         password = ""
       }
     } label: {
-      ButtonLabel("Update Email", textColor: .primaryText, pouring: .buttonBackground)
+      ButtonLabel("update_email_button", textColor: .primaryText, pouring: .buttonBackground)
     }
     .disabled(!isValidForm)
     .opacity(!isValidForm ? 0.5 : 1)
@@ -117,7 +116,7 @@ struct UpdateEmailScreen: View {
   }
   
   private func loadUserEmail() {
-    currentEmail = authViewModel.currentUser?.email ?? "No email address"
+    currentEmail = authViewModel.currentUser?.email ?? "no_email_address"
   }
 }
 

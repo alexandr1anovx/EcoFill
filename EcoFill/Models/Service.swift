@@ -1,5 +1,4 @@
-import Foundation
-import DeveloperToolsSupport
+import SwiftUI
 
 enum ServiceType: String, CaseIterable, Identifiable {
   case qrcode
@@ -14,17 +13,17 @@ enum ServiceType: String, CaseIterable, Identifiable {
     }
   }
   
-  var title: String {
+  var title: LocalizedStringKey {
     switch self {
-    case .qrcode: "QR Code"
-    case .support: "Support"
+    case .qrcode: "qrcode_title"
+    case .support: "support_title"
     }
   }
   
-  var subtitle: String {
+  var subtitle: LocalizedStringKey {
     switch self {
-    case .qrcode: "Scan this code to get bonuses."
-    case .support: "Send a feedback about us."
+    case .qrcode: "qrcode_subtitle"
+    case .support: "support_subtitle"
     }
   }
 }

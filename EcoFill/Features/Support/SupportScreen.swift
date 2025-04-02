@@ -36,7 +36,7 @@ struct SupportScreen: View {
         DefaultTextField(
           inputData: $email,
           iconName: "envelope",
-          hint: "Your email address"
+          hint: "input_email"
         )
         .disabled(true)
         .frame(height: 50)
@@ -44,14 +44,14 @@ struct SupportScreen: View {
         ExtendedTextField(
           inputData: $message,
           iconName: "message",
-          hint: "Write your feedback...",
+          hint: "input_feedback",
           maxCount: 100
         )
         .frame(height: 80)
       } header: {
-        Text("Send your feedback")
+        Text("feedback_section_header")
       } footer: {
-        Text("Our support team is here to help! Please use polite and respectful language in all communications.")
+        Text("feedback_section_footer")
       }
     }
     .frame(height: 280)
@@ -71,10 +71,10 @@ struct SupportScreen: View {
     }
     .opacity(!isMessageCorrect ? 0.5 : 1)
     .disabled(!isMessageCorrect)
-    .alert("Thanks!", isPresented: $isShownAlert) {
+    .alert("Thanks", isPresented: $isShownAlert) {
       // "OK" button by default
     } message: {
-      Text("Feedback was successfully sent!")
+      Text("feedback_success_alert_message")
     }
   }
   
