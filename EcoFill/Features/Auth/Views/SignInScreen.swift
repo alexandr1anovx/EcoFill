@@ -5,34 +5,32 @@ struct SignInScreen: View {
   @State private var isFormVisible = false
   @State private var email = ""
   @State private var password = ""
-  @FocusState private var fieldContent: UserDataTextFieldContent?
+  @FocusState private var fieldContent: InputFieldContent?
   @EnvironmentObject var authViewModel: AuthViewModel
   
   private var isValidForm: Bool {
     email.isValidEmail && password.count > 5
   }
   
+  // MARK: - body
+  
   var body: some View {
     NavigationStack {
       ZStack {
-        Color.appBackground.ignoresSafeArea(.all)
-        VStack(spacing: 0) {
-          Image(.logo).frame(height: 80)
+        Color.appBackground.ignoresSafeArea()
+        VStack(spacing: 20) {
+          Image(.logo)
+            .frame(height: 90)
           if isFormVisible {
             AuthHeaderView(for: .signIn)
-              .padding(.top, 35)
             textFields
-            signInButton.padding(.top, 20)
+            signInButton
             forgotPasswordButton
-              .padding(.vertical, 23)
             signUpOption
           }
           Spacer()
         }
-        .padding(.top, 30)
-      }
-      .onTapGesture {
-        UIApplication.shared.hideKeyboard()
+        .padding(.top)
       }
       .onAppear {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -43,6 +41,8 @@ struct SignInScreen: View {
       }
     }
   }
+  
+  // MARK: - Auxilary UI Components
   
   private var textFields: some View {
     List {
@@ -67,21 +67,27 @@ struct SignInScreen: View {
       .submitLabel(.done)
       .onSubmit { fieldContent = nil }
     }
-    .listStyle(.insetGrouped)
-    .scrollContentBackground(.hidden)
-    .scrollDisabled(true)
-    .frame(height: 145)
-    .shadow(radius: 1)
+    .customListSetup(
+      height: 145,
+      rowHeight: 50,
+      rowSpacing: 8,
+      shadow: 1,
+      scrollDisabled: true
+    )
   }
   
   private var signInButton: some View {
     Button {
       Task {
-        await authViewModel.signIn(withEmail: email, password: password)
+        await authViewModel.signIn(email: email, password: password)
         password = ""
       }
     } label: {
-      ButtonLabel("sign_in_button", textColor: .primaryText, pouring: .buttonBackground)
+      ButtonLabel(
+        title: "sign_in_button",
+        textColor: .primaryText,
+        pouring: .buttonBackground
+      )
     }
     .disabled(!isValidForm)
     .opacity(!isValidForm ? 0.5 : 1)
@@ -112,7 +118,7 @@ struct SignInScreen: View {
       NavigationLink {
         SignUpScreen()
       } label: {
-        Text("sign_up_button").foregroundStyle(.primaryLabel)
+        Text("sign_up_title").foregroundStyle(.primaryLabel)
       }
     }
     .font(.footnote)
@@ -122,5 +128,5 @@ struct SignInScreen: View {
 
 #Preview {
   SignInScreen()
-    .environmentObject(AuthViewModel())
+    .environmentObject(AuthViewModel.previewMode)
 }
