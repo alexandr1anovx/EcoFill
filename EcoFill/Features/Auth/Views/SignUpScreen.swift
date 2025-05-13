@@ -1,29 +1,12 @@
 import SwiftUI
 
-enum City: String, Identifiable, CaseIterable {
-  case kyiv
-  case mykolaiv
-  case odesa
-  
-  var id: Self { self }
-  
-  var title: LocalizedStringKey {
-    switch self {
-    case .kyiv: "Kyiv"
-    case .mykolaiv: "Mykolaiv"
-    case .odesa: "Odesa"
-    }
-  }
-}
-
 struct SignUpScreen: View {
   
   @State private var fullName = ""
   @State private var emailAddress = ""
   @State private var password = ""
-  @State private var selectedCity: City = .mykolaiv
-  
-  @FocusState private var fieldContent: UserDataTextFieldContent?
+  @State private var selectedCity = City.mykolaiv
+  @FocusState private var fieldContent: InputFieldContent?
   @EnvironmentObject var authViewModel: AuthViewModel
   @Environment(\.dismiss) var dismiss
   
@@ -33,26 +16,28 @@ struct SignUpScreen: View {
     && password.count > 5
   }
   
-  init() {
-    setupPickerAppearance()
-  }
+  // MARK: - Initializer
+  
+  init() { setupSegmentedControlUI() }
+  
+  // MARK: - body
   
   var body: some View {
     ZStack {
-      Color.appBackground.ignoresSafeArea(.all)
-      VStack(spacing: 0) {
+      Color.appBackground.ignoresSafeArea()
+      VStack(spacing:20) {
         AuthHeaderView(for: .signUp)
-          .padding(.top, 10)
         textFields
-        cityPicker
-          .padding(.top, 15)
-          .padding(.horizontal, 23)
-        signUpButton.padding(.top, 25)
-        signInOption.padding(.top, 15)
+        cityPicker.padding(.horizontal,23)
+        signUpButton
+        signInOption
         Spacer()
       }
+      .padding(.top)
     }
   }
+  
+  // MARK: - Auxilary UI Components
   
   private var textFields: some View {
     List {
@@ -84,18 +69,29 @@ struct SignUpScreen: View {
         hint: "input_password"
       )
       .focused($fieldContent, equals: .password)
+      .submitLabel(.next)
+      .onSubmit { fieldContent = .confirmPassword }
+      
+      SecuredTextField(
+        inputData: $password,
+        iconName: "lock",
+        hint: "input_password_confirm"
+      )
+      .focused($fieldContent, equals: .confirmPassword)
       .submitLabel(.done)
       .onSubmit { fieldContent = nil }
     }
-    .frame(height: 195)
-    .scrollContentBackground(.hidden)
-    .scrollIndicators(.hidden)
-    .scrollDisabled(true)
-    .shadow(radius: 1)
+    .customListSetup(
+      height: 265,
+      rowHeight: 50,
+      rowSpacing: 8,
+      shadow: 1.0,
+      scrollDisabled: true
+    )
   }
   
   private var cityPicker: some View {
-    VStack(alignment: .leading, spacing: 12) {
+    VStack(alignment: .leading, spacing:12) {
       Text("select_your_city")
         .font(.footnote)
         .foregroundStyle(.gray)
@@ -111,14 +107,18 @@ struct SignUpScreen: View {
     Button {
       Task {
         await authViewModel.signUp(
-          withFullName: fullName,
+          fullName: fullName,
           email: emailAddress,
           password: password,
           city: selectedCity
         )
       }
     } label: {
-      ButtonLabel("sign_up_button", textColor: .primaryText, pouring: .buttonBackground)
+      ButtonLabel(
+        title: "sign_up_button",
+        textColor: .primaryText,
+        pouring: .buttonBackground
+      )
     }
     .disabled(!isValidForm)
     .opacity(!isValidForm ? 0.5 : 1)
@@ -135,27 +135,19 @@ struct SignUpScreen: View {
     Button {
       dismiss()
     } label: {
-      HStack(spacing: 5) {
-        Text("already_a_member?").foregroundStyle(.gray)
-        Text("sign_in_button").foregroundStyle(.primaryLabel)
+      HStack(spacing:6) {
+        Text("already_a_member?")
+          .foregroundStyle(.gray)
+        Text("sign_in_title")
+          .foregroundStyle(.primaryLabel)
       }
       .font(.footnote)
       .fontWeight(.semibold)
     }
   }
-  
-  // MARK: UI Setup Methods
-  
-  private func setupPickerAppearance() {
-    let appearance = UISegmentedControl.appearance()
-    appearance.selectedSegmentTintColor = .buttonBackground
-    appearance.setTitleTextAttributes([.foregroundColor: UIColor.primaryText], for: .selected)
-    appearance.setTitleTextAttributes([.foregroundColor: UIColor.label], for: .normal)
-    appearance.backgroundColor = .systemBackground
-  }
 }
 
 #Preview {
   SignUpScreen()
-    .environmentObject( AuthViewModel() )
+    .environmentObject(AuthViewModel.previewMode)
 }
