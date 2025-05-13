@@ -11,39 +11,33 @@ struct ForgotPasswordScreen: View {
   
   @State private var email = ""
   @State private var isResetLinkSent = false
-  @FocusState private var fieldContent: UserDataTextFieldContent?
+  @FocusState private var fieldContent: InputFieldContent?
   @EnvironmentObject var authViewModel: AuthViewModel
-  @Environment(\.dismiss) private var dismiss
   
   var body: some View {
     ZStack {
-      Color.appBackground.ignoresSafeArea(.all)
-      VStack(spacing: 0) {
-          
+      Color.appBackground.ignoresSafeArea()
+      VStack(spacing: 20) {
           if isResetLinkSent {
-            successView
+            linkSentView
           } else {
             Text("reset_password_title")
               .font(.headline)
               .fontWeight(.bold)
               .foregroundStyle(.primaryLabel)
-              .padding(.top, 25)
             Text("reset_password_subtitle")
               .font(.subheadline)
               .foregroundStyle(.gray)
-              .padding(.top, 20)
               .padding(.horizontal)
-            
             emailTextField
-            sendLinkButton.padding(.top, 20)
+            sendLinkButton
           }
         Spacer()
-      }
-    }
-    .onTapGesture {
-      UIApplication.shared.hideKeyboard()
+      }.padding(.top)
     }
   }
+  
+  // MARK: Auxilary UI Components
   
   private var emailTextField: some View {
     List {
@@ -59,18 +53,13 @@ struct ForgotPasswordScreen: View {
       .submitLabel(.done)
       .onSubmit { fieldContent = nil }
     }
-    .listStyle(.insetGrouped)
-    .scrollContentBackground(.hidden)
-    .scrollDisabled(true)
-    .frame(height: 90)
-    .environment(\.defaultMinListRowHeight, 53)
-    .shadow(radius: 1)
+    .customListSetup(height: 85, rowHeight: 48, shadow: 1.0, scrollDisabled: true)
   }
   
   private var sendLinkButton: some View {
     Button {
       Task {
-        await authViewModel.sendPasswordReset(to: email)
+        await authViewModel.sendPasswordResetLink(email: email)
         withAnimation {
           isResetLinkSent.toggle()
           email = ""
@@ -78,7 +67,7 @@ struct ForgotPasswordScreen: View {
       }
     } label: {
       ButtonLabel(
-        "send_reset_link_button",
+        title: "send_reset_link_button",
         textColor: .primaryText,
         pouring: .buttonBackground
       )
@@ -94,16 +83,14 @@ struct ForgotPasswordScreen: View {
     }
   }
   
-  private var successView: some View {
+  private var linkSentView: some View {
     VStack(spacing: 20) {
       Image(systemName: "checkmark.circle.fill")
         .font(.largeTitle)
         .foregroundStyle(.green)
-      
       Text("sent_link_title")
         .font(.title3)
         .fontWeight(.bold)
-      
       Text("sent_link_message")
         .font(.body)
         .multilineTextAlignment(.center)
@@ -114,5 +101,26 @@ struct ForgotPasswordScreen: View {
 
 #Preview {
   ForgotPasswordScreen()
-    .environmentObject( AuthViewModel() )
+    .environmentObject(AuthViewModel())
+}
+
+extension View {
+  
+  func customListSetup(
+    height: CGFloat? = nil,
+    rowHeight: CGFloat = 0,
+    rowSpacing: CGFloat = 0,
+    sectionSpacing: CGFloat = 0,
+    shadow: CGFloat = 0,
+    scrollDisabled: Bool = false
+  ) -> some View {
+    self
+      .listStyle(.insetGrouped)
+      .listRowSpacing(rowSpacing)
+      .scrollContentBackground(.hidden)
+      .shadow(radius: shadow)
+      .scrollDisabled(scrollDisabled)
+      .frame(height: height)
+      .environment(\.defaultMinListRowHeight, rowHeight)
+  }
 }
