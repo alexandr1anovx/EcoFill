@@ -17,8 +17,8 @@ struct TabBarButton: View {
   var body: some View {
     Button {
       withAnimation { selectedTab = tab }
-      let impact = UISelectionFeedbackGenerator()
-      impact.selectionChanged()
+      let generator = UIImpactFeedbackGenerator(style: .soft)
+      generator.impactOccurred()
     } label: {
       HStack(spacing: 10) {
         Image(systemName: imageName)
