@@ -32,7 +32,6 @@ struct ExtendedTextField: View {
           .foregroundStyle(isReachedLetterLimit ? .red : .gray)
       }
       .font(.caption)
-      .fontWeight(.semibold)
     }
     .onChange(of: inputData) { _, newValue in
       if newValue.count >= maxCount {

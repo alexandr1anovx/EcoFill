@@ -42,7 +42,6 @@ struct SecuredTextField: View {
           TextField(hint, text: $inputData)
             .focused($fieldStatus, equals: .notSecured)
             .font(.subheadline)
-            .fontWeight(.medium)
             .keyboardType(.asciiCapable)
         }
       } else {
@@ -53,7 +52,6 @@ struct SecuredTextField: View {
           SecureField(hint, text: $inputData)
             .focused($fieldStatus, equals: .secured)
             .font(.subheadline)
-            .fontWeight(.medium)
             .keyboardType(.asciiCapable)
         }
       }

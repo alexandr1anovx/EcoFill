@@ -7,13 +7,12 @@ struct DefaultTextField: View {
   let hint: LocalizedStringKey
   
   var body: some View {
-    HStack(spacing: 15) {
+    HStack(spacing:15) {
       Image(systemName: iconName)
         .frame(width: 18, height: 18)
         .foregroundStyle(.primaryIcon)
       TextField(hint, text: $inputData)
         .font(.subheadline)
-        .fontWeight(.medium)
     }
   }
 }
