@@ -6,8 +6,8 @@ struct HomeScreen: View {
   var body: some View {
     NavigationStack {
       ZStack {
-        Color.appBackground.ignoresSafeArea(.all)
-        VStack(spacing: 0) {
+        Color.appBackground.ignoresSafeArea()
+        VStack(spacing:0) {
           UserDataHeader()
           CityFuelsGrid().padding(15)
           serviceList
@@ -17,6 +17,8 @@ struct HomeScreen: View {
       .onAppear { isShownTabBar = true }
     }
   }
+  
+  // MARK: - Auxilary UI Components
   
   private var serviceList: some View {
     List(ServiceType.allCases) { service in
@@ -28,12 +30,7 @@ struct HomeScreen: View {
           iconColor: .primaryIcon
         )
       }
-    }
-    .listStyle(.insetGrouped)
-    .listRowSpacing(10)
-    .scrollContentBackground(.hidden)
-    .scrollIndicators(.hidden)
-    .shadow(radius: 1)
+    }.customListSetup(shadow: 1.0)
   }
   
   @ViewBuilder
@@ -51,7 +48,6 @@ struct HomeScreen: View {
 
 #Preview {
   HomeScreen(isShownTabBar: .constant(true))
-    .environmentObject( AuthViewModel() )
-    .environmentObject( MapViewModel() )
+    .environmentObject(AuthViewModel.previewMode)
+    .environmentObject(MapViewModel.previewMode)
 }
-

@@ -52,8 +52,8 @@ struct TabBarView: View {
 
 #Preview {
   TabBarView()
-    .environmentObject( MapViewModel() )
-    .environmentObject( AuthViewModel() )
-    .environmentObject( StationViewModel() )
+    .environmentObject(MapViewModel.previewMode)
+    .environmentObject(AuthViewModel.previewMode)
+    .environmentObject(StationViewModel.previewMode)
 }
 

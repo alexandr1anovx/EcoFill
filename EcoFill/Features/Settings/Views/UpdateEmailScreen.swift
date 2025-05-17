@@ -14,7 +14,7 @@ struct UpdateEmailScreen: View {
   @State private var password = ""
   @State private var isShownConfirmationAlert = false
   
-  @FocusState private var fieldContent: UserDataTextFieldContent?
+  @FocusState private var fieldContent: InputFieldContent?
   @EnvironmentObject var authViewModel: AuthViewModel
   
   private var isValidForm: Bool {
@@ -38,6 +38,8 @@ struct UpdateEmailScreen: View {
       loadUserEmail()
     }
   }
+  
+  // MARK: Auxilary UI Components
   
   private var textFields: some View {
     List {
@@ -102,7 +104,11 @@ struct UpdateEmailScreen: View {
         password = ""
       }
     } label: {
-      ButtonLabel("update_email_button", textColor: .primaryText, pouring: .buttonBackground)
+      ButtonLabel(
+        title: "update_email_button",
+        textColor: .primaryText,
+        pouring: .buttonBackground
+      )
     }
     .disabled(!isValidForm)
     .opacity(!isValidForm ? 0.5 : 1)
@@ -125,4 +131,3 @@ struct UpdateEmailScreen: View {
     .environmentObject(AuthViewModel())
     .environmentObject(MapViewModel())
 }
-

@@ -13,8 +13,8 @@ struct SupportScreen: View {
   
   var body: some View {
     ZStack {
-      Color.appBackground.ignoresSafeArea(.all)
-      VStack(spacing: 0) {
+      Color.appBackground.ignoresSafeArea()
+      VStack(spacing:0) {
         textFields
         sendMessageButton
         Spacer()
@@ -54,12 +54,7 @@ struct SupportScreen: View {
         Text("feedback_section_footer")
       }
     }
-    .frame(height: 280)
-    .listStyle(.insetGrouped)
-    .scrollContentBackground(.hidden)
-    .scrollIndicators(.hidden)
-    .scrollDisabled(true)
-    .shadow(radius: 1)
+    .customListSetup(height: 280, shadow: 1.0, scrollDisabled: true)
   }
   
   private var sendMessageButton: some View {
@@ -67,7 +62,11 @@ struct SupportScreen: View {
       message = ""
       isShownAlert.toggle()
     } label: {
-      ButtonLabel("Send Message", textColor: .primaryText, pouring: .buttonBackground)
+      ButtonLabel(
+        title: "Send",
+        textColor: .primaryText,
+        pouring: .buttonBackground
+      )
     }
     .opacity(!isMessageCorrect ? 0.5 : 1)
     .disabled(!isMessageCorrect)
@@ -78,14 +77,15 @@ struct SupportScreen: View {
     }
   }
   
-  // MARK: Logic Methods
-  
+  // MARK: Private Logical Methods
+
   private func loadUserEmail() {
     email = authViewModel.currentUser?.email ?? "No email address"
   }
 }
 
 #Preview {
-  SupportScreen().environmentObject(AuthViewModel())
+  SupportScreen()
+    .environmentObject(AuthViewModel.previewMode)
 }
 

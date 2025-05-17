@@ -91,19 +91,27 @@ struct MapItemView: View {
       Button {
         mapViewModel.isShownRoute = false
       } label: {
-        ButtonLabel("hide_route", textColor: .white, pouring: .red)
+        ButtonLabel(
+          title: "hide_route",
+          textColor: .white,
+          pouring: .red
+        )
       }
     } else {
       Button {
         mapViewModel.isShownRoute = true
       } label: {
-        ButtonLabel("show_route", textColor: .black, pouring: .primaryLime)
+        ButtonLabel(
+          title: "show_route",
+          textColor: .black,
+          pouring: .primaryLime
+        )
       }
     }
   }
 }
 
 #Preview {
-  MapItemView(station: .mockStation)
+  MapItemView(station: MockData.station)
     .environmentObject(MapViewModel())
 }

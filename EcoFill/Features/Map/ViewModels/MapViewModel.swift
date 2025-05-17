@@ -1,9 +1,8 @@
 import MapKit
 
-@MainActor final class MapViewModel: ObservableObject {
+@MainActor 
+final class MapViewModel: ObservableObject {
   
-  // MARK: Properties
-  private let locationManager = LocationManager.shared
   @Published var selectedStation: Station?
   @Published var selectedTransportType: MKDirectionsTransportType = .automobile
   @Published var route: MKRoute?
@@ -11,7 +10,11 @@ import MapKit
   @Published var isShownStationPreview = false
   @Published var isShownStationList = false
   
-  // MARK: Public Methods
+  // MARK: - Private Properties
+  
+  private let locationManager = LocationManager.shared
+  
+  // MARK: - Public Methods
   
   func getRoute(to station: Station) async {
     route = nil
@@ -35,7 +38,7 @@ import MapKit
     }
   }
   
-  // MARK: Private Methods
+  // MARK: - Private Methods
   
   private func calculateDirections(from: MKMapItem, to: MKMapItem) async -> MKRoute? {
     let request = MKDirections.Request()
@@ -46,12 +49,22 @@ import MapKit
     do {
       let directions = MKDirections(request: request)
       let response = try await directions.calculate()
-      let route = response.routes.first
+      guard let route = response.routes.first else {
+        print("‼️ No routes found")
+        return nil
+      }
       return route
     } catch {
-      print(error.localizedDescription)
+      print("❌ Failed to calculate directions: \(error.localizedDescription)")
       return nil
     }
   }
 }
 
+extension MapViewModel {
+  static var previewMode: MapViewModel {
+    let viewModel = MapViewModel()
+    viewModel.selectedStation = MockData.station
+    return viewModel
+  }
+}

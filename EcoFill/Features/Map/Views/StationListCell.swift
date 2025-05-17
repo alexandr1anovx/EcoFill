@@ -113,6 +113,6 @@ struct StationListCell: View {
 }
 
 #Preview {
-  StationListCell(station: .mockStation)
-    .environmentObject( MapViewModel() )
+  StationListCell(station: MockData.station)
+    .environmentObject(MapViewModel())
 }

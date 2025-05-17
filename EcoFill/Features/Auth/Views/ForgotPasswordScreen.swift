@@ -37,7 +37,7 @@ struct ForgotPasswordScreen: View {
     }
   }
   
-  // MARK: Auxilary UI Components
+  // MARK: - Auxilary UI Components
   
   private var emailTextField: some View {
     List {
@@ -101,26 +101,5 @@ struct ForgotPasswordScreen: View {
 
 #Preview {
   ForgotPasswordScreen()
-    .environmentObject(AuthViewModel())
-}
-
-extension View {
-  
-  func customListSetup(
-    height: CGFloat? = nil,
-    rowHeight: CGFloat = 0,
-    rowSpacing: CGFloat = 0,
-    sectionSpacing: CGFloat = 0,
-    shadow: CGFloat = 0,
-    scrollDisabled: Bool = false
-  ) -> some View {
-    self
-      .listStyle(.insetGrouped)
-      .listRowSpacing(rowSpacing)
-      .scrollContentBackground(.hidden)
-      .shadow(radius: shadow)
-      .scrollDisabled(scrollDisabled)
-      .frame(height: height)
-      .environment(\.defaultMinListRowHeight, rowHeight)
-  }
+    .environmentObject(AuthViewModel.previewMode)
 }

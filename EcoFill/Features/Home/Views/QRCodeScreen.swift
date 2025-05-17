@@ -12,8 +12,8 @@ struct QRCodeScreen: View {
   
   var body: some View {
     ZStack {
-      Color.appBackground.ignoresSafeArea(.all)
-      VStack(spacing: 10) {
+      Color.appBackground.ignoresSafeArea()
+      VStack(spacing:10) {
         
         if let user = authViewModel.currentUser {
           HStack(spacing: 0) {
@@ -88,7 +88,7 @@ struct QRCodeScreen: View {
     }
   }
   
-  // MARK: Logic Methods
+  // MARK: - Private Logical Methods
   
   private func openAppSettings() {
     guard let appSettings = URL(string: UIApplication.openSettingsURLString) else {

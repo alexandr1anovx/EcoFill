@@ -23,7 +23,7 @@ struct MapScreen: View {
       .onAppear { isShownTabBar = true }
     
       .sheet(isPresented: $mapViewModel.isShownStationPreview) {
-        MapItemView(station: mapViewModel.selectedStation ?? .mockStation)
+        MapItemView(station: mapViewModel.selectedStation ?? MockData.station)
           .presentationDetents([.height(320)])
           .presentationDragIndicator(.visible)
           .presentationCornerRadius(30)
@@ -55,12 +55,11 @@ struct MapScreen: View {
   
   private func stationMark(for station: Station) -> some View {
     Image(systemName: "fuelpump.fill")
-      .foregroundStyle(.primaryLime)
-      .opacity(0.8)
-      .padding(6)
-      .background(.primaryBlack)
+      .font(.footnote)
+      .foregroundStyle(.black)
+      .padding(8)
+      .background(.primaryLime.opacity(0.9))
       .clipShape(.circle)
-      .shadow(radius: 3)
       .onTapGesture {
         mapViewModel.selectedStation = station
         mapViewModel.isShownStationPreview = true
@@ -73,20 +72,20 @@ struct MapScreen: View {
     } label: {
       Image(systemName: "list.bullet")
         .imageScale(.large)
-        .foregroundStyle(.primaryText)
-        .padding(.vertical, 12)
-        .padding(.horizontal, 8.5)
-        .background(.buttonBackground)
-        .clipShape(.rect(cornerRadius: 7))
+        .foregroundStyle(.primaryLime)
+        .padding(.vertical,12)
+        .padding(.horizontal,9)
+        .background(.primaryBlack)
+        .clipShape(.rect(cornerRadius: 8))
     }
-    .padding(.trailing, 5)
-    .padding(.top, 60)
+    .padding(.trailing,5)
+    .padding(.top,60)
   }
 }
 
 #Preview {
   MapScreen(isShownTabBar: .constant(false))
-    .environmentObject( StationViewModel() )
-    .environmentObject( AuthViewModel() )
+    .environmentObject(MapViewModel.previewMode)
+    .environmentObject(StationViewModel.previewMode)
+    .environmentObject(AuthViewModel.previewMode)
 }
-

@@ -13,12 +13,9 @@ extension Font {
     
     var value: String {
       switch self {
-      case .regular:
-        return "Poppins-Regular"
-      case .medium:
-        return "Poppins-Medium"
-      case .bold:
-        return "Poppins-Bold"
+      case .regular: "Poppins-Regular"
+      case .medium: "Poppins-Medium"
+      case .bold: "Poppins-Bold"
       }
     }
   }

@@ -11,18 +11,15 @@ struct ProfileScreen: View {
   var body: some View {
     NavigationStack {
       ZStack {
-        Color.appBackground.ignoresSafeArea(.all)
-        VStack(spacing: 0) {
+        Color.appBackground.ignoresSafeArea()
+        VStack(spacing:0) {
           UserDataHeader()
           List {
             settingsButton
             rateUsButton
             signOutButton
           }
-          .scrollContentBackground(.hidden)
-          .scrollIndicators(.hidden)
-          .listRowSpacing(10)
-          .shadow(radius: 1)
+          .customListSetup(rowSpacing: 10, shadow: 1.0)
         }
         .navigationTitle("Profile")
         .onAppear { isShownTabBar = true }
@@ -82,7 +79,6 @@ struct ProfileScreen: View {
 
 #Preview {
   ProfileScreen(isShownTabBar: .constant(false))
-    .environmentObject(AuthViewModel())
-    .environmentObject(MapViewModel())
+    .environmentObject(AuthViewModel.previewMode)
+    .environmentObject(MapViewModel.previewMode)
 }
-
