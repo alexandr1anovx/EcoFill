@@ -8,20 +8,9 @@
 import SwiftUI
 
 struct ButtonLabel: View {
-  
   let title: LocalizedStringKey
   let textColor: Color
   let pouring: Color
-  
-  init(
-    _ title: LocalizedStringKey,
-    textColor: Color,
-    pouring: Color
-  ) {
-    self.title = title
-    self.textColor = textColor
-    self.pouring = pouring
-  }
   
   var body: some View {
     Text(title)
@@ -39,7 +28,7 @@ struct ButtonLabel: View {
 
 #Preview {
   ButtonLabel(
-    "Continue",
+    title: "Continue",
     textColor: .white,
     pouring: .green
   )
