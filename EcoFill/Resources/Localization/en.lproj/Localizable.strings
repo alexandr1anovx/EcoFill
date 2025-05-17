@@ -46,12 +46,13 @@
 
 // MARK: Input Hints
 
-"input_fullName" = "Full Name";
-"input_email" = "Email Address";
-"input_email_current" = "Current Email Address";
-"input_email_new" = "New Email Address";
+"input_fullName" = "Full name";
+"input_email" = "Email address";
+"input_email_current" = "Current email address";
+"input_email_new" = "New email address";
 "input_password" = "Password";
-"input_password_current" = "Current Password";
+"input_password_confirm" = "Confirm password";
+"input_password_current" = "Current password";
 "input_feedback" = "Write your feedback.";
 
 // MARK: Authentication
@@ -85,7 +86,7 @@
 "scanning_successful" = "Scan successful!";
 "bonuses_credited" = "Bonuses have been credited to your account.";
 "loading_user_data" = "Loading user data...";
-"allow_camera" = "Allow Camera";
+"allow_camera" = "Camera Access";
 "camera_access_required" = "Camera access is required to scan the code";
 "go_to_settings" = "Go to settings?";
 "error_missing_full_name" = "Error: Full name is missing.";
@@ -113,7 +114,6 @@
 "email_status_unverified_hint" = "A confirmation link was sent to the provided email address.";
 
 // MARK: Support Screen
-
 "feedback_success_alert_message" = "Feedback sent successfully";
 "feedback_section_header" = "Submit Your Feedback";
 "feedback_section_footer" = "Please use polite language in your messages.";
