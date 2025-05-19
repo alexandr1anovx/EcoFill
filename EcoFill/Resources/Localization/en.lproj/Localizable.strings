@@ -57,17 +57,17 @@
 
 // MARK: Authentication
 
-"sign_in_title" = "Sign In.";
+"login_title" = "Login.";
 "sign_in_subtitle" = "Enter your email and password.";
-"sign_in_button" = "Sign In";
+"login_button" = "Login";
 
-"sign_up_title" = "Sign Up.";
+"register_title" = "Register.";
 "sign_up_subtitle" = "Enter your credentials.";
-"sign_up_button" = "Sign Up";
+"register_button" = "Register";
 "select_your_city" = "Select your city:";
 
-"already_a_member?" = "Already have an account?";
-"new_member?" = "Don't have an account?";
+"already_a_member?" = "Already a member?";
+"new_member?" = "New member?";
 
 // MARK: Forgot Password
 
@@ -94,7 +94,7 @@
 
 // MARK: Map
 
-"transport_type" = "Transport Type:";
+"transportation_type" = "Transportation:";
 "payment_label" = "Payment:";
 "street_label" = "Street:";
 "schedule_label" = "Schedule:";
