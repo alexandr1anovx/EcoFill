@@ -8,48 +8,33 @@
 import SwiftUI
 
 struct ListCell: View {
+  private let item: ListItem
   
-  let title: LocalizedStringKey
-  let subtitle: LocalizedStringKey
-  let iconName: String
-  let iconColor: Color
-  
-  init(
-    title: LocalizedStringKey,
-    subtitle: LocalizedStringKey,
-    icon: String,
-    iconColor: Color
-  ) {
-    self.title = title
-    self.subtitle = subtitle
-    self.iconName = icon
-    self.iconColor = iconColor
+  init(for item: ListItem) {
+    self.item = item
   }
   
   var body: some View {
     HStack(spacing: 15) {
-      Image(systemName: iconName)
+      Image(systemName: item.iconName)
         .frame(width: 18, height: 18)
-        .foregroundStyle(iconColor)
+        .foregroundStyle(item.iconColor)
       VStack(alignment: .leading, spacing: 6) {
-        Text(title)
+        Text(item.title)
           .font(.subheadline)
           .fontWeight(.medium)
-          .foregroundStyle(.primaryLabel)
-        Text(subtitle)
-          .font(.caption2)
-          .foregroundStyle(.gray)
-          .multilineTextAlignment(.leading)
+          .foregroundStyle(Color.primary)
+        if let subtitle = item.subtitle {
+          Text(subtitle)
+            .font(.caption2)
+            .foregroundStyle(.gray)
+            .multilineTextAlignment(.leading)
+        }
       }
     }
   }
 }
 
 #Preview {
-  ListCell(
-    title: "Settings",
-    subtitle: "Change your personal data.",
-    icon: "gear",
-    iconColor: .white
-  )
+  ListCell(for: .settings)
 }
