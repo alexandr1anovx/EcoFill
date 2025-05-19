@@ -8,7 +8,7 @@
 import Foundation
 import MapKit
 
-// MARK: MKCoordinateRegion
+// MARK: - MKCoordinateRegion
 
 extension MKCoordinateRegion: @retroactive Equatable {
   public static func == (lhs: MKCoordinateRegion, rhs: MKCoordinateRegion) -> Bool {
@@ -26,7 +26,7 @@ extension MKCoordinateRegion: @retroactive Equatable {
     longitudinalMeters: 10000)
 }
 
-// MARK: CLLocationCoordinate2D
+// MARK: - CLLocationCoordinate2D
 
 extension CLLocationCoordinate2D {
   static let userLocation = CLLocationCoordinate2D(
@@ -35,17 +35,18 @@ extension CLLocationCoordinate2D {
   )
 }
 
-// MARK: MKDirectionsTransportType
+// MARK: - MKDirectionsTransportType
 
 extension MKDirectionsTransportType: CaseIterable, Hashable {
   public static var allCases: [MKDirectionsTransportType] {
-    return [.automobile, .walking]
+    return [.automobile, .walking, .transit]
   }
   
   var title: String {
     switch self {
     case .automobile: "Automobile"
     case .walking: "Walking"
+    case .transit: "Transit"
     default: "Unknown"
     }
   }
@@ -54,8 +55,8 @@ extension MKDirectionsTransportType: CaseIterable, Hashable {
     switch self {
     case .automobile: "car"
     case .walking: "figure.walk"
+    case .transit: "bus"
     default: "questionmark"
     }
   }
 }
-

@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum ServiceType: String, CaseIterable, Identifiable {
+enum ServiceType: CaseIterable, Identifiable {
   case qrcode
   case support
   

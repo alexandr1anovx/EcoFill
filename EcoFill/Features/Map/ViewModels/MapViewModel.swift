@@ -4,7 +4,7 @@ import MapKit
 final class MapViewModel: ObservableObject {
   
   @Published var selectedStation: Station?
-  @Published var selectedTransportType: MKDirectionsTransportType = .automobile
+  @Published var selectedTransport: MKDirectionsTransportType = .automobile
   @Published var route: MKRoute?
   @Published var isShownRoute = false
   @Published var isShownStationPreview = false
@@ -42,7 +42,7 @@ final class MapViewModel: ObservableObject {
   
   private func calculateDirections(from: MKMapItem, to: MKMapItem) async -> MKRoute? {
     let request = MKDirections.Request()
-    request.transportType = selectedTransportType
+    request.transportType = selectedTransport
     request.source = from
     request.destination = to
     
@@ -50,16 +50,18 @@ final class MapViewModel: ObservableObject {
       let directions = MKDirections(request: request)
       let response = try await directions.calculate()
       guard let route = response.routes.first else {
-        print("‼️ No routes found")
+        print("No routes found")
         return nil
       }
       return route
     } catch {
-      print("❌ Failed to calculate directions: \(error.localizedDescription)")
+      print("Failed to calculate directions: \(error.localizedDescription)")
       return nil
     }
   }
 }
+
+// MARK: - Preview Mode
 
 extension MapViewModel {
   static var previewMode: MapViewModel {
