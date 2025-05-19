@@ -80,11 +80,11 @@ struct SignUpScreen: View {
       .onSubmit { fieldContent = nil }
     }
     .customListStyle(
-      height: 260,
       rowHeight: 50,
       rowSpacing: 8,
-      shadow: 1.0,
-      scrollDisabled: true
+      scrollDisabled: true,
+      height: 260,
+      shadow: 1.0
     )
   }
   
@@ -125,7 +125,7 @@ struct SignUpScreen: View {
       Alert(
         title: alert.title,
         message: alert.message,
-        dismissButton: alert.dismissButton
+        dismissButton: alert.primaryButton
       )
     }
   }

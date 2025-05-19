@@ -70,7 +70,7 @@ struct UpdateEmailScreen: View {
       .submitLabel(.done)
       .onSubmit { fieldContent = nil }
     }
-    .customListStyle(height: 195, shadow: 1, scrollDisabled: true)
+    .customListStyle(scrollDisabled: true, height: 195, shadow: 1)
   }
   
   private var emailStatusView: some View {
@@ -111,7 +111,7 @@ struct UpdateEmailScreen: View {
       Alert(
         title: alert.title,
         message: alert.message,
-        dismissButton: alert.dismissButton
+        dismissButton: alert.primaryButton
       )
     }
   }

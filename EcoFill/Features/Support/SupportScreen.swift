@@ -30,6 +30,8 @@ struct SupportScreen: View {
     }
   }
   
+  // MARK: - Auxilary UI Components
+  
   private var inputViews: some View {
     List {
       Section {
@@ -38,8 +40,9 @@ struct SupportScreen: View {
           iconName: "envelope",
           hint: "input_email"
         )
+        .listRowBackground(Color.white.opacity(0.1))
         .disabled(true)
-        .frame(height: 50)
+        .frame(height: 30)
         
         ExtendedTextField(
           inputData: $message,
@@ -47,14 +50,15 @@ struct SupportScreen: View {
           hint: "input_feedback",
           maxCount: 100
         )
-        .frame(height: 80)
+        .frame(height: 70)
+        .listRowBackground(Color.white.opacity(0.1))
       } header: {
         Text("feedback_section_header")
       } footer: {
         Text("feedback_section_footer")
       }
     }
-    .customListStyle(height: 280, shadow: 1.0, scrollDisabled: true)
+    .customListStyle(scrollDisabled: true, height: 240)
   }
   
   private var sendButton: some View {
@@ -68,12 +72,13 @@ struct SupportScreen: View {
         pouring: .green
       )
     }
+    .padding(.horizontal)
     .opacity(!isMessageCorrect ? 0.5 : 1)
     .disabled(!isMessageCorrect)
-    .alert("Thanks", isPresented: $isShownAlert) {
+    .alert("Message Sent", isPresented: $isShownAlert) {
       // "OK" button by default
     } message: {
-      Text("feedback_success_alert_message")
+      Text("Thanks for reaching out! Whether it’s feedback or an issue, we appreciate your input and will respond shortly.")
     }
   }
   

@@ -1,7 +1,9 @@
 import SwiftUI
 
-enum ColorTheme: String, CaseIterable {
+enum ColorTheme: String, Identifiable, CaseIterable {
   case system, light, dark
+  
+  var id: Self { self }
   
   var title: LocalizedStringKey {
     switch self {
@@ -28,13 +30,12 @@ struct ColorThemePickerView: View {
       Text("color_theme_label")
         .font(.subheadline)
         .fontWeight(.medium)
-        .foregroundStyle(.primaryLabel)
       Picker("", selection: $selectedColorTheme) {
-        ForEach(ColorTheme.allCases, id: \.self) { theme in
+        ForEach(ColorTheme.allCases) { theme in
           Text(theme.title)
         }
       }
-      .tint(.primaryLabel)
+      .tint(.primary)
     }
   }
 }

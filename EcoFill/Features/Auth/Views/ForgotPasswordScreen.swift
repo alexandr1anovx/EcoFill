@@ -52,7 +52,7 @@ struct ForgotPasswordScreen: View {
       .submitLabel(.done)
       .onSubmit { fieldContent = nil }
     }
-    .customListStyle(height: 85, rowHeight: 50, shadow: 1.0, scrollDisabled: true)
+    .customListStyle(rowHeight: 50, scrollDisabled: true, height: 85, shadow: 1)
   }
   
   private var sendLinkButton: some View {
@@ -78,7 +78,7 @@ struct ForgotPasswordScreen: View {
       Alert(
         title: alert.title,
         message: alert.message,
-        dismissButton: alert.dismissButton
+        dismissButton: alert.primaryButton
       )
     }
   }
