@@ -2,39 +2,54 @@ import SwiftUI
 
 struct SettingScreen: View {
   
-  @State private var deletionPassword = ""
+  @State private var password: String = ""
   @State private var isShownDeletetionAlert = false
+  @State private var isShownPasswordSheet = false
   @EnvironmentObject var authViewModel: AuthViewModel
   
   var body: some View {
     ZStack {
-      Color.appBackground.ignoresSafeArea(.all)
+      Color.appBackground.ignoresSafeArea()
       List {
         ColorThemePickerView()
         LanguagePickerView()
         updateEmailCell
         deleteAccountCell
       }
-      .scrollContentBackground(.hidden)
-      .scrollIndicators(.hidden)
-      .listRowSpacing(10)
-      .shadow(radius: 1)
-      .environment(\.defaultMinListRowHeight, 55)
+      .customListStyle(rowHeight: 55, rowSpacing: 10, shadow: 1)
+    }
+    .sheet(isPresented: $isShownPasswordSheet) {
+      passwordInputView
+        .presentationDetents([.medium])
+        .presentationDragIndicator(.visible)
     }
     .navigationTitle("settings_title")
     .navigationBarTitleDisplayMode(.inline)
+  }
+  
+  private var passwordInputView: some View {
+    VStack {
+      Text("Input your account password.")
+        .font(.callout)
+      TextField("Password", text: $password)
+        .textFieldStyle(.roundedBorder)
+      Button("Delete Account") {
+        Task {
+          await authViewModel.deleteUser(withPassword: password)
+          password = ""
+        }
+      }
+      .disabled(password.isEmpty)
+      .tint(.red)
+      .buttonStyle(.bordered)
+    }
   }
   
   private var updateEmailCell: some View {
     NavigationLink {
       UpdateEmailScreen()
     } label: {
-      ListCell(
-        title: "updateEmail_title",
-        subtitle: "updateEmail_subtitle",
-        icon: "envelope",
-        iconColor: .primaryLabel
-      )
+      ListCell(for: .updateEmail)
     }
   }
 
@@ -42,30 +57,19 @@ struct SettingScreen: View {
     Button {
       isShownDeletetionAlert.toggle()
     } label: {
-      ListCell(
-        title: "delete_account_title",
-        subtitle: "delete_account_subtitle",
-        icon: "xmark.circle.fill",
-        iconColor: .red
-      )
+      ListCell(for: .deleteAccount)
     }
-    .alert("Password", isPresented: $isShownDeletetionAlert) {
-      SecureField("", text: $deletionPassword)
-      Button("Cancel", role: .cancel) { deletionPassword = "" }
-      Button("Confirm") {
-        Task {
-          await authViewModel.deleteUser(withPassword: deletionPassword)
-          deletionPassword = ""
-        }
-      }
+    .alert("Delete Account", isPresented: $isShownDeletetionAlert) {
+      Button("Cancel", role: .cancel) { password = "" }
+      Button("Yes, I'm sure") { isShownPasswordSheet = true }
     } message: {
-      Text("delete_account_message")
+      Text("Are you sure you want to permanently delete your account?")
     }
   }
 }
 
 #Preview {
   SettingScreen()
-    .environmentObject( AuthViewModel() )
-    .environmentObject( MapViewModel() )
+    .environmentObject(AuthViewModel.previewMode)
+    .environmentObject(MapViewModel.previewMode)
 }

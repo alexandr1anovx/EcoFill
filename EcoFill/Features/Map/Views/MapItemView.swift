@@ -4,55 +4,36 @@ import MapKit
 struct MapItemView: View {
   
   let station: Station
+  private let transportTypes = MKDirectionsTransportType.allCases
   @EnvironmentObject var mapViewModel: MapViewModel
+  
+  // MARK:  - body
   
   var body: some View {
     ZStack {
-      Color.appBackground.ignoresSafeArea(.all)
-      VStack(alignment: .leading, spacing: 18) {
+      Color.appBackground.ignoresSafeArea()
+      VStack(alignment: .leading, spacing:17) {
         Spacer()
-        addressLabel.padding(.leading, 15)
-        scheduleLabel.padding(.leading, 15)
-        paymentMethodsLabel.padding(.leading, 15)
-        HStack(spacing: 8) {
-          Text("transport_type")
-            .font(.footnote)
-            .fontWeight(.medium)
-            .foregroundStyle(.primaryLabel)
-          ForEach(MKDirectionsTransportType.allCases, id: \.self) { type in
-            transportLabel(for: type)
-          }
-        }
-        .padding(.horizontal,15)
-        FuelStackView(for: station).padding(.horizontal, 15)
+        addressView
+        scheduleView
+        paymentView
+        transportTypesView
+        FuelStackView(for: station)
         routeButton
       }
+      .padding(.horizontal,12)
     }
   }
   
-  private func transportLabel(for type: MKDirectionsTransportType) -> some View {
-    Label(type.title, systemImage: type.iconName)
-      .font(.footnote)
-      .fontWeight(.medium)
-      .foregroundStyle(type == mapViewModel.selectedTransportType ? .black : .primaryLime)
-      .padding(10)
-      .background(type == mapViewModel.selectedTransportType ? .primaryLime : .black)
-      .clipShape(.capsule)
-      .shadow(radius: 2)
-      .animation(.spring, value: mapViewModel.selectedTransportType)
-      .onTapGesture {
-        mapViewModel.selectedTransportType = type
-      }
-  }
+  // MARK:  - Auxilary UI Components
   
-  private var addressLabel: some View {
-    HStack(spacing: 8) {
+  private var addressView: some View {
+    HStack(spacing:8) {
       Image(.marker)
-        .foregroundStyle(.primaryIcon)
+        .foregroundStyle(.green)
       Text("street_label")
-        .foregroundStyle(.primaryLabel)
-      Text(station.street)
         .foregroundStyle(.gray)
+      Text(station.street)
         .lineLimit(2)
         .multilineTextAlignment(.leading)
     }
@@ -60,29 +41,59 @@ struct MapItemView: View {
     .fontWeight(.medium)
   }
   
-  private var scheduleLabel: some View {
-    HStack(spacing: 8) {
+  private var scheduleView: some View {
+    HStack(spacing:8) {
       Image(.clock)
-        .foregroundStyle(.primaryIcon)
+        .foregroundStyle(.green)
       Text("schedule_label")
-        .foregroundStyle(.primaryLabel)
-      Text(station.schedule)
         .foregroundStyle(.gray)
+      Text(station.schedule)
     }
     .font(.footnote)
     .fontWeight(.medium)
   }
   
-  private var paymentMethodsLabel: some View {
-    HStack(spacing: 8) {
-      Image(.money).foregroundStyle(.primaryIcon)
+  private var paymentView: some View {
+    HStack(spacing:8) {
+      Image(.money)
+        .foregroundStyle(.green)
       Text("payment_label")
-        .foregroundStyle(.primaryLabel)
-      Text("payment_methods")
         .foregroundStyle(.gray)
+      Text("payment_methods")
     }
     .font(.footnote)
     .fontWeight(.medium)
+  }
+  
+  private func transportLabel(for type: MKDirectionsTransportType) -> some View {
+    Label(type.title, systemImage: type.iconName)
+      .font(.footnote)
+      .fontWeight(.medium)
+      .foregroundStyle(.white)
+      .padding(10)
+      .background(
+        type == mapViewModel.selectedTransport ? .green : .black
+      )
+      .clipShape(.capsule)
+      .animation(.spring, value: mapViewModel.selectedTransport)
+      .onTapGesture { mapViewModel.selectedTransport = type }
+  }
+  
+  private var transportTypesView: some View {
+    HStack {
+      Text("transportation_type")
+        .font(.footnote)
+        .fontWeight(.medium)
+      ScrollView(.horizontal) {
+        HStack(spacing:8) {
+          ForEach(transportTypes, id: \.self) { type in
+            transportLabel(for: type)
+          }
+        }
+      }
+      .shadow(radius:3)
+      .scrollIndicators(.hidden)
+    }
   }
   
   @ViewBuilder
@@ -91,8 +102,9 @@ struct MapItemView: View {
       Button {
         mapViewModel.isShownRoute = false
       } label: {
-        ButtonLabel(
+        ButtonLabelWithIcon(
           title: "hide_route",
+          iconName: "x.circle",
           textColor: .white,
           pouring: .red
         )
@@ -101,10 +113,11 @@ struct MapItemView: View {
       Button {
         mapViewModel.isShownRoute = true
       } label: {
-        ButtonLabel(
+        ButtonLabelWithIcon(
           title: "show_route",
+          iconName: "arrow.trianglehead.branch",
           textColor: .black,
-          pouring: .primaryLime
+          pouring: .green
         )
       }
     }
@@ -113,5 +126,5 @@ struct MapItemView: View {
 
 #Preview {
   MapItemView(station: MockData.station)
-    .environmentObject(MapViewModel())
+    .environmentObject(MapViewModel.previewMode)
 }

@@ -12,53 +12,42 @@ struct StationListView: View {
   
   var body: some View {
     ZStack {
-      Color.appBackground.ignoresSafeArea(.all)
-      VStack(spacing: 8) {
+      Color.appBackground.ignoresSafeArea()
+      VStack(spacing:0) {
         Picker("", selection: $authViewModel.userCity) {
           ForEach(City.allCases) { city in
             Text(city.title)
           }
         }
-        .pickerStyle(.segmented)
-        .padding(.top, 25)
-        .padding(.horizontal, 20)
+        .tint(.primary)
+        .pickerStyle(.menu)
+        .frame(maxWidth: .infinity, alignment: .trailing)
+        .padding(.top)
+        .padding(.trailing,20)
         List(selectedCityStations) { station in
           StationListCell(station: station)
+            .listRowBackground(Color.white.opacity(0.1))
+            .padding(.vertical,10)
         }
-        .listStyle(.insetGrouped)
-        .listRowSpacing(20)
-        .scrollContentBackground(.hidden)
-        .scrollIndicators(.hidden)
-        .shadow(radius: 1)
+        .customListStyle(rowSpacing:20)
       }
     }
-    .onAppear {
-      displaySelectedCity()
-      setupPickerAppearance()
-    }
+    .onAppear { getSelectedCity() }
   }
   
   // MARK: - UI Setup Methods
   
-  private func displaySelectedCity() {
+  private func getSelectedCity() {
     if let cityString = authViewModel.currentUser?.city,
        let city = City(rawValue: cityString) {
       authViewModel.userCity = city
     }
   }
-  
-  private func setupPickerAppearance() {
-    let appearance = UISegmentedControl.appearance()
-    appearance.selectedSegmentTintColor = .buttonBackground
-    appearance.setTitleTextAttributes([.foregroundColor: UIColor.primaryText], for: .selected)
-    appearance.setTitleTextAttributes([.foregroundColor: UIColor.label], for: .normal)
-    appearance.backgroundColor = .systemBackground
-  }
 }
 
 #Preview {
   StationListView()
-    .environmentObject(AuthViewModel())
-    .environmentObject(MapViewModel())
+    .environmentObject(AuthViewModel.previewMode)
+    .environmentObject(MapViewModel.previewMode)
+    .environmentObject(StationViewModel.previewMode)
 }
-

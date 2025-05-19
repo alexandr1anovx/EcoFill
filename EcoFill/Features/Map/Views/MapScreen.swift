@@ -8,15 +8,10 @@ struct MapScreen: View {
   @EnvironmentObject var stationViewModel: StationViewModel
   @EnvironmentObject var mapViewModel: MapViewModel
   
+  // MARK:  - body
+  
   var body: some View {
     mapView
-      .mapControls {
-        MapPitchToggle()
-        MapUserLocationButton()
-      }
-      .overlay(alignment: .topTrailing) {
-        showListButton
-      }
       .task(id: mapViewModel.isShownRoute) {
         await mapViewModel.toggleRoutePresentation()
       }
@@ -26,57 +21,64 @@ struct MapScreen: View {
         MapItemView(station: mapViewModel.selectedStation ?? MockData.station)
           .presentationDetents([.height(320)])
           .presentationDragIndicator(.visible)
-          .presentationCornerRadius(30)
+          .presentationCornerRadius(25)
       }
       .sheet(isPresented: $mapViewModel.isShownStationList) {
         StationListView()
-          .presentationDetents([.height(450)])
+          .presentationDetents([.medium])
           .presentationDragIndicator(.visible)
-          .presentationCornerRadius(30)
+          .presentationCornerRadius(25)
       }
   }
+  
+  // MARK:  - Auxilary UI Components
   
   private var mapView: some View {
     Map(position: $cameraPosition) {
       UserAnnotation()
       ForEach(stationViewModel.stations) { station in
-        
         let coordinate = station.coordinate
         Annotation("EcoFill", coordinate: coordinate) {
-          stationMark(for: station)
+          mark(for: station)
         }
       }
       if let route = mapViewModel.route {
         MapPolyline(route.polyline)
-          .stroke(.green, lineWidth: 4)
+          .stroke(.purple, lineWidth: 4)
       }
+    }
+    .mapControls {
+      MapPitchToggle()
+      MapUserLocationButton()
+    }
+    .overlay(alignment: .topTrailing) { listButton }
+  }
+  
+  private func mark(for station: Station) -> some View {
+    Button {
+      mapViewModel.selectedStation = station
+      mapViewModel.isShownStationPreview = true
+    } label: {
+      Image(systemName: "fuelpump.fill")
+        .font(.footnote)
+        .foregroundStyle(.black)
+        .padding(8)
+        .background(.green)
+        .clipShape(.circle)
     }
   }
   
-  private func stationMark(for station: Station) -> some View {
-    Image(systemName: "fuelpump.fill")
-      .font(.footnote)
-      .foregroundStyle(.black)
-      .padding(8)
-      .background(.primaryLime.opacity(0.9))
-      .clipShape(.circle)
-      .onTapGesture {
-        mapViewModel.selectedStation = station
-        mapViewModel.isShownStationPreview = true
-      }
-  }
-  
-  private var showListButton: some View {
+  private var listButton: some View {
     Button {
       mapViewModel.isShownStationList.toggle()
     } label: {
       Image(systemName: "list.bullet")
         .imageScale(.large)
-        .foregroundStyle(.primaryLime)
+        .foregroundStyle(.white)
         .padding(.vertical,12)
         .padding(.horizontal,9)
-        .background(.primaryBlack)
-        .clipShape(.rect(cornerRadius: 8))
+        .background(.black)
+        .clipShape(.buttonBorder)
     }
     .padding(.trailing,5)
     .padding(.top,60)

@@ -19,7 +19,7 @@ struct ProfileScreen: View {
             rateUsButton
             signOutButton
           }
-          .customListSetup(rowSpacing: 10, shadow: 1.0)
+          .customListStyle(rowSpacing: 10, shadow: 1.0)
         }
         .navigationTitle("Profile")
         .onAppear { isShownTabBar = true }
@@ -32,12 +32,7 @@ struct ProfileScreen: View {
       SettingScreen()
         .onAppear { isShownTabBar = false }
     } label: {
-      ListCell(
-        title: "settings_title",
-        subtitle: "settings_subtitle",
-        icon: "gear",
-        iconColor: .primaryLabel
-      )
+      ListCell(for: .settings)
     }
   }
   
@@ -45,12 +40,7 @@ struct ProfileScreen: View {
     Button {
       requestReview()
     } label: {
-      ListCell(
-        title: "rate_us_title",
-        subtitle: "rate_us_subtitle",
-        icon: "hand.thumbsup",
-        iconColor: .orange
-      )
+      ListCell(for: .rateUs)
     }
   }
   
@@ -58,12 +48,7 @@ struct ProfileScreen: View {
     Button {
       isShownAlert.toggle()
     } label: {
-      ListCell(
-        title: "sign_out_title",
-        subtitle: "sign_out_subtitle",
-        icon: "rectangle.portrait.and.arrow.right",
-        iconColor: .red
-      )
+      ListCell(for: .signOut)
     }
     .alert("sign_out_subtitle", isPresented: $isShownAlert) {
       Button("sign_out_title", role: .destructive) {

@@ -23,10 +23,10 @@ struct UpdateEmailScreen: View {
   
   var body: some View {
     ZStack {
-      Color.appBackground.ignoresSafeArea(.all)
-      VStack(alignment: .leading, spacing: 20) {
-        textFields
-        emailStatusMessage
+      Color.appBackground.ignoresSafeArea()
+      VStack(alignment: .leading, spacing:20) {
+        inputsView
+        emailStatusView
         updateEmailButton
         Spacer()
       }
@@ -39,9 +39,9 @@ struct UpdateEmailScreen: View {
     }
   }
   
-  // MARK: Auxilary UI Components
+  // MARK: - Auxilary UI Components
   
-  private var textFields: some View {
+  private var inputsView: some View {
     List {
       DefaultTextField(
         inputData: $currentEmail,
@@ -70,15 +70,10 @@ struct UpdateEmailScreen: View {
       .submitLabel(.done)
       .onSubmit { fieldContent = nil }
     }
-    .listStyle(.insetGrouped)
-    .scrollContentBackground(.hidden)
-    .scrollIndicators(.hidden)
-    .scrollDisabled(true)
-    .frame(height: 195)
-    .shadow(radius: 1)
+    .customListStyle(height: 195, shadow: 1, scrollDisabled: true)
   }
   
-  private var emailStatusMessage: some View {
+  private var emailStatusView: some View {
     VStack(alignment: .leading, spacing: 6) {
       HStack(spacing: 5) {
         Text("email_status_label")
@@ -86,7 +81,7 @@ struct UpdateEmailScreen: View {
         Text(authViewModel.emailStatus.message)
           .fontWeight(.bold)
           .foregroundStyle(
-            authViewModel.emailStatus == .verified ? .primaryLime : .red
+            authViewModel.emailStatus == .verified ? .green : .red
           )
       }
       .font(.footnote)
@@ -106,8 +101,8 @@ struct UpdateEmailScreen: View {
     } label: {
       ButtonLabel(
         title: "update_email_button",
-        textColor: .primaryText,
-        pouring: .buttonBackground
+        textColor: .white,
+        pouring: .green
       )
     }
     .disabled(!isValidForm)
@@ -128,6 +123,6 @@ struct UpdateEmailScreen: View {
 
 #Preview {
   UpdateEmailScreen()
-    .environmentObject(AuthViewModel())
-    .environmentObject(MapViewModel())
+    .environmentObject(AuthViewModel.previewMode)
+    .environmentObject(MapViewModel.previewMode)
 }

@@ -19,7 +19,6 @@ struct LaunchScreen: View {
       }
     }
     .onAppear {
-      stationVM.getStations()
       DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
         withAnimation(.spring(duration: 1)) {
           isShownContent.toggle()
@@ -30,15 +29,20 @@ struct LaunchScreen: View {
   
   private var logoImageBackground: some View {
     ZStack {
-      Color.appBackground.ignoresSafeArea(.all)
-      Image(.logo)
+      Color.appBackground.ignoresSafeArea()
+      VStack {
+        Image(.logo)
+        HStack {
+          Text("Launching...")
+          ProgressView()
+        }
+      }
     }
   }
 }
 
 #Preview {
   LaunchScreen()
-    .environmentObject(AuthViewModel())
-    .environmentObject(MapViewModel())
+    .environmentObject(AuthViewModel.previewMode)
+    .environmentObject(MapViewModel.previewMode)
 }
-
