@@ -7,48 +7,43 @@
 
 import FirebaseFirestore
 
-@MainActor final class StationViewModel: ObservableObject {
+@MainActor
+final class StationViewModel: ObservableObject {
   
-  // MARK: Properties
-  
+  // MARK: - Properties
   @Published var stations: [Station] = []
-  let stationCollection = Firestore.firestore().collection("stations")
+  private let stationService: StationService
   
-  // MARK: Public Methods
+  // MARK: - Init
   
-  func getStations() {
-    stationCollection.addSnapshotListener { snapshot, error in
-      if let error {
-        print(error.localizedDescription)
-        return
-      }
-      
-      guard let documents = snapshot?.documents else { return }
-      
-      self.stations = documents.map { snapshot -> Station in
-        let data = snapshot.data()
-        let id = snapshot.documentID
-        let city = data["city"] as? String ?? ""
-        let euroA95 = data["euroA95"] as? Double ?? 0.0
-        let euroDP = data["euroDP"] as? Double ?? 0.0
-        let gas = data["gas"] as? Double ?? 0.0
-        let latitude = data["latitude"] as? Double ?? 0.0
-        let longitude = data["longitude"] as? Double ?? 0.0
-        let schedule = data["schedule"] as? String ?? ""
-        let street = data["street"] as? String ?? ""
-        
-        return Station(
-          id: id,
-          city: city,
-          euroA95: euroA95,
-          euroDP: euroDP,
-          gas: gas,
-          latitude: latitude,
-          longitude: longitude,
-          schedule: schedule,
-          street: street
-        )
+  init(stationService: StationService = StationService()) {
+    self.stationService = stationService
+    getStationsData()
+  }
+  
+  // MARK: - Public Methods
+  
+  func getStationsData() {
+    stationService.getStationsData { [weak self] result in
+      DispatchQueue.main.async {
+        switch result {
+        case .success(let stations):
+          self?.stations = stations
+          print(stations)
+        case .failure(let error):
+          print("Failed to get stations: \(error.localizedDescription)")
+        }
       }
     }
+  }
+}
+
+// MARK: - Preview Mode
+
+extension StationViewModel {
+  static var previewMode: StationViewModel {
+    let viewModel = StationViewModel()
+    viewModel.stations = [MockData.station]
+    return viewModel
   }
 }
