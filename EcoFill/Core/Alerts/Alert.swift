@@ -4,67 +4,73 @@ struct AlertItem: Identifiable {
   let id = UUID()
   let title: Text
   let message: Text?
-  let dismissButton: Alert.Button
+  let primaryButton: Alert.Button
+  let secondaryButton: Alert.Button?
   
-  init(_ title: Text, _ message: Text? = nil, dismissButton: Alert.Button) {
+  init(_ title: Text,
+       _ message: Text? = nil,
+       primaryButton: Alert.Button,
+       secondaryButton: Alert.Button? = nil) {
     self.title = title
     self.message = message
-    self.dismissButton = dismissButton
+    self.primaryButton = primaryButton
+    self.secondaryButton = secondaryButton
   }
 }
 
 struct RegistrationAlertContext {
   
   static let userDoesNotExists = AlertItem(
-    Text("Failed to Sign In 🥺"),
-    Text("The user with this email address does not exist."),
-    dismissButton: .default(Text("OK"))
+    Text("Sign In Failed"),
+    Text("We couldn't find an account with that email address. Please check your email and try again."),
+    primaryButton: .default(Text("OK"))
   )
   static let userExists = AlertItem(
-    Text("Failed to Sign Up 🥺"),
-    Text("A user with the entered data already exists."),
-    dismissButton: .default(Text("OK"))
+    Text("Account Already Exists"),
+    Text("An account with this email address already exists. Please sign in or use a different email address."),
+    primaryButton: .default(Text("OK"))
   )
 }
 
 struct ProfileAlertContext {
   
   static let successfullAccountDeletion = AlertItem(
-    Text("Account Successfully Deleted"),
-    dismissButton: .default(Text("OK"))
+    Text("Account Deleted"),
+    Text("Your account has been successfully deleted."),
+    primaryButton: .default(Text("OK"))
   )
   static let unsuccessfullAccountDeletion = AlertItem(
-    Text("Failed to Delete Account"),
-    Text("An error occurred while trying to delete an account."),
-    dismissButton: .default(Text("OK"))
+    Text("Couldn't Delete Account"),
+    Text("We couldn't delete your account at this time. Please try again later."),
+    primaryButton: .default(Text("OK"))
   )
   static let unsuccessfullEmailUpdate = AlertItem(
-    Text("Failed to Update Email"),
-    Text("This email address is already in use."),
-    dismissButton: .default(Text("OK"))
+    Text("Email Update Failed"),
+    Text("This email address is already in use. Please choose a different email address."),
+    primaryButton: .default(Text("OK"))
   )
   static let confirmationLinkSent = AlertItem(
-    Text("Confirmation Link Sent"),
-    Text("A confirmation link has been sent to your email address."),
-    dismissButton: .default(Text("OK"))
+    Text("Verification Email Sent"),
+    Text("Please check your email and follow the link to verify your account."),
+    primaryButton: .default(Text("OK"))
   )
   static let failedToSignOut = AlertItem(
-    Text("Failed to Sign Out"),
-    Text("Please, contact support for assistance"),
-    dismissButton: .default(Text("OK"))
+    Text("Sign Out Failed"),
+    Text("We couldn't sign you out at this time. Please try again later."),
+    primaryButton: .default(Text("OK"))
   )
 }
 
 struct PasswordResetAlertContext {
   static let resetLinkSent = AlertItem(
     Text("Reset Link Sent"),
-    Text("A password reset link has been sent to your email."),
-    dismissButton: .default(Text("OK"))
+    Text("Please check your email for instructions to reset your password."),
+    primaryButton: .default(Text("OK"))
   )
   
   static let resetLinkFailed = AlertItem(
-    Text("Failed to Send Reset Link"),
-    Text("Failed to send password reset email. Please check your email address and try again."),
-    dismissButton: .default(Text("OK"))
+    Text("Couldn't Send Reset Link"),
+    Text("We couldn't send the password reset link at this time. Please try again later."),
+    primaryButton: .default(Text("OK"))
   )
 }
