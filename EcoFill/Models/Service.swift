@@ -1,20 +1,30 @@
-import Foundation
+import SwiftUI
 
-enum ServiceType: String {
-  case support = "Support"
-}
-
-struct Service: Identifiable {
-  let id = UUID()
-  let image: String
-  let type: ServiceType
-  let description: String
+enum ServiceType: CaseIterable, Identifiable {
+  case qrcode
+  case support
   
-  static let services: [Service] = [
-    Service(
-      image: "feedback",
-      type: .support,
-      description: "Send a feedback about us."
-    )
-  ]
+  var id: Self { self }
+  
+  var icon: String {
+    switch self {
+    case .qrcode: "qrcode"
+    case .support: "message"
+    }
+  }
+  
+  var title: LocalizedStringKey {
+    switch self {
+    case .qrcode: "qrcode_title"
+    case .support: "support_title"
+    }
+  }
+  
+  var subtitle: LocalizedStringKey {
+    switch self {
+    case .qrcode: "qrcode_subtitle"
+    case .support: "support_subtitle"
+    }
+  }
 }
+

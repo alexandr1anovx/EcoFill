@@ -1,0 +1,119 @@
+/* 
+  Localizable.strings
+  EcoFill
+
+  Created by Alexander Andrianov on 28.03.2025.
+  
+*/
+
+// MARK: Cell's title and subtitle
+
+"qrcode_title" = "QR Code";
+"qrcode_subtitle" = "Scan your code to receive bonuses.";
+
+"support_title" = "Support";
+"support_subtitle" = "Send feedback about us.";
+
+"settings_title" = "Settings";
+"settings_subtitle" = "Update personal information.";
+
+"rate_us_title" = "Rate Us";
+"rate_us_subtitle" = "Help others to know about us.";
+
+"sign_out_title" = "Sign Out";
+"sign_out_subtitle" = "Sign out of your account.";
+"sign_out_alert_message" = "This action will redirect you to the login screen.";
+
+// Color Theme Picker
+"color_theme_label" = "Color Theme:";
+"theme_system" = "System";
+"theme_light" = "Light";
+"theme_dark" = "Dark";
+
+// Language Picker
+"language_label" = "Language:";
+"language_english" = "English";
+"language_ukrainian" = "Ukrainian";
+
+// Update Email
+"updateEmail_title" = "Update Email";
+"updateEmail_subtitle" = "Update your email address.";
+
+// Delete Account
+"delete_account_title" = "Delete Account";
+"delete_account_subtitle" = "This will permanently delete your data.";
+"delete_account_message" = "Enter your password to delete your account.";
+
+// MARK: Input Hints
+
+"input_fullName" = "Full name";
+"input_email" = "Email address";
+"input_email_current" = "Current email address";
+"input_email_new" = "New email address";
+"input_password" = "Password";
+"input_password_confirm" = "Confirm password";
+"input_password_current" = "Current password";
+"input_feedback" = "Write your feedback.";
+
+// MARK: Authentication
+
+"login_title" = "Login.";
+"sign_in_subtitle" = "Enter your email and password.";
+"login_button" = "Login";
+
+"register_title" = "Register.";
+"sign_up_subtitle" = "Enter your credentials.";
+"register_button" = "Register";
+"select_your_city" = "Select your city:";
+
+"already_a_member?" = "Already a member?";
+"new_member?" = "New member?";
+
+// MARK: Forgot Password
+
+"forgot_password" = "Forgot Password?";
+"reset_password_title" = "Password Recovery";
+"reset_password_subtitle" = "Enter your current email address to receive a password reset link.";
+"send_reset_link_button" = "Send Link";
+
+"sent_link_title" = "Link Sent.";
+"sent_link_message" = "A password reset link has been sent to your email.";
+
+// MARK: QR-Code Screen
+
+"qrcode_screen_message" = "Scan the QR Code:";
+"qrcode_not_available" = "QR Code not available.";
+"scanning_successful" = "Scan successful!";
+"bonuses_credited" = "Bonuses have been credited to your account.";
+"loading_user_data" = "Loading user data...";
+"allow_camera" = "Camera Access";
+"camera_access_required" = "Camera access is required to scan the code";
+"go_to_settings" = "Go to settings?";
+"error_missing_full_name" = "Error: Full name is missing.";
+"error_generating_qrcode" = "Error generating QR code.";
+
+// MARK: Map
+
+"transportation_type" = "Transportation:";
+"payment_label" = "Payment:";
+"street_label" = "Street:";
+"schedule_label" = "Schedule:";
+"payment_methods" = "Cash, ApplePay";
+"show_route" = "Show Route";
+"hide_route" = "Hide Route";
+
+// MARK: Update Email Screen
+
+"update_email_button" = "Update Email";
+
+// MARK: Email Status
+
+"email_status_label" = "Email Status:";
+"email_status_verified" = "Verified.";
+"email_status_unverified" = "Not Verified.";
+"email_status_unverified_hint" = "A confirmation link was sent to the provided email address.";
+
+// MARK: Support Screen
+"feedback_success_alert_message" = "Feedback sent successfully";
+"feedback_section_header" = "Submit Your Feedback";
+"feedback_section_footer" = "Please use polite language in your messages.";

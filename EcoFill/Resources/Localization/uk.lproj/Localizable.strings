@@ -1,0 +1,148 @@
+/* 
+  Localizable.strings
+  EcoFill
+
+  Created by Alexander Andrianov on 28.03.2025.
+  
+*/
+
+// MARK: City
+
+"Mykolaiv" = "Миколаїв";
+"Kyiv" = "Київ";
+"Odesa" = "Одеса";
+
+// MARK: Common
+
+"Cancel" = "Скасувати";
+"Confirm" = "Підтвердити";
+"Done" = "Готово";
+"Delete" = "Видалити";
+"Edit" = "Редагувати";
+"Back" = "Назад";
+"Password" = "Пароль";
+"Thanks" = "Дякую";
+
+// MARK: Tabs
+
+"Home" = "Головна";
+"Map" = "Карта";
+"Profile" = "Профіль";
+
+// MARK: Cell's title and subtitle
+
+"qrcode_title" = "QR-код";
+"qrcode_subtitle" = "Скануй свій код для отримання бонусів.";
+
+"support_title" = "Підтримка";
+"support_subtitle" = "Надішліть відгук про нас.";
+
+"settings_title" = "Налаштування";
+"settings_subtitle" = "Змінити особисті дані.";
+
+"rate_us_title" = "Оцінити нас";
+"rate_us_subtitle" = "Допоможіть людям дізнатися про нас.";
+
+"sign_out_title" = "Вийти";
+"sign_out_subtitle" = "Вийти з облікового запису.";
+"sign_out_alert_message" = "Ця дія перенаправить вас на екран авторизації.";
+
+// Color Theme Picker
+"color_theme_label" = "Колірна схема:";
+"theme_system" = "Системна";
+"theme_light" = "Світла";
+"theme_dark" = "Темна";
+
+// Language Picker
+"language_label" = "Мова:";
+"language_english" = "Англійська";
+"language_ukrainian" = "Українська";
+
+// Update Email
+"updateEmail_title" = "Оновлення пошти";
+"updateEmail_subtitle" = "Оновити адрес електронної пошти.";
+
+// Delete Account
+"delete_account_title" = "Видалити акаунт";
+"delete_account_subtitle" = "Це назавжди видалить ваші дані.";
+"delete_account_message" = "Введіть власний пароль, щоб видалити свій обліковий запис.";
+
+
+// MARK: Input Hints
+
+"input_fullName" = "Ім'я та прізвище";
+"input_email" = "Електронна адреса";
+"input_email_current" = "Потомчна адреса електроної пошти";
+"input_email_new" = "Нова адреса електронної пошти";
+"input_password" = "Пароль";
+"input_password_current" = "Поточний пароль";
+"input_feedback" = "Напишіть ваш відгук.";
+
+// MARK: Authentication
+
+"sign_in_title" = "Авторизація.";
+"sign_in_subtitle" = "Введіть пошту та пароль.";
+"sign_in_button" = "Увійти";
+
+"sign_up_title" = "Реєстрація.";
+"sign_up_subtitle" = "Заповніть усі поля.";
+"sign_up_button" = "Зареєструватись";
+"select_your_city" = "Оберіть своє місто:";
+
+"already_a_member?" = "Вже є обліковий запис?";
+"new_member?" = "Немає облікового запису?";
+
+// MARK: Forgot Password
+
+"forgot_password" = "Забули пароль?";
+"reset_password_title" = "Відновлення паролю.";
+"reset_password_subtitle" = "Введіть поточну електронну адресу, щоб отримати посилання для відновлення паролю.";
+"send_reset_link_button" = "Надіслати посилання";
+
+"sent_link_title" = "Посилання надіслано.";
+"sent_link_message" = "Посилання для зміни пароля надіслано на електронну пошту.";
+
+// MARK: QRcode Screen
+
+"qrcode_screen_message" = "Скануй QR-код:";
+"qrcode_not_available" = "QR-код недоступний.";
+"scanning_successful" = "Сканування успішне!";
+"bonuses_credited" = "Бонуси успішно зараховано на рахунок.";
+"loading_user_data" = "Завантаження даних користувача...";
+"allow_camera" = "Налаштування камери";
+"camera_access_required" = "Для сканування коду потрібен доступ до камери";
+"go_to_settings" = "Перейти до налаштувань?";
+"error_missing_full_name" = "Помилка: Відсутнє повне ім'я.";
+"error_generating_qrcode" = "Помилка при генерації QR-коду.";
+
+// MARK: Map
+
+"transport_type" = "Тип транспорту:";
+"payment_label" = "Оплата:";
+"street_label" = "Вулиця:";
+"schedule_label" = "Час роботи:";
+"payment_methods" = "Готівка, ApplePay";
+"show_route" = "Показати маршрут";
+"hide_route" = "Сховати маршрут";
+
+// MARK: Update Email Screen
+
+"update_email_button" = "Оновити пошту";
+
+// MARK: Email Status
+
+"email_status_label" = "Статус пошти:";
+"email_status_verified" = "Підтверджено.";
+"email_status_unverified" = "Не підтверджено.";
+"email_status_unverified_hint" = "Посилання для підтвердження надіслано на вказану електронну адресу.";
+
+// MARK: Support Screen
+
+"feedback_success_alert_message" = "Відгук успішно надісланий";
+"feedback_section_header" = "Надішліть свій відгук";
+"feedback_section_footer" = "Будь ласка, використовуйте ввічливу мову у ваших повідомленнях.";
+
+// MARK: Support
+
+"Send Message" = "Надіслати повідомлення";
+"Submit" = "Надіслати";
