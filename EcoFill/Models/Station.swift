@@ -1,4 +1,3 @@
-import Foundation
 import MapKit
 
 struct Station: Decodable, Identifiable, Hashable {
@@ -18,18 +17,4 @@ struct Station: Decodable, Identifiable, Hashable {
       longitude: longitude
     )
   }
-}
-
-extension Station {
-  static let mockStation = Station(
-    id: "mock",
-    city: "Mock City",
-    euroA95: 0.0,
-    euroDP: 0.0,
-    gas: 0.0,
-    latitude: 0.0,
-    longitude: 0.0,
-    schedule: "08:00-20:00",
-    street: "Soborna Street"
-  )
 }
