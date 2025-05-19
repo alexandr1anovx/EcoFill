@@ -24,7 +24,6 @@ struct ForgotPasswordScreen: View {
             Text("reset_password_title")
               .font(.headline)
               .fontWeight(.bold)
-              .foregroundStyle(.primaryLabel)
             Text("reset_password_subtitle")
               .font(.subheadline)
               .foregroundStyle(.gray)
@@ -53,7 +52,7 @@ struct ForgotPasswordScreen: View {
       .submitLabel(.done)
       .onSubmit { fieldContent = nil }
     }
-    .customListSetup(height: 85, rowHeight: 48, shadow: 1.0, scrollDisabled: true)
+    .customListStyle(height: 85, rowHeight: 50, shadow: 1.0, scrollDisabled: true)
   }
   
   private var sendLinkButton: some View {
@@ -68,10 +67,11 @@ struct ForgotPasswordScreen: View {
     } label: {
       ButtonLabel(
         title: "send_reset_link_button",
-        textColor: .primaryText,
-        pouring: .buttonBackground
+        textColor: .white,
+        pouring: .green
       )
     }
+    .padding(.horizontal)
     .disabled(!email.isValidEmail)
     .opacity(!email.isValidEmail ? 0.5 : 1)
     .alert(item: $authViewModel.alertItem) { alert in

@@ -2,15 +2,10 @@ import SwiftUI
 
 struct SignInScreen: View {
   
-  @State private var isFormVisible = false
   @State private var email = ""
   @State private var password = ""
   @FocusState private var fieldContent: InputFieldContent?
   @EnvironmentObject var authViewModel: AuthViewModel
-  
-  private var isValidForm: Bool {
-    email.isValidEmail && password.count > 5
-  }
   
   // MARK: - body
   
@@ -18,33 +13,25 @@ struct SignInScreen: View {
     NavigationStack {
       ZStack {
         Color.appBackground.ignoresSafeArea()
-        VStack(spacing: 20) {
-          Image(.logo)
-            .frame(height: 90)
-          if isFormVisible {
-            AuthHeaderView(for: .signIn)
-            textFields
-            signInButton
+        VStack(spacing:20) {
+          inputView.padding(.top)
+          signInButton
+          HStack {
             forgotPasswordButton
-            signUpOption
-          }
+            Spacer()
+            registerOptionView
+          }.padding(.horizontal,20)
           Spacer()
         }
-        .padding(.top)
       }
-      .onAppear {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-          withAnimation(.spring(duration: 0.8)) {
-            isFormVisible = true
-          }
-        }
-      }
+      .navigationTitle("Login")
+      .navigationBarTitleDisplayMode(.large)
     }
   }
   
   // MARK: - Auxilary UI Components
   
-  private var textFields: some View {
+  private var inputView: some View {
     List {
       DefaultTextField(
         inputData: $email,
@@ -67,10 +54,10 @@ struct SignInScreen: View {
       .submitLabel(.done)
       .onSubmit { fieldContent = nil }
     }
-    .customListSetup(
-      height: 145,
+    .customListStyle(
+      height: 150,
       rowHeight: 50,
-      rowSpacing: 8,
+      rowSpacing: 10,
       shadow: 1,
       scrollDisabled: true
     )
@@ -84,13 +71,14 @@ struct SignInScreen: View {
       }
     } label: {
       ButtonLabel(
-        title: "sign_in_button",
-        textColor: .primaryText,
-        pouring: .buttonBackground
+        title: "login_button",
+        textColor: .white,
+        pouring: .green
       )
     }
-    .disabled(!isValidForm)
-    .opacity(!isValidForm ? 0.5 : 1)
+    .padding(.horizontal)
+    .disabled(email.isEmpty && password.isEmpty)
+    .opacity(email.isEmpty && password.isEmpty ? 0.4 : 1)
     .alert(item: $authViewModel.alertItem) { alert in
       Alert(
         title: alert.title,
@@ -105,24 +93,23 @@ struct SignInScreen: View {
       ForgotPasswordScreen()
     } label: {
       Text("forgot_password")
-        .font(.caption)
-        .fontWeight(.semibold)
+        .font(.caption2)
+        .fontWeight(.medium)
         .foregroundStyle(.gray)
-        .underline(true)
+        .underline()
     }
   }
   
-  private var signUpOption: some View {
+  private var registerOptionView: some View {
     HStack(spacing: 5) {
       Text("new_member?").foregroundStyle(.gray)
       NavigationLink {
         SignUpScreen()
       } label: {
-        Text("sign_up_title").foregroundStyle(.primaryLabel)
+        Text("register_title").fontWeight(.semibold)
       }
     }
     .font(.footnote)
-    .fontWeight(.semibold)
   }
 }
 

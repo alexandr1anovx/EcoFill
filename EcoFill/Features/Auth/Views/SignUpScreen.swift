@@ -5,6 +5,7 @@ struct SignUpScreen: View {
   @State private var fullName = ""
   @State private var emailAddress = ""
   @State private var password = ""
+  @State private var confirmedPassword = ""
   @State private var selectedCity = City.mykolaiv
   @FocusState private var fieldContent: InputFieldContent?
   @EnvironmentObject var authViewModel: AuthViewModel
@@ -16,30 +17,27 @@ struct SignUpScreen: View {
     && password.count > 5
   }
   
-  // MARK: - Initializer
-  
-  init() { setupSegmentedControlUI() }
-  
   // MARK: - body
   
   var body: some View {
     ZStack {
       Color.appBackground.ignoresSafeArea()
-      VStack(spacing:20) {
-        AuthHeaderView(for: .signUp)
-        textFields
-        cityPicker.padding(.horizontal,23)
-        signUpButton
-        signInOption
-        Spacer()
+      ScrollView {
+        VStack(spacing:20) {
+          inputView
+          cityPickerView.padding(.horizontal)
+          signUpButton
+          loginOptionView
+        }
       }
-      .padding(.top)
     }
+    .navigationTitle("Registration")
+    .navigationBarTitleDisplayMode(.inline)
   }
   
   // MARK: - Auxilary UI Components
   
-  private var textFields: some View {
+  private var inputView: some View {
     List {
       DefaultTextField(
         inputData: $fullName,
@@ -73,7 +71,7 @@ struct SignUpScreen: View {
       .onSubmit { fieldContent = .confirmPassword }
       
       SecuredTextField(
-        inputData: $password,
+        inputData: $confirmedPassword,
         iconName: "lock",
         hint: "input_password_confirm"
       )
@@ -81,8 +79,8 @@ struct SignUpScreen: View {
       .submitLabel(.done)
       .onSubmit { fieldContent = nil }
     }
-    .customListSetup(
-      height: 265,
+    .customListStyle(
+      height: 260,
       rowHeight: 50,
       rowSpacing: 8,
       shadow: 1.0,
@@ -90,8 +88,8 @@ struct SignUpScreen: View {
     )
   }
   
-  private var cityPicker: some View {
-    VStack(alignment: .leading, spacing:12) {
+  private var cityPickerView: some View {
+    HStack(spacing:0) {
       Text("select_your_city")
         .font(.footnote)
         .foregroundStyle(.gray)
@@ -99,7 +97,7 @@ struct SignUpScreen: View {
         ForEach(City.allCases) { city in
           Text(city.title)
         }
-      }.pickerStyle(.segmented)
+      }.pickerStyle(.menu)
     }
   }
   
@@ -115,13 +113,14 @@ struct SignUpScreen: View {
       }
     } label: {
       ButtonLabel(
-        title: "sign_up_button",
-        textColor: .primaryText,
-        pouring: .buttonBackground
+        title: "register_button",
+        textColor: .white,
+        pouring: .green
       )
     }
+    .padding(.horizontal)
     .disabled(!isValidForm)
-    .opacity(!isValidForm ? 0.5 : 1)
+    .opacity(!isValidForm ? 0.4 : 1)
     .alert(item: $authViewModel.alertItem) { alert in
       Alert(
         title: alert.title,
@@ -131,18 +130,18 @@ struct SignUpScreen: View {
     }
   }
   
-  private var signInOption: some View {
+  private var loginOptionView: some View {
     Button {
       dismiss()
     } label: {
       HStack(spacing:6) {
         Text("already_a_member?")
           .foregroundStyle(.gray)
-        Text("sign_in_title")
-          .foregroundStyle(.primaryLabel)
+        Text("login_title")
+          .fontWeight(.semibold)
+          .underline()
       }
       .font(.footnote)
-      .fontWeight(.semibold)
     }
   }
 }

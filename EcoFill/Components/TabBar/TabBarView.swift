@@ -41,9 +41,9 @@ struct TabBarView: View {
           }
         }
         .padding(11)
-        .background(.buttonBackground)
+        .background(.black)
         .clipShape(.capsule)
-        .padding(.horizontal, 30)
+        .padding(.horizontal,40)
         .shadow(radius: 2)
       }
     }
@@ -56,4 +56,3 @@ struct TabBarView: View {
     .environmentObject(AuthViewModel.previewMode)
     .environmentObject(StationViewModel.previewMode)
 }
-

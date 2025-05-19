@@ -1,40 +1,34 @@
 import SwiftUI
 
 struct UserDataHeader: View {
-  @EnvironmentObject var userVM: AuthViewModel
+  @EnvironmentObject var authViewModel: AuthViewModel
   
   var body: some View {
-    if let user = userVM.currentUser {
+    if let user = authViewModel.currentUser {
       HStack {
-        VStack(alignment: .leading, spacing: 15) {
+        VStack(alignment: .leading, spacing: 12) {
           Text(user.fullName)
             .font(.callout)
             .fontWeight(.semibold)
-            .foregroundStyle(.primaryLabel)
           Text(user.email)
-            .font(.system(size: 14))
-            .fontWeight(.medium)
+            .font(.footnote)
             .foregroundStyle(.gray)
         }
         Spacer()
-        HStack(spacing: 8) {
-          Image(.marker)
-            .foregroundStyle(.primaryIcon)
-          Text(user.localizedCity)
-            .font(.footnote)
-            .fontWeight(.medium)
-            .foregroundStyle(.gray)
-        }
-      }.padding(20)
+        Label(user.localizedCity, image: .marker)
+          .foregroundStyle(.green)
+      }
+      .padding(20)
     } else {
-      ProgressView()
+      HStack {
+        Text("Loading...")
+        ProgressView()
+      }
     }
   }
 }
 
 #Preview {
   UserDataHeader()
-    .environmentObject(AuthViewModel())
-    .environmentObject(MapViewModel())
+    .environmentObject(AuthViewModel.previewMode)
 }
-

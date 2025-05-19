@@ -22,14 +22,13 @@ struct TabBarButton: View {
     } label: {
       HStack(spacing: 10) {
         Image(systemName: imageName)
-          .foregroundStyle(.primaryText)
         if selectedTab == tab {
           Text(title)
             .font(.callout)
             .fontWeight(.semibold)
-            .foregroundStyle(.primaryText)
         }
       }
+      .foregroundStyle(.white)
       .padding(.vertical, 12)
       .padding(.horizontal)
       .background(.white.opacity(selectedTab == tab ? 0.1 : 0.0))
