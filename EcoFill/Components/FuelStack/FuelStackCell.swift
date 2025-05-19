@@ -20,18 +20,18 @@ struct FuelStackCell: View {
   let price: Double
   
   var body: some View {
-    HStack(spacing: 10) {
-      Text(type.title)
+    HStack(spacing:5) {
+      Text("\(type.title):")
         .font(.subheadline)
         .fontWeight(.bold)
         .foregroundStyle(.white)
-      Text("\(price, specifier: "₴%.2f")")
-        .font(.poppins(.bold, size: 15))
-        .foregroundStyle(.primaryLime)
+      Text(price, format: .currency(code: "UAH"))
+        .font(.poppins(.bold, size: 14))
+        .foregroundStyle(.black)
     }
-    .padding(14)
-    .background(.buttonBackground)
-    .clipShape(.rect(cornerRadius: 15))
+    .padding(13)
+    .background(.green)
+    .clipShape(.rect(cornerRadius: 14))
   }
 }
 

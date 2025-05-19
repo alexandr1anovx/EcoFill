@@ -22,7 +22,7 @@ struct ExtendedTextField: View {
     HStack(spacing: 15) {
       Image(systemName: iconName)
         .frame(width: 18, height: 18)
-        .foregroundStyle(.primaryIcon)
+        .foregroundStyle(.green)
       TextField(hint, text: $inputData, axis: .vertical)
         .font(.subheadline)
       HStack(spacing: 3) {
