@@ -1,31 +1,6 @@
 import FirebaseFirestore
 import FirebaseAuth
-import SwiftUI
-
-enum UserDataTextFieldContent {
-  case fullName
-  case emailAddress
-  case password
-  case supportMessage
-}
-
-enum EmailStatus {
-  case verified, unverified
-  
-  var message: LocalizedStringKey {
-    switch self {
-    case .verified: "email_status_verified"
-    case .unverified: "email_status_unverified"
-    }
-  }
-  
-  var hint: LocalizedStringKey {
-    switch self {
-    case .verified: ""
-    case .unverified: "email_status_unverified_hint"
-    }
-  }
-}
+import SwiftUICore
 
 @MainActor
 final class AuthViewModel: ObservableObject {
@@ -36,41 +11,51 @@ final class AuthViewModel: ObservableObject {
   @Published var emailStatus: EmailStatus = .unverified
   @Published var alertItem: AlertItem?
   
-  private let authService: AuthServiceProtocol
-  private let userService: UserServiceProtocol
+  // MARK: - Private Properties
   
-  init(container: DependencyContainer = .shared) {
-    self.authService = container.authService
-    self.userService = container.userService
-    self.userSession = authService.userSession
-    
-    Task {
-      await fetchUser()
+  private let authService: AuthServiceProtocol
+  private var authStateListener: AuthStateDidChangeListenerHandle?
+  
+  // MARK: - Init / Deinit
+  
+  init(authService: AuthService = AuthService()) {
+    self.authService = authService
+    setupAuthListener()
+  }
+  deinit {
+    if let handle = authStateListener {
+      Auth.auth().removeStateDidChangeListener(handle)
     }
   }
   
   // MARK: - Public Methods
   
   func signUp(
-    withFullName fullName: String,
+    fullName: String,
     email: String,
     password: String,
     city: City
   ) async {
     do {
-      try await authService.signUp(withFullName: fullName, email: email, password: password, city: city.rawValue.capitalized)
-      self.userSession = authService.userSession
-      await fetchUser()
+      let user = try await authService.signUp(email: email, password: password)
+      let newUser = User(
+        id: user.uid,
+        fullName: fullName,
+        email: email,
+        city: city.rawValue.capitalized,
+        points: Int.random(in: 0...8)
+      )
+      try await authService.saveUserData(for: newUser)
+      self.currentUser = newUser
     } catch {
       alertItem = RegistrationAlertContext.userExists
+      print("❌ Registration failed: \(error.localizedDescription)")
     }
   }
   
-  func signIn(withEmail email: String, password: String) async {
+  func signIn(email: String, password: String) async {
     do {
-      try await authService.signIn(withEmail: email, password: password)
-      self.userSession = authService.userSession
-      await fetchUser()
+      try await authService.signIn(email: email, password: password)
     } catch {
       alertItem = RegistrationAlertContext.userDoesNotExists
     }
@@ -79,7 +64,7 @@ final class AuthViewModel: ObservableObject {
   func signOut() {
     do {
       try authService.signOut()
-      self.userSession = nil
+      //self.userSession = nil
       self.currentUser = nil
     } catch {
       alertItem = ProfileAlertContext.failedToSignOut
@@ -90,7 +75,7 @@ final class AuthViewModel: ObservableObject {
     do {
       try await authService.deleteUser(withPassword: password)
       alertItem = ProfileAlertContext.successfullAccountDeletion
-      userSession = nil
+      //userSession = nil
       currentUser = nil
     } catch {
       alertItem = ProfileAlertContext.unsuccessfullAccountDeletion
@@ -98,13 +83,12 @@ final class AuthViewModel: ObservableObject {
   }
   
   func updateEmail(
-    toEmail newEmail: String,
+    toEmail email: String,
     withPassword password: String
   ) async {
     do {
-      try await authService.updateEmail(toEmail: newEmail, withPassword: password)
+      try await authService.updateEmail(toEmail: email, withPassword: password)
       alertItem = ProfileAlertContext.confirmationLinkSent
-      await fetchUser()
     } catch {
       alertItem = ProfileAlertContext.unsuccessfullEmailUpdate
     }
@@ -114,9 +98,9 @@ final class AuthViewModel: ObservableObject {
     emailStatus = authService.checkEmailStatus()
   }
   
-  func sendPasswordReset(to email: String) async {
+  func sendPasswordResetLink(email: String) async {
     do {
-      try await authService.sendPasswordReset(to: email)
+      try await authService.sendPasswordResetLink(email: email)
       alertItem = PasswordResetAlertContext.resetLinkSent
     } catch {
       alertItem = PasswordResetAlertContext.resetLinkFailed
@@ -125,13 +109,55 @@ final class AuthViewModel: ObservableObject {
   
   // MARK: - Private Methods
   
-  private func fetchUser() async {
+  private func setupAuthListener() {
+    authStateListener = Auth.auth()
+      .addStateDidChangeListener { [weak self] _, user in
+        guard let self = self else { return }
+        self.userSession = user
+        
+        if user == nil {
+          self.currentUser = nil
+        } else {
+          Task { await self.getUserData() }
+        }
+      }
+  }
+  
+  private func getUserData() async {
     guard let uid = userSession?.uid else { return }
     do {
-      self.currentUser = try await userService.fetchUser(withId: uid)
+      self.currentUser = try await authService.getUserData(for: uid)
     } catch {
-      // Handle error
+      print("‼️ Failed to get user data: \(error)")
     }
   }
 }
 
+// MARK: - Email Status
+
+enum EmailStatus {
+  case verified, unverified
+  
+  var message: LocalizedStringKey {
+    switch self {
+    case .verified: "email_status_verified"
+    case .unverified: "email_status_unverified"
+    }
+  }
+  var hint: LocalizedStringKey {
+    switch self {
+    case .verified: ""
+    case .unverified: "email_status_unverified_hint"
+    }
+  }
+}
+
+// MARK: - Preview Mode Extension
+
+extension AuthViewModel {
+  static var previewMode: AuthViewModel {
+    let viewModel = AuthViewModel()
+    viewModel.currentUser = MockData.user
+    return viewModel
+  }
+}
