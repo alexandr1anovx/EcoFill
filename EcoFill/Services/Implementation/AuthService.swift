@@ -1,4 +1,3 @@
-import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 
@@ -10,80 +9,89 @@ enum AuthError: Error {
 
 final class AuthService: AuthServiceProtocol {
   
-  var userSession: FirebaseAuth.User? {
-    Auth.auth().currentUser
+  // MARK: - Private Properties
+  
+  private let database = Firestore.firestore()
+  
+  // MARK: - Public Methods
+  
+  func signIn(email: String, password: String) async throws {
+    try await Auth.auth().signIn(withEmail: email, password: password)
   }
   
-  private let userCollection = Firestore.firestore().collection("users")
-  
-  func signUp(
-    withFullName fullName: String,
-    email: String,
-    password: String,
-    city: String
-  ) async throws {
-    let result = try await Auth.auth().createUser(
+  func signUp(email: String, password: String) async throws -> FirebaseAuth.User {
+    let authResult = try await Auth.auth().createUser(
       withEmail: email, password: password
     )
-    try await result.user.sendEmailVerification()
-    
-    let user = User(id: result.user.uid, fullName: fullName, email: email, city: city, points: 0)
-    
-    let encodedUser = try Firestore.Encoder().encode(user)
-    let document = userCollection.document(user.id)
-    try await document.setData(encodedUser)
-  }
-  
-  func signIn(withEmail email: String, password: String) async throws {
-    try await Auth.auth().signIn(
-      withEmail: email, password: password
-    )
+    return authResult.user
   }
   
   func signOut() throws {
     try Auth.auth().signOut()
   }
   
-  func deleteUser(withPassword password: String) async throws {
-    guard let user = userSession else { throw AuthError.userNotFound }
-    guard let userEmail = user.email else { throw AuthError.emailNotFound }
-    
-    let userCredential = EmailAuthProvider.credential(
-      withEmail: userEmail, password: password
+  func saveUserData(for user: User) async throws {
+    let encodedUser = try Firestore.Encoder().encode(user)
+    let userDocument = database
+      .collection("users")
+      .document(user.id)
+    try await userDocument.setData(encodedUser)
+  }
+  
+  func deleteUser(withPassword: String) async throws {
+    guard let user = Auth.auth().currentUser,
+            let email = user.email else {
+      throw AuthErrorCode(.userNotFound)
+    }
+    let credential = EmailAuthProvider.credential(
+      withEmail: email, password: withPassword
     )
-    try await user.reauthenticate(with: userCredential)
+    try await user.reauthenticate(with: credential)
     
-    // Delete user from the collection
-    let userRef = userCollection.document(user.uid)
-    try await userRef.delete()
-    
-    // Delete user from authentication section
-    try await user.delete()
+    try await database
+      .collection("users")
+      .document(user.uid)
+      .delete() // deletes a user from the collection
+    try await user.delete() // deletes a user from the authentication section
   }
   
   func updateEmail(
-    toEmail newEmail: String,
+    toEmail email: String,
     withPassword password: String
   ) async throws {
-    guard let user = userSession else { throw AuthError.userNotFound }
+    guard let user = Auth.auth().currentUser else { throw AuthError.userNotFound }
     guard let userEmail = user.email else { throw AuthError.emailNotFound }
     
     let credentials = EmailAuthProvider.credential(
       withEmail: userEmail, password: password
     )
     try await user.reauthenticate(with: credentials)
-    try await user.sendEmailVerification(beforeUpdatingEmail: newEmail)
+    try await user.sendEmailVerification(beforeUpdatingEmail: email)
     
-    let document = userCollection.document(user.uid)
-    try await document.updateData(["email": newEmail])
+    try await database
+      .collection("users")
+      .document(user.uid)
+      .updateData(["email": email])
   }
   
   func checkEmailStatus() -> EmailStatus {
-    guard let user = userSession else { return .unverified }
+    guard let user = Auth.auth().currentUser else { return .unverified }
     return user.isEmailVerified ? .verified : .unverified
   }
   
-  func sendPasswordReset(to email: String) async throws {
+  func sendPasswordResetLink(email: String) async throws {
     try await Auth.auth().sendPasswordReset(withEmail: email)
+  }
+  
+  func getUserData(for userID: String) async throws -> User {
+    let snapshot = try await database
+      .collection("users")
+      .document(userID)
+      .getDocument()
+    
+    guard let user = try? snapshot.data(as: User.self) else {
+      throw AuthErrorCode(.invalidEmail)
+    }
+    return user
   }
 }
