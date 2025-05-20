@@ -19,6 +19,7 @@ struct StationListCell: View {
       cell(image: .clock, title: "schedule_label", data: station.schedule)
       cell(image: .money, title: "payment_label", data: station.paymentMethods)
       transportationOptionsView
+      FuelStackView(for: station)
       routeButton
       // to prevent the entire cell from responding to a click.
         .buttonStyle(.plain)
