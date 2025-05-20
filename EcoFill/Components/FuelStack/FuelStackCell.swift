@@ -27,11 +27,11 @@ struct FuelStackCell: View {
         .foregroundStyle(.white)
       Text(price, format: .currency(code: "UAH"))
         .font(.poppins(.bold, size: 14))
-        .foregroundStyle(.black)
+        .foregroundStyle(.accent)
     }
-    .padding(13)
-    .background(.accent)
-    .clipShape(.rect(cornerRadius: 14))
+    .padding(12)
+    .background(.black)
+    .clipShape(.capsule)
   }
 }
 

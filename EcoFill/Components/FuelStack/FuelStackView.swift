@@ -16,6 +16,10 @@ struct FuelStackView: View {
       }
     }
     .scrollIndicators(.hidden)
-    .shadow(radius: 6)
+    .shadow(color: .primary, radius: 1)
   }
+}
+
+#Preview {
+  FuelStackView(for: MockData.station)
 }
