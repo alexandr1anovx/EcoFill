@@ -24,4 +24,6 @@ iOS application designed for a network of gas stations, built using SwiftUI and 
   <img src="app-screenshots/3-Home.png" width="150" alt="Home" />
   <img src="app-screenshots/4-MapItem.png" width="150" alt="MapItem" />
   <img src="app-screenshots/5-MapList.png" width="150" alt="MapList" />
+  <img src="app-screenshots/6-Profile.png" width="150" alt="Profile" />
+  <img src="app-screenshots/7-EmailUpdate.png" width="150" alt="EmailUpdate" />
 </p>

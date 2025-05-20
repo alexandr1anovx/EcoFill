@@ -7,16 +7,16 @@ struct MapItemView: View {
   private let transportTypes = MKDirectionsTransportType.allCases
   @EnvironmentObject var mapViewModel: MapViewModel
   
-  // MARK:  - body
+  // MARK: - body
   
   var body: some View {
     ZStack {
       Color.appBackground.ignoresSafeArea()
       VStack(alignment: .leading, spacing:17) {
         Spacer()
-        addressView
-        scheduleView
-        paymentView
+        cell(image: .marker, title: "street_label", data: station.street)
+        cell(image: .clock, title: "schedule_label", data: station.schedule)
+        cell(image: .money, title: "payment_label", data: station.paymentMethods)
         transportTypesView
         FuelStackView(for: station)
         routeButton
@@ -25,41 +25,17 @@ struct MapItemView: View {
     }
   }
   
-  // MARK:  - Auxilary UI Components
+  // MARK: - Auxilary UI Components
   
-  private var addressView: some View {
+  private func cell(
+    image: ImageResource,
+    title: LocalizedStringKey,
+    data: String
+  ) -> some View {
     HStack(spacing:8) {
-      Image(.marker)
-        .foregroundStyle(.green)
-      Text("street_label")
-        .foregroundStyle(.gray)
-      Text(station.street)
-        .lineLimit(2)
-        .multilineTextAlignment(.leading)
-    }
-    .font(.footnote)
-    .fontWeight(.medium)
-  }
-  
-  private var scheduleView: some View {
-    HStack(spacing:8) {
-      Image(.clock)
-        .foregroundStyle(.green)
-      Text("schedule_label")
-        .foregroundStyle(.gray)
-      Text(station.schedule)
-    }
-    .font(.footnote)
-    .fontWeight(.medium)
-  }
-  
-  private var paymentView: some View {
-    HStack(spacing:8) {
-      Image(.money)
-        .foregroundStyle(.green)
-      Text("payment_label")
-        .foregroundStyle(.gray)
-      Text("payment_methods")
+      Image(image).foregroundStyle(.accent)
+      Text(title).foregroundStyle(.gray)
+      Text(data)
     }
     .font(.footnote)
     .fontWeight(.medium)
@@ -72,7 +48,7 @@ struct MapItemView: View {
       .foregroundStyle(.white)
       .padding(10)
       .background(
-        type == mapViewModel.selectedTransport ? .green : .black
+        type == mapViewModel.selectedTransport ? .accent : .black
       )
       .clipShape(.capsule)
       .animation(.spring, value: mapViewModel.selectedTransport)
@@ -117,7 +93,7 @@ struct MapItemView: View {
           title: "show_route",
           iconName: "arrow.trianglehead.branch",
           textColor: .black,
-          pouring: .green
+          pouring: .accent
         )
       }
     }

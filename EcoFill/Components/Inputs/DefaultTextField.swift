@@ -10,7 +10,7 @@ struct DefaultTextField: View {
     HStack(spacing:15) {
       Image(systemName: iconName)
         .frame(width: 18, height: 18)
-        .foregroundStyle(.green)
+        .foregroundStyle(.accent)
       TextField(hint, text: $inputData)
         .font(.subheadline)
     }

@@ -8,8 +8,9 @@ struct Station: Decodable, Identifiable, Hashable {
   let gas: Double
   let latitude: Double
   let longitude: Double
-  let schedule: String
   let street: String
+  let schedule: String
+  let paymentMethods: String
   
   var coordinate: CLLocationCoordinate2D {
     CLLocationCoordinate2D(

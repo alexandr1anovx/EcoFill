@@ -37,7 +37,7 @@ struct LanguagePickerView: View {
         ForEach(Language.allCases) { language in
           Text(language.title)
         }
-      }.tint(.primary)
+      }
     }
   }
 }

@@ -63,7 +63,7 @@ struct MapScreen: View {
         .font(.footnote)
         .foregroundStyle(.black)
         .padding(8)
-        .background(.green)
+        .background(.accent)
         .clipShape(.circle)
     }
   }

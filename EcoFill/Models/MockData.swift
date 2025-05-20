@@ -23,7 +23,8 @@ struct MockData {
     gas: 20.0,
     latitude: 46.968629,
     longitude: 31.957523,
+    street: "Unknown street",
     schedule: "08:00-20:00",
-    street: "Unknown street"
+    paymentMethods: "Apple Pay, Cash"
   )
 }

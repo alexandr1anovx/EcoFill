@@ -316,8 +316,8 @@
 		D15EC36C2D948E7F001AACE6 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				D18A97DD2DDAB63E0086B0F7 /* ListItem.swift */,
 				32F5578A2CBF6AD100CB3CA4 /* ListCell.swift */,
+				D18A97DD2DDAB63E0086B0F7 /* ListItem.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";

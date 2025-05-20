@@ -115,7 +115,7 @@ struct SignUpScreen: View {
       ButtonLabel(
         title: "register_button",
         textColor: .white,
-        pouring: .green
+        pouring: .accent
       )
     }
     .padding(.horizontal)

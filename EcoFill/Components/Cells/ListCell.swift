@@ -23,7 +23,8 @@ struct ListCell: View {
         Text(item.title)
           .font(.subheadline)
           .fontWeight(.medium)
-          .foregroundStyle(.primary)
+          .tint(.primary)
+          //.foregroundStyle(.primary)
         if let subtitle = item.subtitle {
           Text(subtitle)
             .font(.caption2)

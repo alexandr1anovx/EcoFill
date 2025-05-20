@@ -59,6 +59,7 @@ struct SettingScreen: View {
     } label: {
       ListCell(for: .deleteAccount)
     }
+    
     .alert("Delete Account", isPresented: $isShownDeletetionAlert) {
       Button("Cancel", role: .cancel) { password = "" }
       Button("Yes, I'm sure") { isShownPasswordSheet = true }

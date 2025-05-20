@@ -38,7 +38,7 @@ struct SecuredTextField: View {
         HStack(spacing: 15) {
           Image(systemName: iconName)
             .frame(width: 18, height: 18)
-            .foregroundStyle(.green)
+            .foregroundStyle(.accent)
           TextField(hint, text: $inputData)
             .focused($fieldStatus, equals: .notSecured)
             .font(.subheadline)
@@ -48,7 +48,7 @@ struct SecuredTextField: View {
         HStack(spacing: 15) {
           Image(systemName: iconName)
             .frame(width: 18, height: 18)
-            .foregroundStyle(.green)
+            .foregroundStyle(.accent)
           SecureField(hint, text: $inputData)
             .focused($fieldStatus, equals: .secured)
             .font(.subheadline)

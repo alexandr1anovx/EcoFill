@@ -51,7 +51,7 @@ struct QRCodeScreen: View {
                   .fontWeight(.semibold)
               } icon: {
                 Image(systemName: "checkmark.circle.fill")
-                  .foregroundStyle(.green)
+                  .foregroundStyle(.accent)
               }
               Text("bonuses_credited")
                 .font(.subheadline)
@@ -120,4 +120,5 @@ struct QRCodeScreen: View {
 
 #Preview {
   QRCodeScreen()
+    .environmentObject(AuthViewModel.previewMode)
 }

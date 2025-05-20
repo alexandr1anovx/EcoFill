@@ -73,7 +73,7 @@ struct SignInScreen: View {
       ButtonLabel(
         title: "login_button",
         textColor: .white,
-        pouring: .green
+        pouring: .accent
       )
     }
     .padding(.horizontal)

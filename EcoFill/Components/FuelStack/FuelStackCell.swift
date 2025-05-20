@@ -30,7 +30,7 @@ struct FuelStackCell: View {
         .foregroundStyle(.black)
     }
     .padding(13)
-    .background(.green)
+    .background(.accent)
     .clipShape(.rect(cornerRadius: 14))
   }
 }

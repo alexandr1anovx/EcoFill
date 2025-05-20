@@ -16,7 +16,7 @@ struct UserDataHeader: View {
         }
         Spacer()
         Label(user.localizedCity, image: .marker)
-          .foregroundStyle(.green)
+          .foregroundStyle(.accent)
       }
       .padding(20)
     } else {

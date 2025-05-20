@@ -70,7 +70,7 @@ struct UpdateEmailScreen: View {
       .submitLabel(.done)
       .onSubmit { fieldContent = nil }
     }
-    .customListStyle(scrollDisabled: true, height: 195, shadow: 1)
+    .customListStyle(rowHeight: 50, scrollDisabled: true, height: 195, shadow: 1)
   }
   
   private var emailStatusView: some View {
@@ -81,7 +81,7 @@ struct UpdateEmailScreen: View {
         Text(authViewModel.emailStatus.message)
           .fontWeight(.bold)
           .foregroundStyle(
-            authViewModel.emailStatus == .verified ? .green : .red
+            authViewModel.emailStatus == .verified ? .accent : .red
           )
       }
       .font(.footnote)
@@ -102,9 +102,10 @@ struct UpdateEmailScreen: View {
       ButtonLabel(
         title: "update_email_button",
         textColor: .white,
-        pouring: .green
+        pouring: .accent
       )
     }
+    .padding(.horizontal)
     .disabled(!isValidForm)
     .opacity(!isValidForm ? 0.5 : 1)
     .alert(item: $authViewModel.alertItem) { alert in

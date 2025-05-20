@@ -61,8 +61,8 @@ enum ListItem {
   
   var iconColor: Color {
     switch self {
-    case .qrCode: Color.green
-    case .support: Color.green
+    case .qrCode: Color.accent
+    case .support: Color.accent
     case .settings: Color.primary
     case .rateUs: Color.orange
     case .signOut: Color.red

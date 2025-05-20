@@ -68,7 +68,7 @@ struct ForgotPasswordScreen: View {
       ButtonLabel(
         title: "send_reset_link_button",
         textColor: .white,
-        pouring: .green
+        pouring: .accent
       )
     }
     .padding(.horizontal)
@@ -87,7 +87,7 @@ struct ForgotPasswordScreen: View {
     VStack(spacing: 20) {
       Image(systemName: "checkmark.circle.fill")
         .font(.largeTitle)
-        .foregroundStyle(.green)
+        .foregroundStyle(.accent)
       Text("sent_link_title")
         .font(.title3)
         .fontWeight(.bold)

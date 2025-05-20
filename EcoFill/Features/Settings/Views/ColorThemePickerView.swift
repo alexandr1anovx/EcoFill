@@ -35,7 +35,6 @@ struct ColorThemePickerView: View {
           Text(theme.title)
         }
       }
-      .tint(.primary)
     }
   }
 }

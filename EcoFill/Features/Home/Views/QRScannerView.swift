@@ -99,7 +99,9 @@ struct QRScannerView: UIViewControllerRepresentable {
     previewLayer.videoGravity = .resizeAspectFill
     viewController.view.layer.addSublayer(previewLayer)
     
-    captureSession.startRunning()
+    DispatchQueue.global(qos: .userInitiated).async {
+      captureSession.startRunning()
+    }
     
     return viewController
   }

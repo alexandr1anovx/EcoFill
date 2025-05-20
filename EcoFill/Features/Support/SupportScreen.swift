@@ -58,7 +58,7 @@ struct SupportScreen: View {
         Text("feedback_section_footer")
       }
     }
-    .customListStyle(scrollDisabled: true, height: 240)
+    .customListStyle(scrollDisabled: true, height: 230)
   }
   
   private var sendButton: some View {
@@ -67,9 +67,9 @@ struct SupportScreen: View {
       isShownAlert.toggle()
     } label: {
       ButtonLabel(
-        title: "Send",
+        title: "Submit",
         textColor: .white,
-        pouring: .green
+        pouring: .accent
       )
     }
     .padding(.horizontal)
