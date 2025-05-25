@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct SignInScreen: View {
+struct LoginScreen: View {
   
   @State private var email = ""
   @State private var password = ""
@@ -29,7 +29,7 @@ struct SignInScreen: View {
     }
   }
   
-  // MARK: - Auxilary UI Components
+  // MARK: - UI Components
   
   private var inputView: some View {
     List {
@@ -90,7 +90,7 @@ struct SignInScreen: View {
   
   private var forgotPasswordButton: some View {
     NavigationLink {
-      ForgotPasswordScreen()
+      ResetPasswordScreen()
     } label: {
       Text("forgot_password")
         .font(.caption2)
@@ -104,7 +104,7 @@ struct SignInScreen: View {
     HStack(spacing: 5) {
       Text("new_member?").foregroundStyle(.gray)
       NavigationLink {
-        SignUpScreen()
+        RegistrationScreen()
       } label: {
         Text("register_title").fontWeight(.semibold)
       }
@@ -114,6 +114,6 @@ struct SignInScreen: View {
 }
 
 #Preview {
-  SignInScreen()
+  LoginScreen()
     .environmentObject(AuthViewModel.previewMode)
 }

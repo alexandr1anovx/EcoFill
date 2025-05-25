@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct SignUpScreen: View {
+struct RegistrationScreen: View {
   
   @State private var fullName = ""
   @State private var emailAddress = ""
@@ -35,7 +35,7 @@ struct SignUpScreen: View {
     .navigationBarTitleDisplayMode(.inline)
   }
   
-  // MARK: - Auxilary UI Components
+  // MARK: - UI Components
   
   private var inputView: some View {
     List {
@@ -147,6 +147,6 @@ struct SignUpScreen: View {
 }
 
 #Preview {
-  SignUpScreen()
+  RegistrationScreen()
     .environmentObject(AuthViewModel.previewMode)
 }

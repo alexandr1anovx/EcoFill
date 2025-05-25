@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ForgotPasswordScreen: View {
+struct ResetPasswordScreen: View {
   
   @State private var email = ""
   @State private var isResetLinkSent = false
@@ -36,7 +36,7 @@ struct ForgotPasswordScreen: View {
     }
   }
   
-  // MARK: - Auxilary UI Components
+  // MARK: - UI Components
   
   private var emailTextField: some View {
     List {
@@ -100,6 +100,6 @@ struct ForgotPasswordScreen: View {
 }
 
 #Preview {
-  ForgotPasswordScreen()
+  ResetPasswordScreen()
     .environmentObject(AuthViewModel.previewMode)
 }
