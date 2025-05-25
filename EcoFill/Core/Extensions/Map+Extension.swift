@@ -5,8 +5,8 @@
 //  Created by Alexander Andrianov on 16.10.2024.
 //
 
-import Foundation
 import MapKit
+import SwiftUICore
 
 // MARK: - MKCoordinateRegion
 
@@ -39,14 +39,13 @@ extension CLLocationCoordinate2D {
 
 extension MKDirectionsTransportType: CaseIterable, Hashable {
   public static var allCases: [MKDirectionsTransportType] {
-    return [.automobile, .walking, .transit]
+    return [.automobile, .walking]
   }
   
-  var title: String {
+  var title: LocalizedStringKey {
     switch self {
-    case .automobile: "Automobile"
-    case .walking: "Walking"
-    case .transit: "Transit"
+    case .automobile: "transportation_automobile"
+    case .walking: "transportation_walking"
     default: "Unknown"
     }
   }
@@ -55,7 +54,6 @@ extension MKDirectionsTransportType: CaseIterable, Hashable {
     switch self {
     case .automobile: "car"
     case .walking: "figure.walk"
-    case .transit: "bus"
     default: "questionmark"
     }
   }
