@@ -1,148 +1,105 @@
-/* 
+/*
   Localizable.strings
   EcoFill
 
   Created by Alexander Andrianov on 28.03.2025.
-  
+  Ukrainian Localization
 */
 
-// MARK: City
-
-"Mykolaiv" = "Миколаїв";
-"Kyiv" = "Київ";
-"Odesa" = "Одеса";
-
-// MARK: Common
-
-"Cancel" = "Скасувати";
-"Confirm" = "Підтвердити";
-"Done" = "Готово";
-"Delete" = "Видалити";
-"Edit" = "Редагувати";
-"Back" = "Назад";
-"Password" = "Пароль";
-"Thanks" = "Дякую";
-
-// MARK: Tabs
-
-"Home" = "Головна";
-"Map" = "Карта";
-"Profile" = "Профіль";
-
-// MARK: Cell's title and subtitle
-
+// MARK: - Cell's title and subtitle
 "qrcode_title" = "QR-код";
-"qrcode_subtitle" = "Скануй свій код для отримання бонусів.";
-
+"qrcode_subtitle" = "Скануйте код, щоб отримати бонуси.";
 "support_title" = "Підтримка";
-"support_subtitle" = "Надішліть відгук про нас.";
-
+"support_subtitle" = "Повідомте про помилку або залиште відгук про наш сервіс.";
 "settings_title" = "Налаштування";
-"settings_subtitle" = "Змінити особисті дані.";
-
-"rate_us_title" = "Оцінити нас";
-"rate_us_subtitle" = "Допоможіть людям дізнатися про нас.";
-
+"settings_subtitle" = "Оновіть особисту інформацію.";
+"rate_us_title" = "Оцініть нас";
+"rate_us_subtitle" = "Допоможіть іншим дізнатися про нас.";
 "sign_out_title" = "Вийти";
 "sign_out_subtitle" = "Вийти з облікового запису.";
-"sign_out_alert_message" = "Ця дія перенаправить вас на екран авторизації.";
+"sign_out_alert_message" = "Ця дія перенаправить вас на екран входу.";
 
-// Color Theme Picker
-"color_theme_label" = "Колірна схема:";
+// MARK: - Color Theme Picker
+"color_theme_label" = "Тема кольорів:";
 "theme_system" = "Системна";
 "theme_light" = "Світла";
 "theme_dark" = "Темна";
 
-// Language Picker
+// MARK: - Language Picker
 "language_label" = "Мова:";
 "language_english" = "Англійська";
 "language_ukrainian" = "Українська";
 
-// Update Email
-"updateEmail_title" = "Оновлення пошти";
-"updateEmail_subtitle" = "Оновити адрес електронної пошти.";
+// MARK: - Update Email
+"updateEmail_title" = "Оновити електронну пошту";
+"updateEmail_subtitle" = "Оновіть адресу електронної пошти.";
 
-// Delete Account
-"delete_account_title" = "Видалити акаунт";
+// MARK: - Delete Account
+"delete_account_title" = "Видалити обліковий запис";
 "delete_account_subtitle" = "Це назавжди видалить ваші дані.";
-"delete_account_message" = "Введіть власний пароль, щоб видалити свій обліковий запис.";
+"delete_account_message" = "Введіть пароль для видалення облікового запису.";
 
-
-// MARK: Input Hints
-
-"input_fullName" = "Ім'я та прізвище";
-"input_email" = "Електронна адреса";
-"input_email_current" = "Потомчна адреса електроної пошти";
-"input_email_new" = "Нова адреса електронної пошти";
+// MARK: - Input Hints
+"input_fullName" = "Повне ім’я";
+"input_email" = "Електронна пошта";
+"input_email_current" = "Поточна електронна пошта";
+"input_email_new" = "Нова електронна пошта";
 "input_password" = "Пароль";
+"input_password_confirm" = "Підтвердження пароля";
 "input_password_current" = "Поточний пароль";
-"input_feedback" = "Напишіть ваш відгук.";
+"input_feedback" = "Напишіть свій відгук.";
 
-// MARK: Authentication
-
-"sign_in_title" = "Авторизація.";
-"sign_in_subtitle" = "Введіть пошту та пароль.";
-"sign_in_button" = "Увійти";
-
-"sign_up_title" = "Реєстрація.";
-"sign_up_subtitle" = "Заповніть усі поля.";
-"sign_up_button" = "Зареєструватись";
+// MARK: - Authentication
+"login_title" = "Вхід.";
+"sign_in_subtitle" = "Введіть електронну пошту та пароль.";
+"login_button" = "Увійти";
+"register_title" = "Реєстрація.";
+"sign_up_subtitle" = "Введіть свої дані.";
+"register_button" = "Зареєструватися";
 "select_your_city" = "Оберіть своє місто:";
+"already_a_member?" = "Вже маєте акаунт?";
+"new_member?" = "Новий користувач?";
 
-"already_a_member?" = "Вже є обліковий запис?";
-"new_member?" = "Немає облікового запису?";
-
-// MARK: Forgot Password
-
+// MARK: - Forgot Password
 "forgot_password" = "Забули пароль?";
-"reset_password_title" = "Відновлення паролю.";
-"reset_password_subtitle" = "Введіть поточну електронну адресу, щоб отримати посилання для відновлення паролю.";
+"reset_password_title" = "Відновлення пароля";
+"reset_password_subtitle" = "Введіть адресу електронної пошти, щоб отримати посилання для скидання пароля.";
 "send_reset_link_button" = "Надіслати посилання";
-
 "sent_link_title" = "Посилання надіслано.";
-"sent_link_message" = "Посилання для зміни пароля надіслано на електронну пошту.";
+"sent_link_message" = "Посилання для скидання пароля було надіслано на вашу електронну пошту.";
 
-// MARK: QRcode Screen
-
-"qrcode_screen_message" = "Скануй QR-код:";
+// MARK: - QR-Code Screen
+"qrcode_screen_message" = "Скануйте QR-код:";
 "qrcode_not_available" = "QR-код недоступний.";
 "scanning_successful" = "Сканування успішне!";
-"bonuses_credited" = "Бонуси успішно зараховано на рахунок.";
+"bonuses_credited" = "Бонуси зараховано на ваш рахунок.";
 "loading_user_data" = "Завантаження даних користувача...";
-"allow_camera" = "Налаштування камери";
+"allow_camera" = "Доступ до камери";
 "camera_access_required" = "Для сканування коду потрібен доступ до камери";
 "go_to_settings" = "Перейти до налаштувань?";
-"error_missing_full_name" = "Помилка: Відсутнє повне ім'я.";
-"error_generating_qrcode" = "Помилка при генерації QR-коду.";
+"error_missing_full_name" = "Помилка: відсутнє повне ім’я.";
+"error_generating_qrcode" = "Помилка при створенні QR-коду.";
 
-// MARK: Map
-
-"transport_type" = "Тип транспорту:";
+// MARK: - Map
+"transportation_type" = "Тип транспорту:";
 "payment_label" = "Оплата:";
 "street_label" = "Вулиця:";
-"schedule_label" = "Час роботи:";
+"schedule_label" = "Розклад:";
 "payment_methods" = "Готівка, ApplePay";
 "show_route" = "Показати маршрут";
 "hide_route" = "Сховати маршрут";
 
-// MARK: Update Email Screen
-
+// MARK: - Update Email Screen
 "update_email_button" = "Оновити пошту";
 
-// MARK: Email Status
-
+// MARK: - Email Status
 "email_status_label" = "Статус пошти:";
 "email_status_verified" = "Підтверджено.";
 "email_status_unverified" = "Не підтверджено.";
-"email_status_unverified_hint" = "Посилання для підтвердження надіслано на вказану електронну адресу.";
+"email_status_unverified_hint" = "На вказану електронну пошту надіслано лист для підтвердження.";
 
-// MARK: Support Screen
-
-"feedback_success_alert_message" = "Відгук успішно надісланий";
+// MARK: - Support Screen
+"feedback_success_alert_message" = "Відгук успішно надіслано.";
 "feedback_section_header" = "Надішліть свій відгук";
-"feedback_section_footer" = "Будь ласка, використовуйте ввічливу мову у ваших повідомленнях.";
+"feedback_section_footer" = "Будь ласка, використовуйте ввічливу мову у повідомленнях.";
 
-// MARK: Support
-
-"Send Message" = "Надіслати повідомлення";
-"Submit" = "Надіслати";
