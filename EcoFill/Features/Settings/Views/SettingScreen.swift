@@ -59,12 +59,12 @@ struct SettingScreen: View {
     } label: {
       ListCell(for: .deleteAccount)
     }
-    
-    .alert("Delete Account", isPresented: $isShownDeletetionAlert) {
-      Button("Cancel", role: .cancel) { password = "" }
-      Button("Yes, I'm sure") { isShownPasswordSheet = true }
+    .alert("delete_account_title", isPresented: $isShownDeletetionAlert) {
+      Button("Delete", role: .destructive) {
+        isShownPasswordSheet = true
+      }
     } message: {
-      Text("Are you sure you want to permanently delete your account?")
+      Text("delete_account_subtitle")
     }
   }
 }

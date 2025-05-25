@@ -22,11 +22,11 @@ enum ListItem {
   
   var title: LocalizedStringKey {
     switch self {
-    case .qrCode: "QR Code"
-    case .support: "Support"
-    case .settings: "Settings"
-    case .rateUs: "Rate Us"
-    case .signOut: "Sign Out"
+    case .qrCode: "qrcode_title"
+    case .support: "support_title"
+    case .settings: "settings_title"
+    case .rateUs: "rate_us_title"
+    case .signOut: "sign_out_title"
     case .language: "Language"
     case .updateEmail: "Update email"
     case .deleteAccount: "Delete account"
@@ -35,11 +35,11 @@ enum ListItem {
   
   var subtitle: LocalizedStringKey? {
     switch self {
-    case .qrCode: "Scan code to receive bonuses."
-    case .support: "Let us know about application errors."
-    case .settings: "Update personal information."
-    case .rateUs: "Help others to know about us."
-    case .signOut: "Sign out of your account."
+    case .qrCode: "qrcode_subtitle"
+    case .support: "support_subtitle"
+    case .settings: "settings_subtitle"
+    case .rateUs: "rate_us_subtitle"
+    case .signOut: "sign_out_subtitle"
     case .language: nil
     case .updateEmail: "Update your email address."
     case .deleteAccount: "Pernamently delete your account."
