@@ -7,38 +7,35 @@
 
 import SwiftUI
 
-enum Language: String, CaseIterable, Identifiable {
-  case english
-  case ukrainian
-  
-  var id: Self { self }
-  
-  var title: LocalizedStringKey {
-    switch self {
-    case .english: "language_english"
-    case .ukrainian: "language_ukrainian"
-    }
-  }
-}
-
 struct LanguagePickerView: View {
-  @State private var selectedLanguage: Language = .english
+  @State private var isShownAlert = false
   
   var body: some View {
     HStack {
-      HStack(spacing: 15) {
-        Image(systemName: "globe")
-          .foregroundStyle(.pink)
-        Text("language_label")
-          .font(.subheadline)
-          .fontWeight(.medium)
+      Text("language_label")
+        .font(.subheadline)
+        .fontWeight(.medium)
+      Spacer()
+      Button("Change in Settings") {
+        isShownAlert.toggle()
       }
-      Picker("", selection: $selectedLanguage) {
-        ForEach(Language.allCases) { language in
-          Text(language.title)
-        }
-      }
+    }
+    .alert("Change App Language", isPresented: $isShownAlert) {
+      Button("Cancel", role: .cancel) { isShownAlert = false }
+      Button("Continue") { openAppSettings() }
+    } message: {
+      Text("You will be redirected to the Settings screen to change the app's language. Do you want to continue?")
+    }
+  }
+  
+  private func openAppSettings() {
+    guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+    if UIApplication.shared.canOpenURL(url) {
+      UIApplication.shared.open(url)
     }
   }
 }
 
+#Preview {
+  LanguagePickerView()
+}
