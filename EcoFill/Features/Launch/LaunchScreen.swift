@@ -15,7 +15,7 @@ struct LaunchScreen: View {
           logoImageBackground
         }
       } else {
-        SignInScreen()
+        LoginScreen()
       }
     }
     .onAppear {

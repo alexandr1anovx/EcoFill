@@ -50,7 +50,7 @@ struct ProfileScreen: View {
     } label: {
       ListCell(for: .signOut)
     }
-    .alert("sign_out_subtitle", isPresented: $isShownAlert) {
+    .alert("sign_out_title", isPresented: $isShownAlert) {
       Button("sign_out_title", role: .destructive) {
         withAnimation(.easeInOut(duration: 1)) {
           authViewModel.signOut()

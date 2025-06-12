@@ -58,7 +58,7 @@ struct SupportScreen: View {
         Text("feedback_section_footer")
       }
     }
-    .customListStyle(scrollDisabled: true, height: 230)
+    .customListStyle(scrollDisabled: true, height: 240)
   }
   
   private var sendButton: some View {
