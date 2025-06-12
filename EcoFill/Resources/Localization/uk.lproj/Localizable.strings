@@ -6,6 +6,11 @@
   Ukrainian Localization
 */
 
+// MARK: - Tabs
+"Home" = "Головна";
+"Map" = "Карта";
+"Profile" = "Профіль";
+
 // MARK: - Cell's title and subtitle
 "qrcode_title" = "QR-код";
 "qrcode_subtitle" = "Скануйте код, щоб отримати бонуси.";

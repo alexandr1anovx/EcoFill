@@ -6,6 +6,11 @@
   
 */
 
+// MARK: - Tabs
+"Home" = "Home";
+"Map" = "Map";
+"Profile" = "Profile";
+
 // MARK: - Cell's title and subtitle
 "qrcode_title" = "QR Code";
 "qrcode_subtitle" = "Scan your code to receive bonuses.";
