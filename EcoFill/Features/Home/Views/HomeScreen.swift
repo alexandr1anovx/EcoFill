@@ -31,8 +31,10 @@ struct HomeScreen: View {
     }
     .navigationDestination(for: ServiceType.self) { service in
       switch service {
-      case .qrcode: QRCodeScreen()
-      case .support: SupportScreen()
+      case .qrcode:
+        QRCodeScreen().onAppear { isShownTabBar = false }
+      case .support:
+        SupportScreen().onAppear { isShownTabBar = false }
       }
     }
     .customListStyle(shadow: 1.0)
