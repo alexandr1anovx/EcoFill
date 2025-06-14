@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ExtendedTextField: View {
+struct InputFieldExtended: View {
   
   @Binding var inputData: String
   let iconName: String
@@ -33,6 +33,7 @@ struct ExtendedTextField: View {
       }
       .font(.caption)
     }
+    .customInputFieldStyle()
     .onChange(of: inputData) { _, newValue in
       if newValue.count >= maxCount {
         inputData = String(newValue.prefix(maxCount))
@@ -42,7 +43,7 @@ struct ExtendedTextField: View {
 }
 
 #Preview {
-  ExtendedTextField(
+  InputFieldExtended(
     inputData: .constant("Test Feedback Message!"),
     iconName: "message",
     hint: "Enter your message...",
