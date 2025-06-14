@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum Tab: Int, CaseIterable, Identifiable {
-  case home = 0, map, profile
+  case home = 0, map, settings
   
   var id: Int { self.hashValue }
   
@@ -16,7 +16,7 @@ enum Tab: Int, CaseIterable, Identifiable {
     switch self {
     case .home: "Home"
     case .map: "Map"
-    case .profile: "Profile"
+    case .settings: "Settings"
     }
   }
   
@@ -24,8 +24,7 @@ enum Tab: Int, CaseIterable, Identifiable {
     switch self {
     case .home: "house"
     case .map: "map"
-    case .profile: "person"
+    case .settings: "gear"
     }
   }
 }
-
