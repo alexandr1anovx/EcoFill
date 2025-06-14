@@ -9,7 +9,7 @@ import SwiftUI
 
 extension View {
   
-  // MARK: Custom List Setup
+  // MARK: Custom List Style
   
   func customListStyle(
     rowHeight: CGFloat = 0,
@@ -30,5 +30,18 @@ extension View {
       .scrollIndicators(indicators)
       .frame(height: height)
       .shadow(radius: shadow)
+  }
+  
+  // MARK: Custom Input Field Style
+  
+  func customInputFieldStyle() -> some View {
+    self
+      .padding()
+      .frame(minHeight: 55)
+      .overlay {
+        RoundedRectangle(cornerRadius: 15)
+          .inset(by: 0.5)
+          .stroke(.gray.opacity(0.5), lineWidth: 1)
+      }
   }
 }
