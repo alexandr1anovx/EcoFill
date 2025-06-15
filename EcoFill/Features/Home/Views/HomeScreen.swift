@@ -13,12 +13,12 @@ struct HomeScreen: View {
           servicesListView
         }
       }
-      .navigationTitle("Home")
+      .navigationTitle(Tab.home.title)
       .onAppear { isShownTabBar = true }
     }
   }
   
-  // MARK: - Auxilary UI Components
+  // MARK: - Components
   
   private var servicesListView: some View {
     List {
@@ -38,6 +38,36 @@ struct HomeScreen: View {
       }
     }
     .customListStyle(shadow: 1.0)
+  }
+}
+
+extension HomeScreen {
+  struct UserDataHeader: View {
+    @EnvironmentObject var authViewModel: AuthViewModel
+    
+    var body: some View {
+      if let user = authViewModel.currentUser {
+        HStack {
+          VStack(alignment: .leading, spacing: 12) {
+            Text(user.fullName)
+              .font(.callout)
+              .fontWeight(.semibold)
+            Text(user.email)
+              .font(.footnote)
+              .foregroundStyle(.gray)
+          }
+          Spacer()
+          Label(user.city, image: .marker)
+            .foregroundStyle(.accent)
+        }
+        .padding(20)
+      } else {
+        HStack {
+          Text("Loading...")
+          ProgressView()
+        }
+      }
+    }
   }
 }
 

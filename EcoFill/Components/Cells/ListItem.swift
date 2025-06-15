@@ -11,25 +11,22 @@ enum ListItem {
   // Home
   case qrCode
   case support
-  // Profile
-  case settings
-  case rateUs
-  case signOut
   // Settings
-  case language
-  case updateEmail
+  case updatePersonalData
+  case rateUs
+  case aboutTheDeveloper
+  case logout
   case deleteAccount
   
   var title: LocalizedStringKey {
     switch self {
     case .qrCode: "qrcode_title"
     case .support: "support_title"
-    case .settings: "settings_title"
+    case .updatePersonalData: "update_personal_data"
     case .rateUs: "rate_us_title"
-    case .signOut: "sign_out_title"
-    case .language: "Language"
-    case .updateEmail: "Update email"
-    case .deleteAccount: "Delete account"
+    case .aboutTheDeveloper: "about_the_developer"
+    case .logout: "logout_title"
+    case .deleteAccount: "delete_account_title"
     }
   }
   
@@ -37,12 +34,11 @@ enum ListItem {
     switch self {
     case .qrCode: "qrcode_subtitle"
     case .support: "support_subtitle"
-    case .settings: "settings_subtitle"
+    case .updatePersonalData: nil
     case .rateUs: "rate_us_subtitle"
-    case .signOut: "sign_out_subtitle"
-    case .language: nil
-    case .updateEmail: "Update your email address."
-    case .deleteAccount: "Pernamently delete your account."
+    case .aboutTheDeveloper: nil
+    case .logout: nil
+    case .deleteAccount: nil
     }
   }
   
@@ -50,11 +46,10 @@ enum ListItem {
     switch self {
     case .qrCode: "qrcode"
     case .support: "message.fill"
-    case .settings: "gear"
+    case .updatePersonalData: "person"
     case .rateUs: "hand.thumbsup"
-    case .signOut: "door.left.hand.open"
-    case .language: "globe"
-    case .updateEmail: "envelope"
+    case .aboutTheDeveloper: "apple.logo"
+    case .logout: "door.left.hand.open"
     case .deleteAccount: "xmark.circle.fill"
     }
   }
@@ -63,11 +58,10 @@ enum ListItem {
     switch self {
     case .qrCode: Color.accent
     case .support: Color.accent
-    case .settings: Color.primary
+    case .updatePersonalData: Color.primary
     case .rateUs: Color.orange
-    case .signOut: Color.red
-    case .language: Color.pink
-    case .updateEmail: Color.primary
+    case .aboutTheDeveloper: Color.primary
+    case .logout: Color.red
     case .deleteAccount: Color.red
     }
   }

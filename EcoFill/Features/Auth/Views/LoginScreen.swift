@@ -2,9 +2,9 @@ import SwiftUI
 
 struct LoginScreen: View {
   
-  @State private var email = ""
+  @State private var emailAddress = ""
   @State private var password = ""
-  @FocusState private var fieldContent: InputFieldContent?
+  @FocusState private var fieldContent: InputContentType?
   @EnvironmentObject var authViewModel: AuthViewModel
   
   // MARK: - body
@@ -14,71 +14,58 @@ struct LoginScreen: View {
       ZStack {
         Color.appBackground.ignoresSafeArea()
         VStack(spacing:20) {
-          inputView.padding(.top)
-          signInButton
-          HStack {
-            forgotPasswordButton
-            Spacer()
-            registerOptionView
-          }.padding(.horizontal,20)
-          Spacer()
+          Text("Login")
+            .font(.title)
+            .fontWeight(.bold)
+          inputView
+          loginButton
+          forgotPasswordButton
+          registerOptionView
+          //Spacer()
         }
       }
-      .navigationTitle("Login")
-      .navigationBarTitleDisplayMode(.large)
+      //.navigationTitle("Login")
+      //.navigationBarTitleDisplayMode(.large)
     }
   }
   
-  // MARK: - UI Components
+  // MARK: - Components
   
   private var inputView: some View {
-    List {
-      DefaultTextField(
-        inputData: $email,
-        iconName: "envelope",
-        hint: "input_email"
-      )
-      .focused($fieldContent, equals: .emailAddress)
-      .keyboardType(.emailAddress)
-      .autocorrectionDisabled(true)
-      .textInputAutocapitalization(.never)
-      .submitLabel(.continue)
-      .onSubmit { fieldContent = .password }
+    VStack {
+      InputField(for: .emailAddress, data: $emailAddress)
+        .focused($fieldContent, equals: .emailAddress)
+        .keyboardType(.emailAddress)
+        .autocorrectionDisabled(true)
+        .textInputAutocapitalization(.never)
+        .submitLabel(.continue)
+        .onSubmit { fieldContent = .password }
       
-      SecuredTextField(
-        inputData: $password,
-        iconName: "lock",
-        hint: "input_password"
-      )
-      .focused($fieldContent, equals: .password)
-      .submitLabel(.done)
-      .onSubmit { fieldContent = nil }
+      InputField(for: .password, data: $password)
+        .focused($fieldContent, equals: .password)
+        .submitLabel(.done)
+        .onSubmit { fieldContent = nil }
     }
-    .customListStyle(
-      rowHeight: 50,
-      rowSpacing: 10,
-      scrollDisabled: true,
-      height: 150,
-      shadow: 1
-    )
+    .padding(.top)
+    .padding(.horizontal)
   }
   
-  private var signInButton: some View {
+  private var loginButton: some View {
     Button {
       Task {
-        await authViewModel.signIn(email: email, password: password)
+        await authViewModel.logIn(email: emailAddress, password: password)
         password = ""
       }
     } label: {
       ButtonLabel(
-        title: "login_button",
+        title: "login_title",
         textColor: .white,
         pouring: .accent
       )
     }
     .padding(.horizontal)
-    .disabled(email.isEmpty && password.isEmpty)
-    .opacity(email.isEmpty && password.isEmpty ? 0.4 : 1)
+    .disabled(emailAddress.isEmpty && password.isEmpty)
+    .opacity(emailAddress.isEmpty && password.isEmpty ? 0.4 : 1)
     .alert(item: $authViewModel.alertItem) { alert in
       Alert(
         title: alert.title,
@@ -108,8 +95,7 @@ struct LoginScreen: View {
       } label: {
         Text("register_title").fontWeight(.semibold)
       }
-    }
-    .font(.footnote)
+    }.font(.footnote)
   }
 }
 

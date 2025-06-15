@@ -6,6 +6,7 @@
 //
 
 import FirebaseFirestore
+import SwiftUICore
 
 @MainActor
 final class StationViewModel: ObservableObject {
@@ -13,16 +14,15 @@ final class StationViewModel: ObservableObject {
   // MARK: - Properties
   
   @Published var stations: [Station] = []
-  @Published var sortType: StationSortType = .none
+  @Published var sortType: StationSortType = .priceA95
   private let stationService: StationService
   
   var sortedStations: [Station] {
     switch sortType {
-    case .none: return stations
     case .priceA95: return stations.sorted { $0.euroA95 < $1.euroA95 }
     case .priceDP: return stations.sorted { $0.euroDP < $1.euroDP }
     case .priceGas: return stations.sorted { $0.gas < $1.gas }
-    case .paymentMethods: return stations.sorted { $0.paymentMethods < $1.paymentMethods }
+    case .payment: return stations.sorted { $0.paymentMethods < $1.paymentMethods }
     }
   }
   
@@ -41,12 +41,20 @@ final class StationViewModel: ObservableObject {
         switch result {
         case .success(let stations):
           self?.stations = stations
-          print(stations)
         case .failure(let error):
-          print("Failed to get stations: \(error.localizedDescription)")
+          print("⚠️ Failed to get stations: \(error.localizedDescription)")
         }
       }
     }
+  }
+}
+
+extension StationViewModel {
+  enum StationSortType: LocalizedStringKey, CaseIterable {
+    case priceA95 = "a95_euro"
+    case priceDP = "dp_euro"
+    case priceGas = "gas"
+    case payment = "payment_label"
   }
 }
 
@@ -57,15 +65,5 @@ extension StationViewModel {
     let viewModel = StationViewModel()
     viewModel.stations = [MockData.station]
     return viewModel
-  }
-}
-
-extension StationViewModel {
-  enum StationSortType: String, CaseIterable {
-    case none = "None"
-    case priceA95 = "A95"
-    case priceDP = "DP"
-    case priceGas = "Gas"
-    case paymentMethods = "Payment Methods"
   }
 }

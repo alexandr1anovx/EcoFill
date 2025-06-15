@@ -2,17 +2,17 @@ import SwiftUI
 
 struct LaunchScreen: View {
   
-  @State private var isShownContent = false
+  @State private var isShownAppContent = false
   @EnvironmentObject var authViewModel: AuthViewModel
   @EnvironmentObject var stationVM: StationViewModel
   
   var body: some View {
     Group {
       if authViewModel.userSession != nil {
-        if isShownContent {
+        if isShownAppContent {
           TabBarView()
         } else {
-          logoImageBackground
+          loadingBackground
         }
       } else {
         LoginScreen()
@@ -21,13 +21,13 @@ struct LaunchScreen: View {
     .onAppear {
       DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
         withAnimation(.spring(duration: 1)) {
-          isShownContent.toggle()
+          isShownAppContent.toggle()
         }
       }
     }
   }
   
-  private var logoImageBackground: some View {
+  private var loadingBackground: some View {
     ZStack {
       Color.appBackground.ignoresSafeArea()
       VStack {

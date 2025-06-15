@@ -7,9 +7,9 @@ struct RegistrationScreen: View {
   @State private var password = ""
   @State private var confirmedPassword = ""
   @State private var selectedCity = City.mykolaiv
-  @FocusState private var fieldContent: InputFieldContent?
-  @EnvironmentObject var authViewModel: AuthViewModel
+  @FocusState private var fieldContent: InputContentType?
   @Environment(\.dismiss) var dismiss
+  @EnvironmentObject var authViewModel: AuthViewModel
   
   private var isValidForm: Bool {
     !fullName.isEmpty
@@ -23,10 +23,10 @@ struct RegistrationScreen: View {
     ZStack {
       Color.appBackground.ignoresSafeArea()
       ScrollView {
-        VStack(spacing:20) {
+        VStack(spacing:15) {
           inputView
           cityPickerView.padding(.horizontal)
-          signUpButton
+          registerButton
           loginOptionView
         }
       }
@@ -35,57 +35,35 @@ struct RegistrationScreen: View {
     .navigationBarTitleDisplayMode(.inline)
   }
   
-  // MARK: - UI Components
+  // MARK: - Subviews
   
   private var inputView: some View {
-    List {
-      DefaultTextField(
-        inputData: $fullName,
-        iconName: "person",
-        hint: "input_fullName"
-      )
-      .focused($fieldContent, equals: .fullName)
-      .textInputAutocapitalization(.words)
-      .submitLabel(.continue)
-      .onSubmit { fieldContent = .emailAddress }
+    VStack {
+      InputField(for: .fullName, data: $fullName)
+        .focused($fieldContent, equals: .fullName)
+        .textInputAutocapitalization(.words)
+        .submitLabel(.continue)
+        .onSubmit { fieldContent = .emailAddress }
+      InputField(for: .emailAddress, data: $emailAddress)
+        .focused($fieldContent, equals: .emailAddress)
+        .keyboardType(.emailAddress)
+        .autocorrectionDisabled(true)
+        .textInputAutocapitalization(.never)
+        .submitLabel(.continue)
+        .onSubmit { fieldContent = .password }
       
-      DefaultTextField(
-        inputData: $emailAddress,
-        iconName: "envelope",
-        hint: "input_email"
-      )
-      .focused($fieldContent, equals: .emailAddress)
-      .keyboardType(.emailAddress)
-      .autocorrectionDisabled(true)
-      .textInputAutocapitalization(.never)
-      .submitLabel(.continue)
-      .onSubmit { fieldContent = .password }
+      InputFieldSecured(for: .password, data: $password)
+        .focused($fieldContent, equals: .password)
+        .submitLabel(.next)
+        .onSubmit { fieldContent = .passwordConfirmation }
       
-      SecuredTextField(
-        inputData: $password,
-        iconName: "lock",
-        hint: "input_password"
-      )
-      .focused($fieldContent, equals: .password)
-      .submitLabel(.next)
-      .onSubmit { fieldContent = .confirmPassword }
-      
-      SecuredTextField(
-        inputData: $confirmedPassword,
-        iconName: "lock",
-        hint: "input_password_confirm"
-      )
-      .focused($fieldContent, equals: .confirmPassword)
-      .submitLabel(.done)
-      .onSubmit { fieldContent = nil }
+      InputFieldSecured(for: .passwordConfirmation, data: $password)
+        .focused($fieldContent, equals: .passwordConfirmation)
+        .submitLabel(.done)
+        .onSubmit { fieldContent = nil }
     }
-    .customListStyle(
-      rowHeight: 50,
-      rowSpacing: 8,
-      scrollDisabled: true,
-      height: 260,
-      shadow: 1.0
-    )
+    .padding(.top)
+    .padding(.horizontal)
   }
   
   private var cityPickerView: some View {
@@ -95,25 +73,25 @@ struct RegistrationScreen: View {
         .foregroundStyle(.gray)
       Picker("", selection: $selectedCity) {
         ForEach(City.allCases) { city in
-          Text(city.title)
+          Text(city.rawValue)
         }
       }.pickerStyle(.menu)
     }
   }
   
-  private var signUpButton: some View {
+  private var registerButton: some View {
     Button {
       Task {
-        await authViewModel.signUp(
+        await authViewModel.register(
           fullName: fullName,
           email: emailAddress,
           password: password,
-          city: selectedCity
+          city: selectedCity.rawValue
         )
       }
     } label: {
       ButtonLabel(
-        title: "register_button",
+        title: "register_title",
         textColor: .white,
         pouring: .accent
       )
