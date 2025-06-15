@@ -8,17 +8,9 @@
 import SwiftUICore
 
 enum City: String, Identifiable, CaseIterable {
-  case kyiv
-  case mykolaiv
-  case odesa
+  case kyiv = "Kyiv"
+  case mykolaiv = "Mykolaiv"
+  case odesa = "Odesa"
   
-  var id: Self { self }
-  
-  var title: LocalizedStringKey {
-    switch self {
-    case .kyiv: "Kyiv"
-    case .mykolaiv: "Mykolaiv"
-    case .odesa: "Odesa"
-    }
-  }
+  var id: String { self.rawValue }
 }
