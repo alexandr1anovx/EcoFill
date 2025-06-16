@@ -7,24 +7,30 @@
 
 import SwiftUI
 
-struct LanguagePickerView: View {
+struct AppLanguageView: View {
+  
   @State private var isShownAlert = false
+  private let deviceLanguage = Locale.current.language.languageCode?.identifier ?? "Unknown"
   
   var body: some View {
     HStack {
       Text("language_label")
         .font(.subheadline)
         .fontWeight(.medium)
+      Text(deviceLanguage)
+        .fontWeight(.bold)
+        .foregroundStyle(.indigo)
       Spacer()
-      Button("Change in Settings") {
+      Button("change_in_settings") {
         isShownAlert.toggle()
       }
+      
     }
-    .alert("Change App Language", isPresented: $isShownAlert) {
+    .alert("change_app_language_title", isPresented: $isShownAlert) {
       Button("Cancel", role: .cancel) { isShownAlert = false }
       Button("Continue") { openAppSettings() }
     } message: {
-      Text("You will be redirected to the Settings screen to change the app's language. Do you want to continue?")
+      Text("change_app_language_subtitle")
     }
   }
   
@@ -37,5 +43,5 @@ struct LanguagePickerView: View {
 }
 
 #Preview {
-  LanguagePickerView()
+  AppLanguageView()
 }
