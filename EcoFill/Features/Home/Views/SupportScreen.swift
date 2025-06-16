@@ -14,11 +14,13 @@ struct SupportScreen: View {
   var body: some View {
     ZStack {
       Color.appBackground.ignoresSafeArea()
-      VStack(spacing:0) {
+      VStack(spacing:12) {
+        
         inputViews
-        sendButton
+        sendButton.padding(.top)
         Spacer()
       }
+      .padding(.top)
       .navigationTitle("Support")
       .navigationBarTitleDisplayMode(.inline)
       .onAppear {
@@ -30,35 +32,29 @@ struct SupportScreen: View {
     }
   }
   
-  // MARK: - Auxilary UI Components
+  // MARK: - Components
   
   private var inputViews: some View {
-    List {
-      Section {
-        DefaultTextField(
-          inputData: $email,
-          iconName: "envelope",
-          hint: "input_email"
-        )
-        .listRowBackground(Color.white.opacity(0.1))
-        .disabled(true)
-        .frame(height: 30)
-        
-        ExtendedTextField(
-          inputData: $message,
-          iconName: "message",
-          hint: "input_feedback",
-          maxCount: 100
-        )
-        .frame(height: 70)
-        .listRowBackground(Color.white.opacity(0.1))
-      } header: {
-        Text("feedback_section_header")
-      } footer: {
-        Text("feedback_section_footer")
-      }
+    Section {
+      InputField(for: .emailAddress, data: $email)
+      .disabled(true)
+      
+      InputFieldExtended(
+        inputData: $message,
+        iconName: "message",
+        hint: "input_supportMessage",
+        maxCount: 100
+      )
+    } header: {
+      Text("support_header_message")
+        .font(.callout)
+        .foregroundStyle(.gray)
+    } footer: {
+      Text("support_footer_message")
+        .font(.footnote)
+        .foregroundStyle(.gray)
     }
-    .customListStyle(scrollDisabled: true, height: 240)
+    .padding(.horizontal)
   }
   
   private var sendButton: some View {
@@ -75,10 +71,10 @@ struct SupportScreen: View {
     .padding(.horizontal)
     .opacity(!isMessageCorrect ? 0.5 : 1)
     .disabled(!isMessageCorrect)
-    .alert("Message Sent", isPresented: $isShownAlert) {
+    .alert("support_alert_title", isPresented: $isShownAlert) {
       // "OK" button by default
     } message: {
-      Text("Thanks for reaching out! Whether it’s feedback or an issue, we appreciate your input and will respond shortly.")
+      Text("support_alert_message")
     }
   }
   
