@@ -9,32 +9,46 @@ import SwiftUICore
 
 enum InputContentType {
   case fullName
-  case emailAddress
+  case email
   case password
-  case passwordConfirmation
-  case supportMessage
-  
-  var hint: LocalizedStringKey {
-    switch self {
-    case .fullName: "input_fullName"
-    case .emailAddress: "input_email"
-    case .password: "input_password"
-    case .passwordConfirmation: "input_password_confirmation"
-    case .supportMessage: "input_supportMessage"
-    }
-  }
+  case confirmedPassword
+  case support
   
   var iconName: String {
     switch self {
-    case .fullName: "person.crop.circle"
-    case .emailAddress: "envelope"
+    case .fullName: "person"
+    case .email: "envelope"
     case .password: "lock"
-    case .passwordConfirmation: "lock"
-    case .supportMessage: "message"
+    case .confirmedPassword: "lock"
+    case .support: "message"
+    }
+  }
+  
+  var hint: LocalizedStringKey {
+    switch self {
+    case .fullName: "Full name"
+    case .email: "Email"
+    case .password: "Password"
+    case .confirmedPassword: "Confirm Password"
+    case .support: "Message"
     }
   }
 }
 
-enum InputContentStatus {
-  case secured, notSecured
+enum InputFieldValidation {
+  case none
+  case passwordConfirmation(matchingPassword: String)
+}
+
+// MARK: - Extension: InputContentType
+
+extension InputContentType {
+  var shouldShowPasswordToggle: Bool {
+    switch self {
+    case .password, .confirmedPassword:
+      return true
+    default:
+      return false
+    }
+  }
 }
