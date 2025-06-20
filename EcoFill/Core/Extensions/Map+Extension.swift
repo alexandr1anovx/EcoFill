@@ -44,8 +44,8 @@ extension MKDirectionsTransportType: CaseIterable, Hashable {
   
   var title: LocalizedStringKey {
     switch self {
-    case .automobile: "transportation_automobile"
-    case .walking: "transportation_walking"
+    case .automobile: "Automobile"
+    case .walking: "Walking"
     default: "Unknown"
     }
   }

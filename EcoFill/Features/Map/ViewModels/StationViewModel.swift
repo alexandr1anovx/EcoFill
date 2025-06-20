@@ -50,11 +50,11 @@ final class StationViewModel: ObservableObject {
 }
 
 extension StationViewModel {
-  enum StationSortType: LocalizedStringKey, CaseIterable {
-    case priceA95 = "a95_euro"
-    case priceDP = "dp_euro"
-    case priceGas = "gas"
-    case payment = "payment_label"
+  enum StationSortType: String, CaseIterable {
+    case priceA95 = "A95 Euro"
+    case priceDP = "DP Euro"
+    case priceGas = "Gas"
+    case payment = "Payment Methods"
   }
 }
 

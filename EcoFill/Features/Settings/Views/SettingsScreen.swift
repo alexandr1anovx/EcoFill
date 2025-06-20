@@ -17,8 +17,8 @@ struct SettingsScreen: View {
         Color.appBackground.ignoresSafeArea()
         List {
           Section("General") {
-            ColorThemePickerView()
-            AppLanguageView()
+            ColorThemeSelectionView()
+            ChangeAppLanguageView()
           }
           Section("Personal Data") {
             updatePersonalDataCell
@@ -29,7 +29,6 @@ struct SettingsScreen: View {
           Section("Other") {
             aboutTheDeveloperCell
             logoutCell
-            deleteAccountCell
           }
         }
         .customListStyle(rowHeight: 52, rowSpacing: 10, shadow: 1)
@@ -44,7 +43,7 @@ struct SettingsScreen: View {
     }
   }
   
-  // MARK: - Components
+  // MARK: - Subviews
   
   private var updatePersonalDataCell: some View {
     NavigationLink {
@@ -59,7 +58,7 @@ struct SettingsScreen: View {
     Button {
       requestReview()
     } label: {
-      ListCell(for: .rateUs)
+      ListCell(for: .helpUsImprove)
     }
   }
   
@@ -78,35 +77,22 @@ struct SettingsScreen: View {
     } label: {
       ListCell(for: .logout)
     }
-    .alert("logout_title", isPresented: $isShownLogoutAlert) {
-      Button("logout_title", role: .destructive) {
+    .alert("Log Out", isPresented: $isShownLogoutAlert) {
+      Button("Log Out", role: .destructive) {
         withAnimation(.easeInOut(duration: 1)) {
           authViewModel.signOut()
         }
       }
     } message: {
-      Text("logout_alert_message")
+      Text("This action will redirect you to the login screen.")
     }
   }
   
-  private var deleteAccountCell: some View {
-    Button {
-      isShownDeletetionAlert.toggle()
-    } label: {
-      ListCell(for: .deleteAccount)
-    }
-    .alert("delete_account_title", isPresented: $isShownDeletetionAlert) {
-      Button("Delete", role: .destructive) {
-        isShownPasswordSheet = true
-      }
-    } message: {
-      Text("delete_account_subtitle")
-    }
-  }
+  // MARK: ⚠️ Redesign This Part! ⚠️
   
   private var passwordInputView: some View {
     VStack {
-      Text("Input your account password.")
+      Text("Input your account password")
         .font(.callout)
       TextField("Password", text: $accountPassword)
         .textFieldStyle(.roundedBorder)

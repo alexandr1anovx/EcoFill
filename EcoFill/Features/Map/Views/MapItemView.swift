@@ -7,16 +7,14 @@ struct MapItemView: View {
   private let transportTypes = MKDirectionsTransportType.allCases
   @EnvironmentObject var mapViewModel: MapViewModel
   
-  // MARK: - body
-  
   var body: some View {
     ZStack {
       Color.appBackground.ignoresSafeArea()
-      VStack(alignment: .leading, spacing:17) {
+      VStack(alignment: .leading, spacing: 17) {
         Spacer()
-        cell(image: .marker, title: "street_label", data: station.street)
-        cell(image: .clock, title: "schedule_label", data: station.schedule)
-        cell(image: .money, title: "payment_label", data: station.paymentMethods)
+        cell(image: .marker, title: "Street:", data: station.street)
+        cell(image: .clock, title: "Schedule:", data: station.schedule)
+        cell(image: .money, title: "Payment:", data: station.paymentMethods)
         transportTypesView
         FuelStackView(for: station)
         routeButton
@@ -25,7 +23,7 @@ struct MapItemView: View {
     }
   }
   
-  // MARK: - Auxilary UI Components
+  // MARK: - Subviews
   
   private func cell(
     image: ImageResource,
@@ -35,6 +33,7 @@ struct MapItemView: View {
     HStack(spacing:8) {
       Image(image).foregroundStyle(.accent)
       Text(title).foregroundStyle(.gray)
+      Text(":")
       Text(data)
     }
     .font(.footnote)
@@ -57,7 +56,7 @@ struct MapItemView: View {
   
   private var transportTypesView: some View {
     HStack {
-      Text("transportation_type")
+      Text("Travel Mode:")
         .font(.footnote)
         .fontWeight(.medium)
       ScrollView(.horizontal) {
@@ -79,7 +78,7 @@ struct MapItemView: View {
         mapViewModel.isShownRoute = false
       } label: {
         ButtonLabelWithIcon(
-          title: "hide_route",
+          title: "Hide Route",
           iconName: "x.circle",
           textColor: .white,
           pouring: .red
@@ -90,7 +89,7 @@ struct MapItemView: View {
         mapViewModel.isShownRoute = true
       } label: {
         ButtonLabelWithIcon(
-          title: "show_route",
+          title: "Show Route",
           iconName: "arrow.trianglehead.branch",
           textColor: .black,
           pouring: .accent
