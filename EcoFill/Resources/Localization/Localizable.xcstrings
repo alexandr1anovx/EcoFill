@@ -80,26 +80,6 @@
         }
       }
     },
-    "😊 Success" : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "😊 Успішно"
-          }
-        }
-      }
-    },
-    "🙃 Something went wrong..." : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "🙃 Щось пішло не так..."
-          }
-        }
-      }
-    },
     "A-95 Euro" : {
       "localizations" : {
         "uk" : {
@@ -120,16 +100,6 @@
         }
       }
     },
-    "Account Already Exists" : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Обліковий запис вже існує"
-          }
-        }
-      }
-    },
     "Account Deleted" : {
       "localizations" : {
         "uk" : {
@@ -146,6 +116,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Видалення облікового запису"
+          }
+        }
+      }
+    },
+    "Account Deletion Failed" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося видалити обліковий запис"
           }
         }
       }
@@ -190,22 +170,42 @@
         }
       }
     },
-    "An account with this data already exists." : {
+    "An account with the provided credentials already exists." : {
       "localizations" : {
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Обліковий запис з цими даними вже існує."
+            "value" : "Обліковий запис з наданими обліковими даними вже існує."
           }
         }
       }
     },
-    "An error occurred while updating your account. Try again, or contact support." : {
+    "An error occurred while attempting to delete your account. Please try again later." : {
       "localizations" : {
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Виникла помилка під час оновлення вашого облікового запису. Спробуйте ще раз або зверніться до служби підтримки."
+            "value" : "Виникла помилка при спробі видалити ваш обліковий запис. Будь ласка, спробуйте пізніше."
+          }
+        }
+      }
+    },
+    "An error occurred while logging out of your account. Please contact support" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виникла помилка при виході з вашого облікового запису. Зверніться до служби підтримки"
+          }
+        }
+      }
+    },
+    "An error occurred while updating your account. Please try again later, or contact support." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Під час оновлення вашого облікового запису сталася помилка. Будь ласка, спробуйте пізніше або зверніться до служби підтримки."
           }
         }
       }
@@ -340,26 +340,6 @@
         }
       }
     },
-    "Couldn't Delete Account" : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не вдалося видалити обліковий запис"
-          }
-        }
-      }
-    },
-    "Couldn't Send Reset Password Link" : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не вдалося надіслати посилання для скидання пароля"
-          }
-        }
-      }
-    },
     "Dark" : {
       "localizations" : {
         "uk" : {
@@ -430,16 +410,6 @@
         }
       }
     },
-    "Email Update Failed" : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не вдалося оновити електронну пошту"
-          }
-        }
-      }
-    },
     "Enter your email address to receive a password reset link." : {
       "localizations" : {
         "uk" : {
@@ -456,6 +426,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Не вдалося завантажити дані про АЗС"
+          }
+        }
+      }
+    },
+    "Failed to Send Password Reset Link" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося надіслати посилання для скидання пароля"
           }
         }
       }
@@ -656,6 +636,16 @@
         }
       }
     },
+    "Logout Failed" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося вийти з системи"
+          }
+        }
+      }
+    },
     "Map" : {
       "localizations" : {
         "uk" : {
@@ -755,6 +745,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Профіль"
+          }
+        }
+      }
+    },
+    "Profile Update Failed" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося оновити дані"
+          }
+        }
+      }
+    },
+    "Profile Updated Successfully" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дані успішно оновлені"
           }
         }
       }
@@ -969,6 +979,16 @@
         }
       }
     },
+    "The email or password you entered is incorrect." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ви ввели невірну адресу електронної пошти або пароль."
+          }
+        }
+      }
+    },
     "The link has been sent to your email address." : {
       "localizations" : {
         "uk" : {
@@ -995,16 +1015,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ця дія перенаправить вас на сторінку входу в систему"
-          }
-        }
-      }
-    },
-    "This email address is already in use." : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ця електронна адреса вже використовується"
           }
         }
       }
@@ -1069,42 +1079,12 @@
         }
       }
     },
-    "We couldn't delete your account at this time." : {
+    "We couldn't send the password reset link at this time. Please try again later." : {
       "localizations" : {
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Наразі ми не можемо видалити ваш обліковий запис."
-          }
-        }
-      }
-    },
-    "We couldn't find an account with this data." : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ми не змогли знайти акаунт з такими даними."
-          }
-        }
-      }
-    },
-    "We couldn't send the password reset link at this time. Try again later." : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Наразі ми не можемо надіслати посилання для зміни пароля. Спробуйте пізніше."
-          }
-        }
-      }
-    },
-    "We couldn't sign you out at this time. Please, try again later." : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Наразі ми не можемо вас зареєструвати. Будь ласка, спробуйте пізніше."
+            "value" : "Наразі ми не можемо надіслати посилання для зміни пароля. Будь ласка, спробуйте пізніше."
           }
         }
       }
