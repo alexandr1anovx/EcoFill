@@ -36,5 +36,5 @@ struct ListCell: View {
 }
 
 #Preview {
-  ListCell(for: .settings)
+  ListCell(for: .support)
 }

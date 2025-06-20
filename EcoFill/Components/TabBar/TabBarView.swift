@@ -22,8 +22,8 @@ struct TabBarView: View {
           .tag(Tab.home)
         MapScreen(isShownTabBar: $isShownTabBar)
           .tag(Tab.map)
-        ProfileScreen(isShownTabBar: $isShownTabBar)
-          .tag(Tab.profile)
+        SettingsScreen(isShownTabBar: $isShownTabBar)
+          .tag(Tab.settings)
       }
       
       if isShownTabBar {
@@ -40,10 +40,10 @@ struct TabBarView: View {
             }
           }
         }
-        .padding(11)
+        .padding(10)
         .background(.black)
         .clipShape(.capsule)
-        .padding(.horizontal,40)
+        .padding(.horizontal,30)
         .shadow(radius: 2)
       }
     }

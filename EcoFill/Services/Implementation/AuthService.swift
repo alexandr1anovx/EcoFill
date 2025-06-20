@@ -12,6 +12,8 @@ final class AuthService: AuthServiceProtocol {
   // MARK: - Private Properties
   
   private let database = Firestore.firestore()
+  var userSession: FirebaseAuth.User? { Auth.auth().currentUser }
+  var currentUser: User?
   
   // MARK: - Public Methods
   
