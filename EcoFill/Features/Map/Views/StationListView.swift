@@ -4,11 +4,12 @@ struct StationListView: View {
   
   @EnvironmentObject var authViewModel: AuthViewModel
   @EnvironmentObject var stationViewModel: StationViewModel
+  @State private var selectedCity: City = .mykolaiv
   
-  private let stations = StationViewModel.StationSortType.allCases
+  private let sortingOptions = StationViewModel.StationSortType.allCases
   private var selectedCityStations: [Station] {
     stationViewModel.sortedStations.filter {
-      $0.city == authViewModel.userCity.rawValue.capitalized
+      $0.city == selectedCity.rawValue
     }
   }
   
@@ -16,66 +17,44 @@ struct StationListView: View {
     ZStack {
       Color.appBackground.ignoresSafeArea()
       VStack(spacing:0) {
-        cityPickerView
-        sortOptionPickerView
-        Divider()
-        stationsView
+        sortingOptionsView
+        stationsListView
       }
     }
-    .onAppear { getSelectedCity() }
   }
   
-  // MARK: - UI Components
-  
-  private var cityPickerView: some View {
-    HStack(spacing:0) {
-      Text("City:").foregroundStyle(.primary)
-      Picker("", selection: $authViewModel.userCity) {
-        ForEach(City.allCases) { city in
-          Text(city.title)
+  // MARK: - Subviews
+  private var sortingOptionsView: some View {
+    List {
+      Picker("City:", selection: $selectedCity) {
+        ForEach(City.allCases, id: \.self) { city in
+          Text(city.rawValue.capitalized).tag(city)
+        }
+      }
+      Picker("Sort by:", selection: $stationViewModel.sortType) {
+        ForEach(sortingOptions, id: \.self) { option in
+          Text(option.rawValue).tag(option)
         }
       }
     }
-    .pickerStyle(.menu)
-    .tint(.indigo)
-    .frame(maxWidth: .infinity, alignment: .leading)
-    .padding(.vertical,10)
-    .padding(.leading,23)
+    .customListStyle(
+      scrollDisabled: true,
+      indicators: .hidden,
+      height: 150,
+      shadow: 1
+    )
   }
   
-  private var sortOptionPickerView: some View {
-    HStack(spacing:0) {
-      Text("Sort by:").foregroundStyle(.primary)
-      Picker("", selection: $stationViewModel.sortType) {
-        ForEach(stations, id: \.self) { type in
-          Text(type.rawValue)
-            .tag(type)
-        }
-      }
-    }
-    .pickerStyle(.menu)
-    .tint(.indigo)
-    .frame(maxWidth: .infinity, alignment: .leading)
-    .padding(.leading,23)
-    .padding(.bottom)
-  }
-  
-  private var stationsView: some View {
+  private var stationsListView: some View {
     List(selectedCityStations) { station in
       StationListCell(station: station)
-        .listRowBackground(Color.white.opacity(0.1))
         .padding(.vertical, 10)
     }
-    .customListStyle(rowSpacing: 20, indicators: .visible)
-  }
-  
-  // MARK: - Logical Methods
-  
-  private func getSelectedCity() {
-    if let cityString = authViewModel.currentUser?.city,
-       let city = City(rawValue: cityString) {
-      authViewModel.userCity = city
-    }
+    .customListStyle(
+      rowSpacing: 20,
+      indicators: .visible,
+      shadow: 1
+    )
   }
 }
 

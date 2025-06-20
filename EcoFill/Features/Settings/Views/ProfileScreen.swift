@@ -9,20 +9,21 @@ import SwiftUI
 
 struct ProfileScreen: View {
   
-  // MARK: Properties
-  
-  @EnvironmentObject var authViewModel: AuthViewModel
   @State private var fullName = ""
   @State private var email = ""
   @State private var accountPassword = ""
+  @State private var isExpanded = false
   @State private var selectedCity: City = .mykolaiv
   @State private var isShownAccountDeletionAlert = false
   @State private var isShownSavedChangesAlert = false
   @FocusState var inputContent: InputContentType?
+  @EnvironmentObject var authViewModel: AuthViewModel
+  
+  // MARK: - Computed Properties
   
   private let feedbackGenerator = UINotificationFeedbackGenerator()
-  private let validationService = ValidationService.shared
-
+  private let validationService = ValidationService()
+  
   private var hasChanges: Bool {
     guard let currentUser = authViewModel.currentUser else {
       print("Cannot get current user for checking changes.")
@@ -30,7 +31,7 @@ struct ProfileScreen: View {
     }
     let changedFullName = fullName != currentUser.fullName
     let changedEmail = email != currentUser.email
-    let changedCity = selectedCity.title != currentUser.localizedCity
+    let changedCity = selectedCity.rawValue != currentUser.city
     
     return changedFullName || changedEmail || changedCity
   }
@@ -40,107 +41,110 @@ struct ProfileScreen: View {
     (email == authViewModel.currentUser?.email || validationService.isValid(email: email))
   }
   
-  // MARK: body
   var body: some View {
     ZStack {
       Color.appBackground.ignoresSafeArea()
       ScrollView {
-        VStack {
-          
-          personalDataList
-          emailStatusView.padding(.top)
-          HStack {
-            deleteAccountButton
-            Spacer()
-            saveChangesButton
+        VStack(alignment: .leading,spacing:0) {
+          Section {
+            VStack {
+              inputFields
+              CitySelectionView(isExpanded: $isExpanded, selectedCity: $selectedCity)
+              if hasChanges {
+                HStack {
+                  Spacer()
+                  saveChangesButton
+                }
+              }
+            }
+          } header: {
+            Text("Personal Data")
+              .font(.callout)
+              .fontWeight(.bold)
           }
-          .padding(.horizontal,30)
-          .padding(.top,10)
+          .padding(.vertical)
+          
+          Divider()
+          
+          Section {
+            emailStatusView
+          } header: {
+            Text("Email Status")
+              .font(.callout)
+              .fontWeight(.bold)
+          }
+          .padding(.vertical)
+          
+          Divider()
+          
+          Section {
+            HStack {
+              deleteAccountButton
+              Spacer()
+            }
+          } header: {
+            Text("Additional Actions")
+              .font(.callout)
+              .fontWeight(.bold)
+          }
+          .padding(.top)
+          
+          Spacer()
         }
+        .padding(.horizontal)
       }
-    }
-    .alert("Account Deletion", isPresented: $isShownAccountDeletionAlert) {
-      SecureField("Your password", text: $accountPassword)
-      Button("Cancel", role: .cancel) { accountPassword = "" }
-      Button("Delete", role: .destructive) {
-        Task {
-          await authViewModel.deleteUser(withPassword: accountPassword)
+      .alert("Account Deletion", isPresented: $isShownAccountDeletionAlert) {
+        SecureField("Your password", text: $accountPassword)
+        Button("Cancel", role: .cancel) { accountPassword = "" }
+        Button("Delete", role: .destructive) {
+          Task {
+            await authViewModel.deleteUser(withPassword: accountPassword)
+          }
         }
+      } message: {
+        Text("Are you sure? It will delete all your data forever.")
       }
-    } message: {
-      Text("Are you sure? It will delete all your data forever.")
-    }
-    // appears when the user changes personal data.
-    .alert(item: $authViewModel.alertItem) { alertItem in
-      Alert(
-        title: alertItem.title,
-        message: alertItem.message,
-        dismissButton: alertItem.primaryButton
-      )
-    }
-    .onAppear { loadUserData() }
-    .navigationTitle("Profile")
-    .navigationBarTitleDisplayMode(.inline)
+      // appears when the user changes personal data.
+      .alert(item: $authViewModel.alertItem) { alertItem in
+        Alert(
+          title: alertItem.title,
+          message: alertItem.message,
+          dismissButton: alertItem.dismissButton
+        )
+      }
+      .onAppear { loadUserData() }
+      .navigationTitle("Profile")
+      .navigationBarTitleDisplayMode(.inline)
+      }
   }
   
-  // MARK: - Components
+  // MARK: - Subviews
+  
+  private var inputFields: some View {
+    VStack(alignment: .leading) {
+      InputField(.fullName, inputData: $fullName)
+        .focused($inputContent, equals: .fullName)
+        .textInputAutocapitalization(.words)
+      InputField(.email, inputData: $email)
+        .focused($inputContent, equals: .email)
+        .keyboardType(.emailAddress)
+        .textInputAutocapitalization(.never)
+        .autocorrectionDisabled(true)
+    }
+  }
   
   private var emailStatusView: some View {
-    VStack(alignment: .leading, spacing: 6) {
-      HStack(spacing: 5) {
-        Text("email_status_label")
-          .fontWeight(.medium)
-        Text(authViewModel.emailStatus.message)
-          .fontWeight(.bold)
-          .foregroundStyle(
-            authViewModel.emailStatus == .verified ? .accent : .red
-          )
-      }
-      .font(.footnote)
-      Text(authViewModel.emailStatus.hint)
+    VStack(alignment: .leading, spacing: 8) {
+      Text(authViewModel.emailStatus.title)
+        .font(.footnote)
+        .fontWeight(.medium)
+        .foregroundStyle(
+          authViewModel.emailStatus == .verified ? .accent : .red
+        )
+      Text(authViewModel.emailStatus.message)
         .font(.caption)
         .foregroundStyle(.gray)
     }
-  }
-  
-  private var personalDataList: some View {
-    List {
-      // Full Name
-      HStack {
-        InputField(for: .fullName, data: $fullName)
-          .focused($inputContent, equals: .fullName)
-          .textInputAutocapitalization(.words)
-        Button("Edit") { inputContent = .fullName }
-          .font(.subheadline)
-          .foregroundStyle(.gray)
-      }
-      .buttonStyle(.plain)
-      // Email Address
-      HStack {
-        InputField(for: .emailAddress, data: $email)
-          .focused($inputContent, equals: .emailAddress)
-          .keyboardType(.emailAddress)
-          .textInputAutocapitalization(.never)
-          .autocorrectionDisabled(true)
-        Button("Edit") { inputContent = .emailAddress }
-          .font(.subheadline)
-          .foregroundStyle(.gray)
-      }
-      .buttonStyle(.plain)
-      // City
-      HStack {
-        Image(systemName: "building.2.crop.circle.fill")
-          .foregroundStyle(.accent)
-        Picker("City:", selection: $selectedCity) {
-          ForEach(City.allCases) { city in
-            Text(city.title)
-          }
-        }
-        .font(.subheadline)
-        .foregroundStyle(.primary)
-      }
-    }
-    .customListStyle(rowHeight: 50, rowSpacing: 10, height: 205, shadow: 1)
   }
   
   private var saveChangesButton: some View {
@@ -149,10 +153,14 @@ struct ProfileScreen: View {
         await authViewModel.updateProfile(
           fullName: fullName,
           email: email,
-          city: selectedCity
+          city: selectedCity.rawValue
         )
-        feedbackGenerator.notificationOccurred(.success)
-        inputContent = nil
+      }
+      inputContent = nil
+      if isExpanded {
+        withAnimation {
+          isExpanded = false
+        }
       }
     }
     .font(.subheadline)
@@ -174,16 +182,17 @@ struct ProfileScreen: View {
     }
   }
   
-  // MARK: Logical Methods
+  // MARK: - Methods
   
   private func loadUserData() {
     guard let user = authViewModel.currentUser else { return }
     fullName = user.fullName
     email = user.email
+    selectedCity = City(rawValue: user.city) ?? .odesa
   }
 }
 
 #Preview {
   ProfileScreen()
-  .environmentObject(AuthViewModel.previewMode)
+    .environmentObject(AuthViewModel.previewMode)
 }
