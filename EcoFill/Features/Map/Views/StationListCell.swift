@@ -2,7 +2,7 @@ import SwiftUI
 import MapKit
 
 struct StationListCell: View {
-  
+
   let station: Station
   private let transportTypes = MKDirectionsTransportType.allCases
   private var isPresentedRoute: Bool {
@@ -11,22 +11,20 @@ struct StationListCell: View {
   }
   @EnvironmentObject var mapViewModel: MapViewModel
   
-  // MARK: - body
   
   var body: some View {
     VStack(alignment: .leading, spacing:15) {
-      cell(image: .marker, title: "street_label", data: station.street)
-      cell(image: .clock, title: "schedule_label", data: station.schedule)
-      cell(image: .money, title: "payment_label", data: station.paymentMethods)
+      cell(image: .marker, title: "Street:", data: station.street)
+      cell(image: .clock, title: "Schedule:", data: station.schedule)
+      cell(image: .money, title: "Payment:", data: station.paymentMethods)
       transportationOptionsView
       FuelStackView(for: station)
       routeButton
-      // to prevent the entire cell from responding to a click.
-        .buttonStyle(.plain)
+        .buttonStyle(.plain) // to prevent the entire cell from responding to a click.
     }
   }
   
-  // MARK: - Auxilary UI Components
+  // MARK: - Subviews
   
   private func cell(
     image: ImageResource,
@@ -60,7 +58,7 @@ struct StationListCell: View {
   
   private var transportationOptionsView: some View {
     HStack {
-      Text("transportation_type")
+      Text("Travel Mode:")
         .font(.footnote)
         .fontWeight(.medium)
       ScrollView(.horizontal) {
@@ -84,9 +82,9 @@ struct StationListCell: View {
         mapViewModel.isShownRoute = true
       } label: {
         ButtonLabelWithIcon(
-          title: "show_route",
+          title: "Show Route",
           iconName: "arrow.trianglehead.branch",
-          textColor: .white,
+          textColor: .black,
           pouring: .accent,
           verticalSpace: 12
         )
@@ -98,7 +96,7 @@ struct StationListCell: View {
         mapViewModel.isShownRoute = false
       } label: {
         ButtonLabelWithIcon(
-          title: "hide_route",
+          title: "Hide Route",
           iconName: "x.circle.fill",
           textColor: .white,
           pouring: .red,

@@ -3,7 +3,7 @@ import SwiftUI
 struct RegistrationScreen: View {
   
   @State private var fullName = ""
-  @State private var emailAddress = ""
+  @State private var email = ""
   @State private var password = ""
   @State private var confirmedPassword = ""
   @State private var selectedCity = City.mykolaiv
@@ -13,8 +13,9 @@ struct RegistrationScreen: View {
   
   private var isValidForm: Bool {
     !fullName.isEmpty
-    && emailAddress.isValidEmail
+    && email.isValidEmail
     && password.count > 5
+    && password == confirmedPassword
   }
   
   // MARK: - body
@@ -39,26 +40,26 @@ struct RegistrationScreen: View {
   
   private var inputView: some View {
     VStack {
-      InputField(for: .fullName, data: $fullName)
+      InputField(.fullName, inputData: $fullName)
         .focused($fieldContent, equals: .fullName)
         .textInputAutocapitalization(.words)
         .submitLabel(.continue)
-        .onSubmit { fieldContent = .emailAddress }
-      InputField(for: .emailAddress, data: $emailAddress)
-        .focused($fieldContent, equals: .emailAddress)
+        .onSubmit { fieldContent = .email }
+      InputField(.email, inputData: $email)
+        .focused($fieldContent, equals: .email)
         .keyboardType(.emailAddress)
         .autocorrectionDisabled(true)
         .textInputAutocapitalization(.never)
         .submitLabel(.continue)
         .onSubmit { fieldContent = .password }
       
-      InputFieldSecured(for: .password, data: $password)
+      InputField(.password, inputData: $password)
         .focused($fieldContent, equals: .password)
         .submitLabel(.next)
-        .onSubmit { fieldContent = .passwordConfirmation }
+        .onSubmit { fieldContent = .confirmedPassword }
       
-      InputFieldSecured(for: .passwordConfirmation, data: $password)
-        .focused($fieldContent, equals: .passwordConfirmation)
+      InputField(.confirmedPassword, inputData: $confirmedPassword, validation: .passwordConfirmation(matchingPassword: password))
+        .focused($fieldContent, equals: .confirmedPassword)
         .submitLabel(.done)
         .onSubmit { fieldContent = nil }
     }
@@ -68,12 +69,12 @@ struct RegistrationScreen: View {
   
   private var cityPickerView: some View {
     HStack(spacing:0) {
-      Text("select_your_city")
+      Text("Select your city:")
         .font(.footnote)
         .foregroundStyle(.gray)
       Picker("", selection: $selectedCity) {
-        ForEach(City.allCases) { city in
-          Text(city.rawValue)
+        ForEach(City.allCases, id: \.self) { city in
+          Text(city.rawValue.capitalized)
         }
       }.pickerStyle(.menu)
     }
@@ -84,14 +85,14 @@ struct RegistrationScreen: View {
       Task {
         await authViewModel.register(
           fullName: fullName,
-          email: emailAddress,
+          email: email,
           password: password,
           city: selectedCity.rawValue
         )
       }
     } label: {
       ButtonLabel(
-        title: "register_title",
+        title: "Register",
         textColor: .white,
         pouring: .accent
       )
@@ -103,7 +104,7 @@ struct RegistrationScreen: View {
       Alert(
         title: alert.title,
         message: alert.message,
-        dismissButton: alert.primaryButton
+        dismissButton: alert.dismissButton
       )
     }
   }
@@ -113,9 +114,9 @@ struct RegistrationScreen: View {
       dismiss()
     } label: {
       HStack(spacing:6) {
-        Text("already_a_member?")
+        Text("Already a member?")
           .foregroundStyle(.gray)
-        Text("login_title")
+        Text("Login")
           .fontWeight(.semibold)
           .underline()
       }

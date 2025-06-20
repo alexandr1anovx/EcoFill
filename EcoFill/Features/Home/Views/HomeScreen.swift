@@ -18,7 +18,7 @@ struct HomeScreen: View {
     }
   }
   
-  // MARK: - Components
+  // MARK: - Subviews
   
   private var servicesListView: some View {
     List {
@@ -57,7 +57,7 @@ extension HomeScreen {
               .foregroundStyle(.gray)
           }
           Spacer()
-          Label(user.city, image: .marker)
+          Label(user.localizedCity, image: .marker)
             .foregroundStyle(.accent)
         }
         .padding(20)

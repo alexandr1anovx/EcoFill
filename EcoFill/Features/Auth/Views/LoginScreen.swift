@@ -2,7 +2,7 @@ import SwiftUI
 
 struct LoginScreen: View {
   
-  @State private var emailAddress = ""
+  @State private var email = ""
   @State private var password = ""
   @FocusState private var fieldContent: InputContentType?
   @EnvironmentObject var authViewModel: AuthViewModel
@@ -21,27 +21,24 @@ struct LoginScreen: View {
           loginButton
           forgotPasswordButton
           registerOptionView
-          //Spacer()
         }
       }
-      //.navigationTitle("Login")
-      //.navigationBarTitleDisplayMode(.large)
     }
   }
   
-  // MARK: - Components
+  // MARK: - Subviews
   
   private var inputView: some View {
     VStack {
-      InputField(for: .emailAddress, data: $emailAddress)
-        .focused($fieldContent, equals: .emailAddress)
+      InputField(.email, inputData: $email)
+        .focused($fieldContent, equals: .email)
         .keyboardType(.emailAddress)
         .autocorrectionDisabled(true)
         .textInputAutocapitalization(.never)
         .submitLabel(.continue)
         .onSubmit { fieldContent = .password }
       
-      InputField(for: .password, data: $password)
+      InputField(.password, inputData: $password)
         .focused($fieldContent, equals: .password)
         .submitLabel(.done)
         .onSubmit { fieldContent = nil }
@@ -53,24 +50,24 @@ struct LoginScreen: View {
   private var loginButton: some View {
     Button {
       Task {
-        await authViewModel.logIn(email: emailAddress, password: password)
+        await authViewModel.logIn(email: email, password: password)
         password = ""
       }
     } label: {
       ButtonLabel(
-        title: "login_title",
+        title: "Login",
         textColor: .white,
         pouring: .accent
       )
     }
     .padding(.horizontal)
-    .disabled(emailAddress.isEmpty && password.isEmpty)
-    .opacity(emailAddress.isEmpty && password.isEmpty ? 0.4 : 1)
+    .disabled(email.isEmpty && password.isEmpty)
+    .opacity(email.isEmpty && password.isEmpty ? 0.4 : 1)
     .alert(item: $authViewModel.alertItem) { alert in
       Alert(
         title: alert.title,
         message: alert.message,
-        dismissButton: alert.primaryButton
+        dismissButton: alert.dismissButton
       )
     }
   }
@@ -79,7 +76,7 @@ struct LoginScreen: View {
     NavigationLink {
       ResetPasswordScreen()
     } label: {
-      Text("forgot_password")
+      Text("Forgot password?")
         .font(.caption2)
         .fontWeight(.medium)
         .foregroundStyle(.gray)
@@ -89,11 +86,13 @@ struct LoginScreen: View {
   
   private var registerOptionView: some View {
     HStack(spacing: 5) {
-      Text("new_member?").foregroundStyle(.gray)
+      Text("New member?")
+        .foregroundStyle(.gray)
       NavigationLink {
         RegistrationScreen()
       } label: {
-        Text("register_title").fontWeight(.semibold)
+        Text("Register")
+          .fontWeight(.semibold)
       }
     }.font(.footnote)
   }

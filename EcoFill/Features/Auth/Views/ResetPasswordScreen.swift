@@ -9,9 +9,9 @@ import SwiftUI
 
 struct ResetPasswordScreen: View {
   
-  @State private var email = ""
+  @State private var emailAddress = ""
   @State private var isResetLinkSent = false
-  @FocusState private var fieldContent: InputFieldContent?
+  @FocusState private var fieldContent: InputContentType?
   @EnvironmentObject var authViewModel: AuthViewModel
   
   var body: some View {
@@ -21,14 +21,14 @@ struct ResetPasswordScreen: View {
           if isResetLinkSent {
             linkSentView
           } else {
-            Text("reset_password_title")
+            Text("Password Recovery")
               .font(.headline)
               .fontWeight(.bold)
-            Text("reset_password_subtitle")
+            Text("Enter your email address to receive a password reset link.")
               .font(.subheadline)
               .foregroundStyle(.gray)
               .padding(.horizontal)
-            emailTextField
+            emailTextField.padding(.horizontal)
             sendLinkButton
           }
         Spacer()
@@ -36,49 +36,42 @@ struct ResetPasswordScreen: View {
     }
   }
   
-  // MARK: - UI Components
+  // MARK: - Subviews
   
   private var emailTextField: some View {
-    List {
-      DefaultTextField(
-        inputData: $email,
-        iconName: "envelope",
-        hint: "input_email"
-      )
-      .focused($fieldContent, equals: .emailAddress)
+    InputField(.email, inputData: $emailAddress)
+      .focused($fieldContent, equals: .email)
       .keyboardType(.emailAddress)
       .autocorrectionDisabled(true)
       .textInputAutocapitalization(.never)
       .submitLabel(.done)
       .onSubmit { fieldContent = nil }
-    }
-    .customListStyle(rowHeight: 50, scrollDisabled: true, height: 85, shadow: 1)
   }
   
   private var sendLinkButton: some View {
     Button {
       Task {
-        await authViewModel.sendPasswordResetLink(email: email)
+        await authViewModel.sendPasswordResetLink(email: emailAddress)
         withAnimation {
           isResetLinkSent.toggle()
-          email = ""
+          emailAddress = ""
         }
       }
     } label: {
       ButtonLabel(
-        title: "send_reset_link_button",
+        title: "Send Link",
         textColor: .white,
         pouring: .accent
       )
     }
     .padding(.horizontal)
-    .disabled(!email.isValidEmail)
-    .opacity(!email.isValidEmail ? 0.5 : 1)
+    .disabled(!emailAddress.isValidEmail)
+    .opacity(!emailAddress.isValidEmail ? 0.5 : 1)
     .alert(item: $authViewModel.alertItem) { alert in
       Alert(
         title: alert.title,
         message: alert.message,
-        dismissButton: alert.primaryButton
+        dismissButton: alert.dismissButton
       )
     }
   }
@@ -88,10 +81,10 @@ struct ResetPasswordScreen: View {
       Image(systemName: "checkmark.circle.fill")
         .font(.largeTitle)
         .foregroundStyle(.accent)
-      Text("sent_link_title")
+      Text("Done!")
         .font(.title3)
         .fontWeight(.bold)
-      Text("sent_link_message")
+      Text("The link has been sent to your email address.")
         .font(.body)
         .multilineTextAlignment(.center)
         .padding(.horizontal, 20)

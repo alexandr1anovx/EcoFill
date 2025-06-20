@@ -15,7 +15,6 @@ struct SupportScreen: View {
     ZStack {
       Color.appBackground.ignoresSafeArea()
       VStack(spacing:12) {
-        
         inputViews
         sendButton.padding(.top)
         Spacer()
@@ -32,25 +31,25 @@ struct SupportScreen: View {
     }
   }
   
-  // MARK: - Components
+  // MARK: - Subviews
   
   private var inputViews: some View {
     Section {
-      InputField(for: .emailAddress, data: $email)
-      .disabled(true)
+      InputField(.email, inputData: $email)
+        .disabled(true)
       
       InputFieldExtended(
         inputData: $message,
         iconName: "message",
-        hint: "input_supportMessage",
+        hint: "Write your message",
         maxCount: 100
       )
     } header: {
-      Text("support_header_message")
+      Text("Submit Your Message")
         .font(.callout)
         .foregroundStyle(.gray)
     } footer: {
-      Text("support_footer_message")
+      Text("Use polite language in your message.")
         .font(.footnote)
         .foregroundStyle(.gray)
     }
@@ -71,15 +70,15 @@ struct SupportScreen: View {
     .padding(.horizontal)
     .opacity(!isMessageCorrect ? 0.5 : 1)
     .disabled(!isMessageCorrect)
-    .alert("support_alert_title", isPresented: $isShownAlert) {
+    .alert("Done!", isPresented: $isShownAlert) {
       // "OK" button by default
     } message: {
-      Text("support_alert_message")
+      Text("Thanks for reaching out! Whether it’s feedback or an issue, we appreciate your input and will respond shortly.")
     }
   }
   
   // MARK: - Private Logical Methods
-
+  
   private func loadUserEmail() {
     email = authViewModel.currentUser?.email ?? "No email address"
   }
