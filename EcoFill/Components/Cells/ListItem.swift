@@ -13,32 +13,29 @@ enum ListItem {
   case support
   // Settings
   case updatePersonalData
-  case rateUs
+  case helpUsImprove
   case aboutTheDeveloper
   case logout
-  case deleteAccount
   
   var title: LocalizedStringKey {
     switch self {
-    case .qrCode: "qrcode_title"
-    case .support: "support_title"
-    case .updatePersonalData: "update_personal_data"
-    case .rateUs: "rate_us_title"
-    case .aboutTheDeveloper: "about_the_developer"
-    case .logout: "logout_title"
-    case .deleteAccount: "delete_account_title"
+    case .qrCode: "QR Code"
+    case .support: "Support"
+    case .updatePersonalData: "Update Personal Data"
+    case .helpUsImprove: "Help us improve"
+    case .aboutTheDeveloper: "About The Developer"
+    case .logout: "Log Out"
     }
   }
   
   var subtitle: LocalizedStringKey? {
     switch self {
-    case .qrCode: "qrcode_subtitle"
-    case .support: "support_subtitle"
+    case .qrCode: "You can scan your QRcode to get bonuses"
+    case .support: "Contact support if you have problems"
     case .updatePersonalData: nil
-    case .rateUs: "rate_us_subtitle"
+    case .helpUsImprove: "Leave us a review — your feedback means a lot!"
     case .aboutTheDeveloper: nil
     case .logout: nil
-    case .deleteAccount: nil
     }
   }
   
@@ -47,10 +44,9 @@ enum ListItem {
     case .qrCode: "qrcode"
     case .support: "message.fill"
     case .updatePersonalData: "person"
-    case .rateUs: "hand.thumbsup"
+    case .helpUsImprove: "hand.thumbsup"
     case .aboutTheDeveloper: "apple.logo"
     case .logout: "door.left.hand.open"
-    case .deleteAccount: "xmark.circle.fill"
     }
   }
   
@@ -59,10 +55,9 @@ enum ListItem {
     case .qrCode: Color.accent
     case .support: Color.accent
     case .updatePersonalData: Color.primary
-    case .rateUs: Color.orange
+    case .helpUsImprove: Color.orange
     case .aboutTheDeveloper: Color.primary
     case .logout: Color.red
-    case .deleteAccount: Color.red
     }
   }
 }
