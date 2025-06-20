@@ -23,7 +23,7 @@ struct AuthAlertContext {
   )
   static let failedToLogout = AlertItem(
       Text("Logout Failed"),
-      Text("We couldn't sign you out at this time. Please try again later."),
+      Text("An error occurred while logging out of your account. Please contact support"),
       dismissButton: .default(Text("OK"))
   )
   static let failedToRegister = AlertItem(
