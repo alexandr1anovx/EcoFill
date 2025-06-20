@@ -7,19 +7,23 @@ final class AuthViewModel: ObservableObject {
   
   @Published var userSession: FirebaseAuth.User?
   @Published var currentUser: User?
-  @Published var userCity: City = .mykolaiv
   @Published var emailStatus: EmailStatus = .unverified
   @Published var alertItem: AlertItem?
   
   // MARK: - Private Properties
   
   private let authService: AuthServiceProtocol
+  private let validationService: ValidationService
   private var authStateListener: AuthStateDidChangeListenerHandle?
   
   // MARK: - Init / Deinit
   
-  init(authService: AuthService = AuthService()) {
+  init(
+    authService: AuthService = AuthService(),
+    validationService: ValidationService = ValidationService()
+  ) {
     self.authService = authService
+    self.validationService = validationService
     setupAuthListener()
   }
   deinit {
@@ -30,11 +34,11 @@ final class AuthViewModel: ObservableObject {
   
   // MARK: - Public Methods
   
-  func signUp(
+  func register(
     fullName: String,
     email: String,
     password: String,
-    city: City
+    city: String
   ) async {
     do {
       let user = try await authService.signUp(email: email, password: password)
@@ -42,55 +46,59 @@ final class AuthViewModel: ObservableObject {
         id: user.uid,
         fullName: fullName,
         email: email,
-        city: city.rawValue.capitalized,
-        points: Int.random(in: 0...8)
+        city: city
       )
       try await authService.saveUserData(for: newUser)
       self.currentUser = newUser
     } catch {
-      alertItem = RegistrationAlertContext.userExists
-      print("❌ Registration failed: \(error.localizedDescription)")
+      alertItem = AuthAlertContext.failedToRegister
     }
   }
   
-  func signIn(email: String, password: String) async {
+  func logIn(email: String, password: String) async {
     do {
       try await authService.signIn(email: email, password: password)
     } catch {
-      alertItem = RegistrationAlertContext.userDoesNotExists
+      alertItem = AuthAlertContext.failedToLogin
     }
   }
   
   func signOut() {
     do {
       try authService.signOut()
-      //self.userSession = nil
       self.currentUser = nil
     } catch {
-      alertItem = ProfileAlertContext.failedToSignOut
+      alertItem = AuthAlertContext.failedToLogout
     }
   }
   
   func deleteUser(withPassword password: String) async {
     do {
       try await authService.deleteUser(withPassword: password)
-      alertItem = ProfileAlertContext.successfullAccountDeletion
-      //userSession = nil
+      alertItem = ProfileAlertContext.accountDeletedSuccessfully
       currentUser = nil
     } catch {
-      alertItem = ProfileAlertContext.unsuccessfullAccountDeletion
+      alertItem = ProfileAlertContext.failedToDeleteAccount
     }
   }
   
-  func updateEmail(
-    toEmail email: String,
-    withPassword password: String
-  ) async {
+  func updateProfile(fullName: String, email: String, city: String) async {
+    guard let currentUser = currentUser else {
+      alertItem = ProfileAlertContext.failedToUpdateProfile
+      return
+    }
+    let updatedUser = User(
+      id: currentUser.id,
+      fullName: fullName,
+      email: email,
+      city: city
+    )
     do {
-      try await authService.updateEmail(toEmail: email, withPassword: password)
-      alertItem = ProfileAlertContext.confirmationLinkSent
+      try await authService.saveUserData(for: updatedUser)
+      self.currentUser = updatedUser
+      alertItem = ProfileAlertContext.profileUpdatedSuccessfully
     } catch {
-      alertItem = ProfileAlertContext.unsuccessfullEmailUpdate
+      alertItem = ProfileAlertContext.failedToUpdateProfile
     }
   }
   
@@ -101,14 +109,13 @@ final class AuthViewModel: ObservableObject {
   func sendPasswordResetLink(email: String) async {
     do {
       try await authService.sendPasswordResetLink(email: email)
-      alertItem = PasswordResetAlertContext.resetLinkSent
+      alertItem = PasswordResetAlertContext.resetPasswordLinkSent
     } catch {
-      alertItem = PasswordResetAlertContext.resetLinkFailed
+      alertItem = PasswordResetAlertContext.failedToSendPasswordResetLink
     }
   }
   
   // MARK: - Private Methods
-  
   private func setupAuthListener() {
     authStateListener = Auth.auth()
       .addStateDidChangeListener { [weak self] _, user in
@@ -138,16 +145,16 @@ final class AuthViewModel: ObservableObject {
 enum EmailStatus {
   case verified, unverified
   
-  var message: LocalizedStringKey {
+  var title: String {
     switch self {
-    case .verified: "email_status_verified"
-    case .unverified: "email_status_unverified"
+    case .verified: "Verified"
+    case .unverified: "Unverified"
     }
   }
-  var hint: LocalizedStringKey {
+  var message: String {
     switch self {
     case .verified: ""
-    case .unverified: "email_status_unverified_hint"
+    case .unverified: "A confirmation link has been sent to your email address"
     }
   }
 }
