@@ -8,32 +8,7 @@ struct MapScreen: View {
   @EnvironmentObject var stationViewModel: StationViewModel
   @EnvironmentObject var mapViewModel: MapViewModel
   
-  // MARK:  - body
-  
   var body: some View {
-    mapView
-      .task(id: mapViewModel.isShownRoute) {
-        await mapViewModel.toggleRoutePresentation()
-      }
-      .onAppear { isShownTabBar = true }
-    
-      .sheet(isPresented: $mapViewModel.isShownStationPreview) {
-        MapItemView(station: mapViewModel.selectedStation ?? MockData.station)
-          .presentationDetents([.height(320)])
-          .presentationDragIndicator(.visible)
-          .presentationCornerRadius(25)
-      }
-      .sheet(isPresented: $mapViewModel.isShownStationList) {
-        StationListView()
-          .presentationDetents([.medium])
-          .presentationDragIndicator(.visible)
-          .presentationCornerRadius(25)
-      }
-  }
-  
-  // MARK:  - Auxilary UI Components
-  
-  private var mapView: some View {
     Map(position: $cameraPosition) {
       UserAnnotation()
       ForEach(stationViewModel.stations) { station in
@@ -47,12 +22,34 @@ struct MapScreen: View {
           .stroke(.purple, lineWidth: 4)
       }
     }
+    .overlay(alignment: .topTrailing) {
+      listButton
+    }
     .mapControls {
       MapPitchToggle()
       MapUserLocationButton()
     }
-    .overlay(alignment: .topTrailing) { listButton }
+    .sheet(isPresented: $mapViewModel.isShownStationPreview) {
+      MapItemView(station: mapViewModel.selectedStation ?? MockData.station)
+        .presentationDetents([.height(320)])
+        .presentationDragIndicator(.visible)
+        .presentationCornerRadius(25)
+    }
+    .sheet(isPresented: $mapViewModel.isShownStationList) {
+      StationListView()
+        .presentationDetents([.medium, .large])
+        .presentationDragIndicator(.visible)
+        .presentationCornerRadius(25)
+    }
+    .task(id: mapViewModel.isShownRoute) {
+      await mapViewModel.toggleRoutePresentation()
+    }
+    .onAppear {
+      isShownTabBar = true
+    }
   }
+  
+  // MARK: - Subviews
   
   private func mark(for station: Station) -> some View {
     Button {
