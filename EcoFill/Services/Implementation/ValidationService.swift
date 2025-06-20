@@ -9,11 +9,6 @@ import Foundation
 
 final class ValidationService: ValidationServiceProtocol {
   
-  // MARK: - Singleton
-
-  static let shared = ValidationService()
-  private init() {}
-  
   // MARK: - Public Methods
   
   func isValid(fullName: String) -> Bool {
