@@ -1,29 +1,15 @@
 import SwiftUI
 
-enum ServiceType: CaseIterable, Identifiable {
-  case qrcode
-  case support
+enum ServiceType: String, Identifiable, CaseIterable {
+  case qrcode = "QR Code"
+  case support = "Support"
   
-  var id: Self { self }
+  var id: String { self.rawValue }
   
   var icon: String {
     switch self {
     case .qrcode: "qrcode"
     case .support: "message"
-    }
-  }
-  
-  var title: LocalizedStringKey {
-    switch self {
-    case .qrcode: "qrcode_title"
-    case .support: "support_title"
-    }
-  }
-  
-  var subtitle: LocalizedStringKey {
-    switch self {
-    case .qrcode: "qrcode_subtitle"
-    case .support: "support_subtitle"
     }
   }
 }

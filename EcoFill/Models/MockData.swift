@@ -5,14 +5,14 @@
 //  Created by Alexander Andrianov on 14.05.2025.
 //
 
+import Foundation
 
 struct MockData {
   static let user = User(
     id: "1",
     fullName: "Name Surname",
     email: "example@gmail.com",
-    city: "London",
-    points: 10
+    city: "London"
   )
   
   static let station = Station(
