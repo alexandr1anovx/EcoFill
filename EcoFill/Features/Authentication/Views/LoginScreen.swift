@@ -1,13 +1,8 @@
 import SwiftUI
 
 struct LoginScreen: View {
-  
-  @State private var email = ""
-  @State private var password = ""
-  @FocusState private var fieldContent: InputContentType?
-  @EnvironmentObject var authViewModel: AuthViewModel
-  
-  // MARK: - body
+  @FocusState private var inputContentType: InputContentType?
+  @EnvironmentObject var viewModel: AuthenticationViewModel
   
   var body: some View {
     NavigationStack {
@@ -17,10 +12,10 @@ struct LoginScreen: View {
           Text("Login")
             .font(.title)
             .fontWeight(.bold)
-          inputView
-          loginButton
+          inputFields
+          signInButton
           forgotPasswordButton
-          registerOptionView
+          signUpOptionView
         }
       }
     }
@@ -28,42 +23,38 @@ struct LoginScreen: View {
   
   // MARK: - Subviews
   
-  private var inputView: some View {
+  private var inputFields: some View {
     VStack {
-      InputField(.email, inputData: $email)
-        .focused($fieldContent, equals: .email)
+      InputField(.email, inputData: $viewModel.email)
+        .focused($inputContentType, equals: .email)
         .keyboardType(.emailAddress)
         .autocorrectionDisabled(true)
         .textInputAutocapitalization(.never)
         .submitLabel(.continue)
-        .onSubmit { fieldContent = .password }
-      
-      InputField(.password, inputData: $password)
-        .focused($fieldContent, equals: .password)
+        .onSubmit { inputContentType = .password }
+      InputField(.password, inputData: $viewModel.password)
+        .focused($inputContentType, equals: .password)
         .submitLabel(.done)
-        .onSubmit { fieldContent = nil }
+        .onSubmit { inputContentType = nil }
     }
     .padding(.top)
     .padding(.horizontal)
   }
   
-  private var loginButton: some View {
+  private var signInButton: some View {
     Button {
-      Task {
-        await authViewModel.logIn(email: email, password: password)
-        password = ""
-      }
+      Task { await viewModel.signIn() }
     } label: {
       ButtonLabel(
-        title: "Login",
+        title: "Sign In",
         textColor: .white,
         pouring: .accent
       )
     }
     .padding(.horizontal)
-    .disabled(email.isEmpty && password.isEmpty)
-    .opacity(email.isEmpty && password.isEmpty ? 0.4 : 1)
-    .alert(item: $authViewModel.alertItem) { alert in
+    .disabled(viewModel.email.isEmpty && viewModel.password.isEmpty)
+    .opacity(viewModel.email.isEmpty && viewModel.password.isEmpty ? 0.4 : 1)
+    .alert(item: $viewModel.alertItem) { alert in
       Alert(
         title: alert.title,
         message: alert.message,
@@ -84,21 +75,14 @@ struct LoginScreen: View {
     }
   }
   
-  private var registerOptionView: some View {
-    HStack(spacing: 5) {
-      Text("New member?")
-        .foregroundStyle(.gray)
+  private var signUpOptionView: some View {
+    HStack(spacing:5) {
+      Text("New member?").foregroundStyle(.gray)
       NavigationLink {
         RegistrationScreen()
       } label: {
-        Text("Register")
-          .fontWeight(.semibold)
+        Text("Sign Up").fontWeight(.semibold)
       }
     }.font(.footnote)
   }
-}
-
-#Preview {
-  LoginScreen()
-    .environmentObject(AuthViewModel.previewMode)
 }
