@@ -1,31 +1,38 @@
 import SwiftUI
 
 struct LaunchScreen: View {
-  
-  @State private var isShownAppContent = false
-  @EnvironmentObject var authViewModel: AuthViewModel
-  @EnvironmentObject var stationVM: StationViewModel
+  @State private var isShownLoadingAnimation = true
+  @EnvironmentObject var authService: AuthenticationService
+  @EnvironmentObject var userService: UserService
   
   var body: some View {
     Group {
-      if authViewModel.userSession != nil {
-        if isShownAppContent {
-          TabBarView()
-        } else {
+      switch authService.authState {
+      case .signedIn(_):
+        if isShownLoadingAnimation {
           loadingBackground
+        } else {
+          TabBarView()
         }
-      } else {
-        LoginScreen()
+      case .signedOut:
+        LoginScreen()        
+      case .loading:
+        loadingBackground
+      case .error(let error):
+        Text("Loading Error: \(error.localizedDescription)")
+          .foregroundColor(.red)
       }
     }
     .onAppear {
       DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-        withAnimation(.spring(duration: 1)) {
-          isShownAppContent.toggle()
+        withAnimation(.spring) {
+          self.isShownLoadingAnimation = false
         }
       }
     }
   }
+  
+  // MARK: - Subviews
   
   private var loadingBackground: some View {
     ZStack {
@@ -33,7 +40,7 @@ struct LaunchScreen: View {
       VStack {
         Image(.logo)
         HStack {
-          Text("Launching...")
+          Text("Launching app...")
           ProgressView()
         }
       }
