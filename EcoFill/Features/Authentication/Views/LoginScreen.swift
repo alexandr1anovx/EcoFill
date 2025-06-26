@@ -2,20 +2,26 @@ import SwiftUI
 
 struct LoginScreen: View {
   @FocusState private var inputContentType: InputContentType?
-  @EnvironmentObject var viewModel: AuthenticationViewModel
+  @StateObject var viewModel: LoginViewModel
   
   var body: some View {
     NavigationStack {
       ZStack {
         Color.appBackground.ignoresSafeArea()
-        VStack(spacing:20) {
-          Text("Login")
-            .font(.title)
-            .fontWeight(.bold)
-          inputFields
-          signInButton
-          forgotPasswordButton
-          signUpOptionView
+        ScrollView {
+          VStack(spacing:20) {
+            Text("Login")
+              .font(.title)
+              .fontWeight(.bold)
+            inputFields
+            signInButton
+            if viewModel.isLoading {
+              ProgressView()
+            }
+            forgotPasswordButton
+            signUpOptionView
+          }
+          .padding(.top)
         }
       }
     }
@@ -52,8 +58,8 @@ struct LoginScreen: View {
       )
     }
     .padding(.horizontal)
-    .disabled(viewModel.email.isEmpty && viewModel.password.isEmpty)
-    .opacity(viewModel.email.isEmpty && viewModel.password.isEmpty ? 0.4 : 1)
+    .disabled(!viewModel.isValidForm)
+    .opacity(!viewModel.isValidForm ? 0.4 : 1)
     .alert(item: $viewModel.alertItem) { alert in
       Alert(
         title: alert.title,
