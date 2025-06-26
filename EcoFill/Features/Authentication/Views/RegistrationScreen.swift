@@ -3,14 +3,7 @@ import SwiftUI
 struct RegistrationScreen: View {
   @FocusState private var inputContentType: InputContentType?
   @Environment(\.dismiss) var dismiss
-  @EnvironmentObject var viewModel: AuthenticationViewModel
-  
-  private var isValidForm: Bool {
-    !viewModel.fullName.isEmpty
-    && viewModel.email.isValidEmail
-    && viewModel.password.count > 5
-    && viewModel.password == viewModel.confirmedPassword
-  }
+  @EnvironmentObject var viewModel: RegistrationViewModel
   
   var body: some View {
     ZStack {
@@ -20,6 +13,9 @@ struct RegistrationScreen: View {
           inputFields
           cityPickerView.padding(.horizontal)
           signUpButton
+          if viewModel.isLoading {
+            ProgressView()
+          }
           signInOptionView
         }
       }
@@ -68,7 +64,7 @@ struct RegistrationScreen: View {
         .foregroundStyle(.gray)
       Picker("", selection: $viewModel.selectedCity) {
         ForEach(City.allCases, id: \.self) { city in
-          Text(city.rawValue.capitalized)
+          Text(city.rawValue)
         }
       }.pickerStyle(.menu)
     }
@@ -85,8 +81,8 @@ struct RegistrationScreen: View {
       )
     }
     .padding(.horizontal)
-    .disabled(!isValidForm)
-    .opacity(!isValidForm ? 0.4 : 1)
+    .disabled(!viewModel.isValidForm)
+    .opacity(!viewModel.isValidForm ? 0.4 : 1)
     .alert(item: $viewModel.alertItem) { alert in
       Alert(
         title: alert.title,
