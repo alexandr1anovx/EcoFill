@@ -7,6 +7,10 @@
 
 import Firebase
 
+protocol StationServiceProtocol {
+  func getStationsData(completion: @escaping (Result<[Station], Error>) -> Void)
+}
+
 final class StationService: StationServiceProtocol {
   
   // MARK: - Private Properties
