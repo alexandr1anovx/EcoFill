@@ -36,8 +36,6 @@ struct InputField: View {
           TextField(inputType.hint, text: $inputData)
         }
       }
-      .textInputAutocapitalization(.never)
-      .autocorrectionDisabled(true)
       .font(.subheadline)
       .onChange(of: inputData) { _, newValue in
         if inputType.shouldShowPasswordToggle {
