@@ -18,12 +18,18 @@ protocol AuthServiceProtocol {
 final class FirebaseAuthService: AuthServiceProtocol {
   
   func signIn(email: String, password: String) async throws -> User {
-    let result = try await Auth.auth().signIn(withEmail: email, password: password)
+    let result = try await Auth.auth().signIn(
+      withEmail: email,
+      password: password
+    )
     return result.user
   }
   
   func signUp(email: String, password: String) async throws -> User {
-    let result = try await Auth.auth().createUser(withEmail: email, password: password)
+    let result = try await Auth.auth().createUser(
+      withEmail: email,
+      password: password
+    )
     return result.user
   }
   
@@ -33,11 +39,7 @@ final class FirebaseAuthService: AuthServiceProtocol {
   
   func deleteAccount() async throws {
     guard let user = Auth.auth().currentUser else {
-      throw NSError(
-        domain: "AuthService",
-        code: 404,
-        userInfo: [NSLocalizedDescriptionKey: "Текущий пользователь не найден"]
-      )
+      throw AuthErrorCode(.userNotFound)
     }
     try await user.delete()
   }
