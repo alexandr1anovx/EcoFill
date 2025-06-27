@@ -1,15 +1,17 @@
 import SwiftUI
 
 struct CityFuelsGrid: View {
-  @EnvironmentObject var authViewModel: AuthViewModel
-  @EnvironmentObject var stationViewModel: StationViewModel
+  @EnvironmentObject var viewModel: StationViewModel
+  @EnvironmentObject var sessionManager: SessionManager
   
   private var stationInSelectedCity: Station? {
-    stationViewModel.stations.first { $0.city == authViewModel.currentUser?.city }
+    viewModel.stations.first {
+      $0.city == sessionManager.currentUser?.city
+    }
   }
   
   var body: some View {
-    if !stationViewModel.stations.isEmpty {
+    if !viewModel.stations.isEmpty {
       FuelStackView(for: stationInSelectedCity ?? MockData.station)
     } else {
       ContentUnavailableView(

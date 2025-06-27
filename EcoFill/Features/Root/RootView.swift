@@ -29,7 +29,9 @@ struct RootView: View {
         }
       
       case .loggedOut:
-        LoginScreen(viewModel: LoginViewModel(authService: firebaseAuthService))
+        LoginScreen(
+          viewModel: LoginViewModel(firebaseAuthService: firebaseAuthService)
+        )
       }
     }
     .animation(.easeInOut, value: sessionManager.sessionState)
@@ -47,10 +49,7 @@ struct RootView: View {
         Image(.logo)
           .resizable()
           .frame(width: 120, height: 120)
-        HStack {
-          Text("Launching app...")
-          ProgressView()
-        }
+        ProgressView()
       }
     }
   }
