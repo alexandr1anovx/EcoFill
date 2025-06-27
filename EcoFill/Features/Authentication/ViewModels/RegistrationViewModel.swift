@@ -36,7 +36,10 @@ final class RegistrationViewModel: ObservableObject {
   
   // MARK: - Init
   
-  init(firebaseAuthService: AuthServiceProtocol, firestoreUserService: UserServiceProtocol) {
+  init(
+    firebaseAuthService: AuthServiceProtocol,
+    firestoreUserService: UserServiceProtocol
+  ) {
     self.firebaseAuthService = firebaseAuthService
     self.firestoreUserService = firestoreUserService
   }
@@ -44,13 +47,19 @@ final class RegistrationViewModel: ObservableObject {
   // MARK: - Methods
   
   func signUp() async {
-    guard isValidForm else { return }
-    
     isLoading = true
     
     do {
-      let user = try await firebaseAuthService.signUp(email: email, password: password)
-      let appUser = AppUser(uid: user.uid, fullName: fullName, email: email, city: selectedCity.rawValue)
+      let user = try await firebaseAuthService.signUp(
+        email: email,
+        password: password
+      )
+      let appUser = AppUser(
+        uid: user.uid,
+        fullName: fullName,
+        email: email,
+        city: selectedCity.rawValue
+      )
       try await firestoreUserService.createOrUpdateAppUser(user: appUser)
       print("✅ RegistrationViewModel: Successfully signed up!")
       isLoading = false
