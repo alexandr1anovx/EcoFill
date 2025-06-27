@@ -5,52 +5,60 @@
 //  Created by Alexander Andrianov on 27.03.2025.
 //
 
-import FirebaseFirestore
-import SwiftUICore
+import Foundation
 
 @MainActor
 final class StationViewModel: ObservableObject {
   
-  // MARK: - Properties
-  
   @Published var stations: [Station] = []
-  @Published var sortType: StationSortType = .priceA95
-  private let stationService: StationService
+  @Published var sortType: StationSortOption = .priceA95
+  @Published var selectedCity: City = .mykolaiv
+  let sortOptions = StationSortOption.allCases
+  
+  private let stationService: FirestoreStationService
+  
+  // MARK: - Computed Properties
   
   var sortedStations: [Station] {
     switch sortType {
-    case .priceA95: return stations.sorted { $0.euroA95 < $1.euroA95 }
-    case .priceDP: return stations.sorted { $0.euroDP < $1.euroDP }
-    case .priceGas: return stations.sorted { $0.gas < $1.gas }
-    case .payment: return stations.sorted { $0.paymentMethods < $1.paymentMethods }
+    case .priceA95:
+      stations.sorted { $0.euroA95 < $1.euroA95 }
+    case .priceDP:
+      stations.sorted { $0.euroDP < $1.euroDP }
+    case .priceGas:
+      stations.sorted { $0.gas < $1.gas }
+    case .payment:
+      stations.sorted { $0.paymentMethods < $1.paymentMethods }
+    }
+  }
+  
+  var stationsInSelectedCity: [Station] {
+    sortedStations.filter {
+      $0.city == selectedCity.rawValue
     }
   }
   
   // MARK: - Init
   
-  init(stationService: StationService = StationService()) {
+  init(stationService: FirestoreStationService = FirestoreStationService()) {
     self.stationService = stationService
-    getStationsData()
   }
   
   // MARK: - Public Methods
   
-  func getStationsData() {
-    stationService.getStationsData { [weak self] result in
-      DispatchQueue.main.async {
-        switch result {
-        case .success(let stations):
-          self?.stations = stations
-        case .failure(let error):
-          print("⚠️ Failed to get stations: \(error.localizedDescription)")
-        }
-      }
+  func fetchStations() async {
+    do {
+      stations = try await stationService.fetchStationsData()
+    } catch {
+      print("⚠️ StationViewModel: Failed to fetch stations: \(error.localizedDescription)")
     }
   }
 }
 
+// MARK: - Extension: Station Sort Option
+
 extension StationViewModel {
-  enum StationSortType: String, CaseIterable {
+  enum StationSortOption: String, CaseIterable {
     case priceA95 = "A95 Euro"
     case priceDP = "DP Euro"
     case priceGas = "Gas"
