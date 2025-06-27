@@ -14,7 +14,7 @@ struct MapScreen: View {
       ForEach(stationViewModel.stations) { station in
         let coordinate = station.coordinate
         Annotation("EcoFill", coordinate: coordinate) {
-          mark(for: station)
+          mapMark(for: station)
         }
       }
       if let route = mapViewModel.route {
@@ -51,7 +51,7 @@ struct MapScreen: View {
   
   // MARK: - Subviews
   
-  private func mark(for station: Station) -> some View {
+  private func mapMark(for station: Station) -> some View {
     Button {
       mapViewModel.selectedStation = station
       mapViewModel.isShownStationPreview = true
@@ -86,5 +86,4 @@ struct MapScreen: View {
   MapScreen(isShownTabBar: .constant(false))
     .environmentObject(MapViewModel.previewMode)
     .environmentObject(StationViewModel.previewMode)
-    .environmentObject(AuthViewModel.previewMode)
 }
