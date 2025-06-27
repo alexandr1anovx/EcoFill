@@ -2,13 +2,10 @@ import SwiftUI
 
 struct SupportScreen: View {
   
-  @State private var email = ""
-  @State private var message = ""
-  @State private var isShownAlert = false
-  @EnvironmentObject var authViewModel: AuthViewModel
+  @StateObject private var viewModel: SupportViewModel
   
-  private var isMessageCorrect: Bool {
-    message.count > 10 && message.count <= 100
+  init(viewModel: SupportViewModel) {
+    _viewModel = StateObject(wrappedValue: viewModel)
   }
   
   var body: some View {
@@ -23,7 +20,7 @@ struct SupportScreen: View {
       .navigationTitle("Support")
       .navigationBarTitleDisplayMode(.inline)
       .onAppear {
-        loadUserEmail()
+        viewModel.retrieveUserEmail()
       }
     }
     .onTapGesture {
@@ -35,11 +32,10 @@ struct SupportScreen: View {
   
   private var inputViews: some View {
     Section {
-      InputField(.email, inputData: $email)
+      InputField(.email, inputData: $viewModel.email)
         .disabled(true)
-      
       InputFieldExtended(
-        inputData: $message,
+        inputData: $viewModel.message,
         iconName: "message",
         hint: "Write your message",
         maxCount: 100
@@ -58,8 +54,8 @@ struct SupportScreen: View {
   
   private var sendButton: some View {
     Button {
-      message = ""
-      isShownAlert.toggle()
+      viewModel.message = ""
+      viewModel.isShownMessageSentAlert.toggle()
     } label: {
       ButtonLabel(
         title: "Submit",
@@ -68,23 +64,12 @@ struct SupportScreen: View {
       )
     }
     .padding(.horizontal)
-    .opacity(!isMessageCorrect ? 0.5 : 1)
-    .disabled(!isMessageCorrect)
-    .alert("Done!", isPresented: $isShownAlert) {
+    .opacity(!viewModel.isMessageCorrect ? 0.5 : 1)
+    .disabled(!viewModel.isMessageCorrect)
+    .alert("Done!", isPresented: $viewModel.isShownMessageSentAlert) {
       // "OK" button by default
     } message: {
       Text("Thanks for reaching out! Whether it’s feedback or an issue, we appreciate your input and will respond shortly.")
     }
   }
-  
-  // MARK: - Private Logical Methods
-  
-  private func loadUserEmail() {
-    email = authViewModel.currentUser?.email ?? "No email address"
-  }
-}
-
-#Preview {
-  SupportScreen()
-    .environmentObject(AuthViewModel.previewMode)
 }
