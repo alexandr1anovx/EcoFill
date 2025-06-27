@@ -9,7 +9,6 @@ import Foundation
 import FirebaseAuth
 
 enum SessionState: Equatable {
-  //case loading
   case loggedIn(User)
   case loggedOut
 }
@@ -24,14 +23,15 @@ final class SessionManager: ObservableObject {
   
   // MARK: - Private Properties
   
-  private var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
+  private var authStateListenerHandle: AuthStateDidChangeListenerHandle?
   private let firestoreUserService: UserServiceProtocol
   
   // MARK: - Init / Deinit
   
   init(firestoreUserService: UserServiceProtocol) {
     self.firestoreUserService = firestoreUserService
-    authStateDidChangeListenerHandle = Auth.auth().addStateDidChangeListener { [weak self] _, user in
+    
+    authStateListenerHandle = Auth.auth().addStateDidChangeListener { [weak self] _, user in
       guard let self = self else { return }
       if let firebaseUser = user {
         self.sessionState = .loggedIn(firebaseUser)
@@ -52,7 +52,7 @@ final class SessionManager: ObservableObject {
   }
   
   deinit {
-    if let handle = authStateDidChangeListenerHandle {
+    if let handle = authStateListenerHandle {
       Auth.auth().removeStateDidChangeListener(handle)
       print("✅ SessionManager: Deinitialized auth state change listener!")
     }
