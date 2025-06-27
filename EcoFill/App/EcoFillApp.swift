@@ -51,6 +51,9 @@ struct EcoFillApp: App {
           firestoreUserService: firestoreUserService
         )
       )
+      .onAppear {
+        Task { await stationViewModel.fetchStations() }
+      }
     }
   }
 }
