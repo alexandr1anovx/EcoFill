@@ -11,13 +11,12 @@ struct CitySelectionView: View {
   
   @Binding var isExpanded: Bool
   @Binding var selectedCity: City
-  @EnvironmentObject var authViewModel: AuthViewModel
   
   var body: some View {
     VStack {
       HStack {
         Text("City:")
-        Text(selectedCity.rawValue.capitalized)
+        Text(selectedCity.rawValue)
         Spacer()
         Button(isExpanded ? "Hide" : "Change") {
           withAnimation {
@@ -28,7 +27,7 @@ struct CitySelectionView: View {
       
       if isExpanded {
         HStack {
-          ForEach(City.allCases) { city in
+          ForEach(City.allCases, id: \.self) { city in
             cell(for: city)
           }
         }.padding(.vertical)

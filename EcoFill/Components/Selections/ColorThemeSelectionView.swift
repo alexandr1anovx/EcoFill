@@ -25,6 +25,7 @@ enum ColorTheme: String, Identifiable, CaseIterable {
 
 struct ColorThemeSelectionView: View {
   @AppStorage("colorTheme") private var selectedColorTheme: ColorTheme = .system
+  private let themes = ColorTheme.allCases
   
   var body: some View {
     HStack {
@@ -32,7 +33,7 @@ struct ColorThemeSelectionView: View {
         .font(.subheadline)
         .fontWeight(.medium)
       Picker("", selection: $selectedColorTheme) {
-        ForEach(ColorTheme.allCases, id: \.self) { theme in
+        ForEach(themes, id: \.self) { theme in
           Text(theme.title)
         }
       }.pickerStyle(.segmented)
