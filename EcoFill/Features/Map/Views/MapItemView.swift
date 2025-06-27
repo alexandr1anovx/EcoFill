@@ -4,8 +4,7 @@ import MapKit
 struct MapItemView: View {
   
   let station: Station
-  private let transportTypes = MKDirectionsTransportType.allCases
-  @EnvironmentObject var mapViewModel: MapViewModel
+  @EnvironmentObject var viewModel: MapViewModel
   
   var body: some View {
     ZStack {
@@ -47,11 +46,11 @@ struct MapItemView: View {
       .foregroundStyle(.white)
       .padding(10)
       .background(
-        type == mapViewModel.selectedTransport ? .accent : .black
+        type == viewModel.selectedTransport ? .accent : .black
       )
       .clipShape(.capsule)
-      .animation(.spring, value: mapViewModel.selectedTransport)
-      .onTapGesture { mapViewModel.selectedTransport = type }
+      .animation(.spring, value: viewModel.selectedTransport)
+      .onTapGesture { viewModel.selectedTransport = type }
   }
   
   private var transportTypesView: some View {
@@ -61,7 +60,7 @@ struct MapItemView: View {
         .fontWeight(.medium)
       ScrollView(.horizontal) {
         HStack(spacing:8) {
-          ForEach(transportTypes, id: \.self) { type in
+          ForEach(viewModel.transportTypes, id: \.self) { type in
             transportLabel(for: type)
           }
         }
@@ -73,9 +72,9 @@ struct MapItemView: View {
   
   @ViewBuilder
   private var routeButton: some View {
-    if mapViewModel.isShownRoute {
+    if viewModel.isShownRoute {
       Button {
-        mapViewModel.isShownRoute = false
+        viewModel.isShownRoute = false
       } label: {
         ButtonLabelWithIcon(
           title: "Hide Route",
@@ -86,7 +85,7 @@ struct MapItemView: View {
       }
     } else {
       Button {
-        mapViewModel.isShownRoute = true
+        viewModel.isShownRoute = true
       } label: {
         ButtonLabelWithIcon(
           title: "Show Route",
