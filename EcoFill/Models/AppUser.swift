@@ -22,6 +22,6 @@ struct AppUser: Identifiable, Codable {
   }
   
   var localizedCity: LocalizedStringKey {
-    return LocalizedStringKey(city.capitalized)
+    return LocalizedStringKey(city)
   }
 }
