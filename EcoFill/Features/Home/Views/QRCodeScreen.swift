@@ -4,27 +4,28 @@ import CoreImage.CIFilterBuiltins
 
 struct QRCodeScreen: View {
   
-  @State private var qrCodeImage: UIImage?
-  @State private var scannedCode: String?
-  @State private var errorMessage: String?
-  @State private var isAlertVisible = false
-  @EnvironmentObject var authViewModel: AuthViewModel
+  @EnvironmentObject var sessionManager: SessionManager
+  @StateObject private var viewModel: QRCodeViewModel
+  
+  init(viewModel: QRCodeViewModel) {
+    _viewModel = StateObject(wrappedValue: viewModel)
+  }
   
   var body: some View {
     ZStack {
       Color.appBackground.ignoresSafeArea()
       VStack(spacing:10) {
         
-        if let user = authViewModel.currentUser {
+        if let user = sessionManager.currentUser {
           HStack(spacing: 0) {
-            Text(user.id.dropLast(4))
+            Text(user.uid.dropLast(4))
               .font(.subheadline)
               .foregroundStyle(.gray)
-            Text(user.id.suffix(4))
+            Text(user.uid.suffix(4))
               .font(.headline)
           }
           
-          if let qrCodeImage {
+          if let qrCodeImage = viewModel.qrCodeImage {
             Image(uiImage: qrCodeImage)
               .resizable()
               .interpolation(.none)
@@ -43,7 +44,7 @@ struct QRCodeScreen: View {
             .font(.title2)
             .fontWeight(.bold)
           
-          if scannedCode != nil {
+          if viewModel.scannedCode != nil {
             Label {
               Text("Scanning was successful!")
                 .font(.headline)
@@ -54,7 +55,10 @@ struct QRCodeScreen: View {
             }
             Spacer()
           } else {
-            QRScannerView(scannedCode: $scannedCode, errorMessage: $errorMessage)
+            QRScannerView(
+              scannedCode: $viewModel.scannedCode,
+              errorMessage: $viewModel.errorMessage
+            )
           }
         } else {
           ProgressView("Loading user data...")
@@ -62,14 +66,14 @@ struct QRCodeScreen: View {
       }
     }
     .onAppear {
-      generateQRCodeImage()
+      viewModel.generateQRCodeImage()
     }
     .toolbar {
       ToolbarItem(placement: .topBarTrailing) {
         Button("Camera Settings") {
-          isAlertVisible.toggle()
+          viewModel.isShownAlert.toggle()
         }
-        .alert(isPresented: $isAlertVisible) {
+        .alert(isPresented: $viewModel.isShownAlert) {
           Alert(
             title: Text("Camera access is required to scan the code."),
             message: Text("Go to settings?"),
@@ -82,38 +86,5 @@ struct QRCodeScreen: View {
       }
     }
   }
-  
-  // MARK: - Private Logical Methods
-  
-  private func openAppSettings() {
-    guard let appSettings = URL(string: UIApplication.openSettingsURLString) else {
-      return
-    }
-    if UIApplication.shared.canOpenURL(appSettings) {
-      UIApplication.shared.open(appSettings)
-    }
-  }
-  
-  private func generateQRCodeImage() {
-    guard let user = authViewModel.currentUser else {
-      errorMessage = "Error: Full name is missing."
-      return
-    }
-    
-    let context = CIContext()
-    let filter = CIFilter.qrCodeGenerator()
-    filter.message = Data(user.fullName.utf8)
-    
-    if let outputImage = filter.outputImage,
-       let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
-      qrCodeImage = UIImage(cgImage: cgImage)
-    } else {
-      errorMessage = "Error generating QR code."
-    }
-  }
 }
 
-#Preview {
-  QRCodeScreen()
-    .environmentObject(AuthViewModel.previewMode)
-}
