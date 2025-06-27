@@ -8,12 +8,22 @@
 import SwiftUI
 
 struct TabBarView: View {
-  
   @State private var selectedTab = Tab.home
   @State private var isShownTabBar = true
   private let tabs = Tab.allCases
   
-  init() { UITabBar.appearance().isHidden = true }
+  let firebaseAuthService: AuthServiceProtocol
+  let firestoreUserService: UserServiceProtocol
+  @EnvironmentObject var sessionManager: SessionManager
+  
+  init(
+    firebaseAuthService: AuthServiceProtocol,
+    firestoreUserService: UserServiceProtocol
+  ) {
+    UITabBar.appearance().isHidden = true
+    self.firebaseAuthService = firebaseAuthService
+    self.firestoreUserService = firestoreUserService
+  }
   
   var body: some View {
     ZStack(alignment: .bottom) {
@@ -22,8 +32,13 @@ struct TabBarView: View {
           .tag(Tab.home)
         MapScreen(isShownTabBar: $isShownTabBar)
           .tag(Tab.map)
-        SettingsScreen(isShownTabBar: $isShownTabBar)
-          .tag(Tab.settings)
+        SettingsScreen(
+          isShownTabBar: $isShownTabBar,
+          sessionManager: _sessionManager,
+          firebaseAuthService: firebaseAuthService,
+          firestoreUserService: firestoreUserService
+        )
+        .tag(Tab.settings)
       }
       
       if isShownTabBar {
@@ -48,11 +63,4 @@ struct TabBarView: View {
       }
     }
   }
-}
-
-#Preview {
-  TabBarView()
-    .environmentObject(MapViewModel.previewMode)
-    .environmentObject(AuthViewModel.previewMode)
-    .environmentObject(StationViewModel.previewMode)
 }

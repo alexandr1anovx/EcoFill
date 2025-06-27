@@ -1,39 +1,31 @@
 import SwiftUI
 
 struct StationListView: View {
-  
-  @EnvironmentObject var authViewModel: AuthViewModel
-  @EnvironmentObject var stationViewModel: StationViewModel
-  @State private var selectedCity: City = .mykolaiv
-  
-  private let sortingOptions = StationViewModel.StationSortType.allCases
-  private var selectedCityStations: [Station] {
-    stationViewModel.sortedStations.filter {
-      $0.city == selectedCity.rawValue
-    }
-  }
+  @EnvironmentObject var viewModel: StationViewModel
   
   var body: some View {
     ZStack {
       Color.appBackground.ignoresSafeArea()
       VStack(spacing:0) {
-        sortingOptionsView
-        stationsListView
+        sortingPickers
+        stationsList
       }
     }
   }
   
   // MARK: - Subviews
-  private var sortingOptionsView: some View {
+  
+  private var sortingPickers: some View {
     List {
-      Picker("City:", selection: $selectedCity) {
+      Picker("City:", selection: $viewModel.selectedCity) {
         ForEach(City.allCases, id: \.self) { city in
           Text(city.rawValue.capitalized).tag(city)
         }
       }
-      Picker("Sort by:", selection: $stationViewModel.sortType) {
-        ForEach(sortingOptions, id: \.self) { option in
-          Text(option.rawValue).tag(option)
+      Picker("Sort by:", selection: $viewModel.sortType) {
+        ForEach(viewModel.sortOptions, id: \.self) { option in
+          Text(option.rawValue)
+            .tag(option)
         }
       }
     }
@@ -45,8 +37,8 @@ struct StationListView: View {
     )
   }
   
-  private var stationsListView: some View {
-    List(selectedCityStations) { station in
+  private var stationsList: some View {
+    List(viewModel.stationsInSelectedCity) { station in
       StationListCell(station: station)
         .padding(.vertical, 10)
     }
@@ -60,7 +52,6 @@ struct StationListView: View {
 
 #Preview {
   StationListView()
-    .environmentObject(AuthViewModel.previewMode)
     .environmentObject(MapViewModel.previewMode)
     .environmentObject(StationViewModel.previewMode)
 }

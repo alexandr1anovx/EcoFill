@@ -9,10 +9,9 @@ import SwiftUI
 
 struct ResetPasswordScreen: View {
   
-  @State private var emailAddress = ""
+  @State private var email = ""
   @State private var isResetLinkSent = false
-  @FocusState private var fieldContent: InputContentType?
-  @EnvironmentObject var authViewModel: AuthViewModel
+  @FocusState private var inputContentType: InputContentType?
   
   var body: some View {
     ZStack {
@@ -39,17 +38,18 @@ struct ResetPasswordScreen: View {
   // MARK: - Subviews
   
   private var emailTextField: some View {
-    InputField(.email, inputData: $emailAddress)
-      .focused($fieldContent, equals: .email)
+    InputField(.email, inputData: $email)
+      .focused($inputContentType, equals: .email)
       .keyboardType(.emailAddress)
       .autocorrectionDisabled(true)
       .textInputAutocapitalization(.never)
       .submitLabel(.done)
-      .onSubmit { fieldContent = nil }
+      .onSubmit { inputContentType = nil }
   }
   
   private var sendLinkButton: some View {
     Button {
+      /*
       Task {
         await authViewModel.sendPasswordResetLink(email: emailAddress)
         withAnimation {
@@ -57,6 +57,7 @@ struct ResetPasswordScreen: View {
           emailAddress = ""
         }
       }
+      */
     } label: {
       ButtonLabel(
         title: "Send Link",
@@ -65,15 +66,7 @@ struct ResetPasswordScreen: View {
       )
     }
     .padding(.horizontal)
-    .disabled(!emailAddress.isValidEmail)
-    .opacity(!emailAddress.isValidEmail ? 0.5 : 1)
-    .alert(item: $authViewModel.alertItem) { alert in
-      Alert(
-        title: alert.title,
-        message: alert.message,
-        dismissButton: alert.dismissButton
-      )
-    }
+    .disabled(true) // ⚠️ fix in the future!
   }
   
   private var linkSentView: some View {
@@ -90,9 +83,4 @@ struct ResetPasswordScreen: View {
         .padding(.horizontal, 20)
     }
   }
-}
-
-#Preview {
-  ResetPasswordScreen()
-    .environmentObject(AuthViewModel.previewMode)
 }

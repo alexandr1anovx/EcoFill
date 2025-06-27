@@ -6,9 +6,10 @@ final class MapViewModel: ObservableObject {
   @Published var selectedStation: Station?
   @Published var selectedTransport: MKDirectionsTransportType = .automobile
   @Published var route: MKRoute?
-  @Published var isShownRoute = false
-  @Published var isShownStationPreview = false
-  @Published var isShownStationList = false
+  @Published var isShownRoute: Bool = false
+  @Published var isShownStationPreview: Bool = false
+  @Published var isShownStationList: Bool = false
+  let transportTypes = MKDirectionsTransportType.allCases
   
   // MARK: - Private Properties
   

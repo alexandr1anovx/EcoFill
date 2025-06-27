@@ -2,7 +2,14 @@
   "sourceLanguage" : "en",
   "strings" : {
     "" : {
-
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        }
+      }
     },
     ":" : {
       "localizations" : {
@@ -25,57 +32,11 @@
       }
     },
     "%lld" : {
-
-    },
-    "⚠️ Authorization access denied" : {
       "localizations" : {
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "⚠️ Відмовлено в авторизації"
-          }
-        }
-      }
-    },
-    "⚠️ Location access denied" : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⚠️ Доступ до місцезнаходження заборонено"
-          }
-        }
-      }
-    },
-    "⚠️ Location access restricted" : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⚠️ Доступ до місця розташування обмежено"
-          }
-        }
-      }
-    },
-    "⚠️ Location unknown" : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⚠️ Місцезнаходження невідоме"
-          }
-        }
-      }
-    },
-    "⚠️ Network failed" : {
-
-    },
-    "⚠️ Operation failed" : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⚠️ Операція не вдалася"
+            "value" : "%lld"
           }
         }
       }
@@ -170,22 +131,12 @@
         }
       }
     },
-    "An account with the provided credentials already exists." : {
+    "An account with the provided email already exists." : {
       "localizations" : {
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Обліковий запис з наданими обліковими даними вже існує."
-          }
-        }
-      }
-    },
-    "An error occurred while attempting to delete your account. Please try again later." : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Виникла помилка при спробі видалити ваш обліковий запис. Будь ласка, спробуйте пізніше."
+            "value" : "Обліковий запис з вказаною адресою вже існує."
           }
         }
       }
@@ -200,22 +151,22 @@
         }
       }
     },
-    "An error occurred while updating your account. Please try again later, or contact support." : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Під час оновлення вашого облікового запису сталася помилка. Будь ласка, спробуйте пізніше або зверніться до служби підтримки."
-          }
-        }
-      }
-    },
     "Are you sure? It will delete all your data forever." : {
       "localizations" : {
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ви впевнені? Це видалить всі ваші дані назавжди."
+          }
+        }
+      }
+    },
+    "Authorization access denied" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відмовлено в авторизації доступу"
           }
         }
       }
@@ -481,7 +432,14 @@
       }
     },
     "GitHub" : {
-
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub"
+          }
+        }
+      }
     },
     "Go to settings?" : {
       "localizations" : {
@@ -533,6 +491,16 @@
         }
       }
     },
+    "Incorrect email or password." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неправильний email або пароль."
+          }
+        }
+      }
+    },
     "Input your account password" : {
       "localizations" : {
         "uk" : {
@@ -549,16 +517,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Мова:"
-          }
-        }
-      }
-    },
-    "Launching..." : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Запуск…"
           }
         }
       }
@@ -584,7 +542,14 @@
       }
     },
     "LinkedIn" : {
-
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LinkedIn"
+          }
+        }
+      }
     },
     "Loading user data..." : {
       "localizations" : {
@@ -602,6 +567,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Завантаження…"
+          }
+        }
+      }
+    },
+    "Location access denied" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відмовлено в доступі до місцезнаходження"
+          }
+        }
+      }
+    },
+    "Location access restricted" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступ до місцезнаходження обмежено"
+          }
+        }
+      }
+    },
+    "Location unknown" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Місцезнаходження невідоме"
           }
         }
       }
@@ -666,6 +661,16 @@
         }
       }
     },
+    "Network failed" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося підключитися до мережі"
+          }
+        }
+      }
+    },
     "New member?" : {
       "localizations" : {
         "uk" : {
@@ -677,7 +682,24 @@
       }
     },
     "OK" : {
-
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "Operation failed" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Операція не вдалася"
+          }
+        }
+      }
     },
     "Other" : {
       "localizations" : {
@@ -785,16 +807,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "QR-код не доступний"
-          }
-        }
-      }
-    },
-    "Register" : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Зареєструватись"
           }
         }
       }
@@ -909,6 +921,36 @@
         }
       }
     },
+    "Sign In" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Увійти"
+          }
+        }
+      }
+    },
+    "Sign Out" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вийти"
+          }
+        }
+      }
+    },
+    "Sign Up" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зареєструватися"
+          }
+        }
+      }
+    },
     "Sort by:" : {
       "localizations" : {
         "uk" : {
@@ -975,16 +1017,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Дякуємо, що звернулися до нас! Незалежно від того, чи це відгук, чи проблема, ми цінуємо ваш внесок і відповімо вам найближчим часом."
-          }
-        }
-      }
-    },
-    "The email or password you entered is incorrect." : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ви ввели невірну адресу електронної пошти або пароль."
           }
         }
       }

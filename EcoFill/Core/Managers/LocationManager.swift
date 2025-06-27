@@ -14,7 +14,7 @@ final class LocationManager: NSObject {
   }
 }
 
-// MARK: - CLLocationManagerDelegate
+// MARK: - Extension: CLLocationManagerDelegate
 
 extension LocationManager: CLLocationManagerDelegate {
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -37,9 +37,9 @@ extension LocationManager: CLLocationManagerDelegate {
     case .notDetermined:
       manager.requestWhenInUseAuthorization()
     case .restricted:
-      print("⚠️ Location access restricted")
+      print("Location access restricted")
     case .denied:
-      print("⚠️ Location access denied")
+      print("Location access denied")
     case .authorizedAlways, .authorizedWhenInUse:
       manager.requestLocation()
     default:
@@ -56,7 +56,7 @@ extension LocationManager: CLLocationManagerDelegate {
         self.error = .accessDenied
       case .network:
         self.error = .network
-      @unknown default:
+      default:
         self.error = .operationFailed
       }
     }
@@ -76,17 +76,17 @@ extension LocationManager {
     var errorDescription: String {
       switch self {
       case .authorizationDenied:
-        return NSLocalizedString("⚠️ Authorization access denied", comment: "")
+        return NSLocalizedString("Authorization access denied", comment: "")
       case .authorizationRestricted:
-        return NSLocalizedString("⚠️ Location access restricted", comment: "")
+        return NSLocalizedString("Location access restricted", comment: "")
       case .locationUnknown:
-        return NSLocalizedString("⚠️ Location unknown", comment: "")
+        return NSLocalizedString("Location unknown", comment: "")
       case .accessDenied:
-        return NSLocalizedString("⚠️ Location access denied", comment: "")
+        return NSLocalizedString("Location access denied", comment: "")
       case .network:
-        return NSLocalizedString("⚠️ Network failed", comment: "")
+        return NSLocalizedString("Network failed", comment: "")
       case .operationFailed:
-        return NSLocalizedString("⚠️ Operation failed", comment: "")
+        return NSLocalizedString("Operation failed", comment: "")
       }
     }
   }

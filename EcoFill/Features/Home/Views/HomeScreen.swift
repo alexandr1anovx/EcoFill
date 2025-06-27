@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeScreen: View {
   @Binding var isShownTabBar: Bool
+  @EnvironmentObject var sessionManager: SessionManager
   
   var body: some View {
     NavigationStack {
@@ -32,9 +33,15 @@ struct HomeScreen: View {
     .navigationDestination(for: ServiceType.self) { service in
       switch service {
       case .qrcode:
-        QRCodeScreen().onAppear { isShownTabBar = false }
+        QRCodeScreen(
+          viewModel: QRCodeViewModel(sessionManager: sessionManager)
+        )
+        .onAppear { isShownTabBar = false }
       case .support:
-        SupportScreen().onAppear { isShownTabBar = false }
+        SupportScreen(
+          viewModel: SupportViewModel(sessionManager: sessionManager)
+        )
+        .onAppear { isShownTabBar = false }
       }
     }
     .customListStyle(shadow: 1.0)
@@ -43,10 +50,10 @@ struct HomeScreen: View {
 
 extension HomeScreen {
   struct UserDataHeader: View {
-    @EnvironmentObject var authViewModel: AuthViewModel
+    @EnvironmentObject var sessionManager: SessionManager
     
     var body: some View {
-      if let user = authViewModel.currentUser {
+      if let user = sessionManager.currentUser {
         HStack {
           VStack(alignment: .leading, spacing: 12) {
             Text(user.fullName)
@@ -62,10 +69,7 @@ extension HomeScreen {
         }
         .padding(20)
       } else {
-        HStack {
-          Text("Loading...")
-          ProgressView()
-        }
+        ProgressView("Loading...")
       }
     }
   }
@@ -73,7 +77,6 @@ extension HomeScreen {
 
 #Preview {
   HomeScreen(isShownTabBar: .constant(true))
-    .environmentObject(AuthViewModel.previewMode)
     .environmentObject(MapViewModel.previewMode)
     .environmentObject(StationViewModel.previewMode)
 }

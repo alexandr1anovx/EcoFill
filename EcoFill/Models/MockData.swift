@@ -8,15 +8,15 @@
 import Foundation
 
 struct MockData {
-  static let user = User(
-    id: "1",
+  static let user = AppUser(
+    uid: "1",
     fullName: "Name Surname",
     email: "example@gmail.com",
     city: "London"
   )
   
   static let station = Station(
-    id: "2",
+    uid: "2",
     city: "Mykolaiv",
     euroA95: 40.0,
     euroDP: 30.0,

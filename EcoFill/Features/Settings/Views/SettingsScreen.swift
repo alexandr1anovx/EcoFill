@@ -9,7 +9,11 @@ struct SettingsScreen: View {
   @State private var isShownDeletetionAlert = false
   @State private var isShownPasswordSheet = false
   @Environment(\.requestReview) var requestReview
-  @EnvironmentObject var authViewModel: AuthViewModel
+  
+  @EnvironmentObject var sessionManager: SessionManager
+  
+  let firebaseAuthService: AuthServiceProtocol
+  let firestoreUserService: UserServiceProtocol
   
   var body: some View {
     NavigationStack {
@@ -28,7 +32,7 @@ struct SettingsScreen: View {
           }
           Section("Other") {
             aboutTheDeveloperCell
-            logoutCell
+            //logoutCell
           }
         }
         .customListStyle(rowHeight: 52, rowSpacing: 10, shadow: 1)
@@ -47,7 +51,11 @@ struct SettingsScreen: View {
   
   private var updatePersonalDataCell: some View {
     NavigationLink {
-      ProfileScreen()
+      ProfileScreen(
+        firebaseAuthService: firebaseAuthService,
+        firestoreUserService: firestoreUserService,
+        sessionManager: sessionManager
+      )
         .onAppear { isShownTabBar = false }
     } label: {
       ListCell(for: .updatePersonalData)
@@ -71,22 +79,20 @@ struct SettingsScreen: View {
     }
   }
   
-  private var logoutCell: some View {
-    Button {
-      isShownLogoutAlert.toggle()
-    } label: {
-      ListCell(for: .logout)
-    }
-    .alert("Log Out", isPresented: $isShownLogoutAlert) {
-      Button("Log Out", role: .destructive) {
-        withAnimation(.easeInOut(duration: 1)) {
-          authViewModel.signOut()
-        }
-      }
-    } message: {
-      Text("This action will redirect you to the login screen.")
-    }
-  }
+//  private var logoutCell: some View {
+//    Button {
+//      isShownLogoutAlert.toggle()
+//    } label: {
+//      ListCell(for: .logout)
+//    }
+//    .alert("Log Out", isPresented: $isShownLogoutAlert) {
+//      Button("Log Out", role: .destructive) {
+//        Task { await viewModel.signOut() }
+//      }
+//    } message: {
+//      Text("This action will redirect you to the login screen.")
+//    }
+//  }
   
   // MARK: ⚠️ Redesign This Part! ⚠️
   
@@ -97,20 +103,16 @@ struct SettingsScreen: View {
       TextField("Password", text: $accountPassword)
         .textFieldStyle(.roundedBorder)
       Button("Delete Account") {
+        /*
         Task {
           await authViewModel.deleteUser(withPassword: accountPassword)
           accountPassword = ""
         }
+        */
       }
       .disabled(accountPassword.isEmpty)
       .tint(.red)
       .buttonStyle(.bordered)
     }
   }
-}
-
-#Preview {
-  SettingsScreen(isShownTabBar: .constant(true))
-    .environmentObject(AuthViewModel.previewMode)
-    .environmentObject(MapViewModel.previewMode)
 }
