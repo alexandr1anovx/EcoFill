@@ -2,7 +2,14 @@
   "sourceLanguage" : "en",
   "strings" : {
     "" : {
-
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        }
+      }
     },
     ":" : {
       "localizations" : {
@@ -25,7 +32,14 @@
       }
     },
     "%lld" : {
-
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld"
+          }
+        }
+      }
     },
     "A-95 Euro" : {
       "localizations" : {
@@ -418,7 +432,14 @@
       }
     },
     "GitHub" : {
-
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub"
+          }
+        }
+      }
     },
     "Go to settings?" : {
       "localizations" : {
@@ -521,7 +542,14 @@
       }
     },
     "LinkedIn" : {
-
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LinkedIn"
+          }
+        }
+      }
     },
     "Loading user data..." : {
       "localizations" : {
@@ -654,7 +682,14 @@
       }
     },
     "OK" : {
-
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
     },
     "Operation failed" : {
       "localizations" : {
