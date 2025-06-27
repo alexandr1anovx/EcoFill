@@ -66,15 +66,7 @@ struct ResetPasswordScreen: View {
       )
     }
     .padding(.horizontal)
-    .disabled(!email.isValidEmail)
-    .opacity(!email.isValidEmail ? 0.5 : 1)
-//    .alert(item: $authViewModel.alertItem) { alert in
-//      Alert(
-//        title: alert.title,
-//        message: alert.message,
-//        dismissButton: alert.dismissButton
-//      )
-//    }
+    .disabled(true) // ⚠️ fix in the future!
   }
   
   private var linkSentView: some View {
