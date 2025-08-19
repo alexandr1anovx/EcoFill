@@ -26,4 +26,4 @@ It provides users with up-to-date fuel prices and navigation to the nearest gas 
 
 ## installation:
 ```bash
-https://github.com/alexandr1anov/EcoFill.git
+git clone https://github.com/alexandr1anov/EcoFill.git
