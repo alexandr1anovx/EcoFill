@@ -6,7 +6,6 @@
 //
 
 import FirebaseFirestore
-import FirebaseFirestoreSwift
 
 protocol StationServiceProtocol {
   func fetchStationsData() async throws -> [Station]
