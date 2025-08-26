@@ -7,24 +7,19 @@
 
 import SwiftUI
 
-struct InputFieldExtended: View {
-  
+struct ExtendedTextField: View {
   @Binding var inputData: String
   let iconName: String
   let hint: LocalizedStringKey
   let maxCount: Int
-  
   private var isReachedLetterLimit: Bool {
     inputData.count == maxCount
   }
-  
   var body: some View {
-    HStack(spacing: 15) {
+    HStack {
       Image(systemName: iconName)
-        .frame(width: 18, height: 18)
-        .foregroundStyle(.accent)
+        .foregroundColor(.secondary)
       TextField(hint, text: $inputData, axis: .vertical)
-        .font(.subheadline)
       HStack(spacing: 3) {
         Text("\(inputData.count)").foregroundStyle(.gray)
         Text("/").foregroundStyle(.gray)
@@ -33,7 +28,10 @@ struct InputFieldExtended: View {
       }
       .font(.caption)
     }
-    .customInputFieldStyle()
+    .padding(.horizontal)
+    .frame(height: 55)
+    .background(.thinMaterial)
+    .clipShape(.rect(cornerRadius: 18))
     .onChange(of: inputData) { _, newValue in
       if newValue.count >= maxCount {
         inputData = String(newValue.prefix(maxCount))
@@ -43,7 +41,7 @@ struct InputFieldExtended: View {
 }
 
 #Preview {
-  InputFieldExtended(
+  ExtendedTextField(
     inputData: .constant("Test Feedback Message!"),
     iconName: "message",
     hint: "Enter your message...",

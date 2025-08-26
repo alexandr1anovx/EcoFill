@@ -15,7 +15,7 @@ protocol UserServiceProtocol {
   func deleteUserDocument(withPassword: String) async throws
 }
 
-final class FirestoreUserService: UserServiceProtocol {
+final class UserService: UserServiceProtocol {
   
   private let db = Firestore.firestore()
   private let userCollection = "users"
@@ -55,4 +55,34 @@ final class FirestoreUserService: UserServiceProtocol {
       .document(user.uid)
       .delete()
   }
+}
+
+// Наш моковый сервис
+final class MockUserService: UserServiceProtocol {
+    
+    // Этот метод должен вернуть готового пользователя для превью.
+    // UID здесь не важен, результат всегда один и тот же.
+    func fetchAppUser(uid: String) async throws -> AppUser? {
+        print("🤖 MockUserService: Запрос на получение пользователя...")
+        
+        return AppUser(
+          uid: "mock_user_123",
+          fullName: "Тестовий Користувач",
+          email: "preview@example.com",
+          city: "city.mykolaiv"
+        )
+    }
+    
+    // В превью нам не нужно реально обновлять пользователя,
+    // поэтому оставляем метод пустым или добавляем print для отладки.
+    func createOrUpdateAppUser(user: AppUser) async throws {
+        print("🤖 MockUserService: Пользователь \(user.fullName) 'обновлен'.")
+        // Ничего не делаем
+    }
+    
+    // То же самое для удаления.
+    func deleteUserDocument(withPassword: String) async throws {
+        print("🤖 MockUserService: Документ пользователя 'удален'.")
+        // Ничего не делаем
+    }
 }

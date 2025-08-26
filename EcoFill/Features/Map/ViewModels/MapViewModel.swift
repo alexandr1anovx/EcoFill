@@ -1,15 +1,16 @@
 import MapKit
 
-@MainActor 
-final class MapViewModel: ObservableObject {
+@MainActor
+@Observable
+final class MapViewModel {
   
-  @Published var selectedStation: Station?
-  @Published var selectedTransport: MKDirectionsTransportType = .automobile
-  @Published var route: MKRoute?
-  @Published var isShownRoute: Bool = false
-  @Published var isShownStationPreview: Bool = false
-  @Published var isShownStationList: Bool = false
-  let transportTypes = MKDirectionsTransportType.allCases
+  var selectedStation: Station?
+  var selectedTransport: MKDirectionsTransportType = .automobile
+  let transportTypes: [MKDirectionsTransportType] = MKDirectionsTransportType.allCases
+  var route: MKRoute?
+  var showRoute = false
+  var showStationPreview = false
+  var showStationList = false
   
   // MARK: - Private Properties
   
@@ -30,9 +31,9 @@ final class MapViewModel: ObservableObject {
   }
   
   func toggleRoutePresentation() async {
-    if isShownRoute {
-      if let selectedStation = selectedStation {
-        await getRoute(to: selectedStation)
+    if showRoute {
+      if let station = selectedStation {
+        await getRoute(to: station)
       }
     } else {
       route = nil
@@ -65,7 +66,7 @@ final class MapViewModel: ObservableObject {
 // MARK: - Preview Mode
 
 extension MapViewModel {
-  static var previewMode: MapViewModel {
+  static var mockObject: MapViewModel {
     let viewModel = MapViewModel()
     viewModel.selectedStation = MockData.station
     return viewModel

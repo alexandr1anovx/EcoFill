@@ -9,52 +9,54 @@ import Foundation
 import FirebaseAuth
 
 enum SessionState: Equatable {
-  case loggedIn(User)
+  case loggedIn(FirebaseAuth.User)
   case loggedOut
 }
 
-@MainActor
-final class SessionManager: ObservableObject {
-  
-  // MARK: - Public Properties
-  
-  @Published var sessionState: SessionState = .loggedOut
-  @Published var currentUser: AppUser? = nil
-  
-  // MARK: - Private Properties
+@Observable final class SessionManager {
+  var state: SessionState = .loggedOut
+  var currentUser: AppUser?
   
   private var authStateListenerHandle: AuthStateDidChangeListenerHandle?
-  private let firestoreUserService: UserServiceProtocol
   
-  // MARK: - Init / Deinit
-  
-  init(firestoreUserService: UserServiceProtocol) {
-    self.firestoreUserService = firestoreUserService
-    
-    authStateListenerHandle = Auth.auth().addStateDidChangeListener { [weak self] _, user in
-      guard let self = self else { return }
-      if let firebaseUser = user {
-        self.sessionState = .loggedIn(firebaseUser)
-        Task {
-          do {
-            self.currentUser = try await self.firestoreUserService.fetchAppUser(uid: firebaseUser.uid)
-            print("✅ SessionManager: Fetched current user successfully!")
-          } catch {
-            print("⚠️ SessionManager: Error fetching current user: \(error.localizedDescription)")
-            self.currentUser = nil
+  init(userService: UserServiceProtocol, isForPreview: Bool = false) {
+    if !isForPreview {
+      authStateListenerHandle = Auth.auth().addStateDidChangeListener { [weak self] _, user in
+        guard let self = self else { return }
+        if let firebaseUser = user {
+          self.state = .loggedIn(firebaseUser)
+          Task {
+            do {
+              self.currentUser = try await userService.fetchAppUser(uid: firebaseUser.uid)
+            } catch {
+              self.currentUser = nil
+            }
           }
+        } else {
+          self.state = .loggedOut
+          self.currentUser = nil
         }
-      } else {
-        self.sessionState = .loggedOut
-        self.currentUser = nil
       }
     }
   }
-  
   deinit {
     if let handle = authStateListenerHandle {
       Auth.auth().removeStateDidChangeListener(handle)
-      print("✅ SessionManager: Deinitialized auth state change listener!")
     }
   }
+}
+
+extension SessionManager {
+  static let mockObject: SessionManager = {
+    let mockUserService = MockUserService()
+    let manager = SessionManager(userService: mockUserService, isForPreview: true)
+    manager.currentUser = AppUser(
+      uid: "1",
+      fullName: "Name Surname",
+      email: "testemail@gmail.com",
+      city: "Mykolaiv"
+    )
+    //manager.state = .loggedIn(MockFirebaseUser()) // Опционально, если нужно состояние
+    return manager
+  }()
 }

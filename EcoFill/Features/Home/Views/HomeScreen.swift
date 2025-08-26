@@ -1,82 +1,79 @@
 import SwiftUI
 
 struct HomeScreen: View {
-  @Binding var isShownTabBar: Bool
-  @EnvironmentObject var sessionManager: SessionManager
-  
+  @Binding var showTabBar: Bool
+  @Environment(SessionManager.self) var sessionManager
   var body: some View {
     NavigationStack {
-      ZStack {
-        Color.appBackground.ignoresSafeArea()
-        VStack(spacing:0) {
-          UserDataHeader()
-          CityFuelsGrid().padding(15)
-          servicesListView
+      VStack {
+        if let user = sessionManager.currentUser {
+          UserDataHeader(
+            name: user.fullName,
+            email: user.email,
+            city: user.localizedCity
+          )
+          CityFuelsGrid()
+            .padding(15)
+          ServiceList(showTabBar: $showTabBar)
+        } else {
+          ProgressView()
+            .tint(.primary)
         }
       }
       .navigationTitle(Tab.home.title)
-      .onAppear { isShownTabBar = true }
+      .onAppear { showTabBar = true }
     }
-  }
-  
-  // MARK: - Subviews
-  
-  private var servicesListView: some View {
-    List {
-      NavigationLink(value: ServiceType.qrcode) {
-        ListCell(for: .qrCode)
-      }
-      NavigationLink(value: ServiceType.support) {
-        ListCell(for: .support)
-      }
-    }
-    .navigationDestination(for: ServiceType.self) { service in
-      switch service {
-      case .qrcode:
-        QRCodeScreen(
-          viewModel: QRCodeViewModel(sessionManager: sessionManager)
-        )
-        .onAppear { isShownTabBar = false }
-      case .support:
-        SupportScreen(
-          viewModel: SupportViewModel(sessionManager: sessionManager)
-        )
-        .onAppear { isShownTabBar = false }
-      }
-    }
-    .customListStyle(shadow: 1.0)
   }
 }
-
 extension HomeScreen {
   struct UserDataHeader: View {
-    @EnvironmentObject var sessionManager: SessionManager
-    
+    let name: String
+    let email: String
+    let city: LocalizedStringKey
     var body: some View {
-      if let user = sessionManager.currentUser {
-        HStack {
-          VStack(alignment: .leading, spacing: 12) {
-            Text(user.fullName)
-              .font(.callout)
-              .fontWeight(.semibold)
-            Text(user.email)
-              .font(.footnote)
-              .foregroundStyle(.gray)
-          }
-          Spacer()
-          Label(user.localizedCity, image: .marker)
-            .foregroundStyle(.accent)
+      HStack {
+        VStack(alignment: .leading, spacing: 12) {
+          Text(name)
+            .font(.callout)
+            .fontWeight(.semibold)
+          Text(email)
+            .font(.footnote)
+            .foregroundStyle(.secondary)
         }
-        .padding(20)
-      } else {
-        ProgressView("Loading...")
+        Spacer()
+        Label(city, systemImage: "location.north.fill")
+      }
+      .padding(20)
+    }
+  }
+  struct ServiceList: View {
+    @Environment(SessionManager.self) var sessionManager
+    @Binding var showTabBar: Bool
+    var body: some View {
+      List {
+        NavigationLink(value: ServiceType.qrcode) {
+          ListCell(for: .qrCode)
+        }
+        NavigationLink(value: ServiceType.support) {
+          ListCell(for: .support)
+        }
+      }
+      .navigationDestination(for: ServiceType.self) { service in
+        switch service {
+        case .qrcode:
+          QRCodeScreen(viewModel: QRCodeViewModel(sessionManager: sessionManager))
+          .onAppear { showTabBar = false }
+        case .support:
+          SupportScreen()
+            .onAppear { showTabBar = false }
+        }
       }
     }
   }
 }
-
 #Preview {
-  HomeScreen(isShownTabBar: .constant(true))
-    .environmentObject(MapViewModel.previewMode)
-    .environmentObject(StationViewModel.previewMode)
+  HomeScreen(showTabBar: .constant(true))
+    .environment(StationViewModel.previewMode)
+    .environment(MapViewModel.mockObject)
+    .environment(SessionManager.mockObject)
 }

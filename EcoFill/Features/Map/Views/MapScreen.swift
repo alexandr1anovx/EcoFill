@@ -2,11 +2,10 @@ import SwiftUI
 import MapKit
 
 struct MapScreen: View {
-  
-  @Binding var isShownTabBar: Bool
+  @Environment(StationViewModel.self) var stationViewModel
+  @Bindable var mapViewModel: MapViewModel
+  //@Binding var showTabBar: Bool
   @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
-  @EnvironmentObject var stationViewModel: StationViewModel
-  @EnvironmentObject var mapViewModel: MapViewModel
   
   var body: some View {
     Map(position: $cameraPosition) {
@@ -14,7 +13,18 @@ struct MapScreen: View {
       ForEach(stationViewModel.stations) { station in
         let coordinate = station.coordinate
         Annotation("EcoFill", coordinate: coordinate) {
-          mapMark(for: station)
+          Button {
+            mapViewModel.selectedStation = station
+            mapViewModel.showStationPreview = true
+          } label: {
+            Image(systemName: "fuelpump.fill")
+              .font(.subheadline)
+              .foregroundStyle(.black)
+              .padding(8)
+              .background(.green.gradient)
+              .clipShape(.circle)
+              .shadow(radius: 1)
+          }
         }
       }
       if let route = mapViewModel.route {
@@ -22,68 +32,46 @@ struct MapScreen: View {
           .stroke(.purple, lineWidth: 4)
       }
     }
+    // List button
     .overlay(alignment: .topTrailing) {
-      listButton
+      Button {
+        mapViewModel.showStationList.toggle()
+      } label: {
+        Image(systemName: "list.bullet")
+          .imageScale(.large)
+          .foregroundStyle(.white)
+          .padding(.vertical,12)
+          .padding(.horizontal,9)
+          .background(.black)
+          .clipShape(.buttonBorder)
+      }
+      .padding(.trailing,5)
+      .padding(.top,60)
     }
     .mapControls {
-      MapPitchToggle()
       MapUserLocationButton()
     }
-    .sheet(isPresented: $mapViewModel.isShownStationPreview) {
-      MapItemView(station: mapViewModel.selectedStation ?? MockData.station)
-        .presentationDetents([.height(320)])
+    .sheet(isPresented: $mapViewModel.showStationPreview) {
+      MapItemView(station: mapViewModel.selectedStation ?? MockData.station, withPadding: true)
+        .presentationDetents([.fraction(0.46)])
+        .presentationDragIndicator(.visible)
+        .presentationCornerRadius(35)
+    }
+    .sheet(isPresented: $mapViewModel.showStationList) {
+      StationListView(viewModel: stationViewModel)
+        .presentationDetents([.large])
         .presentationDragIndicator(.visible)
         .presentationCornerRadius(25)
     }
-    .sheet(isPresented: $mapViewModel.isShownStationList) {
-      StationListView()
-        .presentationDetents([.medium, .large])
-        .presentationDragIndicator(.visible)
-        .presentationCornerRadius(25)
-    }
-    .task(id: mapViewModel.isShownRoute) {
+    .task(id: mapViewModel.showRoute) {
       await mapViewModel.toggleRoutePresentation()
     }
-    .onAppear {
-      isShownTabBar = true
-    }
-  }
-  
-  // MARK: - Subviews
-  
-  private func mapMark(for station: Station) -> some View {
-    Button {
-      mapViewModel.selectedStation = station
-      mapViewModel.isShownStationPreview = true
-    } label: {
-      Image(systemName: "fuelpump.fill")
-        .font(.footnote)
-        .foregroundStyle(.black)
-        .padding(8)
-        .background(.accent)
-        .clipShape(.circle)
-    }
-  }
-  
-  private var listButton: some View {
-    Button {
-      mapViewModel.isShownStationList.toggle()
-    } label: {
-      Image(systemName: "list.bullet")
-        .imageScale(.large)
-        .foregroundStyle(.white)
-        .padding(.vertical,12)
-        .padding(.horizontal,9)
-        .background(.black)
-        .clipShape(.buttonBorder)
-    }
-    .padding(.trailing,5)
-    .padding(.top,60)
+    //.onAppear { isShownTabBar = true }
   }
 }
 
 #Preview {
-  MapScreen(isShownTabBar: .constant(false))
-    .environmentObject(MapViewModel.previewMode)
-    .environmentObject(StationViewModel.previewMode)
+  MapScreen(mapViewModel: MapViewModel())
+    .environment(MapViewModel.mockObject)
+    .environment(StationViewModel.previewMode)
 }

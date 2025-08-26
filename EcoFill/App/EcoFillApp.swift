@@ -1,6 +1,5 @@
 import SwiftUI
 import FirebaseCore
-import FirebaseFirestore
 
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(
@@ -14,46 +13,50 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct EcoFillApp: App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-  @AppStorage("colorTheme") private var selectedColorTheme: ColorTheme = .system
+  @AppStorage("colorTheme") private var appColorScheme: ColorTheme = .system
   
-  @StateObject private var stationViewModel = StationViewModel()
-  @StateObject private var mapViewModel = MapViewModel()
-  @StateObject private var sessionManager: SessionManager
+  @State private var sessionManager: SessionManager
+  @State private var stationViewModel: StationViewModel
+  @State private var mapViewModel = MapViewModel()
   
-  private let firebaseAuthService: AuthServiceProtocol
-  private let firestoreUserService: UserServiceProtocol
+  private let authService: AuthServiceProtocol
+  private let userService: UserServiceProtocol
   
   init() {
+    // 1. First, configure Firebase.
     FirebaseApp.configure()
-    let firebaseAuthService = FirebaseAuthService()
-    let firestoreUserService = FirestoreUserService()
-    self.firebaseAuthService = firebaseAuthService
-    self.firestoreUserService = firestoreUserService
-    _sessionManager = StateObject(
-      wrappedValue: SessionManager(firestoreUserService: firestoreUserService)
-    )
+    
+    // 2. When the Firebase is ready, create services (they depend on Firebase).
+    let authService = AuthService()
+    let userService = UserService()
+    self.authService = authService
+    self.userService = userService
+    
+    // 3. Create dependent objects by passing ready-made services.
+    self._sessionManager = State(wrappedValue: SessionManager(userService: userService))
+    self._stationViewModel = State(wrappedValue: StationViewModel())
   }
   
   var body: some Scene {
     WindowGroup {
-      RootView(
-        sessionManager: sessionManager,
-        firebaseAuthService: firebaseAuthService,
-        firestoreUserService: firestoreUserService
-      )
-      .preferredColorScheme(selectedColorTheme.colorTheme)
-      .environmentObject(stationViewModel)
-      .environmentObject(mapViewModel)
-      .environmentObject(sessionManager)
-      .environmentObject(
-        RegistrationViewModel(
-          firebaseAuthService: firebaseAuthService,
-          firestoreUserService: firestoreUserService
-        )
-      )
-      .onAppear {
-        Task { await stationViewModel.fetchStations() }
+      Group {
+        switch sessionManager.state {
+        case .loggedIn(_):
+          TabBarView(authService: authService, userService: userService)
+        case .loggedOut:
+          LoginScreen(authService: authService, userService: userService)
+        }
       }
+      .animation(.easeInOut, value: sessionManager.state)
+      .onAppear {
+        Task {
+          await stationViewModel.fetchStations()
+        }
+      }
+      .preferredColorScheme(appColorScheme.colorTheme)
+      .environment(sessionManager)
+      .environment(stationViewModel)
+      .environment(mapViewModel)
     }
   }
 }

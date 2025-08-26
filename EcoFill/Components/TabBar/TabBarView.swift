@@ -8,40 +8,39 @@
 import SwiftUI
 
 struct TabBarView: View {
+  @Environment(SessionManager.self) var sessionManager
+  @Environment(MapViewModel.self) var mapViewModel
+  
   @State private var selectedTab = Tab.home
-  @State private var isShownTabBar = true
+  @State private var showTabBar = true
   private let tabs = Tab.allCases
   
-  let firebaseAuthService: AuthServiceProtocol
-  let firestoreUserService: UserServiceProtocol
-  @EnvironmentObject var sessionManager: SessionManager
+  let authService: AuthServiceProtocol
+  let userService: UserServiceProtocol
   
-  init(
-    firebaseAuthService: AuthServiceProtocol,
-    firestoreUserService: UserServiceProtocol
-  ) {
+  
+  init(authService: AuthServiceProtocol, userService: UserServiceProtocol) {
+    self.authService = authService
+    self.userService = userService
     UITabBar.appearance().isHidden = true
-    self.firebaseAuthService = firebaseAuthService
-    self.firestoreUserService = firestoreUserService
   }
   
   var body: some View {
     ZStack(alignment: .bottom) {
       TabView(selection: $selectedTab) {
-        HomeScreen(isShownTabBar: $isShownTabBar)
+        HomeScreen(showTabBar: $showTabBar)
           .tag(Tab.home)
-        MapScreen(isShownTabBar: $isShownTabBar)
+        MapScreen(mapViewModel: mapViewModel)
           .tag(Tab.map)
         SettingsScreen(
-          isShownTabBar: $isShownTabBar,
-          sessionManager: _sessionManager,
-          firebaseAuthService: firebaseAuthService,
-          firestoreUserService: firestoreUserService
+          showTabBar: $showTabBar,
+          authService: authService,
+          userService: userService
         )
         .tag(Tab.settings)
       }
       
-      if isShownTabBar {
+      if showTabBar {
         HStack {
           ForEach(tabs) { tab in
             TabBarButton(
@@ -56,11 +55,18 @@ struct TabBarView: View {
           }
         }
         .padding(10)
-        .background(.black)
-        .clipShape(.capsule)
+        .background(.thinMaterial.opacity(0.7))
+        .clipShape(.rect(cornerRadius: 25))
         .padding(.horizontal,30)
-        .shadow(radius: 2)
+        //.shadow(radius: 2)
       }
     }
   }
+}
+
+#Preview {
+  TabBarView(authService: AuthService(), userService: MockUserService())
+    .environment(StationViewModel())
+    .environment(MapViewModel())
+    .environment(SessionManager(userService: MockUserService(), isForPreview: true))
 }

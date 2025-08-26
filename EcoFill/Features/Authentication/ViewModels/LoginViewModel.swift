@@ -8,35 +8,30 @@
 import Foundation
 
 @MainActor
-final class LoginViewModel: ObservableObject {
+@Observable
+final class LoginViewModel {
+  var email = ""
+  var password = ""
+  private(set) var alert: AlertItem?
+  private(set) var isLoading = false
   
-  @Published var email: String = ""
-  @Published var password: String = ""
-  @Published var alertItem: AlertItem?
-  @Published var isLoading: Bool = false
-  
-  private let firebaseAuthService: AuthServiceProtocol
+  private let authService: AuthServiceProtocol
   
   var isValidForm: Bool {
     !email.isEmpty && !password.isEmpty
   }
   
-  init(firebaseAuthService: AuthServiceProtocol) {
-    self.firebaseAuthService = firebaseAuthService
+  init(authService: AuthServiceProtocol) {
+    self.authService = authService
   }
-  
-  // MARK: - Methods
   
   func signIn() async {
     isLoading = true
+    defer { isLoading = false }
     do {
-      let _ = try await firebaseAuthService.signIn(
-        email: email,
-        password: password
-      )
+      let _ = try await authService.signIn(email: email, password: password)
     } catch {
-      isLoading = false
-      alertItem = AuthAlertContext.failedToLogin
+      alert = AuthAlertContext.failedToLogin
     }
   }
 }

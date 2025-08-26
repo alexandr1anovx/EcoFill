@@ -4,7 +4,7 @@ import CoreImage.CIFilterBuiltins
 
 struct QRCodeScreen: View {
   
-  @EnvironmentObject var sessionManager: SessionManager
+  @Environment(SessionManager.self) var sessionManager
   @StateObject private var viewModel: QRCodeViewModel
   
   init(viewModel: QRCodeViewModel) {

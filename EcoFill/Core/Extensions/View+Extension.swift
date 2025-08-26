@@ -44,4 +44,14 @@ extension View {
           .stroke(.gray.opacity(0.5), lineWidth: 1)
       }
   }
+  
+  func prominentButtonStyle(tint: Color) -> some View {
+    self
+      .fontWeight(.semibold)
+      .foregroundStyle(.white)
+      .frame(maxWidth: .infinity, minHeight: 55)
+      .background(tint)
+      .cornerRadius(20)
+      .shadow(radius: 2)
+  }
 }

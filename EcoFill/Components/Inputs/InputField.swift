@@ -7,15 +7,17 @@
 
 import SwiftUI
 
+
+
 struct InputField: View {
   
-  private let inputType: InputContentType
+  private let inputType: InputContent
   private let validation: InputFieldValidation
   @Binding var inputData: String
   @State private var isPasswordVisible = false
   
   init(
-    _ inputType: InputContentType,
+    _ inputType: InputContent,
     inputData: Binding<String>,
     validation: InputFieldValidation = .none
   ) {

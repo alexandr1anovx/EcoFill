@@ -2,7 +2,6 @@ import MapKit
 import FirebaseFirestore
 
 struct Station: Codable, Identifiable, Hashable {
-  
   @DocumentID var id: String?
   let uid: String
   let city: String

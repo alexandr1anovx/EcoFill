@@ -1,94 +1,117 @@
 import SwiftUI
 
 struct LoginScreen: View {
-  @FocusState private var inputContentType: InputContentType?
-  @StateObject var viewModel: LoginViewModel
+  @State private var viewModel: LoginViewModel
+  
+  private let authService: AuthServiceProtocol // pass this for the login screen
+  private let userService: UserServiceProtocol // pass this for the login screen
+  
+  init(authService: AuthServiceProtocol, userService: UserServiceProtocol) {
+    self.authService = authService
+    self.userService = userService
+    self._viewModel = State(wrappedValue: LoginViewModel(authService: authService))
+  }
   
   var body: some View {
-    NavigationStack {
-      ZStack {
-        Color.appBackground.ignoresSafeArea()
-        ScrollView {
-          VStack(spacing:20) {
-            Text("Login")
-              .font(.title)
-              .fontWeight(.bold)
-            inputFields
-            signInButton
-            if viewModel.isLoading {
-              ProgressView()
-            }
-            forgotPasswordButton
-            signUpOptionView
-          }
+    NavigationView {
+      VStack(spacing: 20) {
+        Text("Welcome to EcoFill 😊")
+          .font(.title2)
+          .fontWeight(.bold)
+          .padding(.bottom)
+          .fontDesign(.rounded)
+          .foregroundStyle(
+            LinearGradient(
+              colors: [.green, .accentColor],
+              startPoint: .leading,
+              endPoint: .trailing
+            )
+          )
+        TextFields(viewModel: viewModel)
           .padding(.top)
-        }
+        SignInButton(viewModel: viewModel)
+        
+        HStack {
+          ForgotPasswordOption()
+          Spacer()
+          // Sign Up option
+          HStack(spacing: 5) {
+            Text("New user?")
+              .foregroundStyle(.secondary)
+            NavigationLink {
+              RegistrationScreen(authService: authService, userService: userService)
+            } label: {
+              Text("Sign Up")
+                .underline(true)
+            }
+          }.font(.footnote)
+        }.padding(.horizontal, 20)
       }
     }
   }
-  
-  // MARK: - Subviews
-  
-  private var inputFields: some View {
-    VStack {
-      InputField(.email, inputData: $viewModel.email)
-        .focused($inputContentType, equals: .email)
-        .keyboardType(.emailAddress)
-        .autocorrectionDisabled(true)
+}
+
+private extension LoginScreen {
+  struct TextFields: View {
+    @Bindable var viewModel: LoginViewModel
+    @FocusState private var inputContent: InputContent?
+    var body: some View {
+      VStack {
+        DefaultTextField(
+          title: "Email address",
+          iconName: "at",
+          text: $viewModel.email
+        )
+        .focused($inputContent, equals: .email)
         .textInputAutocapitalization(.never)
-        .submitLabel(.continue)
-        .onSubmit { inputContentType = .password }
-      InputField(.password, inputData: $viewModel.password)
-        .focused($inputContentType, equals: .password)
+        .autocorrectionDisabled(true)
+        .keyboardType(.emailAddress)
+        .submitLabel(.next)
+        .onSubmit { inputContent = .password }
+        SecureTextField(
+          title: "Password",
+          iconName: "lock",
+          text: $viewModel.password,
+          showToggleIcon: false
+        )
+        .focused($inputContent, equals: .password)
         .submitLabel(.done)
-        .onSubmit { inputContentType = nil }
-    }
-    .padding(.top)
-    .padding(.horizontal)
-  }
-  
-  private var signInButton: some View {
-    Button {
-      Task { await viewModel.signIn() }
-    } label: {
-      ButtonLabel(
-        title: "Sign In",
-        textColor: .white,
-        pouring: .accent
-      )
-    }
-    .padding(.horizontal)
-    .disabled(!viewModel.isValidForm)
-    .opacity(!viewModel.isValidForm ? 0.4 : 1)
-    .alert(item: $viewModel.alertItem) { alert in
-      Alert(
-        title: alert.title,
-        message: alert.message,
-        dismissButton: alert.dismissButton
-      )
-    }
-  }
-  
-  private var forgotPasswordButton: some View {
-    NavigationLink {
-      ResetPasswordScreen()
-    } label: {
-      Text("Forgot password?")
-        .font(.caption2)
-        .fontWeight(.medium)
-        .foregroundStyle(.gray)
-        .underline()
-    }
-  }
-  
-  private var signUpOptionView: some View {
-    HStack(spacing:5) {
-      Text("New member?").foregroundStyle(.gray)
-      NavigationLink {
-        RegistrationScreen()
-      } label: {
-        Text("Sign Up").fontWeight(.semibold)
+        .onSubmit { inputContent = nil }
       }
-    }.font(.footnote)
+      .padding(.horizontal, 15)
+    }
   }
+  struct SignInButton: View {
+    @Bindable var viewModel: LoginViewModel
+    var body: some View {
+      Button {
+        Task { await viewModel.signIn() }
+      } label: {
+        Text("Sign In")
+          .prominentButtonStyle(tint: .green)
+      }
+      .padding(.horizontal,15)
+      .disabled(!viewModel.isValidForm)
+      .opacity(!viewModel.isValidForm ? 0.5 : 1)
+    }
+  }
+  struct ForgotPasswordOption: View {
+    var body: some View {
+      NavigationLink {
+        ResetPasswordScreen()
+      } label: {
+        Text("Forgot password?")
+          .font(.caption)
+          .foregroundStyle(.secondary)
+          .underline(true)
+      }
+    }
+  }
+}
+
+#Preview {
+  LoginScreen(
+    authService: AuthService(),
+    userService: MockUserService()
+  )
 }

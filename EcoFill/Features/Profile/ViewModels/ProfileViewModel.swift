@@ -6,105 +6,88 @@
 //
 
 import Foundation
-import SwiftUICore
 
 @MainActor
-final class ProfileViewModel: ObservableObject {
-  
-  // MARK: - Public Properties
-  
-  @Published var fullName: String = ""
-  @Published var email: String = ""
-  @Published var selectedCity: City = .mykolaiv
-  @Published var accountPassword: String = ""
-  
-  @Published var isLoading: Bool = false
-  @Published var isExpanded: Bool = false
-  
-  @Published var alertItem: AlertItem?
-  
-  @Published var isShownAccountDeletionAlert: Bool = false
-  @Published var isShownSavedChangesAlert: Bool = false
+@Observable
+final class ProfileViewModel {
+  var fullName = ""
+  var email = ""
+  var selectedCity: City = .mykolaiv
+  var accountPassword = ""
+  var isLoading = false
+  var isExpanded = false
+  var alertItem: AlertItem?
   
   // MARK: - Private Properties
-  
-  private weak var sessionManager: SessionManager?
-  private let firebaseAuthService: AuthServiceProtocol
-  private let firestoreUserService: UserServiceProtocol
+  private let authService: AuthServiceProtocol
+  private let userService: UserServiceProtocol
   
   // MARK: - Init
   
-  init(
-    firebaseAuthService: AuthServiceProtocol,
-    firestoreUserService: UserServiceProtocol,
-    sessionManager: SessionManager
-  ) {
-    self.firebaseAuthService = firebaseAuthService
-    self.firestoreUserService = firestoreUserService
-    self.sessionManager = sessionManager
+  init(authService: AuthServiceProtocol, userService: UserServiceProtocol) {
+    self.authService = authService
+    self.userService = userService
   }
   
   // MARK: - Computed Properties
-  
-  var isFormHasChanges: Bool {
-    guard let currentUser = sessionManager?.currentUser else { return false }
-    let changedFullName = fullName != currentUser.fullName
-    let changedEmail = email != currentUser.email
-    let changedCity = selectedCity.rawValue != currentUser.city
-    
-    return changedFullName || changedEmail || changedCity
+  var validForm: Bool {
+    !fullName.isEmpty && !email.isEmpty
   }
   
-  var isValidForm: Bool {
-    ValidationService.isValid(fullName: fullName) &&
-    (email == sessionManager?.currentUser?.email || ValidationService.isValid(email: email))
-  }
+//  var isValidForm: Bool {
+//    ValidationService.isValid(fullName: fullName) &&
+//    (email == sessionManager?.currentUser?.email || ValidationService.isValid(email: email))
+//  }
+  
+//  func formHasChanges() -> Bool {
+//    guard let sessionManager, let user = sessionManager.currentUser else {
+//      return false
+//    }
+//    let editedFullName = fullName != user.fullName
+//    let editedEmail = email != user.email
+//    let editedCity = selectedCity.rawValue != user.city
+//    return editedFullName || editedEmail || editedCity
+//  }
   
   // MARK: - Methods
   
-  func updateUser() async {
-    guard var currentUser = sessionManager?.currentUser else {
-      print("⚠️ ProfileViewModel: Failed to get current user!")
-      return
-    }
-    
-    isLoading = true
-    
-    currentUser.fullName = fullName
-    currentUser.email = email
-    currentUser.city = selectedCity.rawValue
-    
-    do {
-      try await firestoreUserService.createOrUpdateAppUser(user: currentUser)
-      sessionManager?.currentUser = currentUser
-      if isExpanded {
-        withAnimation { isExpanded = false }
-      }
-      print("✅ ProfileViewModel: Profile has been updated!")
-    } catch {
-      print("⚠️ ProfileViewModel: Failed to update user data: \(error.localizedDescription)")
-    }
-    isLoading = false
-  }
+//  func updateUser() async {
+//    guard var currentUser = userManager?.currentUser else {
+//      return
+//    }
+//    isLoading = true
+//    
+//    currentUser.fullName = fullName
+//    currentUser.email = email
+//    currentUser.city = selectedCity.rawValue
+//    
+//    do {
+//      try await userService.createOrUpdateAppUser(user: currentUser)
+//      userManager?.currentUser = currentUser
+//      if isExpanded {
+//        isExpanded = false
+//      }
+//    } catch {
+//      print("⚠️ ProfileViewModel: Failed to update user data: \(error.localizedDescription)")
+//    }
+//    isLoading = false
+//  }
   
   func signOut() {
     do {
-      try firebaseAuthService.signOut()
-      print("✅ ProfileViewModel: Signed Out!")
+      try authService.signOut()
     } catch {
-      print("⚠️ ProfileViewModel: Failed to sign out: \(error.localizedDescription)")
+      print("Cannot sign out: \(error)")
     }
   }
   
   func deleteAccount() async {
     do {
-      try await firestoreUserService.deleteUserDocument(withPassword: accountPassword)
-      try await firebaseAuthService.deleteAccount()
+      try await userService.deleteUserDocument(withPassword: accountPassword)
+      try await authService.deleteAccount()
       alertItem = ProfileAlertContext.accountDeletedSuccessfully
-      print("✅ ProfileViewModel: Account deleted!")
     } catch {
       alertItem = ProfileAlertContext.failedToDeleteAccount(error: error)
-      print("⚠️ ProfileViewModel: Failed to delete account: \(error.localizedDescription)")
     }
   }
 }

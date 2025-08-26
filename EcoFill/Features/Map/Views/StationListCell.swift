@@ -2,112 +2,69 @@ import SwiftUI
 import MapKit
 
 struct StationListCell: View {
-
   let station: Station
   private let transportTypes = MKDirectionsTransportType.allCases
   private var isPresentedRoute: Bool {
     mapViewModel.selectedStation == station
-    && mapViewModel.isShownRoute
+    && mapViewModel.showRoute
   }
-  @EnvironmentObject var mapViewModel: MapViewModel
+  @Environment(MapViewModel.self) var mapViewModel
   
   
   var body: some View {
-    VStack(alignment: .leading, spacing:15) {
-      cell(image: .marker, title: "Street:", data: station.street)
-      cell(image: .clock, title: "Schedule:", data: station.schedule)
-      cell(image: .money, title: "Payment:", data: station.paymentMethods)
-      transportationOptionsView
-      FuelStackView(for: station)
-      routeButton
-        .buttonStyle(.plain) // to prevent the entire cell from responding to a click.
-    }
-  }
-  
-  // MARK: - Subviews
-  
-  private func cell(
-    image: ImageResource,
-    title: LocalizedStringKey,
-    data: String
-  ) -> some View {
-    HStack(spacing:8) {
-      Image(image).foregroundStyle(.accent)
-      Text(title).foregroundStyle(.gray)
-      Text(data)
-    }
-    .font(.footnote)
-    .fontWeight(.medium)
-  }
-  
-  private func transportLabel(for type: MKDirectionsTransportType) -> some View {
-    Label(type.title, systemImage: type.iconName)
-      .font(.footnote)
-      .fontWeight(.medium)
-      .foregroundStyle(.white)
-      .padding(10)
-      .background(
-        type == mapViewModel.selectedTransport ? .accent : .black
-      )
-      .clipShape(.capsule)
-      .animation(.spring, value: mapViewModel.selectedTransport)
-      .onTapGesture {
-        mapViewModel.selectedTransport = type
+    VStack(alignment: .leading, spacing: 15) {
+      VStack(alignment: .leading, spacing: 10) {
+        MapItemCell(iconName: "location.app.fill", title: "Address", data: station.street)
+        MapItemCell(iconName: "timer", title: "Schedule", data: station.schedule)
+        MapItemCell(iconName: "dollarsign.circle.fill", title: "Payment", data: station.paymentMethods)
       }
-  }
-  
-  private var transportationOptionsView: some View {
-    HStack {
-      Text("Travel Mode:")
-        .font(.footnote)
-        .fontWeight(.medium)
-      ScrollView(.horizontal) {
-        HStack(spacing:8) {
-          ForEach(transportTypes, id: \.self) { type in
-            transportLabel(for: type)
+      
+      HStack {
+        Text("Travel Mode:")
+          .font(.footnote)
+          .fontWeight(.semibold)
+        ScrollView(.horizontal) {
+          HStack(spacing: 8) {
+            ForEach(mapViewModel.transportTypes, id: \.self) { type in
+              ModeButton(transportType: type)
+            }
+          }
+        }
+        .shadow(radius: 2)
+        .scrollIndicators(.hidden)
+      }
+      
+      //transportationOptionsView
+      FuelStackView(for: station)
+      
+      
+      Group {
+        if isPresentedRoute {
+          Button {
+            mapViewModel.selectedStation = nil
+            mapViewModel.showStationPreview = false
+            mapViewModel.showRoute = false
+          } label: {
+            Label("Hide Route", systemImage: "x.circle")
+              .prominentButtonStyle(tint: .red)
+          }
+        } else {
+          Button {
+            mapViewModel.selectedStation = station
+            mapViewModel.showStationPreview = false
+            mapViewModel.showRoute = true
+          } label: {
+            Label("Show Route", systemImage: "arrow.trianglehead.branch")
+              .prominentButtonStyle(tint: .green)
           }
         }
       }
-      .shadow(radius:3)
-      .scrollIndicators(.hidden)
-    }
-  }
-  
-  @ViewBuilder
-  private var routeButton: some View {
-    if !isPresentedRoute {
-      Button {
-        mapViewModel.selectedStation = station
-        mapViewModel.isShownStationPreview = false
-        mapViewModel.isShownRoute = true
-      } label: {
-        ButtonLabelWithIcon(
-          title: "Show Route",
-          iconName: "arrow.trianglehead.branch",
-          textColor: .black,
-          pouring: .accent,
-          verticalSpace: 12
-        )
-      }
-    } else {
-      Button {
-        mapViewModel.selectedStation = nil
-        mapViewModel.isShownStationPreview = false
-        mapViewModel.isShownRoute = false
-      } label: {
-        ButtonLabelWithIcon(
-          title: "Hide Route",
-          iconName: "x.circle.fill",
-          textColor: .white,
-          pouring: .red,
-          verticalSpace: 12
-        )
-      }
+      .buttonStyle(.plain) // to prevent the entire cell from responding to a click.
     }
   }
 }
 
 #Preview {
   StationListCell(station: MockData.station)
-    .environmentObject(MapViewModel.previewMode)
+    .environment(MapViewModel.mockObject)
 }

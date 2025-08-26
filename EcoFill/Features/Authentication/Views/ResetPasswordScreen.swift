@@ -8,79 +8,58 @@
 import SwiftUI
 
 struct ResetPasswordScreen: View {
-  
+  @Environment(\.dismiss) var dismiss
   @State private var email = ""
-  @State private var isResetLinkSent = false
-  @FocusState private var inputContentType: InputContentType?
+  @State private var isLoading = false
+  @State private var showAlert = false
+  @State private var alertTitle = ""
+  @State private var alertMessage = ""
   
   var body: some View {
-    ZStack {
-      Color.appBackground.ignoresSafeArea()
-      VStack(spacing: 20) {
-          if isResetLinkSent {
-            linkSentView
-          } else {
-            Text("Password Recovery")
-              .font(.headline)
-              .fontWeight(.bold)
-            Text("Enter your email address to receive a password reset link.")
-              .font(.subheadline)
-              .foregroundStyle(.gray)
-              .padding(.horizontal)
-            emailTextField.padding(.horizontal)
-            sendLinkButton
-          }
-        Spacer()
-      }.padding(.top)
-    }
-  }
-  
-  // MARK: - Subviews
-  
-  private var emailTextField: some View {
-    InputField(.email, inputData: $email)
-      .focused($inputContentType, equals: .email)
-      .keyboardType(.emailAddress)
-      .autocorrectionDisabled(true)
-      .textInputAutocapitalization(.never)
-      .submitLabel(.done)
-      .onSubmit { inputContentType = nil }
-  }
-  
-  private var sendLinkButton: some View {
-    Button {
-      /*
-      Task {
-        await authViewModel.sendPasswordResetLink(email: emailAddress)
-        withAnimation {
-          isResetLinkSent.toggle()
-          emailAddress = ""
-        }
-      }
-      */
-    } label: {
-      ButtonLabel(
-        title: "Send Link",
-        textColor: .white,
-        pouring: .accent
-      )
-    }
-    .padding(.horizontal)
-    .disabled(true) // ⚠️ fix in the future!
-  }
-  
-  private var linkSentView: some View {
     VStack(spacing: 20) {
-      Image(systemName: "checkmark.circle.fill")
-        .font(.largeTitle)
-        .foregroundStyle(.accent)
-      Text("Done!")
-        .font(.title3)
-        .fontWeight(.bold)
-      Text("The link has been sent to your email address.")
-        .font(.body)
-        .multilineTextAlignment(.center)
-        .padding(.horizontal, 20)
+      
+      VStack(spacing: 15) {
+        Image(systemName: "lock.circle.fill")
+          .font(.system(size: 40))
+        Text("Reset Password")
+          .font(.title)
+          .fontWeight(.semibold)
+        Text("Enter your email address and we'll send you a link to get back into your account.")
+          .font(.subheadline)
+          .foregroundColor(.secondary)
+          .multilineTextAlignment(.center)
+          .padding(.horizontal)
+      }
+      .padding(.bottom, 15)
+      
+      DefaultTextField(
+        title: "Email address",
+        iconName: "at",
+        text: $email
+      )
+      .keyboardType(.emailAddress)
+      .textInputAutocapitalization(.never)
+      .autocorrectionDisabled(true)
+      
+      Button {
+        // ⚠️ send reset link action
+        email = ""
+        dismiss()
+      } label: {
+        Text("Send Reset Link")
+          .prominentButtonStyle(tint: .blue)
+      }
+      .padding(.horizontal)
+      
+      Spacer()
+    }
+    .padding()
+    .alert(isPresented: $showAlert) {
+      Alert(
+        title: Text(alertTitle),
+        message: Text(alertMessage),
+        dismissButton: .default(Text("OK"))
+      )
     }
   }
 }

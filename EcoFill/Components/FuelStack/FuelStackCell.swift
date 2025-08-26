@@ -13,7 +13,6 @@ enum FuelType {
 }
 
 struct FuelStackCell: View {
-  
   let type: FuelType
   let price: Double
   
@@ -22,15 +21,13 @@ struct FuelStackCell: View {
       Text(type.title)
         .font(.subheadline)
         .fontWeight(.bold)
-        .foregroundStyle(.white)
       Text(price, format: .currency(code: "UAH"))
         .font(.poppins(.bold, size: 14))
-        .foregroundStyle(.accent)
-        .padding(.leading,10)
+        .foregroundStyle(.green)
     }
-    .padding(12)
-    .background(.black)
-    .clipShape(.capsule)
+    .padding(14)
+    .background(.thinMaterial)
+    .clipShape(.rect(cornerRadius: 18))
   }
 }
 

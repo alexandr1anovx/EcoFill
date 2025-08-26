@@ -1,57 +1,74 @@
 import SwiftUI
 
 struct StationListView: View {
-  @EnvironmentObject var viewModel: StationViewModel
+  @Bindable var viewModel: StationViewModel
   
   var body: some View {
-    ZStack {
-      Color.appBackground.ignoresSafeArea()
-      VStack(spacing:0) {
-        sortingPickers
-        stationsList
+    VStack(alignment: .leading, spacing: 5) {
+      SortMenuView(viewModel: viewModel)
+      
+      List(viewModel.stationsInSelectedCity) { station in
+        StationListCell(station: station)
+          .padding()
+          .background(.thinMaterial)
+          .clipShape(.rect(cornerRadius: 18))
       }
+      .scrollContentBackground(.hidden)
+      .listStyle(.plain)
+      .listRowSpacing(15)
     }
-  }
-  
-  // MARK: - Subviews
-  
-  private var sortingPickers: some View {
-    List {
-      Picker("City:", selection: $viewModel.selectedCity) {
-        ForEach(City.allCases, id: \.self) { city in
-          Text(city.rawValue.capitalized).tag(city)
-        }
-      }
-      Picker("Sort by:", selection: $viewModel.sortType) {
-        ForEach(viewModel.sortOptions, id: \.self) { option in
-          Text(option.rawValue)
-            .tag(option)
-        }
-      }
-    }
-    .customListStyle(
-      scrollDisabled: true,
-      indicators: .hidden,
-      height: 150,
-      shadow: 1
-    )
-  }
-  
-  private var stationsList: some View {
-    List(viewModel.stationsInSelectedCity) { station in
-      StationListCell(station: station)
-        .padding(.vertical, 10)
-    }
-    .customListStyle(
-      rowSpacing: 20,
-      indicators: .visible,
-      shadow: 1
-    )
   }
 }
 
 #Preview {
-  StationListView()
-    .environmentObject(MapViewModel.previewMode)
-    .environmentObject(StationViewModel.previewMode)
+  StationListView(viewModel: StationViewModel())
+    .environment(MapViewModel.mockObject)
+    .environment(StationViewModel.previewMode)
+}
+
+extension StationListView {
+  struct SortMenuView: View {
+    @Bindable var viewModel: StationViewModel
+    var body: some View {
+      Menu {
+        Picker("Sort by", selection: $viewModel.sortType) {
+          ForEach(viewModel.sortOptions, id: \.self) { option in
+            Text(option.rawValue)
+              .tag(option)
+          }
+        }
+      } label: {
+        Image(systemName: "gearshape")
+          .imageScale(.large)
+          .foregroundStyle(.primary)
+          .padding(5)
+          .background {
+            RoundedRectangle(cornerRadius: 12)
+              .fill(.thinMaterial)
+              .shadow(radius: 3)
+          }
+      }
+      .padding(.top, 20)
+      .padding(.leading, 18)
+      Menu {
+        Picker("Sort by", selection: $viewModel.selectedCity) {
+          ForEach(City.allCases, id: \.self) { city in
+            Text(city.rawValue.capitalized).tag(city)
+          }
+        }
+      } label: {
+        Image(systemName: "gearshape")
+          .imageScale(.large)
+          .foregroundStyle(.primary)
+          .padding(5)
+          .background {
+            RoundedRectangle(cornerRadius: 12)
+              .fill(.thinMaterial)
+              .shadow(radius: 3)
+          }
+      }
+      .padding(.top, 20)
+      .padding(.leading, 18)
+    }
+  }
 }

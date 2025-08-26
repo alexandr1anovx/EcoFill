@@ -12,6 +12,7 @@
       }
     },
     ":" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -30,6 +31,9 @@
           }
         }
       }
+    },
+    "%@:" : {
+
     },
     "%lld" : {
       "localizations" : {
@@ -72,6 +76,7 @@
       }
     },
     "Account Deletion" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -92,6 +97,7 @@
       }
     },
     "Additional" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -102,6 +108,7 @@
       }
     },
     "Additional Actions" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -122,6 +129,7 @@
       }
     },
     "Already a member?" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -130,6 +138,9 @@
           }
         }
       }
+    },
+    "Already have an account?" : {
+
     },
     "An account with the provided email already exists." : {
       "localizations" : {
@@ -152,6 +163,7 @@
       }
     },
     "Are you sure? It will delete all your data forever." : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -302,6 +314,7 @@
       }
     },
     "Delete" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -311,7 +324,11 @@
         }
       }
     },
+    "Delete account" : {
+
+    },
     "Delete Account" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -352,6 +369,7 @@
       }
     },
     "Email Status" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -361,7 +379,11 @@
         }
       }
     },
+    "Enter your email address and we'll send you a link to get back into your account." : {
+
+    },
     "Enter your email address to receive a password reset link." : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -372,6 +394,7 @@
       }
     },
     "Failed to load gas stations data" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -502,6 +525,7 @@
       }
     },
     "Input your account password" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -562,6 +586,7 @@
       }
     },
     "Loading..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -612,6 +637,7 @@
       }
     },
     "Login" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -672,6 +698,7 @@
       }
     },
     "New member?" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -680,6 +707,12 @@
           }
         }
       }
+    },
+    "New user?" : {
+
+    },
+    "No gas stations data found" : {
+
     },
     "OK" : {
       "localizations" : {
@@ -722,6 +755,7 @@
       }
     },
     "Password Recovery" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -732,6 +766,7 @@
       }
     },
     "Payment:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -752,6 +787,7 @@
       }
     },
     "Please, try again later." : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -812,6 +848,7 @@
       }
     },
     "Registration" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -831,6 +868,12 @@
         }
       }
     },
+    "Registration in LexiGrow" : {
+
+    },
+    "Reset Password" : {
+
+    },
     "Reset Password Link Sent" : {
       "localizations" : {
         "uk" : {
@@ -841,7 +884,11 @@
         }
       }
     },
+    "Save changes" : {
+
+    },
     "Save Changes" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -872,6 +919,7 @@
       }
     },
     "Schedule:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -892,6 +940,7 @@
       }
     },
     "Send Link" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -900,6 +949,9 @@
           }
         }
       }
+    },
+    "Send Reset Link" : {
+
     },
     "Settings" : {
       "localizations" : {
@@ -951,7 +1003,11 @@
         }
       }
     },
+    "Sort by" : {
+
+    },
     "Sort by:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -962,6 +1018,7 @@
       }
     },
     "Street:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -981,7 +1038,11 @@
         }
       }
     },
+    "Submit Your Feedback" : {
+
+    },
     "Submit Your Message" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -1022,6 +1083,7 @@
       }
     },
     "The link has been sent to your email address." : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -1042,6 +1104,7 @@
       }
     },
     "This action will redirect you to the login screen." : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -1060,6 +1123,9 @@
           }
         }
       }
+    },
+    "Type" : {
+
     },
     "Unknown" : {
       "localizations" : {
@@ -1121,6 +1187,9 @@
         }
       }
     },
+    "Welcome to EcoFill 😊" : {
+
+    },
     "Write your message" : {
       "localizations" : {
         "uk" : {
@@ -1162,6 +1231,7 @@
       }
     },
     "Your password" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {

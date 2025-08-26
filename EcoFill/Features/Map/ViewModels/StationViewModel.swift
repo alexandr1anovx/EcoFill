@@ -8,14 +8,13 @@
 import Foundation
 
 @MainActor
-final class StationViewModel: ObservableObject {
+@Observable
+final class StationViewModel {
   
-  @Published var stations: [Station] = []
-  @Published var sortType: StationSortOption = .priceA95
-  @Published var selectedCity: City = .mykolaiv
+  var stations: [Station] = []
+  var sortType: StationSortOption = .priceA95
+  var selectedCity: City = .mykolaiv
   let sortOptions = StationSortOption.allCases
-  
-  private let stationService: FirestoreStationService
   
   // MARK: - Computed Properties
   
@@ -38,9 +37,13 @@ final class StationViewModel: ObservableObject {
     }
   }
   
+  var stationsInSelectedCityMock: [Station] = [MockData.station, MockData.station]
+  
+  private let stationService: StationService
+  
   // MARK: - Init
   
-  init(stationService: FirestoreStationService = FirestoreStationService()) {
+  init(stationService: StationService = StationService()) {
     self.stationService = stationService
   }
   

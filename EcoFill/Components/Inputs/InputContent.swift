@@ -7,7 +7,7 @@
 
 import SwiftUICore
 
-enum InputContentType {
+enum InputContent {
   case fullName
   case email
   case password
@@ -42,7 +42,7 @@ enum InputFieldValidation {
 
 // MARK: - Extension: InputContentType
 
-extension InputContentType {
+extension InputContent {
   var shouldShowPasswordToggle: Bool {
     switch self {
     case .password, .confirmedPassword:
