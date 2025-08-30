@@ -32,9 +32,6 @@
         }
       }
     },
-    "%@:" : {
-
-    },
     "%lld" : {
       "localizations" : {
         "uk" : {
@@ -44,6 +41,19 @@
           }
         }
       }
+    },
+    "%lld кВт • %@ грн/кВтч" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld кВт • %2$@ грн/кВтч"
+          }
+        }
+      }
+    },
+    "• %@:" : {
+
     },
     "A-95 Euro" : {
       "localizations" : {
@@ -56,6 +66,7 @@
       }
     },
     "About The Developer" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -119,6 +130,7 @@
       }
     },
     "Alexander Andrianov, **iOS Engineer**" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -224,6 +236,7 @@
       }
     },
     "Change" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -243,7 +256,11 @@
         }
       }
     },
+    "Change in settings" : {
+
+    },
     "Change In Settings" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -252,6 +269,9 @@
           }
         }
       }
+    },
+    "Charging information is not available" : {
+
     },
     "Check your email for instructions to reset your password." : {
       "localizations" : {
@@ -263,7 +283,11 @@
         }
       }
     },
+    "City" : {
+
+    },
     "City:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -272,6 +296,12 @@
           }
         }
       }
+    },
+    "City: **%@**" : {
+
+    },
+    "Color Scheme" : {
+
     },
     "Confirm Password" : {
       "localizations" : {
@@ -304,6 +334,7 @@
       }
     },
     "Dark" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -358,6 +389,9 @@
         }
       }
     },
+    "Edit Personal Data" : {
+
+    },
     "Email" : {
       "localizations" : {
         "uk" : {
@@ -393,6 +427,12 @@
         }
       }
     },
+    "euroA95" : {
+
+    },
+    "euroDP" : {
+
+    },
     "Failed to load gas stations data" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -424,6 +464,9 @@
         }
       }
     },
+    "Fuel information is not available" : {
+
+    },
     "Full name" : {
       "localizations" : {
         "uk" : {
@@ -433,6 +476,9 @@
           }
         }
       }
+    },
+    "gas" : {
+
     },
     "Gas" : {
       "localizations" : {
@@ -455,6 +501,7 @@
       }
     },
     "GitHub" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -475,6 +522,7 @@
       }
     },
     "Help us improve" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -485,6 +533,7 @@
       }
     },
     "Hide" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -535,7 +584,11 @@
         }
       }
     },
+    "Language" : {
+
+    },
     "Language:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -546,6 +599,7 @@
       }
     },
     "Leave us a review — your feedback means a lot!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -556,6 +610,7 @@
       }
     },
     "Light" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -566,6 +621,7 @@
       }
     },
     "LinkedIn" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -627,6 +683,7 @@
       }
     },
     "Log Out" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -687,6 +744,9 @@
         }
       }
     },
+    "More" : {
+
+    },
     "Network failed" : {
       "localizations" : {
         "uk" : {
@@ -735,6 +795,7 @@
       }
     },
     "Other" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -743,6 +804,9 @@
           }
         }
       }
+    },
+    "Other options" : {
+
     },
     "Password" : {
       "localizations" : {
@@ -777,6 +841,7 @@
       }
     },
     "Personal Data" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -868,9 +933,6 @@
         }
       }
     },
-    "Registration in LexiGrow" : {
-
-    },
     "Reset Password" : {
 
     },
@@ -928,6 +990,9 @@
           }
         }
       }
+    },
+    "Select a city" : {
+
     },
     "Select your city:" : {
       "localizations" : {
@@ -1063,6 +1128,7 @@
       }
     },
     "System" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -1094,6 +1160,7 @@
       }
     },
     "Theme:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -1124,7 +1191,7 @@
         }
       }
     },
-    "Type" : {
+    "Type of service" : {
 
     },
     "Unknown" : {
@@ -1138,6 +1205,7 @@
       }
     },
     "Update Personal Data" : {
+      "extractionState" : "stale",
       "localizations" : {
         "uk" : {
           "stringUnit" : {
@@ -1187,7 +1255,7 @@
         }
       }
     },
-    "Welcome to EcoFill 😊" : {
+    "Welcome to EcoFill  " : {
 
     },
     "Write your message" : {

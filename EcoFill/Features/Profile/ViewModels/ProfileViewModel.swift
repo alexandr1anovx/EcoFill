@@ -14,70 +14,55 @@ final class ProfileViewModel {
   var email = ""
   var selectedCity: City = .mykolaiv
   var accountPassword = ""
-  var isLoading = false
-  var isExpanded = false
   var alertItem: AlertItem?
+  private(set) var isLoading = false
   
   // MARK: - Private Properties
   private let authService: AuthServiceProtocol
   private let userService: UserServiceProtocol
+  private let sessionManager: SessionManager
   
   // MARK: - Init
   
-  init(authService: AuthServiceProtocol, userService: UserServiceProtocol) {
+  init(authService: AuthServiceProtocol, userService: UserServiceProtocol, sessionManager: SessionManager) {
     self.authService = authService
     self.userService = userService
+    self.sessionManager = sessionManager
   }
   
   // MARK: - Computed Properties
-  var validForm: Bool {
-    !fullName.isEmpty && !email.isEmpty
+  
+  var isValidForm: Bool {
+    ValidationService.isValid(fullName: fullName) &&
+    (email == sessionManager.currentUser?.email || ValidationService.isValid(email: email))
   }
   
-//  var isValidForm: Bool {
-//    ValidationService.isValid(fullName: fullName) &&
-//    (email == sessionManager?.currentUser?.email || ValidationService.isValid(email: email))
-//  }
-  
-//  func formHasChanges() -> Bool {
-//    guard let sessionManager, let user = sessionManager.currentUser else {
-//      return false
-//    }
-//    let editedFullName = fullName != user.fullName
-//    let editedEmail = email != user.email
-//    let editedCity = selectedCity.rawValue != user.city
-//    return editedFullName || editedEmail || editedCity
-//  }
+  var formHasChanges: Bool {
+    guard let user = sessionManager.currentUser else {
+      return false
+    }
+    let editedFullName = fullName != user.fullName
+    let editedEmail = email != user.email
+    let editedCity = selectedCity.rawValue != user.city
+    return editedFullName || editedEmail || editedCity
+  }
   
   // MARK: - Methods
   
-//  func updateUser() async {
-//    guard var currentUser = userManager?.currentUser else {
-//      return
-//    }
-//    isLoading = true
-//    
-//    currentUser.fullName = fullName
-//    currentUser.email = email
-//    currentUser.city = selectedCity.rawValue
-//    
-//    do {
-//      try await userService.createOrUpdateAppUser(user: currentUser)
-//      userManager?.currentUser = currentUser
-//      if isExpanded {
-//        isExpanded = false
-//      }
-//    } catch {
-//      print("⚠️ ProfileViewModel: Failed to update user data: \(error.localizedDescription)")
-//    }
-//    isLoading = false
-//  }
-  
-  func signOut() {
+  func updateUser() async {
+    isLoading = true
+    defer { isLoading = false }
+    guard var user = sessionManager.currentUser else {
+      return
+    }
+    user.fullName = fullName
+    user.email = email
+    user.city = selectedCity.rawValue
     do {
-      try authService.signOut()
+      try await userService.createOrUpdateAppUser(user: user)
+      sessionManager.currentUser = user
     } catch {
-      print("Cannot sign out: \(error)")
+      alertItem = ProfileAlertContext.failedToUpdateProfile(error: error)
     }
   }
   
@@ -89,5 +74,12 @@ final class ProfileViewModel {
     } catch {
       alertItem = ProfileAlertContext.failedToDeleteAccount(error: error)
     }
+  }
+  
+  func retrieveUserData() {
+    guard let user = sessionManager.currentUser else { return }
+    fullName = user.fullName
+    email = user.email
+    selectedCity = City(rawValue: user.city) ?? .mykolaiv
   }
 }

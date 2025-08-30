@@ -8,15 +8,18 @@
 import SwiftUI
 
 struct ProfileScreen: View {
-  @Environment(SessionManager.self) var sessionManager
   @State private var viewModel: ProfileViewModel
-  private let feedbackGenerator = UINotificationFeedbackGenerator()
   
-  init(authService: AuthServiceProtocol, userService: UserServiceProtocol) {
+  init(
+    authService: AuthServiceProtocol,
+    userService: UserServiceProtocol,
+    sessionManager: SessionManager
+  ) {
     self._viewModel = State(
       wrappedValue: ProfileViewModel(
         authService: authService,
-        userService: userService
+        userService: userService,
+        sessionManager: sessionManager
       )
     )
   }
@@ -24,34 +27,22 @@ struct ProfileScreen: View {
   var body: some View {
     ScrollView {
       VStack {
-        VStack {
-          InputField(.fullName, inputData: $viewModel.fullName)
-            .textInputAutocapitalization(.words)
-          InputField(.email, inputData: $viewModel.email)
-            .keyboardType(.emailAddress)
-            .textInputAutocapitalization(.never)
-            .autocorrectionDisabled(true)
-          CitySelectionView(
-            isExpanded: $viewModel.isExpanded,
-            selectedCity: $viewModel.selectedCity
-          )
-        }
-        Button("Sign Out") {
-          viewModel.signOut()
-        }
-        Button {
-          // save changes action
-        } label: {
-          Text("Save changes")
-        }
-        Button {
-          // delete account action
-        } label: {
-          Text("Delete account")
-            .font(.footnote)
-            .foregroundStyle(.secondary)
-        }
-        Spacer()
+        // Fake Profile Image
+        Image(systemName: "person.crop.circle.fill")
+          .font(.system(size: 80))
+          .foregroundStyle(.secondary)
+          .padding(.bottom)
+        
+        DefaultTextField(title: "Full name", iconName: "person", text: $viewModel.fullName)
+          .textInputAutocapitalization(.words)
+        DefaultTextField(title: "Email", iconName: "at", text: $viewModel.email)
+          .keyboardType(.emailAddress)
+          .textInputAutocapitalization(.never)
+          .autocorrectionDisabled(true)
+        
+        CitySelectionView(viewModel: viewModel)
+        DeleteAccountButton(viewModel: viewModel)
+        SaveChangesButton(viewModel: viewModel)
       }
       .padding(.horizontal)
     }
@@ -64,16 +55,77 @@ struct ProfileScreen: View {
         dismissButton: alert.dismissButton
       )
     }
-    .onAppear { retrieveUserData() }
+    .onAppear {
+      viewModel.retrieveUserData()
+    }
   }
 }
 
-// MARK: - Additional Methods
+// MARK: - Subviews
+
 private extension ProfileScreen {
-  private func retrieveUserData() {
-    guard let user = sessionManager.currentUser else { return }
-    viewModel.fullName = user.fullName
-    viewModel.email = user.email
-    viewModel.selectedCity = City(rawValue: user.city) ?? .mykolaiv
+  struct CitySelectionView: View {
+    @Bindable var viewModel: ProfileViewModel
+    var body: some View {
+      DisclosureGroup {
+        HStack(spacing: 20) {
+          ForEach(City.allCases) { city in
+            Button {
+              withAnimation(.easeInOut) { viewModel.selectedCity = city }
+            } label: {
+              Text(city.rawValue)
+                .padding(12)
+                .background(viewModel.selectedCity == city ? .green : Color(.systemGray5))
+                .foregroundStyle(viewModel.selectedCity == city ? .white : .primary)
+                .clipShape(.rect(cornerRadius: 15))
+            }
+            .padding(.top)
+          }
+        }
+      } label: {
+        Text("City: **\(viewModel.selectedCity.rawValue)**")
+      }
+      .padding(13)
+      .background(.thinMaterial)
+      .clipShape(.rect(cornerRadius: 20))
+    }
   }
+  struct DeleteAccountButton: View {
+    @Bindable var viewModel: ProfileViewModel
+    var body: some View {
+      Button {
+        Task { await viewModel.deleteAccount() }
+      } label: {
+        Text("Delete account")
+          .font(.footnote)
+          .fontWeight(.medium)
+          .foregroundStyle(.red)
+          .underline(true)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .padding([.top, .leading], 10)
+    }
+  }
+  struct SaveChangesButton: View {
+    @Bindable var viewModel: ProfileViewModel
+    var body: some View {
+      Button {
+        Task { await viewModel.updateUser() }
+      } label: {
+        Text("Save changes")
+          .prominentButtonStyle(tint: .blue)
+      }
+      .padding(.top)
+      .disabled(!viewModel.formHasChanges || !viewModel.isValidForm)
+      .opacity(!viewModel.formHasChanges || !viewModel.isValidForm ? 0:1)
+    }
+  }
+}
+
+#Preview {
+  ProfileScreen(
+    authService: AuthService(),
+    userService: MockUserService(),
+    sessionManager: SessionManager.mockObject
+  ).environment(SessionManager.mockObject)
 }

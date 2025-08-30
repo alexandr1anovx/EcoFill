@@ -19,6 +19,7 @@ final class RegistrationViewModel {
   private(set) var isLoading = false
   
   // MARK: - Computed properties
+  
   var isValidForm: Bool {
     ValidationService.isValid(fullName: fullName)
     && ValidationService.isValid(email: email)
@@ -26,16 +27,19 @@ final class RegistrationViewModel {
   }
   
   // MARK: - Dependencies
+  
   private let authService: AuthServiceProtocol
   private let userService: UserServiceProtocol
   
   // MARK: - Init
+  
   init(authService: AuthServiceProtocol, userService: UserServiceProtocol) {
     self.authService = authService
     self.userService = userService
   }
   
   // MARK: - Methods
+  
   func signUp() async {
     isLoading = true
     defer { isLoading = false }

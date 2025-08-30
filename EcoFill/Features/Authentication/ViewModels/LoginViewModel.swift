@@ -15,11 +15,11 @@ final class LoginViewModel {
   private(set) var alert: AlertItem?
   private(set) var isLoading = false
   
-  private let authService: AuthServiceProtocol
-  
   var isValidForm: Bool {
     !email.isEmpty && !password.isEmpty
   }
+  
+  private let authService: AuthServiceProtocol
   
   init(authService: AuthServiceProtocol) {
     self.authService = authService

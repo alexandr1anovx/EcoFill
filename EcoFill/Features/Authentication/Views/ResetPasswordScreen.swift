@@ -42,14 +42,16 @@ struct ResetPasswordScreen: View {
       .autocorrectionDisabled(true)
       
       Button {
-        // ⚠️ send reset link action
+        // ⚠️ add an action to send email reset link.
         email = ""
         dismiss()
       } label: {
         Text("Send Reset Link")
-          .prominentButtonStyle(tint: .blue)
+          .prominentButtonStyle(tint: .green)
       }
       .padding(.horizontal)
+      .disabled(email.isEmpty)
+      .opacity(email.isEmpty ? 0.5 : 1)
       
       Spacer()
     }

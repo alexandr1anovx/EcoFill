@@ -1,42 +1,95 @@
 import SwiftUI
 import MapKit
 
-enum StationType: String, Identifiable, CaseIterable {
-  case fuel = "Fuel"
-  case ev = "Electric"
-  
-  var id: Self { self }
-  var iconName: String {
-    switch self {
-    case .fuel:
-      return "fuelpump.fill"
-    case .ev:
-      return "ev.charger.fill"
-    }
-  }
-}
-
 struct MapItemView: View {
   @Environment(MapViewModel.self) var viewModel
   let station: Station
-  var withPadding: Bool = false
-  @State private var stationType: StationType = .fuel
+  @State private var selectedType: StationType
+  
+  private var availableTypes: [StationType] {
+    var types: [StationType] = []
+    if station.fuelInfo != nil { types.append(.fuel) }
+    if station.evInfo != nil {
+      types.append(.ev)
+    }
+    return types
+  }
+  
+  init(station: Station) {
+    self.station = station
+    var initialType: StationType = .ev
+    
+    if station.fuelInfo != nil {
+      initialType = .fuel
+    } else if let evInfo = station.evInfo, !evInfo.connectors.isEmpty {
+      initialType = .ev
+    }
+    _selectedType = State(initialValue: initialType)
+  }
   
   var body: some View {
-    VStack(alignment: .leading, spacing: 20) {
+    VStack(alignment: .leading, spacing: 15) {
       Spacer()
-      Picker("Type", selection: $stationType) {
-        ForEach(StationType.allCases) { type in
-          Label(type.rawValue, systemImage: type.iconName)
+      HStack {
+        VStack(alignment: .leading, spacing: 8) {
+          Text(station.street)
+            .font(.title3)
+            .fontWeight(.semibold)
+          Text(station.city)
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+        }
+        .padding(.top)
+        
+        Spacer()
+        
+        if availableTypes.count > 1 {
+          Picker("Type of service", selection: $selectedType) {
+            ForEach(availableTypes) { type in
+              Text(type.rawValue)
+                .tag(type)
+            }
+          }
+          .pickerStyle(.menu)
+          .tint(.blue)
         }
       }
-      .pickerStyle(.segmented)
+      
+      VStack {
+        switch selectedType {
+        case .fuel:
+          if let fuelInfo = station.fuelInfo {
+            FuelStackExtended(info: fuelInfo)
+          } else {
+            ContentUnavailableView(
+              "Fuel information is not available",
+              systemImage: "fuelpump.slash.fill"
+            )
+          }
+        case .ev:
+          if let evInfo = station.evInfo {
+            EVChargingView(info: evInfo)
+          } else {
+            ContentUnavailableView(
+              "Charging information is not available",
+              systemImage: "ev.charger.slash.fill"
+            )
+          }
+        }
+      }
+      .padding(.vertical)
       
       VStack(alignment: .leading, spacing: 10) {
-        MapItemCell(iconName: "location.app.fill", title: "Address", data: station.street)
-        MapItemCell(iconName: "timer", title: "Schedule", data: station.schedule)
-        MapItemCell(iconName: "dollarsign.circle.fill", title: "Payment", data: station.paymentMethods)
+        MapItemCell(
+          title: "Schedule",
+          data: station.schedule
+        )
+        MapItemCell(
+          title: "Payment",
+          data: station.paymentMethods.joined(separator: ", ")
+        )
       }
+      
       HStack {
         Text("Travel Mode:")
           .font(.footnote)
@@ -51,26 +104,24 @@ struct MapItemView: View {
         .shadow(radius: 2)
         .scrollIndicators(.hidden)
       }
-      FuelStackView(for: station)
+      
       RouteButton()
+        .padding(.top)
     }
-    .padding(.horizontal, withPadding ? 15 : 0)
+    .presentationDetents([.fraction(selectedType == .ev ? 0.68 : 0.6)])
+    .presentationDragIndicator(.visible)
+    .presentationCornerRadius(30)
+    .padding(.horizontal)
   }
 }
 
 struct MapItemCell: View {
-  let iconName: String
   let title: String
   let data: String
   var body: some View {
     HStack {
-      HStack(spacing: 5) {
-        Image(systemName: iconName)
-          .font(.title3)
-          .foregroundStyle(.green)
-        Text("\(title):")
-          .foregroundStyle(.secondary)
-      }
+      Text("• \(title):")
+        .foregroundStyle(.secondary)
       Text(data)
         .foregroundStyle(.primary)
     }
@@ -92,7 +143,7 @@ struct ModeButton: View {
         .foregroundStyle(transportType == viewModel.selectedTransport ? .white : .primary)
         .padding(12)
         .background(
-          transportType == viewModel.selectedTransport ? .green : Color(.systemGray6)
+          transportType == viewModel.selectedTransport ? .blue : Color(.systemGray6)
         )
         .clipShape(.rect(cornerRadius: 15))
         .animation(.spring, value: viewModel.selectedTransport)
@@ -123,7 +174,7 @@ struct RouteButton: View {
 }
 
 #Preview {
-  MapItemView(station: MockData.station)
+  MapItemView(station: Station.mock)
+    .environment(StationViewModel.mockObject)
     .environment(MapViewModel.mockObject)
 }
-

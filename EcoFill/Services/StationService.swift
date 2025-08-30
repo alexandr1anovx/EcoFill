@@ -14,7 +14,7 @@ protocol StationServiceProtocol {
 final class StationService: StationServiceProtocol {
   
   private let db = Firestore.firestore()
-  private let stationCollection = "stations"
+  private let stationCollection = "stations2"
   
   func fetchStationsData() async throws -> [Station] {
     let snapshot = try await db

@@ -8,12 +8,7 @@ struct AppUser: Identifiable, Codable {
   var email: String
   var city: String
   
-  init(
-    uid: String,
-    fullName: String,
-    email: String,
-    city: String
-  ) {
+  init(uid: String, fullName: String, email: String, city: String) {
     self.id = uid
     self.uid = uid
     self.fullName = fullName
@@ -24,4 +19,8 @@ struct AppUser: Identifiable, Codable {
   var localizedCity: LocalizedStringKey {
     return LocalizedStringKey(city)
   }
+}
+
+extension AppUser {
+  static let mock: AppUser = .init(uid: "143-5", fullName: "Alex Johnson", email: "alexjohs@gmail.com", city: "Kyiv")
 }

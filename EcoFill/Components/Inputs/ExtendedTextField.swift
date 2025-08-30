@@ -15,6 +15,7 @@ struct ExtendedTextField: View {
   private var isReachedLetterLimit: Bool {
     inputData.count == maxCount
   }
+  
   var body: some View {
     HStack {
       Image(systemName: iconName)

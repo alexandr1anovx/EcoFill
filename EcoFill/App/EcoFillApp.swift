@@ -13,7 +13,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct EcoFillApp: App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-  @AppStorage("colorTheme") private var appColorScheme: ColorTheme = .system
+  @AppStorage("colorScheme") private var appColorScheme: ColorTheme = .system
   
   @State private var sessionManager: SessionManager
   @State private var stationViewModel: StationViewModel
@@ -53,7 +53,7 @@ struct EcoFillApp: App {
           await stationViewModel.fetchStations()
         }
       }
-      .preferredColorScheme(appColorScheme.colorTheme)
+      .preferredColorScheme(appColorScheme.colorScheme)
       .environment(sessionManager)
       .environment(stationViewModel)
       .environment(mapViewModel)
