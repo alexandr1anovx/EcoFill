@@ -6,24 +6,14 @@ struct StationListView: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 5) {
       SortMenuView(viewModel: viewModel)
-      
-      List(viewModel.stationsInSelectedCity) { station in
+      List(viewModel.sortedStations) { station in
         StationListCell(station: station)
-          .padding()
-          .background(.thinMaterial)
-          .clipShape(.rect(cornerRadius: 18))
       }
       .scrollContentBackground(.hidden)
       .listStyle(.plain)
-      .listRowSpacing(15)
+      .listRowSpacing(10)
     }
   }
-}
-
-#Preview {
-  StationListView(viewModel: StationViewModel())
-    .environment(MapViewModel.mockObject)
-    .environment(StationViewModel.previewMode)
 }
 
 extension StationListView {
@@ -31,44 +21,45 @@ extension StationListView {
     @Bindable var viewModel: StationViewModel
     var body: some View {
       Menu {
-        Picker("Sort by", selection: $viewModel.sortType) {
-          ForEach(viewModel.sortOptions, id: \.self) { option in
-            Text(option.rawValue)
-              .tag(option)
+        
+        Menu {
+          Picker("Select a city", selection: $viewModel.selectedCity) {
+            ForEach(City.allCases) { city in
+              Text(city.rawValue).tag(city)
+            }
           }
+        } label: {
+          Label("City", systemImage: "building.2")
         }
+        
+        Menu {
+          Picker("Sort by", selection: $viewModel.sortType) {
+            ForEach(viewModel.sortOptions, id: \.self) { option in
+              Text(option.rawValue).tag(option)
+            }
+          }
+        } label: {
+          Label("Other options", systemImage: "arrow.up.arrow.down")
+        }
+        
       } label: {
-        Image(systemName: "gearshape")
+        Image(systemName: "slider.horizontal.3")
           .imageScale(.large)
           .foregroundStyle(.primary)
-          .padding(5)
+          .padding(8)
           .background {
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: 15)
               .fill(.thinMaterial)
-              .shadow(radius: 3)
+              .shadow(radius: 2)
           }
       }
-      .padding(.top, 20)
-      .padding(.leading, 18)
-      Menu {
-        Picker("Sort by", selection: $viewModel.selectedCity) {
-          ForEach(City.allCases, id: \.self) { city in
-            Text(city.rawValue.capitalized).tag(city)
-          }
-        }
-      } label: {
-        Image(systemName: "gearshape")
-          .imageScale(.large)
-          .foregroundStyle(.primary)
-          .padding(5)
-          .background {
-            RoundedRectangle(cornerRadius: 12)
-              .fill(.thinMaterial)
-              .shadow(radius: 3)
-          }
-      }
-      .padding(.top, 20)
-      .padding(.leading, 18)
+      .padding()
     }
   }
+}
+
+#Preview {
+  StationListView(viewModel: StationViewModel.mockObject)
+    .environment(MapViewModel.mockObject)
+    .environment(StationViewModel.mockObject)
 }

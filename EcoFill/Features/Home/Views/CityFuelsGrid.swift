@@ -13,7 +13,7 @@ struct CityFuelsGrid: View {
   var body: some View {
     Group {
       if !stationViewModel.stations.isEmpty {
-        FuelStackView(for: stationInSelectedCity ?? MockData.station)
+        FuelStackCompact(station: stationInSelectedCity ?? Station.mock)
       } else {
         Label("No gas stations data found", systemImage: "fuelpump.fill")
       }

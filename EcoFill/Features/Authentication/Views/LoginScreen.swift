@@ -3,8 +3,8 @@ import SwiftUI
 struct LoginScreen: View {
   @State private var viewModel: LoginViewModel
   
-  private let authService: AuthServiceProtocol // pass this for the login screen
-  private let userService: UserServiceProtocol // pass this for the login screen
+  private let authService: AuthServiceProtocol // pass this for the registration screen
+  private let userService: UserServiceProtocol // pass this for the registration screen
   
   init(authService: AuthServiceProtocol, userService: UserServiceProtocol) {
     self.authService = authService
@@ -15,20 +15,26 @@ struct LoginScreen: View {
   var body: some View {
     NavigationView {
       VStack(spacing: 20) {
-        Text("Welcome to EcoFill 😊")
-          .font(.title2)
-          .fontWeight(.bold)
-          .padding(.bottom)
-          .fontDesign(.rounded)
-          .foregroundStyle(
-            LinearGradient(
-              colors: [.green, .accentColor],
-              startPoint: .leading,
-              endPoint: .trailing
+        HStack(spacing:0) {
+          Text("Welcome to EcoFill  ")
+            .fontWeight(.bold)
+            .fontDesign(.rounded)
+            .foregroundStyle(
+              LinearGradient(
+                colors: [.green, .accentColor],
+                startPoint: .leading,
+                endPoint: .trailing
+              )
             )
-          )
+          Image(systemName: "leaf.fill")
+            .foregroundStyle(.green)
+          Image(systemName: "fuelpump.fill")
+            .foregroundStyle(.green)
+        }
+        .font(.title2)
+        .padding(.bottom)
+        
         TextFields(viewModel: viewModel)
-          .padding(.top)
         SignInButton(viewModel: viewModel)
         
         HStack {

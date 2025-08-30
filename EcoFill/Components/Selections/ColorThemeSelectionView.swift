@@ -1,42 +1,47 @@
 import SwiftUI
 
-enum ColorTheme: String, Identifiable, CaseIterable {
-  case system
-  case light
-  case dark
+enum ColorTheme: String, CaseIterable, Identifiable {
+  case system, light, dark
   
-  var id: Self { self }
+  var id: String { self.rawValue }
   
-  var colorTheme: ColorScheme? {
+  var colorScheme: ColorScheme? {
     switch self {
-    case .system: return nil
-    case .light: return .light
-    case .dark: return .dark
+    case .system:
+      return nil
+    case .light:
+      return .light
+    case .dark:
+      return .dark
     }
   }
-  var title: LocalizedStringKey {
-    switch self {
-    case .system: return "System"
-    case .light: return "Light"
-    case .dark: return "Dark"
-    }
+  var title: String {
+    self.rawValue.capitalized
   }
 }
 
 struct ColorThemeSelectionView: View {
-  @AppStorage("colorTheme") private var selectedColorTheme: ColorTheme = .system
-  private let themes = ColorTheme.allCases
+  @AppStorage("colorScheme") private var selectedColorTheme: ColorTheme = .system
   
   var body: some View {
-    HStack {
-      Text("Theme:")
-        .font(.subheadline)
-        .fontWeight(.medium)
-      Picker("", selection: $selectedColorTheme) {
-        ForEach(themes, id: \.self) { theme in
-          Text(theme.title)
+    DisclosureGroup {
+      HStack(spacing: 30) {
+        ForEach(ColorTheme.allCases) { theme in
+          Button {
+            selectedColorTheme = theme
+          } label: {
+            Text(theme.title)
+              .padding(12)
+              .background(selectedColorTheme == theme ? .primary : Color(.systemGray5))
+              .foregroundStyle(selectedColorTheme == theme ? Color(.systemBackground) : .primary)
+              .clipShape(.rect(cornerRadius: 15))
+          }
+          .buttonStyle(.plain)
+          .padding(.vertical, 10)
         }
-      }.pickerStyle(.segmented)
+      }
+    } label: {
+      Text("Color Scheme")
     }
   }
 }

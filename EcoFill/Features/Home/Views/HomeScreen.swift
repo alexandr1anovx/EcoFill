@@ -25,7 +25,7 @@ struct HomeScreen: View {
     }
   }
 }
-extension HomeScreen {
+private extension HomeScreen {
   struct UserDataHeader: View {
     let name: String
     let email: String
@@ -73,7 +73,7 @@ extension HomeScreen {
 }
 #Preview {
   HomeScreen(showTabBar: .constant(true))
-    .environment(StationViewModel.previewMode)
+    .environment(StationViewModel.mockObject)
     .environment(MapViewModel.mockObject)
     .environment(SessionManager.mockObject)
 }

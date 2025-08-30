@@ -2,21 +2,20 @@ import SwiftUI
 import MapKit
 
 struct StationListCell: View {
+  @Environment(MapViewModel.self) var mapViewModel
+  
   let station: Station
   private let transportTypes = MKDirectionsTransportType.allCases
   private var isPresentedRoute: Bool {
-    mapViewModel.selectedStation == station
-    && mapViewModel.showRoute
+    mapViewModel.selectedStation == station && mapViewModel.showRoute
   }
-  @Environment(MapViewModel.self) var mapViewModel
-  
   
   var body: some View {
     VStack(alignment: .leading, spacing: 15) {
       VStack(alignment: .leading, spacing: 10) {
-        MapItemCell(iconName: "location.app.fill", title: "Address", data: station.street)
-        MapItemCell(iconName: "timer", title: "Schedule", data: station.schedule)
-        MapItemCell(iconName: "dollarsign.circle.fill", title: "Payment", data: station.paymentMethods)
+        MapItemCell(title: "Address", data: station.street)
+        MapItemCell(title: "Schedule", data: station.schedule)
+        MapItemCell(title: "Payment", data: station.paymentMethods.joined(separator: ", "))
       }
       
       HStack {
@@ -33,10 +32,7 @@ struct StationListCell: View {
         .shadow(radius: 2)
         .scrollIndicators(.hidden)
       }
-      
-      //transportationOptionsView
-      FuelStackView(for: station)
-      
+      FuelStackCompact(station: station)
       
       Group {
         if isPresentedRoute {
@@ -59,12 +55,15 @@ struct StationListCell: View {
           }
         }
       }
-      .buttonStyle(.plain) // to prevent the entire cell from responding to a click.
+      .buttonStyle(.plain) // prevents the entire cell from responding to a click.
     }
+    .padding()
+    .background(.thinMaterial)
+    .clipShape(.rect(cornerRadius: 18))
   }
 }
 
 #Preview {
-  StationListCell(station: MockData.station)
+  StationListCell(station: Station.mock)
     .environment(MapViewModel.mockObject)
 }

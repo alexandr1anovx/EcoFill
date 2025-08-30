@@ -5,29 +5,42 @@
 //  Created by Alexander Andrianov on 27.03.2025.
 //
 
-import Foundation
+import Firebase
 
 @MainActor
 @Observable
 final class StationViewModel {
   
-  var stations: [Station] = []
+  private(set) var stations: [Station] = []
+  private(set) var sortOptions = StationSortOption.allCases
   var sortType: StationSortOption = .priceA95
   var selectedCity: City = .mykolaiv
-  let sortOptions = StationSortOption.allCases
   
   // MARK: - Computed Properties
   
   var sortedStations: [Station] {
+    let filteredByCity: [Station]
+    filteredByCity = stations.filter { $0.city == selectedCity.rawValue }
+    
     switch sortType {
     case .priceA95:
-      stations.sorted { $0.euroA95 < $1.euroA95 }
+      return filteredByCity.sorted {
+        let price1 = $0.fuelInfo?.euroA95 ?? Double.greatestFiniteMagnitude
+        let price2 = $1.fuelInfo?.euroA95 ?? Double.greatestFiniteMagnitude
+        return price1 < price2
+      }
     case .priceDP:
-      stations.sorted { $0.euroDP < $1.euroDP }
+      return filteredByCity.sorted {
+        let price1 = $0.fuelInfo?.euroDP ?? Double.greatestFiniteMagnitude
+        let price2 = $1.fuelInfo?.euroDP ?? Double.greatestFiniteMagnitude
+        return price1 < price2
+      }
     case .priceGas:
-      stations.sorted { $0.gas < $1.gas }
-    case .payment:
-      stations.sorted { $0.paymentMethods < $1.paymentMethods }
+      return filteredByCity.sorted {
+        let price1 = $0.fuelInfo?.gas ?? Double.greatestFiniteMagnitude
+        let price2 = $1.fuelInfo?.gas ?? Double.greatestFiniteMagnitude
+        return price1 < price2
+      }
     }
   }
   
@@ -37,13 +50,13 @@ final class StationViewModel {
     }
   }
   
-  var stationsInSelectedCityMock: [Station] = [MockData.station, MockData.station]
+  // MARK: - Dependencies
   
-  private let stationService: StationService
+  private let stationService: StationServiceProtocol
   
   // MARK: - Init
   
-  init(stationService: StationService = StationService()) {
+  init(stationService: StationServiceProtocol = StationService()) {
     self.stationService = stationService
   }
   
@@ -52,29 +65,27 @@ final class StationViewModel {
   func fetchStations() async {
     do {
       stations = try await stationService.fetchStationsData()
+      print(stations)
     } catch {
-      print("⚠️ StationViewModel: Failed to fetch stations: \(error.localizedDescription)")
+      print("Failed to fetch stations: \(error)")
     }
   }
 }
 
-// MARK: - Extension: Station Sort Option
-
 extension StationViewModel {
-  enum StationSortOption: String, CaseIterable {
-    case priceA95 = "A95 Euro"
-    case priceDP = "DP Euro"
-    case priceGas = "Gas"
-    case payment = "Payment Methods"
+  enum StationSortOption: String, CaseIterable, Identifiable {
+    case priceA95 = "Ціна A-95"
+    case priceDP = "Ціна ДП"
+    case priceGas = "Ціна Газ"
+    
+    var id: String { self.rawValue }
   }
 }
 
-// MARK: - Preview Mode
-
 extension StationViewModel {
-  static var previewMode: StationViewModel {
+  static let mockObject: StationViewModel = {
     let viewModel = StationViewModel()
-    viewModel.stations = [MockData.station]
+    viewModel.stations = [Station.mock]
     return viewModel
-  }
+  }()
 }

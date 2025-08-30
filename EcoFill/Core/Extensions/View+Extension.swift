@@ -32,19 +32,6 @@ extension View {
       .shadow(radius: shadow)
   }
   
-  // MARK: Custom Input Field Style
-  
-  func customInputFieldStyle() -> some View {
-    self
-      .padding()
-      .frame(minHeight: 55)
-      .overlay {
-        RoundedRectangle(cornerRadius: 15)
-          .inset(by: 0.5)
-          .stroke(.gray.opacity(0.5), lineWidth: 1)
-      }
-  }
-  
   func prominentButtonStyle(tint: Color) -> some View {
     self
       .fontWeight(.semibold)

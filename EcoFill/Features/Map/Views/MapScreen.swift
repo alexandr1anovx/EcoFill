@@ -3,8 +3,7 @@ import MapKit
 
 struct MapScreen: View {
   @Environment(StationViewModel.self) var stationViewModel
-  @Bindable var mapViewModel: MapViewModel
-  //@Binding var showTabBar: Bool
+  @Bindable var viewModel: MapViewModel
   @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
   
   var body: some View {
@@ -14,8 +13,8 @@ struct MapScreen: View {
         let coordinate = station.coordinate
         Annotation("EcoFill", coordinate: coordinate) {
           Button {
-            mapViewModel.selectedStation = station
-            mapViewModel.showStationPreview = true
+            viewModel.selectedStation = station
+            viewModel.showStationPreview = true
           } label: {
             Image(systemName: "fuelpump.fill")
               .font(.subheadline)
@@ -27,15 +26,14 @@ struct MapScreen: View {
           }
         }
       }
-      if let route = mapViewModel.route {
+      if let route = viewModel.route {
         MapPolyline(route.polyline)
           .stroke(.purple, lineWidth: 4)
       }
     }
-    // List button
     .overlay(alignment: .topTrailing) {
       Button {
-        mapViewModel.showStationList.toggle()
+        viewModel.showStationList.toggle()
       } label: {
         Image(systemName: "list.bullet")
           .imageScale(.large)
@@ -51,27 +49,22 @@ struct MapScreen: View {
     .mapControls {
       MapUserLocationButton()
     }
-    .sheet(isPresented: $mapViewModel.showStationPreview) {
-      MapItemView(station: mapViewModel.selectedStation ?? MockData.station, withPadding: true)
-        .presentationDetents([.fraction(0.46)])
-        .presentationDragIndicator(.visible)
-        .presentationCornerRadius(35)
+    .sheet(isPresented: $viewModel.showStationPreview) {
+      MapItemView(station: viewModel.selectedStation ?? Station.mock)
     }
-    .sheet(isPresented: $mapViewModel.showStationList) {
+    .sheet(isPresented: $viewModel.showStationList) {
       StationListView(viewModel: stationViewModel)
         .presentationDetents([.large])
         .presentationDragIndicator(.visible)
         .presentationCornerRadius(25)
     }
-    .task(id: mapViewModel.showRoute) {
-      await mapViewModel.toggleRoutePresentation()
+    .task(id: viewModel.showRoute) {
+      await viewModel.toggleRoutePresentation()
     }
-    //.onAppear { isShownTabBar = true }
   }
 }
 
 #Preview {
-  MapScreen(mapViewModel: MapViewModel())
-    .environment(MapViewModel.mockObject)
-    .environment(StationViewModel.previewMode)
+  MapScreen(viewModel: MapViewModel.mockObject)
+    .environment(StationViewModel.mockObject)
 }

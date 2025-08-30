@@ -30,14 +30,14 @@ struct TabBarView: View {
       TabView(selection: $selectedTab) {
         HomeScreen(showTabBar: $showTabBar)
           .tag(Tab.home)
-        MapScreen(mapViewModel: mapViewModel)
+        MapScreen(viewModel: mapViewModel)
           .tag(Tab.map)
-        SettingsScreen(
+        MoreScreen(
           showTabBar: $showTabBar,
           authService: authService,
           userService: userService
         )
-        .tag(Tab.settings)
+        .tag(Tab.more)
       }
       
       if showTabBar {
@@ -45,7 +45,7 @@ struct TabBarView: View {
           ForEach(tabs) { tab in
             TabBarButton(
               title: tab.title,
-              imageName: tab.imageName,
+              imageName: tab.iconName,
               tab: tab,
               selectedTab: $selectedTab
             )
@@ -55,10 +55,9 @@ struct TabBarView: View {
           }
         }
         .padding(10)
-        .background(.thinMaterial.opacity(0.7))
+        .background(.thinMaterial)
         .clipShape(.rect(cornerRadius: 25))
         .padding(.horizontal,30)
-        //.shadow(radius: 2)
       }
     }
   }
@@ -66,7 +65,7 @@ struct TabBarView: View {
 
 #Preview {
   TabBarView(authService: AuthService(), userService: MockUserService())
-    .environment(StationViewModel())
-    .environment(MapViewModel())
+    .environment(StationViewModel.mockObject)
+    .environment(MapViewModel.mockObject)
     .environment(SessionManager(userService: MockUserService(), isForPreview: true))
 }

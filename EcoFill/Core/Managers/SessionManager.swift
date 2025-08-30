@@ -56,7 +56,6 @@ extension SessionManager {
       email: "testemail@gmail.com",
       city: "Mykolaiv"
     )
-    //manager.state = .loggedIn(MockFirebaseUser()) // Опционально, если нужно состояние
     return manager
   }()
 }

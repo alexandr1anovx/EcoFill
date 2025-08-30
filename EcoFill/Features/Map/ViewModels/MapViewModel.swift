@@ -66,9 +66,9 @@ final class MapViewModel {
 // MARK: - Preview Mode
 
 extension MapViewModel {
-  static var mockObject: MapViewModel {
+  static let mockObject: MapViewModel = {
     let viewModel = MapViewModel()
-    viewModel.selectedStation = MockData.station
+    viewModel.selectedStation = Station.mock
     return viewModel
-  }
+  }()
 }

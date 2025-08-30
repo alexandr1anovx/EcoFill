@@ -23,13 +23,10 @@ struct ListCell: View {
         Text(item.title)
           .font(.subheadline)
           .fontWeight(.medium)
-          .tint(.primary) // for buttons
-        if let subtitle = item.subtitle {
-          Text(subtitle)
-            .font(.caption2)
-            .foregroundStyle(.gray)
-            .multilineTextAlignment(.leading)
-        }
+        Text(item.subtitle)
+          .font(.caption2)
+          .foregroundStyle(.gray)
+          .multilineTextAlignment(.leading)
       }
     }
   }

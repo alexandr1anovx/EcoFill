@@ -14,17 +14,6 @@ struct RegistrationScreen: View {
   var body: some View {
     ScrollView {
       VStack(spacing: 30) {
-        Text("Registration in LexiGrow")
-          .font(.title2)
-          .fontWeight(.bold)
-          .fontDesign(.rounded)
-          .foregroundStyle(
-            LinearGradient(
-              colors: [.green, .accentColor],
-              startPoint: .leading,
-              endPoint: .trailing
-            )
-          )
         TextFields(viewModel: viewModel)
         CityPicker(viewModel: viewModel)
         SignUpButton(viewModel: viewModel)
@@ -47,7 +36,7 @@ private extension RegistrationScreen {
           text: $viewModel.fullName
         )
         .focused($inputContent, equals: .fullName)
-        .textInputAutocapitalization(.never)
+        .textInputAutocapitalization(.words)
         .autocorrectionDisabled(true)
         .submitLabel(.next)
         .onSubmit { inputContent = .email }
@@ -107,7 +96,7 @@ private extension RegistrationScreen {
     @Bindable var viewModel: RegistrationViewModel
     var body: some View {
       Button {
-        // ⚠️ authManager.signUp() action
+        Task { await viewModel.signUp() }
       } label: {
         Text("Sign Up")
           .prominentButtonStyle(tint: .green)
