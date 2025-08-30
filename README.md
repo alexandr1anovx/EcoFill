@@ -11,16 +11,24 @@ It provides users with up-to-date fuel prices and navigation to the nearest gas 
 
 ---
 
-## screenshots
-[view on Google Drive](https://apple.com)
+## screenshots:
+<p align="center">
+   <img src="./Screenshots/Login.png" width="250" />
+   <img src="./Screenshots/Registration.png" width="250" />
+   <img src="./Screenshots/ResetPassword.png" width="250" />
+   <img src="./Screenshots/Home.png" width="250" />
+   <img src="./Screenshots/Support.png" width="250" />
+   <img src="./Screenshots/MapItemFuel.png" width="250" />
+   <img src="./Screenshots/MapItemEV.png" width="250" />
+   <img src="./Screenshots/StationList.png" width="250" />
+   <img src="./Screenshots/Settings.png" width="250" />
+  <img src="./Screenshots/EditProfile.png" width="250" />
+</p>
 
 ---
 
 ## tech stack
-- Swift
-- SwiftUI
-- MVVM
-- Firebase (Authentication, Firestore)
+- Swift, SwiftUI, MVVM, MapKit, Firebase (Authentication, Firestore).
 
 ---
 
